@@ -1,0 +1,12 @@
+The Blinky project is a simple program for the LPC2138
+using Keil MCB2130 Microcontroller Board.
+
+It blinks the LEDs at speed according to the Potentiometer 
+setting and prints the current seting to the Serial Port 1.
+In addition it generates a sine wave with an adjustable 
+frequency on the speaker of the board.
+
+The Blinky program is available in different targets:
+  Simulator:      runs in µVision Simulator
+  MCB2100 Flash:  runs from Internal Flash located on chip
+                    (used for target debugging or free run)

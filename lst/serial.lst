@@ -1,0 +1,795 @@
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s 			page 1
+
+
+   1              		.cpu arm7tdmi
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 18, 4
+  11              		.file	"Serial.cpp"
+  12              		.section	.debug_abbrev,"",%progbits
+  13              	.Ldebug_abbrev0:
+  14              		.section	.debug_info,"",%progbits
+  15              	.Ldebug_info0:
+  16              		.section	.debug_line,"",%progbits
+  17              	.Ldebug_line0:
+  18 0000 7D000000 		.text
+  18      02002100 
+  18      00000201 
+  18      FB0E0D00 
+  18      01010101 
+  19              	.Ltext0:
+  20              		.section	.text._Z11SerialBegini,"ax",%progbits
+  21              		.align	2
+  22              		.global	_Z11SerialBegini
+  23              		.type	_Z11SerialBegini, %function
+  24              	_Z11SerialBegini:
+  25              	.LFB2:
+  26              		.file 1 "Serial.cpp"
+   1:Serial.cpp    **** /******************************************************************************/
+   2:Serial.cpp    **** /* SERIAL.C: Low Level Serial Routines                                        */
+   3:Serial.cpp    **** /******************************************************************************/
+   4:Serial.cpp    **** /* This file is part of the uVision/ARM development tools.                    */
+   5:Serial.cpp    **** /* Copyright (c) 2005-2006 Keil Software. All rights reserved.                */
+   6:Serial.cpp    **** /* This software may only be used under the terms of a valid, current,        */
+   7:Serial.cpp    **** /* end user licence from KEIL for a compatible version of KEIL software       */
+   8:Serial.cpp    **** /* development tools. Nothing else gives you the right to use this software.  */
+   9:Serial.cpp    **** /******************************************************************************/
+  10:Serial.cpp    **** 
+  11:Serial.cpp    **** #include <LPC23xx.H>                     /* LPC23xx definitions               */
+  12:Serial.cpp    **** #include "Serial.h"
+  13:Serial.cpp    **** 
+  14:Serial.cpp    **** #define UART0                            /* Use UART 0 for printf             */
+  15:Serial.cpp    **** 
+  16:Serial.cpp    **** /* If UART 0 is used for printf                                               */
+  17:Serial.cpp    **** #ifdef UART0
+  18:Serial.cpp    ****   #define UxFDR  U0FDR
+  19:Serial.cpp    ****   #define UxLCR  U0LCR
+  20:Serial.cpp    ****   #define UxDLL  U0DLL
+  21:Serial.cpp    ****   #define UxDLM  U0DLM
+  22:Serial.cpp    ****   #define UxLSR  U0LSR
+  23:Serial.cpp    ****   #define UxTHR  U0THR
+  24:Serial.cpp    ****   #define UxRBR  U0RBR
+  25:Serial.cpp    **** /* If UART 1 is used for printf                                               */
+  26:Serial.cpp    **** #elif defined(UART1)
+  27:Serial.cpp    ****   #define UxFDR  U1FDR
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s 			page 2
+
+
+  28:Serial.cpp    ****   #define UxLCR  U1LCR
+  29:Serial.cpp    ****   #define UxDLL  U1DLL
+  30:Serial.cpp    ****   #define UxDLM  U1DLM
+  31:Serial.cpp    ****   #define UxLSR  U1LSR
+  32:Serial.cpp    ****   #define UxTHR  U1THR
+  33:Serial.cpp    ****   #define UxRBR  U1RBR
+  34:Serial.cpp    **** #endif
+  35:Serial.cpp    **** 
+  36:Serial.cpp    **** /* Initialize Serial Interface       */
+  37:Serial.cpp    **** void SerialBegin(int baud)  
+  27              	upports interworking.
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31              	.LVL0:
+  32              		.loc 1 40 0
+  38:Serial.cpp    **** {               
+  39:Serial.cpp    ****   #ifdef UART0
+  40:Serial.cpp    ****     PINSEL0 |= 0x00000050;               /* Enable TxD0 and RxD0              */
+  33              	1, .L3
+  34 0000 34109FE5 		ldr	r3, [r1, #0]
+  35 0004 003091E5 		.loc 1 45 0
+  41:Serial.cpp    ****   #elif defined (UART1)
+  42:Serial.cpp    ****     PINSEL0 |= 0x40000000;               /* Enable TxD1                       */
+  43:Serial.cpp    ****     PINSEL1 |= 0x00000001;               /* Enable RxD1                       */
+  44:Serial.cpp    ****   #endif
+  45:Serial.cpp    ****   UxFDR    = 0;                          /* Fractional divider not used       */
+  36              	r	r2, .L3+4
+  37 0008 30209FE5 		.loc 1 40 0
+  38              		orr	r3, r3, #80
+  39 000c 503083E3 		str	r3, [r1, #0]
+  40 0010 003081E5 		.loc 1 45 0
+  41              		mov	r0, #0
+  42 0014 0000A0E3 	.LVL1:
+  43              		.loc 1 46 0
+  46:Serial.cpp    ****   UxLCR    = 0x83;                       /* 8 bits, no Parity, 1 Stop bit     */
+  44              	 #131
+  45 0018 8330A0E3 		.loc 1 45 0
+  46              		str	r0, [r2, #40]
+  47 001c 280082E5 		.loc 1 46 0
+  48              		str	r3, [r2, #12]
+  49 0020 0C3082E5 		.loc 1 56 0
+  47:Serial.cpp    **** 
+  48:Serial.cpp    ****   // UART Baud Rate Divisor Calculation
+  49:Serial.cpp    ****   //   Make sure PCLK is 16 times greater 
+  50:Serial.cpp    ****   //   than the desired baud rate
+  51:Serial.cpp    ****   // 
+  52:Serial.cpp    ****   // CCLK  = PLL Freq / 4           = 288Mhz / 4 = 72Mhz
+  53:Serial.cpp    ****   // PCLK  = CCLK / 4               = 72MHz / 4 = 18Mhz
+  54:Serial.cpp    ****   // UxDLL = (PCLK / 16) * (1/Baud) = (18Mhz / 16) * (1/9600) = 117 
+  55:Serial.cpp    ****   //  UxDLL    = 117;                         /* Set the UART baud rate divisor, 9600 */
+  56:Serial.cpp    ****   UxDLL    = 20;                         /* Set the UART baud rate divisor, 57600 */
+  50              	3, #20
+  51 0024 1430A0E3 		str	r3, [r2, #0]
+  52 0028 003082E5 		.loc 1 58 0
+  57:Serial.cpp    ****   UxDLM    = 0;                          /* High divisor latch = 0            */
+  58:Serial.cpp    ****   UxLCR    = 0x03;                       /* DLAB = 0                          */
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s 			page 3
+
+
+  53              	v	r3, #3
+  54 002c 0330A0E3 		.loc 1 57 0
+  55              		str	r0, [r2, #4]
+  56 0030 040082E5 		.loc 1 58 0
+  57              		str	r3, [r2, #12]
+  58 0034 0C3082E5 		.loc 1 59 0
+  59:Serial.cpp    **** }
+  59              	
+  60 0038 1EFF2FE1 	.L4:
+  61              		.align	2
+  62              	.L3:
+  63              		.word	-536690688
+  64 003c 00C002E0 		.word	-536821760
+  65 0040 00C000E0 	.LFE2:
+  66              		.size	_Z11SerialBegini, .-_Z11SerialBegini
+  67              		.section	.text._Z11SerialWritei,"ax",%progbits
+  68              		.align	2
+  69              		.global	_Z11SerialWritei
+  70              		.type	_Z11SerialWritei, %function
+  71              	_Z11SerialWritei:
+  72              	.LFB3:
+  73              		.loc 1 64 0
+  60:Serial.cpp    **** 
+  61:Serial.cpp    **** 
+  62:Serial.cpp    **** /* Write character to Serial Port    */
+  63:Serial.cpp    **** /* Implementation of putchar (also used by printf function to output data)    */
+  64:Serial.cpp    **** int SerialWrite(int ch)  
+  74              	pports interworking.
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77              		@ link register save eliminated.
+  78              	.LVL2:
+  79              		mov	r2, r0
+  80 0000 0020A0E1 	.LVL3:
+  81              	.L6:
+  82              		.loc 1 67 0
+  65:Serial.cpp    **** {                 
+  66:Serial.cpp    **** 
+  67:Serial.cpp    ****   while (!(UxLSR & 0x20));
+  83              	.L8
+  84 0004 14009FE5 		ldr	r3, [r0, #20]
+  85 0008 143090E5 		tst	r3, #32
+  86 000c 200013E3 		beq	.L6
+  87 0010 FBFFFF0A 		.loc 1 69 0
+  68:Serial.cpp    **** 
+  69:Serial.cpp    ****   return (UxTHR = ch);
+  88              	r2, [r0, #0]
+  89 0014 002080E5 		ldr	r0, [r0, #0]
+  90 0018 000090E5 		.loc 1 70 0
+  70:Serial.cpp    **** }
+  91              		lr
+  92 001c 1EFF2FE1 	.L9:
+  93              		.align	2
+  94              	.L8:
+  95              		.word	-536821760
+  96 0020 00C000E0 	.LFE3:
+  97              		.size	_Z11SerialWritei, .-_Z11SerialWritei
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s 			page 4
+
+
+  98              		.section	.text._Z9SerialStrPc,"ax",%progbits
+  99              		.align	2
+ 100              		.global	_Z9SerialStrPc
+ 101              		.type	_Z9SerialStrPc, %function
+ 102              	_Z9SerialStrPc:
+ 103              	.LFB4:
+ 104              		.loc 1 73 0
+  71:Serial.cpp    **** 
+  72:Serial.cpp    **** /* Write string to Serial Port    */
+  73:Serial.cpp    **** void SerialStr(char * str)
+ 105              	pports interworking.
+ 106              		@ args = 0, pretend = 0, frame = 0
+ 107              		@ frame_needed = 0, uses_anonymous_args = 0
+ 108              	.LVL4:
+ 109              		stmfd	sp!, {r4, r5, r6, lr}
+ 110 0000 70402DE9 	.LCFI0:
+ 111              		.loc 1 73 0
+ 112              		mov	r5, r0
+ 113 0004 0050A0E1 		mov	r4, #0
+ 114 0008 0040A0E3 		b	.L11
+ 115 000c 000000EA 	.LVL5:
+ 116              	.L12:
+ 117              		.loc 1 76 0
+  74:Serial.cpp    **** {
+  75:Serial.cpp    ****    while (*str) {
+  76:Serial.cpp    ****    	SerialWrite(*str);
+ 118              	lWritei
+ 119 0010 FEFFFFEB 	.LVL6:
+ 120              	.L11:
+ 121              		.loc 1 75 0
+ 122              		ldrb	r3, [r5, r4]	@ zero_extendqisi2
+ 123 0014 0430D5E7 		subs	r0, r3, #0
+ 124 0018 000053E2 		add	r4, r4, #1
+ 125 001c 014084E2 		bne	.L12
+ 126 0020 FAFFFF1A 		.loc 1 79 0
+  77:Serial.cpp    ****    	str++;
+  78:Serial.cpp    ****    	}
+  79:Serial.cpp    **** } 
+ 127              	!, {r4, r5, r6, lr}
+ 128 0024 7040BDE8 		bx	lr
+ 129 0028 1EFF2FE1 	.LFE4:
+ 130              		.size	_Z9SerialStrPc, .-_Z9SerialStrPc
+ 131              		.section	.text._Z10SerialReadv,"ax",%progbits
+ 132              		.align	2
+ 133              		.global	_Z10SerialReadv
+ 134              		.type	_Z10SerialReadv, %function
+ 135              	_Z10SerialReadv:
+ 136              	.LFB5:
+ 137              		.loc 1 82 0
+  80:Serial.cpp    **** 
+  81:Serial.cpp    **** /* Read character from Serial Port   */
+  82:Serial.cpp    **** int  SerialRead(void)
+ 138              	 supports interworking.
+ 139              		@ args = 0, pretend = 0, frame = 0
+ 140              		@ frame_needed = 0, uses_anonymous_args = 0
+ 141              		@ link register save eliminated.
+ 142              	.L15:
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s 			page 5
+
+
+ 143              		.loc 1 84 0
+  83:Serial.cpp    **** {                     
+  84:Serial.cpp    ****   while (!(UxLSR & 0x01));
+ 144              	0, .L17
+ 145 0000 10009FE5 		ldr	r3, [r0, #20]
+ 146 0004 143090E5 		tst	r3, #1
+ 147 0008 010013E3 		beq	.L15
+ 148 000c FBFFFF0A 		.loc 1 86 0
+  85:Serial.cpp    **** 
+  86:Serial.cpp    ****   return (UxRBR);
+ 149              	r0, [r0, #0]
+ 150 0010 000090E5 		.loc 1 87 0
+  87:Serial.cpp    **** }
+ 151              	x	lr
+ 152 0014 1EFF2FE1 	.L18:
+ 153              		.align	2
+ 154              	.L17:
+ 155              		.word	-536821760
+ 156 0018 00C000E0 	.LFE5:
+ 157              		.size	_Z10SerialReadv, .-_Z10SerialReadv
+ 158              		.section	.debug_frame,"",%progbits
+ 159              	.Lframe0:
+ 160              		.4byte	.LECIE0-.LSCIE0
+ 161 0000 0C000000 	.LSCIE0:
+ 162              		.4byte	0xffffffff
+ 163 0004 FFFFFFFF 		.byte	0x1
+ 164 0008 01       		.ascii	"\000"
+ 165 0009 00       		.uleb128 0x1
+ 166 000a 01       		.sleb128 -4
+ 167 000b 7C       		.byte	0xe
+ 168 000c 0E       		.byte	0xc
+ 169 000d 0C       		.uleb128 0xd
+ 170 000e 0D       		.uleb128 0x0
+ 171 000f 00       		.align	2
+ 172              	.LECIE0:
+ 173              	.LSFDE0:
+ 174              		.4byte	.LEFDE0-.LASFDE0
+ 175 0010 0C000000 	.LASFDE0:
+ 176              		.4byte	.Lframe0
+ 177 0014 00000000 		.4byte	.LFB2
+ 178 0018 00000000 		.4byte	.LFE2-.LFB2
+ 179 001c 44000000 		.align	2
+ 180              	.LEFDE0:
+ 181              	.LSFDE2:
+ 182              		.4byte	.LEFDE2-.LASFDE2
+ 183 0020 0C000000 	.LASFDE2:
+ 184              		.4byte	.Lframe0
+ 185 0024 00000000 		.4byte	.LFB3
+ 186 0028 00000000 		.4byte	.LFE3-.LFB3
+ 187 002c 24000000 		.align	2
+ 188              	.LEFDE2:
+ 189              	.LSFDE4:
+ 190              		.4byte	.LEFDE4-.LASFDE4
+ 191 0030 18000000 	.LASFDE4:
+ 192              		.4byte	.Lframe0
+ 193 0034 00000000 		.4byte	.LFB4
+ 194 0038 00000000 		.4byte	.LFE4-.LFB4
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s 			page 6
+
+
+ 195 003c 2C000000 		.byte	0x4
+ 196 0040 44       		.4byte	.LCFI0-.LFB4
+ 197              		.byte	0xe
+ 198 0041 0E       		.uleb128 0x10
+ 199 0042 10       		.byte	0x8e
+ 200 0043 8E       		.uleb128 0x1
+ 201 0044 01       		.byte	0x86
+ 202 0045 86       		.uleb128 0x2
+ 203 0046 02       		.byte	0x85
+ 204 0047 85       		.uleb128 0x3
+ 205 0048 03       		.byte	0x84
+ 206 0049 84       		.uleb128 0x4
+ 207 004a 04       		.align	2
+ 208 004b 00       	.LEFDE4:
+ 209              	.LSFDE6:
+ 210              		.4byte	.LEFDE6-.LASFDE6
+ 211 004c 0C000000 	.LASFDE6:
+ 212              		.4byte	.Lframe0
+ 213 0050 00000000 		.4byte	.LFB5
+ 214 0054 00000000 		.4byte	.LFE5-.LFB5
+ 215 0058 1C000000 		.align	2
+ 216              	.LEFDE6:
+ 217              		.text
+ 218              	.Letext0:
+ 219              		.section	.debug_loc,"",%progbits
+ 220              	.Ldebug_loc0:
+ 221              	.LLST1:
+ 222              		.4byte	.LVL0
+ 223 0000 00000000 		.4byte	.LVL1
+ 224 0004 18000000 		.2byte	0x1
+ 225 0008 0100     		.byte	0x50
+ 226 000a 50       		.4byte	0x0
+ 227 000b 00000000 		.4byte	0x0
+ 228 000f 00000000 	.LLST3:
+ 229              		.4byte	.LVL2
+ 230 0013 00000000 		.4byte	.LVL3
+ 231 0017 04000000 		.2byte	0x1
+ 232 001b 0100     		.byte	0x50
+ 233 001d 50       		.4byte	.LVL3
+ 234 001e 04000000 		.4byte	.LFE3
+ 235 0022 24000000 		.2byte	0x1
+ 236 0026 0100     		.byte	0x52
+ 237 0028 52       		.4byte	0x0
+ 238 0029 00000000 		.4byte	0x0
+ 239 002d 00000000 	.LLST4:
+ 240              		.4byte	.LFB4
+ 241 0031 00000000 		.4byte	.LCFI0
+ 242 0035 04000000 		.2byte	0x1
+ 243 0039 0100     		.byte	0x5d
+ 244 003b 5D       		.4byte	.LCFI0
+ 245 003c 04000000 		.4byte	.LFE4
+ 246 0040 2C000000 		.2byte	0x2
+ 247 0044 0200     		.byte	0x7d
+ 248 0046 7D       		.sleb128 16
+ 249 0047 10       		.4byte	0x0
+ 250 0048 00000000 		.4byte	0x0
+ 251 004c 00000000 	.LLST5:
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s 			page 7
+
+
+ 252              		.4byte	.LVL4
+ 253 0050 00000000 		.4byte	.LVL5
+ 254 0054 10000000 		.2byte	0x1
+ 255 0058 0100     		.byte	0x50
+ 256 005a 50       		.4byte	.LVL5
+ 257 005b 10000000 		.4byte	.LFE4
+ 258 005f 2C000000 		.2byte	0x1
+ 259 0063 0100     		.byte	0x55
+ 260 0065 55       		.4byte	0x0
+ 261 0066 00000000 		.4byte	0x0
+ 262 006a 00000000 		.section	.debug_info
+ 263              		.4byte	0xd7
+ 264 0000 D7000000 		.2byte	0x2
+ 265 0004 0200     		.4byte	.Ldebug_abbrev0
+ 266 0006 00000000 		.byte	0x4
+ 267 000a 04       		.uleb128 0x1
+ 268 000b 01       		.4byte	.LASF6
+ 269 000c 11000000 		.byte	0x4
+ 270 0010 04       		.4byte	.LASF7
+ 271 0011 56000000 		.4byte	.LASF8
+ 272 0015 39000000 		.4byte	0x0
+ 273 0019 00000000 		.4byte	0x0
+ 274 001d 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 275 0021 00000000 		.4byte	.Ldebug_line0
+ 276 0025 00000000 		.uleb128 0x2
+ 277 0029 02       		.byte	0x1
+ 278 002a 01       		.4byte	.LASF1
+ 279 002b 8D000000 		.byte	0x1
+ 280 002f 01       		.byte	0x25
+ 281 0030 25       		.4byte	.LASF3
+ 282 0031 00000000 		.4byte	.LFB2
+ 283 0035 00000000 		.4byte	.LFE2
+ 284 0039 44000000 		.byte	0x1
+ 285 003d 01       		.byte	0x5d
+ 286 003e 5D       		.4byte	0x53
+ 287 003f 53000000 		.uleb128 0x3
+ 288 0043 03       		.4byte	.LASF0
+ 289 0044 9E000000 		.byte	0x1
+ 290 0048 01       		.byte	0x25
+ 291 0049 25       		.4byte	0x53
+ 292 004a 53000000 		.4byte	.LLST1
+ 293 004e 00000000 		.byte	0x0
+ 294 0052 00       		.uleb128 0x4
+ 295 0053 04       		.byte	0x4
+ 296 0054 04       		.byte	0x5
+ 297 0055 05       		.ascii	"int\000"
+ 298 0056 696E7400 		.uleb128 0x5
+ 299 005a 05       		.byte	0x1
+ 300 005b 01       		.4byte	.LASF9
+ 301 005c 61000000 		.byte	0x1
+ 302 0060 01       		.byte	0x40
+ 303 0061 40       		.4byte	.LASF10
+ 304 0062 7C000000 		.4byte	0x53
+ 305 0066 53000000 		.4byte	.LFB3
+ 306 006a 00000000 		.4byte	.LFE3
+ 307 006e 24000000 		.byte	0x1
+ 308 0072 01       		.byte	0x5d
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s 			page 8
+
+
+ 309 0073 5D       		.4byte	0x87
+ 310 0074 87000000 		.uleb128 0x6
+ 311 0078 06       		.ascii	"ch\000"
+ 312 0079 636800   		.byte	0x1
+ 313 007c 01       		.byte	0x40
+ 314 007d 40       		.4byte	0x53
+ 315 007e 53000000 		.4byte	.LLST3
+ 316 0082 13000000 		.byte	0x0
+ 317 0086 00       		.uleb128 0x7
+ 318 0087 07       		.byte	0x1
+ 319 0088 01       		.4byte	.LASF2
+ 320 0089 2F000000 		.byte	0x1
+ 321 008d 01       		.byte	0x49
+ 322 008e 49       		.4byte	.LASF4
+ 323 008f 6D000000 		.4byte	.LFB4
+ 324 0093 00000000 		.4byte	.LFE4
+ 325 0097 2C000000 		.4byte	.LLST4
+ 326 009b 31000000 		.4byte	0xb3
+ 327 009f B3000000 		.uleb128 0x6
+ 328 00a3 06       		.ascii	"str\000"
+ 329 00a4 73747200 		.byte	0x1
+ 330 00a8 01       		.byte	0x49
+ 331 00a9 49       		.4byte	0xb3
+ 332 00aa B3000000 		.4byte	.LLST5
+ 333 00ae 50000000 		.byte	0x0
+ 334 00b2 00       		.uleb128 0x8
+ 335 00b3 08       		.byte	0x4
+ 336 00b4 04       		.4byte	0xb9
+ 337 00b5 B9000000 		.uleb128 0x9
+ 338 00b9 09       		.byte	0x1
+ 339 00ba 01       		.byte	0x8
+ 340 00bb 08       		.4byte	.LASF5
+ 341 00bc 99000000 		.uleb128 0xa
+ 342 00c0 0A       		.byte	0x1
+ 343 00c1 01       		.4byte	.LASF11
+ 344 00c2 4B000000 		.byte	0x1
+ 345 00c6 01       		.byte	0x52
+ 346 00c7 52       		.4byte	.LASF12
+ 347 00c8 1F000000 		.4byte	0x53
+ 348 00cc 53000000 		.4byte	.LFB5
+ 349 00d0 00000000 		.4byte	.LFE5
+ 350 00d4 1C000000 		.byte	0x1
+ 351 00d8 01       		.byte	0x5d
+ 352 00d9 5D       		.byte	0x0
+ 353 00da 00       		.section	.debug_abbrev
+ 354              		.uleb128 0x1
+ 355 0000 01       		.uleb128 0x11
+ 356 0001 11       		.byte	0x1
+ 357 0002 01       		.uleb128 0x25
+ 358 0003 25       		.uleb128 0xe
+ 359 0004 0E       		.uleb128 0x13
+ 360 0005 13       		.uleb128 0xb
+ 361 0006 0B       		.uleb128 0x3
+ 362 0007 03       		.uleb128 0xe
+ 363 0008 0E       		.uleb128 0x1b
+ 364 0009 1B       		.uleb128 0xe
+ 365 000a 0E       		.uleb128 0x11
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s 			page 9
+
+
+ 366 000b 11       		.uleb128 0x1
+ 367 000c 01       		.uleb128 0x52
+ 368 000d 52       		.uleb128 0x1
+ 369 000e 01       		.uleb128 0x55
+ 370 000f 55       		.uleb128 0x6
+ 371 0010 06       		.uleb128 0x10
+ 372 0011 10       		.uleb128 0x6
+ 373 0012 06       		.byte	0x0
+ 374 0013 00       		.byte	0x0
+ 375 0014 00       		.uleb128 0x2
+ 376 0015 02       		.uleb128 0x2e
+ 377 0016 2E       		.byte	0x1
+ 378 0017 01       		.uleb128 0x3f
+ 379 0018 3F       		.uleb128 0xc
+ 380 0019 0C       		.uleb128 0x3
+ 381 001a 03       		.uleb128 0xe
+ 382 001b 0E       		.uleb128 0x3a
+ 383 001c 3A       		.uleb128 0xb
+ 384 001d 0B       		.uleb128 0x3b
+ 385 001e 3B       		.uleb128 0xb
+ 386 001f 0B       		.uleb128 0x2007
+ 387 0020 8740     		.uleb128 0xe
+ 388 0022 0E       		.uleb128 0x11
+ 389 0023 11       		.uleb128 0x1
+ 390 0024 01       		.uleb128 0x12
+ 391 0025 12       		.uleb128 0x1
+ 392 0026 01       		.uleb128 0x40
+ 393 0027 40       		.uleb128 0xa
+ 394 0028 0A       		.uleb128 0x1
+ 395 0029 01       		.uleb128 0x13
+ 396 002a 13       		.byte	0x0
+ 397 002b 00       		.byte	0x0
+ 398 002c 00       		.uleb128 0x3
+ 399 002d 03       		.uleb128 0x5
+ 400 002e 05       		.byte	0x0
+ 401 002f 00       		.uleb128 0x3
+ 402 0030 03       		.uleb128 0xe
+ 403 0031 0E       		.uleb128 0x3a
+ 404 0032 3A       		.uleb128 0xb
+ 405 0033 0B       		.uleb128 0x3b
+ 406 0034 3B       		.uleb128 0xb
+ 407 0035 0B       		.uleb128 0x49
+ 408 0036 49       		.uleb128 0x13
+ 409 0037 13       		.uleb128 0x2
+ 410 0038 02       		.uleb128 0x6
+ 411 0039 06       		.byte	0x0
+ 412 003a 00       		.byte	0x0
+ 413 003b 00       		.uleb128 0x4
+ 414 003c 04       		.uleb128 0x24
+ 415 003d 24       		.byte	0x0
+ 416 003e 00       		.uleb128 0xb
+ 417 003f 0B       		.uleb128 0xb
+ 418 0040 0B       		.uleb128 0x3e
+ 419 0041 3E       		.uleb128 0xb
+ 420 0042 0B       		.uleb128 0x3
+ 421 0043 03       		.uleb128 0x8
+ 422 0044 08       		.byte	0x0
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s 			page 10
+
+
+ 423 0045 00       		.byte	0x0
+ 424 0046 00       		.uleb128 0x5
+ 425 0047 05       		.uleb128 0x2e
+ 426 0048 2E       		.byte	0x1
+ 427 0049 01       		.uleb128 0x3f
+ 428 004a 3F       		.uleb128 0xc
+ 429 004b 0C       		.uleb128 0x3
+ 430 004c 03       		.uleb128 0xe
+ 431 004d 0E       		.uleb128 0x3a
+ 432 004e 3A       		.uleb128 0xb
+ 433 004f 0B       		.uleb128 0x3b
+ 434 0050 3B       		.uleb128 0xb
+ 435 0051 0B       		.uleb128 0x2007
+ 436 0052 8740     		.uleb128 0xe
+ 437 0054 0E       		.uleb128 0x49
+ 438 0055 49       		.uleb128 0x13
+ 439 0056 13       		.uleb128 0x11
+ 440 0057 11       		.uleb128 0x1
+ 441 0058 01       		.uleb128 0x12
+ 442 0059 12       		.uleb128 0x1
+ 443 005a 01       		.uleb128 0x40
+ 444 005b 40       		.uleb128 0xa
+ 445 005c 0A       		.uleb128 0x1
+ 446 005d 01       		.uleb128 0x13
+ 447 005e 13       		.byte	0x0
+ 448 005f 00       		.byte	0x0
+ 449 0060 00       		.uleb128 0x6
+ 450 0061 06       		.uleb128 0x5
+ 451 0062 05       		.byte	0x0
+ 452 0063 00       		.uleb128 0x3
+ 453 0064 03       		.uleb128 0x8
+ 454 0065 08       		.uleb128 0x3a
+ 455 0066 3A       		.uleb128 0xb
+ 456 0067 0B       		.uleb128 0x3b
+ 457 0068 3B       		.uleb128 0xb
+ 458 0069 0B       		.uleb128 0x49
+ 459 006a 49       		.uleb128 0x13
+ 460 006b 13       		.uleb128 0x2
+ 461 006c 02       		.uleb128 0x6
+ 462 006d 06       		.byte	0x0
+ 463 006e 00       		.byte	0x0
+ 464 006f 00       		.uleb128 0x7
+ 465 0070 07       		.uleb128 0x2e
+ 466 0071 2E       		.byte	0x1
+ 467 0072 01       		.uleb128 0x3f
+ 468 0073 3F       		.uleb128 0xc
+ 469 0074 0C       		.uleb128 0x3
+ 470 0075 03       		.uleb128 0xe
+ 471 0076 0E       		.uleb128 0x3a
+ 472 0077 3A       		.uleb128 0xb
+ 473 0078 0B       		.uleb128 0x3b
+ 474 0079 3B       		.uleb128 0xb
+ 475 007a 0B       		.uleb128 0x2007
+ 476 007b 8740     		.uleb128 0xe
+ 477 007d 0E       		.uleb128 0x11
+ 478 007e 11       		.uleb128 0x1
+ 479 007f 01       		.uleb128 0x12
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s 			page 11
+
+
+ 480 0080 12       		.uleb128 0x1
+ 481 0081 01       		.uleb128 0x40
+ 482 0082 40       		.uleb128 0x6
+ 483 0083 06       		.uleb128 0x1
+ 484 0084 01       		.uleb128 0x13
+ 485 0085 13       		.byte	0x0
+ 486 0086 00       		.byte	0x0
+ 487 0087 00       		.uleb128 0x8
+ 488 0088 08       		.uleb128 0xf
+ 489 0089 0F       		.byte	0x0
+ 490 008a 00       		.uleb128 0xb
+ 491 008b 0B       		.uleb128 0xb
+ 492 008c 0B       		.uleb128 0x49
+ 493 008d 49       		.uleb128 0x13
+ 494 008e 13       		.byte	0x0
+ 495 008f 00       		.byte	0x0
+ 496 0090 00       		.uleb128 0x9
+ 497 0091 09       		.uleb128 0x24
+ 498 0092 24       		.byte	0x0
+ 499 0093 00       		.uleb128 0xb
+ 500 0094 0B       		.uleb128 0xb
+ 501 0095 0B       		.uleb128 0x3e
+ 502 0096 3E       		.uleb128 0xb
+ 503 0097 0B       		.uleb128 0x3
+ 504 0098 03       		.uleb128 0xe
+ 505 0099 0E       		.byte	0x0
+ 506 009a 00       		.byte	0x0
+ 507 009b 00       		.uleb128 0xa
+ 508 009c 0A       		.uleb128 0x2e
+ 509 009d 2E       		.byte	0x0
+ 510 009e 00       		.uleb128 0x3f
+ 511 009f 3F       		.uleb128 0xc
+ 512 00a0 0C       		.uleb128 0x3
+ 513 00a1 03       		.uleb128 0xe
+ 514 00a2 0E       		.uleb128 0x3a
+ 515 00a3 3A       		.uleb128 0xb
+ 516 00a4 0B       		.uleb128 0x3b
+ 517 00a5 3B       		.uleb128 0xb
+ 518 00a6 0B       		.uleb128 0x2007
+ 519 00a7 8740     		.uleb128 0xe
+ 520 00a9 0E       		.uleb128 0x49
+ 521 00aa 49       		.uleb128 0x13
+ 522 00ab 13       		.uleb128 0x11
+ 523 00ac 11       		.uleb128 0x1
+ 524 00ad 01       		.uleb128 0x12
+ 525 00ae 12       		.uleb128 0x1
+ 526 00af 01       		.uleb128 0x40
+ 527 00b0 40       		.uleb128 0xa
+ 528 00b1 0A       		.byte	0x0
+ 529 00b2 00       		.byte	0x0
+ 530 00b3 00       		.byte	0x0
+ 531 00b4 00       		.section	.debug_pubnames,"",%progbits
+ 532              		.4byte	0x4b
+ 533 0000 4B000000 		.2byte	0x2
+ 534 0004 0200     		.4byte	.Ldebug_info0
+ 535 0006 00000000 		.4byte	0xdb
+ 536 000a DB000000 		.4byte	0x29
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s 			page 12
+
+
+ 537 000e 29000000 		.ascii	"SerialBegin\000"
+ 538 0012 53657269 		.4byte	0x5a
+ 538      616C4265 
+ 538      67696E00 
+ 539 001e 5A000000 		.ascii	"SerialWrite\000"
+ 540 0022 53657269 		.4byte	0x87
+ 540      616C5772 
+ 540      69746500 
+ 541 002e 87000000 		.ascii	"SerialStr\000"
+ 542 0032 53657269 		.4byte	0xc0
+ 542      616C5374 
+ 542      7200
+ 543 003c C0000000 		.ascii	"SerialRead\000"
+ 544 0040 53657269 		.4byte	0x0
+ 544      616C5265 
+ 544      616400
+ 545 004b 00000000 		.section	.debug_aranges,"",%progbits
+ 546              		.4byte	0x34
+ 547 0000 34000000 		.2byte	0x2
+ 548 0004 0200     		.4byte	.Ldebug_info0
+ 549 0006 00000000 		.byte	0x4
+ 550 000a 04       		.byte	0x0
+ 551 000b 00       		.2byte	0x0
+ 552 000c 0000     		.2byte	0x0
+ 553 000e 0000     		.4byte	.LFB2
+ 554 0010 00000000 		.4byte	.LFE2-.LFB2
+ 555 0014 44000000 		.4byte	.LFB3
+ 556 0018 00000000 		.4byte	.LFE3-.LFB3
+ 557 001c 24000000 		.4byte	.LFB4
+ 558 0020 00000000 		.4byte	.LFE4-.LFB4
+ 559 0024 2C000000 		.4byte	.LFB5
+ 560 0028 00000000 		.4byte	.LFE5-.LFB5
+ 561 002c 1C000000 		.4byte	0x0
+ 562 0030 00000000 		.4byte	0x0
+ 563 0034 00000000 		.section	.debug_ranges,"",%progbits
+ 564              	.Ldebug_ranges0:
+ 565              		.4byte	.Ltext0
+ 566 0000 00000000 		.4byte	.Letext0
+ 567 0004 00000000 		.4byte	.LFB2
+ 568 0008 00000000 		.4byte	.LFE2
+ 569 000c 44000000 		.4byte	.LFB3
+ 570 0010 00000000 		.4byte	.LFE3
+ 571 0014 24000000 		.4byte	.LFB4
+ 572 0018 00000000 		.4byte	.LFE4
+ 573 001c 2C000000 		.4byte	.LFB5
+ 574 0020 00000000 		.4byte	.LFE5
+ 575 0024 1C000000 		.4byte	0x0
+ 576 0028 00000000 		.4byte	0x0
+ 577 002c 00000000 		.section	.debug_str,"MS",%progbits,1
+ 578              	.LASF3:
+ 579              		.ascii	"_Z11SerialBegini\000"
+ 580 0000 5F5A3131 	.LASF6:
+ 580      53657269 
+ 580      616C4265 
+ 580      67696E69 
+ 580      00
+ 581              		.ascii	"GNU C++ 4.3.2\000"
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s 			page 13
+
+
+ 582 0011 474E5520 	.LASF12:
+ 582      432B2B20 
+ 582      342E332E 
+ 582      3200
+ 583              		.ascii	"_Z10SerialReadv\000"
+ 584 001f 5F5A3130 	.LASF2:
+ 584      53657269 
+ 584      616C5265 
+ 584      61647600 
+ 585              		.ascii	"SerialStr\000"
+ 586 002f 53657269 	.LASF8:
+ 586      616C5374 
+ 586      7200
+ 587              		.ascii	"E:\\ARM\\GNU_Blinky\000"
+ 588 0039 453A5C41 	.LASF11:
+ 588      524D5C47 
+ 588      4E555F42 
+ 588      6C696E6B 
+ 588      7900
+ 589              		.ascii	"SerialRead\000"
+ 590 004b 53657269 	.LASF7:
+ 590      616C5265 
+ 590      616400
+ 591              		.ascii	"Serial.cpp\000"
+ 592 0056 53657269 	.LASF9:
+ 592      616C2E63 
+ 592      707000
+ 593              		.ascii	"SerialWrite\000"
+ 594 0061 53657269 	.LASF4:
+ 594      616C5772 
+ 594      69746500 
+ 595              		.ascii	"_Z9SerialStrPc\000"
+ 596 006d 5F5A3953 	.LASF10:
+ 596      65726961 
+ 596      6C537472 
+ 596      506300
+ 597              		.ascii	"_Z11SerialWritei\000"
+ 598 007c 5F5A3131 	.LASF1:
+ 598      53657269 
+ 598      616C5772 
+ 598      69746569 
+ 598      00
+ 599              		.ascii	"SerialBegin\000"
+ 600 008d 53657269 	.LASF5:
+ 600      616C4265 
+ 600      67696E00 
+ 601              		.ascii	"char\000"
+ 602 0099 63686172 	.LASF0:
+ 602      00
+ 603              		.ascii	"baud\000"
+ 604 009e 62617564 		.ident	"GCC: (Sourcery G++ Lite 2008q3-39) 4.3.2"
+ 604      00
+ 605              	...
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s 			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Serial.cpp
+C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s:24     .text._Z11SerialBegini:00000000 _Z11SerialBegini
+C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s:34     .text._Z11SerialBegini:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s:64     .text._Z11SerialBegini:0000003c $d
+C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s:72     .text._Z11SerialWritei:00000000 _Z11SerialWritei
+C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s:80     .text._Z11SerialWritei:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s:96     .text._Z11SerialWritei:00000020 $d
+C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s:103    .text._Z9SerialStrPc:00000000 _Z9SerialStrPc
+C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s:110    .text._Z9SerialStrPc:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s:136    .text._Z10SerialReadv:00000000 _Z10SerialReadv
+C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s:145    .text._Z10SerialReadv:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s:156    .text._Z10SerialReadv:00000018 $d
+C:\Users\Chris\AppData\Local\Temp/ccMzbaaa.s:223    .debug_loc:00000000 $d
+
+NO UNDEFINED SYMBOLS

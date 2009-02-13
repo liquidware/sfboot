@@ -1,0 +1,880 @@
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 1
+
+
+   1              		.cpu arm7tdmi
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 18, 4
+  11              		.file	"sys_init.cpp"
+  12              		.section	.debug_abbrev,"",%progbits
+  13              	.Ldebug_abbrev0:
+  14              		.section	.debug_info,"",%progbits
+  15              	.Ldebug_info0:
+  16              		.section	.debug_line,"",%progbits
+  17              	.Ldebug_line0:
+  18 0000 FC000000 		.text
+  18      0200A400 
+  18      00000201 
+  18      FB0E0D00 
+  18      01010101 
+  19              	.Ltext0:
+  20              		.section	.text._Z7sysInitv,"ax",%progbits
+  21              		.align	2
+  22              		.global	_Z7sysInitv
+  23              		.type	_Z7sysInitv, %function
+  24              	_Z7sysInitv:
+  25              	.LFB4:
+  26              		.file 1 "sys_init.cpp"
+   1:sys_init.cpp  **** #include <stdint.h>
+   2:sys_init.cpp  **** 
+   3:sys_init.cpp  **** #include "LPC_REGS.h"
+   4:sys_init.cpp  **** #include "sys_config.h"
+   5:sys_init.cpp  **** 
+   6:sys_init.cpp  **** /******************************************************************************
+   7:sys_init.cpp  ****  *
+   8:sys_init.cpp  ****  * Function Name: configPLL()
+   9:sys_init.cpp  ****  *
+  10:sys_init.cpp  ****  * Description:
+  11:sys_init.cpp  ****  *    This function starts up the PLL then sets up the GPIO pins before
+  12:sys_init.cpp  ****  *    waiting for the PLL to lock.  It finally engages the PLL and
+  13:sys_init.cpp  ****  *    returns
+  14:sys_init.cpp  ****  *
+  15:sys_init.cpp  ****  * Calling Sequence: 
+  16:sys_init.cpp  ****  *    void
+  17:sys_init.cpp  ****  *
+  18:sys_init.cpp  ****  * Returns:
+  19:sys_init.cpp  ****  *    void
+  20:sys_init.cpp  ****  * partily based on code for NXP example collection
+  21:sys_init.cpp  ****  *****************************************************************************/
+  22:sys_init.cpp  **** static void configPLL(void)
+  23:sys_init.cpp  **** {
+  24:sys_init.cpp  **** 	uint32_t readback;
+  25:sys_init.cpp  **** 
+  26:sys_init.cpp  **** 	// check if PLL connected, disconnect if yes
+  27:sys_init.cpp  **** 	if ( PLLSTAT & PLLSTAT_PLLC ) {
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 2
+
+
+  28:sys_init.cpp  **** 		PLLCON = PLLCON_PLLE;       /* Enable PLL, disconnected ( PLLC = 0 )*/
+  29:sys_init.cpp  **** 		PLLFEED = 0xaa;
+  30:sys_init.cpp  **** 		PLLFEED = 0x55;
+  31:sys_init.cpp  **** 	}
+  32:sys_init.cpp  **** 
+  33:sys_init.cpp  **** 	PLLCON  = 0;        /* Disable PLL, disconnected */
+  34:sys_init.cpp  **** 	PLLFEED = 0xaa;
+  35:sys_init.cpp  **** 	PLLFEED = 0x55;
+  36:sys_init.cpp  **** 
+  37:sys_init.cpp  **** 	SCS |= SCS_OSCEN;   /* Enable main OSC, SCS Man p.28 */
+  38:sys_init.cpp  **** 	while( !( SCS & SCS_OSCSTAT ) ) {
+  39:sys_init.cpp  **** 		;	/* Wait until main OSC is usable */
+  40:sys_init.cpp  **** 	}
+  41:sys_init.cpp  **** 
+  42:sys_init.cpp  **** 	CLKSRCSEL = CLKSRC_MAIN_OSC;   /* select main OSC as the PLL clock source */
+  43:sys_init.cpp  **** 
+  44:sys_init.cpp  **** 	PLLCFG = PLLCFG_MSEL | PLLCFG_NSEL;
+  45:sys_init.cpp  **** 	PLLFEED = 0xaa;
+  46:sys_init.cpp  **** 	PLLFEED = 0x55;
+  47:sys_init.cpp  **** 	
+  48:sys_init.cpp  **** 	PLLCON = PLLCON_PLLE;       /* Enable PLL, disconnected ( PLLC = 0 ) */
+  49:sys_init.cpp  **** 	PLLFEED = 0xaa;
+  50:sys_init.cpp  **** 	PLLFEED = 0x55;
+  51:sys_init.cpp  **** 	
+  52:sys_init.cpp  **** 	CCLKCFG = CCLKCFG_CCLKSEL_VAL;     /* Set clock divider, Manual p.45 */
+  53:sys_init.cpp  **** 
+  54:sys_init.cpp  **** //#if USE_USB
+  55:sys_init.cpp  **** //	USBCLKCFG = USBCLKDivValue; /* usbclk = 288 MHz/6 = 48 MHz */
+  56:sys_init.cpp  **** //#endif
+  57:sys_init.cpp  **** 	
+  58:sys_init.cpp  **** 	while ( ( PLLSTAT & PLLSTAT_PLOCK ) == 0 )  {
+  59:sys_init.cpp  **** 		; /* Check lock bit status */
+  60:sys_init.cpp  **** 	}
+  61:sys_init.cpp  **** 	
+  62:sys_init.cpp  **** 	readback = PLLSTAT & 0x00FF7FFF;
+  63:sys_init.cpp  **** 	while ( readback != (PLLCFG_MSEL | PLLCFG_NSEL) )
+  64:sys_init.cpp  **** 	{
+  65:sys_init.cpp  **** 		; // stall - invalid readback
+  66:sys_init.cpp  **** 	}
+  67:sys_init.cpp  **** 	
+  68:sys_init.cpp  **** 	PLLCON = ( PLLCON_PLLE | PLLCON_PLLC );  /* enable and connect */
+  69:sys_init.cpp  **** 	PLLFEED = 0xaa;
+  70:sys_init.cpp  **** 	PLLFEED = 0x55;
+  71:sys_init.cpp  **** 	while ( ((PLLSTAT & PLLSTAT_PLLC) == 0) ) {
+  72:sys_init.cpp  **** 		;  /* Check connect bit status, wait for connect */
+  73:sys_init.cpp  **** 	}
+  74:sys_init.cpp  **** }
+  75:sys_init.cpp  **** 
+  76:sys_init.cpp  **** static void lowInit(void)
+  77:sys_init.cpp  **** {
+  78:sys_init.cpp  **** 	configPLL();
+  79:sys_init.cpp  **** 	
+  80:sys_init.cpp  **** 	// setup & enable the MAM
+  81:sys_init.cpp  **** 	MAMCR = MAMCR_OFF;
+  82:sys_init.cpp  **** #if CCLK < 20000000
+  83:sys_init.cpp  **** 	MAMTIM = 1;
+  84:sys_init.cpp  **** #elif CCLK < 40000000
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 3
+
+
+  85:sys_init.cpp  **** 	MAMTIM = 2;
+  86:sys_init.cpp  **** #else
+  87:sys_init.cpp  **** 	MAMTIM = 3;
+  88:sys_init.cpp  **** #endif
+  89:sys_init.cpp  **** 	MAMCR = MAMCR_FULL;
+  90:sys_init.cpp  **** 	
+  91:sys_init.cpp  **** 	// set the peripheral bus speed
+  92:sys_init.cpp  **** 	// value computed from config.h
+  93:sys_init.cpp  **** 	
+  94:sys_init.cpp  **** #if PBSD == 4
+  95:sys_init.cpp  **** 	PCLKSEL0 = 0x00000000;	/* PCLK is 1/4 CCLK */
+  96:sys_init.cpp  **** 	PCLKSEL1 = 0x00000000;
+  97:sys_init.cpp  **** #elif PBSD == 2
+  98:sys_init.cpp  **** 	PCLKSEL0 = 0xAAAAAAAA;	/* PCLK is 1/2 CCLK */
+  99:sys_init.cpp  **** 	PCLKSEL1 = 0xAAAAAAAA;
+ 100:sys_init.cpp  **** #elif PBSD == 1
+ 101:sys_init.cpp  **** 	PCLKSEL0 = 0x55555555;	/* PCLK is the same as CCLK */
+ 102:sys_init.cpp  **** 	PCLKSEL1 = 0x55555555;
+ 103:sys_init.cpp  **** #else
+ 104:sys_init.cpp  **** #error invalid p-clock divider    
+ 105:sys_init.cpp  **** #endif
+ 106:sys_init.cpp  **** 
+ 107:sys_init.cpp  **** 	return;
+ 108:sys_init.cpp  **** }
+ 109:sys_init.cpp  **** 
+ 110:sys_init.cpp  **** /******************************************************************************
+ 111:sys_init.cpp  ****  *
+ 112:sys_init.cpp  ****  * Function Name: sysInit()
+ 113:sys_init.cpp  ****  *
+ 114:sys_init.cpp  ****  * Description:
+ 115:sys_init.cpp  ****  *    This function is responsible for initializing the program
+ 116:sys_init.cpp  ****  *    specific hardware
+ 117:sys_init.cpp  ****  *
+ 118:sys_init.cpp  ****  * Calling Sequence: 
+ 119:sys_init.cpp  ****  *    void
+ 120:sys_init.cpp  ****  *
+ 121:sys_init.cpp  ****  * Returns:
+ 122:sys_init.cpp  ****  *    void
+ 123:sys_init.cpp  ****  *
+ 124:sys_init.cpp  ****  *****************************************************************************/
+ 125:sys_init.cpp  **** void sysInit(void)
+  27              	supports interworking.
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31              	.LBB8:
+  32              	.LBB9:
+  33              	.LBB10:
+  34              	.LBB11:
+  35              	.LBB12:
+  36              	.LBB13:
+  37              		.loc 1 27 0
+  38              		ldr	r2, .L9
+  39 0000 48219FE5 		ldr	r3, [r2, #136]
+  40 0004 883092E5 		tst	r3, #33554432
+  41 0008 020413E3 		beq	.L2
+  42 000c 0500000A 		.loc 1 28 0
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 4
+
+
+  43              		mov	r3, #1
+  44 0010 0130A0E3 		str	r3, [r2, #128]
+  45 0014 803082E5 		.loc 1 29 0
+  46              		add	r3, r3, #169
+  47 0018 A93083E2 		str	r3, [r2, #140]
+  48 001c 8C3082E5 		.loc 1 30 0
+  49              		mov	r3, #85
+  50 0020 5530A0E3 		str	r3, [r2, #140]
+  51 0024 8C3082E5 	.L2:
+  52              		.loc 1 33 0
+  53              		ldr	r2, .L9
+  54 0028 20219FE5 		mov	r3, #0
+  55 002c 0030A0E3 		str	r3, [r2, #128]
+  56 0030 803082E5 		.loc 1 34 0
+  57              		add	r3, r3, #170
+  58 0034 AA3083E2 		str	r3, [r2, #140]
+  59 0038 8C3082E5 		.loc 1 35 0
+  60              		mov	r3, #85
+  61 003c 5530A0E3 		str	r3, [r2, #140]
+  62 0040 8C3082E5 		.loc 1 37 0
+  63              		ldr	r3, [r2, #416]
+  64 0044 A03192E5 		orr	r3, r3, #32
+  65 0048 203083E3 		str	r3, [r2, #416]
+  66 004c A03182E5 	.L3:
+  67              		.loc 1 38 0
+  68              		ldr	ip, .L9
+  69 0050 F8C09FE5 		ldr	r3, [ip, #416]
+  70 0054 A0319CE5 		tst	r3, #64
+  71 0058 400013E3 		beq	.L3
+  72 005c FBFFFF0A 		.loc 1 42 0
+  73              		mov	r2, #1
+  74 0060 0120A0E3 		.loc 1 44 0
+  75              		mov	r3, #11
+  76 0064 0B30A0E3 		.loc 1 42 0
+  77              		str	r2, [ip, #268]
+  78 0068 0C218CE5 		.loc 1 45 0
+  79              		mov	r1, #170
+  80 006c AA10A0E3 		.loc 1 44 0
+  81              		str	r3, [ip, #132]
+  82 0070 84308CE5 		.loc 1 46 0
+  83              		mov	r0, #85
+  84 0074 5500A0E3 		.loc 1 52 0
+  85              		mov	r3, #3
+  86 0078 0330A0E3 		.loc 1 45 0
+  87              		str	r1, [ip, #140]
+  88 007c 8C108CE5 		.loc 1 46 0
+  89              		str	r0, [ip, #140]
+  90 0080 8C008CE5 		.loc 1 48 0
+  91              		str	r2, [ip, #128]
+  92 0084 80208CE5 		.loc 1 49 0
+  93              		str	r1, [ip, #140]
+  94 0088 8C108CE5 		.loc 1 50 0
+  95              		str	r0, [ip, #140]
+  96 008c 8C008CE5 		.loc 1 52 0
+  97              		str	r3, [ip, #260]
+  98 0090 04318CE5 	.L4:
+  99              		.loc 1 58 0
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 5
+
+
+ 100              		ldr	r2, .L9
+ 101 0094 B4209FE5 		ldr	r3, [r2, #136]
+ 102 0098 883092E5 		tst	r3, #67108864
+ 103 009c 010313E3 		beq	.L4
+ 104 00a0 FBFFFF0A 		.loc 1 62 0
+ 105              		ldr	r3, [r2, #136]
+ 106 00a4 883092E5 		.loc 1 63 0
+ 107              		bic	r3, r3, #-16777216
+ 108 00a8 FF34C3E3 		bic	r3, r3, #32768
+ 109 00ac 0239C3E3 		cmp	r3, #11
+ 110 00b0 0B0053E3 		bne	.L5
+ 111 00b4 2400001A 		.loc 1 68 0
+ 112              		mov	r3, #3
+ 113 00b8 0330A0E3 		str	r3, [r2, #128]
+ 114 00bc 803082E5 		.loc 1 69 0
+ 115              		add	r3, r3, #167
+ 116 00c0 A73083E2 		str	r3, [r2, #140]
+ 117 00c4 8C3082E5 		.loc 1 70 0
+ 118              		mov	r3, #85
+ 119 00c8 5530A0E3 		str	r3, [r2, #140]
+ 120 00cc 8C3082E5 	.L6:
+ 121              		.loc 1 71 0
+ 122              		ldr	r0, .L9
+ 123 00d0 78009FE5 		ldr	r3, [r0, #136]
+ 124 00d4 883090E5 		tst	r3, #33554432
+ 125 00d8 020413E3 		beq	.L6
+ 126 00dc FBFFFF0A 	.LBE13:
+ 127              	.LBE12:
+ 128              	.LBE11:
+ 129              		.loc 1 81 0
+ 130              		mov	r2, #0
+ 131 00e0 0020A0E3 		.loc 1 87 0
+ 132              		mov	r3, #3
+ 133 00e4 0330A0E3 		.loc 1 81 0
+ 134              		str	r2, [r0, #0]
+ 135 00e8 002080E5 		.loc 1 87 0
+ 136              		str	r3, [r0, #4]
+ 137 00ec 043080E5 		.loc 1 89 0
+ 138              		mov	r3, #2
+ 139 00f0 0230A0E3 		str	r3, [r0, #0]
+ 140 00f4 003080E5 	.LBE10:
+ 141              	.LBE9:
+ 142              		.loc 1 142 0
+ 126:sys_init.cpp  **** {
+ 127:sys_init.cpp  **** 	uint32_t i = 0;
+ 128:sys_init.cpp  **** 	volatile uint32_t *vect_addr, *vect_prio;
+ 129:sys_init.cpp  **** 
+ 130:sys_init.cpp  **** 	lowInit();                            // setup clocks and processor port pins
+ 131:sys_init.cpp  **** 
+ 132:sys_init.cpp  **** 	// set the interrupt controller defaults
+ 133:sys_init.cpp  **** #if defined(RAM_RUN)
+ 134:sys_init.cpp  **** 	MEMMAP = MEMMAP_SRAM;                 // map interrupt vectors space into SRAM
+ 135:sys_init.cpp  **** #elif defined(ROM_RUN)
+ 136:sys_init.cpp  **** 	MEMMAP = MEMMAP_FLASH;                // map interrupt vectors space into FLASH
+ 137:sys_init.cpp  **** #else
+ 138:sys_init.cpp  **** #error RUN_MODE not defined!
+ 139:sys_init.cpp  **** #endif
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 6
+
+
+ 140:sys_init.cpp  **** 	
+ 141:sys_init.cpp  **** 	/* initialize VIC */
+ 142:sys_init.cpp  **** 	VICIntEnClr  = 0xffffffff;
+ 143              	28]
+ 144 00f8 0010E0E3 	.LBE14:
+ 145              	.LBE15:
+ 146 00fc 0130A0E3 		.loc 1 136 0
+ 147              		str	r3, [r0, #64]
+ 148              		.loc 1 142 0
+ 149              		str	r1, [r1, #-4075]
+ 150 0100 A82180E5 		.loc 1 143 0
+ 151              		str	r2, [r1, #-255]
+ 152 0104 AC2180E5 		.loc 1 144 0
+ 153              		str	r2, [r1, #-4083]
+ 154              		sub	r2, r2, #3840
+ 155              	.L7:
+ 156 0108 403080E5 		.loc 1 150 0
+ 157              		mov	r3, #0
+ 158 010c EB1F01E5 		str	r3, [r2, #0]
+ 143:sys_init.cpp  **** 	VICVectAddr  = 0x00000000;
+ 159              	dd	r3, r3, #15
+ 160 0110 FF2001E5 		str	r3, [r2, #256]
+ 144:sys_init.cpp  **** 	VICIntSelect = 0x00000000; /* all IRQ */
+ 161              	dd	r2, r2, #4
+ 162 0114 F32F01E5 		.loc 1 147 0
+ 163 0118 0F2C42E2 		cmn	r2, #3712
+ 164              		bne	.L7
+ 145:sys_init.cpp  **** 	
+ 146:sys_init.cpp  **** 	/* set all the vector and vector control register to 0 */
+ 147:sys_init.cpp  **** 	for ( i = 0; i < 32; i++ ) {
+ 148:sys_init.cpp  **** 		vect_addr = (uint32_t *)(VIC_BASE_ADDR + VECT_ADDR_INDEX + i*4);
+ 149:sys_init.cpp  **** 		vect_prio = (uint32_t *)(VIC_BASE_ADDR + VECT_PRIO_INDEX + i*4);
+ 150:sys_init.cpp  **** 		*vect_addr = 0x00000000;
+ 165              	c 1 166 0
+ 166 011c 0030A0E3 		ldr	r2, .L9
+ 167 0120 003082E5 		ldr	r3, [r2, #416]
+ 151:sys_init.cpp  **** 		*vect_prio = 0x0000000F;
+ 168              	r	r3, r3, #1
+ 169 0124 0F3083E2 		str	r3, [r2, #416]
+ 170 0128 003182E5 	.LBE8:
+ 171 012c 042082E2 		.loc 1 167 0
+ 172              		bx	lr
+ 173 0130 3A0D72E3 	.L5:
+ 174 0134 F8FFFF1A 		b	.L5
+ 152:sys_init.cpp  **** 	}
+ 153:sys_init.cpp  **** 
+ 154:sys_init.cpp  **** 	// non-existing on LPC23xx/24xx:  VICDefVectAddr = (uint32_t)reset;     // point unvectored IRQs t
+ 155:sys_init.cpp  **** 	
+ 156:sys_init.cpp  **** 	//  wdtInit();                         // initialize the watchdog timer
+ 157:sys_init.cpp  **** //	initSysTime();                        // initialize the system timer
+ 158:sys_init.cpp  **** 
+ 159:sys_init.cpp  **** #if (UART0_SUPPORT)
+ 160:sys_init.cpp  **** //	uart0Init(UART_BAUD(HOST_BAUD_U0), UART_8N1, UART_FIFO_8); // setup the UART
+ 161:sys_init.cpp  **** #endif
+ 162:sys_init.cpp  **** #if (UART1_SUPPORT)
+ 163:sys_init.cpp  **** //	uart1Init(UART_BAUD(HOST_BAUD_U1), UART_8N1, UART_FIFO_8); // setup the UART
+ 164:sys_init.cpp  **** #endif
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 7
+
+
+ 165:sys_init.cpp  **** 
+ 166:sys_init.cpp  **** 	SCS |= (1UL<<0); // set GPIOM in SCS for fast IO
+ 175              	.align	2
+ 176 0138 10209FE5 	.L9:
+ 177 013c A03192E5 		.word	-534790144
+ 178 0140 013083E3 	.LFE4:
+ 179 0144 A03182E5 		.size	_Z7sysInitv, .-_Z7sysInitv
+ 180              		.section	.debug_frame,"",%progbits
+ 167:sys_init.cpp  **** }...
+ 181              	e0:
+ 182 0148 1EFF2FE1 		.4byte	.LECIE0-.LSCIE0
+ 183              	.LSCIE0:
+ 184 014c FEFFFFEA 		.4byte	0xffffffff
+ 185              		.byte	0x1
+ 186              		.ascii	"\000"
+ 187              		.uleb128 0x1
+ 188 0150 00C01FE0 		.sleb128 -4
+ 189              		.byte	0xe
+ 190              		.byte	0xc
+ 191              		.uleb128 0xd
+ 192              		.uleb128 0x0
+ 193 0000 0C000000 		.align	2
+ 194              	.LECIE0:
+ 195 0004 FFFFFFFF 	.LSFDE0:
+ 196 0008 01       		.4byte	.LEFDE0-.LASFDE0
+ 197 0009 00       	.LASFDE0:
+ 198 000a 01       		.4byte	.Lframe0
+ 199 000b 7C       		.4byte	.LFB4
+ 200 000c 0E       		.4byte	.LFE4-.LFB4
+ 201 000d 0C       		.align	2
+ 202 000e 0D       	.LEFDE0:
+ 203 000f 00       		.text
+ 204              	.Letext0:
+ 205              		.file 2 "c:\\program files\\codesourcery\\sourcery g++ lite\\bin\\../lib/gcc/arm-none-eabi/4.3.2/.
+ 206              		.section	.debug_info
+ 207 0010 0C000000 		.4byte	0x107
+ 208              		.2byte	0x2
+ 209 0014 00000000 		.4byte	.Ldebug_abbrev0
+ 210 0018 00000000 		.byte	0x4
+ 211 001c 54010000 		.uleb128 0x1
+ 212              		.4byte	.LASF13
+ 213              		.byte	0x4
+ 214              		.4byte	.LASF14
+ 215              		.4byte	.LASF15
+ 216              		.4byte	0x0
+ 217              		.4byte	0x0
+ 218 0000 07010000 		.4byte	.Ldebug_ranges0+0x18
+ 219 0004 0200     		.4byte	.Ldebug_line0
+ 220 0006 00000000 		.uleb128 0x2
+ 221 000a 04       		.byte	0x1
+ 222 000b 01       		.byte	0x6
+ 223 000c 49000000 		.4byte	.LASF0
+ 224 0010 04       		.uleb128 0x2
+ 225 0011 EB000000 		.byte	0x1
+ 226 0015 25000000 		.byte	0x8
+ 227 0019 00000000 		.4byte	.LASF1
+ 228 001d 00000000 		.uleb128 0x2
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 8
+
+
+ 229 0021 18000000 		.byte	0x2
+ 230 0025 00000000 		.byte	0x5
+ 231 0029 02       		.4byte	.LASF2
+ 232 002a 01       		.uleb128 0x2
+ 233 002b 06       		.byte	0x2
+ 234 002c CB000000 		.byte	0x7
+ 235 0030 02       		.4byte	.LASF3
+ 236 0031 01       		.uleb128 0x2
+ 237 0032 08       		.byte	0x4
+ 238 0033 8A000000 		.byte	0x5
+ 239 0037 02       		.4byte	.LASF4
+ 240 0038 02       		.uleb128 0x3
+ 241 0039 05       		.4byte	.LASF16
+ 242 003a F8000000 		.byte	0x2
+ 243 003e 02       		.byte	0x54
+ 244 003f 02       		.4byte	0x57
+ 245 0040 07       		.uleb128 0x2
+ 246 0041 B8000000 		.byte	0x4
+ 247 0045 02       		.byte	0x7
+ 248 0046 04       		.4byte	.LASF5
+ 249 0047 05       		.uleb128 0x2
+ 250 0048 A6000000 		.byte	0x8
+ 251 004c 03       		.byte	0x5
+ 252 004d 9D000000 		.4byte	.LASF6
+ 253 0051 02       		.uleb128 0x2
+ 254 0052 54       		.byte	0x8
+ 255 0053 57000000 		.byte	0x7
+ 256 0057 02       		.4byte	.LASF7
+ 257 0058 04       		.uleb128 0x4
+ 258 0059 07       		.byte	0x4
+ 259 005a 57000000 		.byte	0x5
+ 260 005e 02       		.ascii	"int\000"
+ 261 005f 08       		.uleb128 0x2
+ 262 0060 05       		.byte	0x4
+ 263 0061 00000000 		.byte	0x7
+ 264 0065 02       		.4byte	.LASF8
+ 265 0066 08       		.uleb128 0x5
+ 266 0067 07       		.byte	0x4
+ 267 0068 69000000 		.byte	0x7
+ 268 006c 04       		.uleb128 0x2
+ 269 006d 04       		.byte	0x1
+ 270 006e 05       		.byte	0x8
+ 271 006f 696E7400 		.4byte	.LASF9
+ 272 0073 02       		.uleb128 0x6
+ 273 0074 04       		.4byte	.LASF17
+ 274 0075 07       		.byte	0x1
+ 275 0076 18000000 		.byte	0x4c
+ 276 007a 05       		.byte	0x1
+ 277 007b 04       		.uleb128 0x7
+ 278 007c 07       		.4byte	.LASF18
+ 279 007d 02       		.byte	0x1
+ 280 007e 01       		.byte	0x16
+ 281 007f 08       		.byte	0x1
+ 282 0080 98000000 		.4byte	0xa4
+ 283 0084 06       		.uleb128 0x8
+ 284 0085 37000000 		.4byte	.LASF10
+ 285 0089 01       		.byte	0x1
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 9
+
+
+ 286 008a 4C       		.byte	0x18
+ 287 008b 01       		.4byte	0x4c
+ 288 008c 07       		.byte	0x0
+ 289 008d 80000000 		.uleb128 0x9
+ 290 0091 01       		.byte	0x1
+ 291 0092 16       		.4byte	.LASF19
+ 292 0093 01       		.byte	0x1
+ 293 0094 A4000000 		.byte	0x7d
+ 294 0098 08       		.4byte	.LASF20
+ 295 0099 AF000000 		.4byte	.LFB4
+ 296 009d 01       		.4byte	.LFE4
+ 297 009e 18       		.byte	0x1
+ 298 009f 4C000000 		.byte	0x5d
+ 299 00a3 00       		.4byte	0xff
+ 300 00a4 09       		.uleb128 0xa
+ 301 00a5 01       		.ascii	"i\000"
+ 302 00a6 D7000000 		.byte	0x1
+ 303 00aa 01       		.byte	0x7f
+ 304 00ab 7D       		.4byte	0x4c
+ 305 00ac DF000000 		.uleb128 0x8
+ 306 00b0 00000000 		.4byte	.LASF11
+ 307 00b4 54010000 		.byte	0x1
+ 308 00b8 01       		.byte	0x80
+ 309 00b9 5D       		.4byte	0xff
+ 310 00ba FF000000 		.uleb128 0x8
+ 311 00be 0A       		.4byte	.LASF12
+ 312 00bf 6900     		.byte	0x1
+ 313 00c1 01       		.byte	0x80
+ 314 00c2 7F       		.4byte	0xff
+ 315 00c3 4C000000 		.uleb128 0xb
+ 316 00c7 08       		.4byte	0x84
+ 317 00c8 3F000000 		.4byte	.Ldebug_ranges0+0x0
+ 318 00cc 01       		.byte	0x1
+ 319 00cd 80       		.byte	0x82
+ 320 00ce FF000000 		.uleb128 0xc
+ 321 00d2 08       		.4byte	0x8c
+ 322 00d3 0E000000 		.4byte	.LBB11
+ 323 00d7 01       		.4byte	.LBE11
+ 324 00d8 80       		.byte	0x1
+ 325 00d9 FF000000 		.byte	0x4e
+ 326 00dd 0B       		.uleb128 0xd
+ 327 00de 84000000 		.4byte	0x98
+ 328 00e2 00000000 		.byte	0x0
+ 329 00e6 01       		.byte	0x0
+ 330 00e7 82       		.byte	0x0
+ 331 00e8 0C       		.uleb128 0xe
+ 332 00e9 8C000000 		.byte	0x4
+ 333 00ed 00000000 		.4byte	0x105
+ 334 00f1 E0000000 		.uleb128 0xf
+ 335 00f5 01       		.4byte	0x4c
+ 336 00f6 4E       		.byte	0x0
+ 337 00f7 0D       		.section	.debug_abbrev
+ 338 00f8 98000000 		.uleb128 0x1
+ 339 00fc 00       		.uleb128 0x11
+ 340 00fd 00       		.byte	0x1
+ 341 00fe 00       		.uleb128 0x25
+ 342 00ff 0E       		.uleb128 0xe
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 10
+
+
+ 343 0100 04       		.uleb128 0x13
+ 344 0101 05010000 		.uleb128 0xb
+ 345 0105 0F       		.uleb128 0x3
+ 346 0106 4C000000 		.uleb128 0xe
+ 347 010a 00       		.uleb128 0x1b
+ 348              		.uleb128 0xe
+ 349 0000 01       		.uleb128 0x11
+ 350 0001 11       		.uleb128 0x1
+ 351 0002 01       		.uleb128 0x52
+ 352 0003 25       		.uleb128 0x1
+ 353 0004 0E       		.uleb128 0x55
+ 354 0005 13       		.uleb128 0x6
+ 355 0006 0B       		.uleb128 0x10
+ 356 0007 03       		.uleb128 0x6
+ 357 0008 0E       		.byte	0x0
+ 358 0009 1B       		.byte	0x0
+ 359 000a 0E       		.uleb128 0x2
+ 360 000b 11       		.uleb128 0x24
+ 361 000c 01       		.byte	0x0
+ 362 000d 52       		.uleb128 0xb
+ 363 000e 01       		.uleb128 0xb
+ 364 000f 55       		.uleb128 0x3e
+ 365 0010 06       		.uleb128 0xb
+ 366 0011 10       		.uleb128 0x3
+ 367 0012 06       		.uleb128 0xe
+ 368 0013 00       		.byte	0x0
+ 369 0014 00       		.byte	0x0
+ 370 0015 02       		.uleb128 0x3
+ 371 0016 24       		.uleb128 0x16
+ 372 0017 00       		.byte	0x0
+ 373 0018 0B       		.uleb128 0x3
+ 374 0019 0B       		.uleb128 0xe
+ 375 001a 3E       		.uleb128 0x3a
+ 376 001b 0B       		.uleb128 0xb
+ 377 001c 03       		.uleb128 0x3b
+ 378 001d 0E       		.uleb128 0xb
+ 379 001e 00       		.uleb128 0x49
+ 380 001f 00       		.uleb128 0x13
+ 381 0020 03       		.byte	0x0
+ 382 0021 16       		.byte	0x0
+ 383 0022 00       		.uleb128 0x4
+ 384 0023 03       		.uleb128 0x24
+ 385 0024 0E       		.byte	0x0
+ 386 0025 3A       		.uleb128 0xb
+ 387 0026 0B       		.uleb128 0xb
+ 388 0027 3B       		.uleb128 0x3e
+ 389 0028 0B       		.uleb128 0xb
+ 390 0029 49       		.uleb128 0x3
+ 391 002a 13       		.uleb128 0x8
+ 392 002b 00       		.byte	0x0
+ 393 002c 00       		.byte	0x0
+ 394 002d 04       		.uleb128 0x5
+ 395 002e 24       		.uleb128 0x24
+ 396 002f 00       		.byte	0x0
+ 397 0030 0B       		.uleb128 0xb
+ 398 0031 0B       		.uleb128 0xb
+ 399 0032 3E       		.uleb128 0x3e
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 11
+
+
+ 400 0033 0B       		.uleb128 0xb
+ 401 0034 03       		.byte	0x0
+ 402 0035 08       		.byte	0x0
+ 403 0036 00       		.uleb128 0x6
+ 404 0037 00       		.uleb128 0x2e
+ 405 0038 05       		.byte	0x0
+ 406 0039 24       		.uleb128 0x3
+ 407 003a 00       		.uleb128 0xe
+ 408 003b 0B       		.uleb128 0x3a
+ 409 003c 0B       		.uleb128 0xb
+ 410 003d 3E       		.uleb128 0x3b
+ 411 003e 0B       		.uleb128 0xb
+ 412 003f 00       		.uleb128 0x20
+ 413 0040 00       		.uleb128 0xb
+ 414 0041 06       		.byte	0x0
+ 415 0042 2E       		.byte	0x0
+ 416 0043 00       		.uleb128 0x7
+ 417 0044 03       		.uleb128 0x2e
+ 418 0045 0E       		.byte	0x1
+ 419 0046 3A       		.uleb128 0x3
+ 420 0047 0B       		.uleb128 0xe
+ 421 0048 3B       		.uleb128 0x3a
+ 422 0049 0B       		.uleb128 0xb
+ 423 004a 20       		.uleb128 0x3b
+ 424 004b 0B       		.uleb128 0xb
+ 425 004c 00       		.uleb128 0x20
+ 426 004d 00       		.uleb128 0xb
+ 427 004e 07       		.uleb128 0x1
+ 428 004f 2E       		.uleb128 0x13
+ 429 0050 01       		.byte	0x0
+ 430 0051 03       		.byte	0x0
+ 431 0052 0E       		.uleb128 0x8
+ 432 0053 3A       		.uleb128 0x34
+ 433 0054 0B       		.byte	0x0
+ 434 0055 3B       		.uleb128 0x3
+ 435 0056 0B       		.uleb128 0xe
+ 436 0057 20       		.uleb128 0x3a
+ 437 0058 0B       		.uleb128 0xb
+ 438 0059 01       		.uleb128 0x3b
+ 439 005a 13       		.uleb128 0xb
+ 440 005b 00       		.uleb128 0x49
+ 441 005c 00       		.uleb128 0x13
+ 442 005d 08       		.byte	0x0
+ 443 005e 34       		.byte	0x0
+ 444 005f 00       		.uleb128 0x9
+ 445 0060 03       		.uleb128 0x2e
+ 446 0061 0E       		.byte	0x1
+ 447 0062 3A       		.uleb128 0x3f
+ 448 0063 0B       		.uleb128 0xc
+ 449 0064 3B       		.uleb128 0x3
+ 450 0065 0B       		.uleb128 0xe
+ 451 0066 49       		.uleb128 0x3a
+ 452 0067 13       		.uleb128 0xb
+ 453 0068 00       		.uleb128 0x3b
+ 454 0069 00       		.uleb128 0xb
+ 455 006a 09       		.uleb128 0x2007
+ 456 006b 2E       		.uleb128 0xe
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 12
+
+
+ 457 006c 01       		.uleb128 0x11
+ 458 006d 3F       		.uleb128 0x1
+ 459 006e 0C       		.uleb128 0x12
+ 460 006f 03       		.uleb128 0x1
+ 461 0070 0E       		.uleb128 0x40
+ 462 0071 3A       		.uleb128 0xa
+ 463 0072 0B       		.uleb128 0x1
+ 464 0073 3B       		.uleb128 0x13
+ 465 0074 0B       		.byte	0x0
+ 466 0075 8740     		.byte	0x0
+ 467 0077 0E       		.uleb128 0xa
+ 468 0078 11       		.uleb128 0x34
+ 469 0079 01       		.byte	0x0
+ 470 007a 12       		.uleb128 0x3
+ 471 007b 01       		.uleb128 0x8
+ 472 007c 40       		.uleb128 0x3a
+ 473 007d 0A       		.uleb128 0xb
+ 474 007e 01       		.uleb128 0x3b
+ 475 007f 13       		.uleb128 0xb
+ 476 0080 00       		.uleb128 0x49
+ 477 0081 00       		.uleb128 0x13
+ 478 0082 0A       		.byte	0x0
+ 479 0083 34       		.byte	0x0
+ 480 0084 00       		.uleb128 0xb
+ 481 0085 03       		.uleb128 0x1d
+ 482 0086 08       		.byte	0x1
+ 483 0087 3A       		.uleb128 0x31
+ 484 0088 0B       		.uleb128 0x13
+ 485 0089 3B       		.uleb128 0x55
+ 486 008a 0B       		.uleb128 0x6
+ 487 008b 49       		.uleb128 0x58
+ 488 008c 13       		.uleb128 0xb
+ 489 008d 00       		.uleb128 0x59
+ 490 008e 00       		.uleb128 0xb
+ 491 008f 0B       		.byte	0x0
+ 492 0090 1D       		.byte	0x0
+ 493 0091 01       		.uleb128 0xc
+ 494 0092 31       		.uleb128 0x1d
+ 495 0093 13       		.byte	0x1
+ 496 0094 55       		.uleb128 0x31
+ 497 0095 06       		.uleb128 0x13
+ 498 0096 58       		.uleb128 0x11
+ 499 0097 0B       		.uleb128 0x1
+ 500 0098 59       		.uleb128 0x12
+ 501 0099 0B       		.uleb128 0x1
+ 502 009a 00       		.uleb128 0x58
+ 503 009b 00       		.uleb128 0xb
+ 504 009c 0C       		.uleb128 0x59
+ 505 009d 1D       		.uleb128 0xb
+ 506 009e 01       		.byte	0x0
+ 507 009f 31       		.byte	0x0
+ 508 00a0 13       		.uleb128 0xd
+ 509 00a1 11       		.uleb128 0x34
+ 510 00a2 01       		.byte	0x0
+ 511 00a3 12       		.uleb128 0x31
+ 512 00a4 01       		.uleb128 0x13
+ 513 00a5 58       		.byte	0x0
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 13
+
+
+ 514 00a6 0B       		.byte	0x0
+ 515 00a7 59       		.uleb128 0xe
+ 516 00a8 0B       		.uleb128 0xf
+ 517 00a9 00       		.byte	0x0
+ 518 00aa 00       		.uleb128 0xb
+ 519 00ab 0D       		.uleb128 0xb
+ 520 00ac 34       		.uleb128 0x49
+ 521 00ad 00       		.uleb128 0x13
+ 522 00ae 31       		.byte	0x0
+ 523 00af 13       		.byte	0x0
+ 524 00b0 00       		.uleb128 0xf
+ 525 00b1 00       		.uleb128 0x35
+ 526 00b2 0E       		.byte	0x0
+ 527 00b3 0F       		.uleb128 0x49
+ 528 00b4 00       		.uleb128 0x13
+ 529 00b5 0B       		.byte	0x0
+ 530 00b6 0B       		.byte	0x0
+ 531 00b7 49       		.byte	0x0
+ 532 00b8 13       		.section	.debug_pubnames,"",%progbits
+ 533 00b9 00       		.4byte	0x1a
+ 534 00ba 00       		.2byte	0x2
+ 535 00bb 0F       		.4byte	.Ldebug_info0
+ 536 00bc 35       		.4byte	0x10b
+ 537 00bd 00       		.4byte	0xa4
+ 538 00be 49       		.ascii	"sysInit\000"
+ 539 00bf 13       		.4byte	0x0
+ 540 00c0 00       		.section	.debug_aranges,"",%progbits
+ 541 00c1 00       		.4byte	0x1c
+ 542 00c2 00       		.2byte	0x2
+ 543              		.4byte	.Ldebug_info0
+ 544 0000 1A000000 		.byte	0x4
+ 545 0004 0200     		.byte	0x0
+ 546 0006 00000000 		.2byte	0x0
+ 547 000a 0B010000 		.2byte	0x0
+ 548 000e A4000000 		.4byte	.LFB4
+ 549 0012 73797349 		.4byte	.LFE4-.LFB4
+ 549      6E697400 
+ 550 001a 00000000 		.4byte	0x0
+ 551              		.4byte	0x0
+ 552 0000 1C000000 		.section	.debug_ranges,"",%progbits
+ 553 0004 0200     	.Ldebug_ranges0:
+ 554 0006 00000000 		.4byte	.LBB9
+ 555 000a 04       		.4byte	.LBE9
+ 556 000b 00       		.4byte	.LBB15
+ 557 000c 0000     		.4byte	.LBE15
+ 558 000e 0000     		.4byte	0x0
+ 559 0010 00000000 		.4byte	0x0
+ 560 0014 54010000 		.4byte	.Ltext0
+ 561 0018 00000000 		.4byte	.Letext0
+ 562 001c 00000000 		.4byte	.LFB4
+ 563              		.4byte	.LFE4
+ 564              		.4byte	0x0
+ 565 0000 00000000 		.4byte	0x0
+ 566 0004 F8000000 		.section	.debug_str,"MS",%progbits,1
+ 567 0008 00010000 	.LASF6:
+ 568 000c 08010000 		.ascii	"long long int\000"
+ 569 0010 00000000 	.LASF12:
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 14
+
+
+ 570 0014 00000000 		.ascii	"vect_prio\000"
+ 571 0018 00000000 	.LASF8:
+ 572 001c 00000000 		.ascii	"unsigned int\000"
+ 573 0020 00000000 	.LASF15:
+ 574 0024 54010000 		.ascii	"E:\\ARM\\GNU_Blinky\000"
+ 575 0028 00000000 	.LASF17:
+ 576 002c 00000000 		.ascii	"lowInit\000"
+ 577              	.LASF11:
+ 578              		.ascii	"vect_addr\000"
+ 579 0000 6C6F6E67 	.LASF13:
+ 579      206C6F6E 
+ 579      6720696E 
+ 579      7400
+ 580              		.ascii	"GNU C++ 4.3.2\000"
+ 581 000e 76656374 	.LASF5:
+ 581      5F707269 
+ 581      6F00
+ 582              		.ascii	"long unsigned int\000"
+ 583 0018 756E7369 	.LASF7:
+ 583      676E6564 
+ 583      20696E74 
+ 583      00
+ 584              		.ascii	"long long unsigned int\000"
+ 585 0025 453A5C41 	.LASF18:
+ 585      524D5C47 
+ 585      4E555F42 
+ 585      6C696E6B 
+ 585      7900
+ 586              		.ascii	"configPLL\000"
+ 587 0037 6C6F7749 	.LASF1:
+ 587      6E697400 
+ 588              		.ascii	"unsigned char\000"
+ 589 003f 76656374 	.LASF9:
+ 589      5F616464 
+ 589      7200
+ 590              		.ascii	"char\000"
+ 591 0049 474E5520 	.LASF16:
+ 591      432B2B20 
+ 591      342E332E 
+ 591      3200
+ 592              		.ascii	"uint32_t\000"
+ 593 0057 6C6F6E67 	.LASF4:
+ 593      20756E73 
+ 593      69676E65 
+ 593      6420696E 
+ 593      7400
+ 594              		.ascii	"long int\000"
+ 595 0069 6C6F6E67 	.LASF10:
+ 595      206C6F6E 
+ 595      6720756E 
+ 595      7369676E 
+ 595      65642069 
+ 596              		.ascii	"readback\000"
+ 597 0080 636F6E66 	.LASF3:
+ 597      6967504C 
+ 597      4C00
+ 598              		.ascii	"short unsigned int\000"
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 15
+
+
+ 599 008a 756E7369 	.LASF0:
+ 599      676E6564 
+ 599      20636861 
+ 599      7200
+ 600              		.ascii	"signed char\000"
+ 601 0098 63686172 	.LASF19:
+ 601      00
+ 602              		.ascii	"sysInit\000"
+ 603 009d 75696E74 	.LASF20:
+ 603      33325F74 
+ 603      00
+ 604              		.ascii	"_Z7sysInitv\000"
+ 605 00a6 6C6F6E67 	.LASF14:
+ 605      20696E74 
+ 605      00
+ 606              		.ascii	"sys_init.cpp\000"
+ 607 00af 72656164 	.LASF2:
+ 607      6261636B 
+ 607      00
+ 608              		.ascii	"short int\000"
+ 609 00b8 73686F72 		.ident	"GCC: (Sourcery G++ Lite 2008q3-39) 4.3.2"
+ 609      7420756E 
+ 609      7369676E 
+ 609      65642069 
+ 609      6E7400
+ 610              	...
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s 			page 16
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 sys_init.cpp
+C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s:24     .text._Z7sysInitv:00000000 _Z7sysInitv
+C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s:39     .text._Z7sysInitv:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s:188    .text._Z7sysInitv:00000150 $d
+C:\Users\Chris\AppData\Local\Temp/cccpbaaa.s:218    .debug_info:00000000 $d
+
+NO UNDEFINED SYMBOLS

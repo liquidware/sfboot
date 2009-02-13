@@ -1,0 +1,2957 @@
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 1
+
+
+   1              		.cpu arm7tdmi
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 18, 4
+  11              		.file	"sbl_iap.cpp"
+  12              		.section	.debug_abbrev,"",%progbits
+  13              	.Ldebug_abbrev0:
+  14              		.section	.debug_info,"",%progbits
+  15              	.Ldebug_info0:
+  16              		.section	.debug_line,"",%progbits
+  17              	.Ldebug_line0:
+  18 0000 78010000 		.text
+  18      02003900 
+  18      00000201 
+  18      FB0E0D00 
+  18      01010101 
+  19              	.Ltext0:
+  20              		.section	.text._Z9iap_entryPjS_,"ax",%progbits
+  21              		.align	2
+  22              		.global	_Z9iap_entryPjS_
+  23              		.type	_Z9iap_entryPjS_, %function
+  24              	_Z9iap_entryPjS_:
+  25              	.LFB7:
+  26              		.file 1 "sbl_iap.cpp"
+   1:sbl_iap.cpp   **** //-----------------------------------------------------------------------------
+   2:sbl_iap.cpp   **** // Software that is described herein is for illustrative purposes only  
+   3:sbl_iap.cpp   **** // which provides customers with programming information regarding the  
+   4:sbl_iap.cpp   **** // products. This software is supplied "AS IS" without any warranties.  
+   5:sbl_iap.cpp   **** // NXP Semiconductors assumes no responsibility or liability for the 
+   6:sbl_iap.cpp   **** // use of the software, conveys no license or title under any patent, 
+   7:sbl_iap.cpp   **** // copyright, or mask work right to the product. NXP Semiconductors 
+   8:sbl_iap.cpp   **** // reserves the right to make changes in the software without 
+   9:sbl_iap.cpp   **** // notification. NXP Semiconductors also make no representation or 
+  10:sbl_iap.cpp   **** // warranty that such application will be suitable for the specified 
+  11:sbl_iap.cpp   **** // use without further testing or modification. 
+  12:sbl_iap.cpp   **** //-----------------------------------------------------------------------------
+  13:sbl_iap.cpp   **** 
+  14:sbl_iap.cpp   **** #include <LPC23XX.H>
+  15:sbl_iap.cpp   **** #include "type.h"
+  16:sbl_iap.cpp   **** #include "sbl_iap.h"
+  17:sbl_iap.cpp   **** #include "sbl_config.h"
+  18:sbl_iap.cpp   **** 
+  19:sbl_iap.cpp   **** const unsigned crp __attribute__((section(".ARM.__at_0x1FC"))) = CRP;
+  20:sbl_iap.cpp   **** 
+  21:sbl_iap.cpp   **** const unsigned sector_start_map[MAX_FLASH_SECTOR] = {SECTOR_0_START,             \
+  22:sbl_iap.cpp   **** SECTOR_1_START,SECTOR_2_START,SECTOR_3_START,SECTOR_4_START,SECTOR_5_START,      \
+  23:sbl_iap.cpp   **** SECTOR_6_START,SECTOR_7_START,SECTOR_8_START,SECTOR_9_START,SECTOR_10_START,     \
+  24:sbl_iap.cpp   **** SECTOR_11_START,SECTOR_12_START,SECTOR_13_START,SECTOR_14_START,SECTOR_15_START, \
+  25:sbl_iap.cpp   **** SECTOR_16_START,SECTOR_17_START,SECTOR_18_START,SECTOR_19_START,SECTOR_20_START, \
+  26:sbl_iap.cpp   **** SECTOR_21_START,SECTOR_22_START,SECTOR_23_START,SECTOR_24_START,SECTOR_25_START, \
+  27:sbl_iap.cpp   **** SECTOR_26_START,SECTOR_27_START,SECTOR_28_START,SECTOR_29_START,SECTOR_30_START, \
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 2
+
+
+  28:sbl_iap.cpp   **** SECTOR_31_START};
+  29:sbl_iap.cpp   **** 
+  30:sbl_iap.cpp   **** const unsigned sector_end_map[MAX_FLASH_SECTOR] = {SECTOR_0_END,SECTOR_1_END,    \
+  31:sbl_iap.cpp   **** SECTOR_2_END,SECTOR_3_END,SECTOR_4_END,SECTOR_5_END,SECTOR_6_END,SECTOR_7_END,   \
+  32:sbl_iap.cpp   **** SECTOR_8_END,SECTOR_9_END,SECTOR_10_END,SECTOR_11_END,SECTOR_12_END,             \
+  33:sbl_iap.cpp   **** SECTOR_13_END,SECTOR_14_END,SECTOR_15_END,SECTOR_16_END,SECTOR_17_END,           \
+  34:sbl_iap.cpp   **** SECTOR_18_END,SECTOR_19_END,SECTOR_20_END,SECTOR_21_END,SECTOR_22_END,           \
+  35:sbl_iap.cpp   **** SECTOR_23_END,SECTOR_24_END,SECTOR_25_END,SECTOR_26_END,                         \
+  36:sbl_iap.cpp   **** SECTOR_27_END,SECTOR_28_END,SECTOR_29_END,SECTOR_30_END,SECTOR_31_END};
+  37:sbl_iap.cpp   **** 
+  38:sbl_iap.cpp   **** unsigned param_table[5];
+  39:sbl_iap.cpp   **** unsigned result_table[5];
+  40:sbl_iap.cpp   **** 
+  41:sbl_iap.cpp   **** unsigned cclk = CCLK;
+  42:sbl_iap.cpp   **** char flash_buf[FLASH_BUF_SIZE];
+  43:sbl_iap.cpp   **** 
+  44:sbl_iap.cpp   **** unsigned * flash_address = 0;
+  45:sbl_iap.cpp   **** unsigned byte_ctr = 0;
+  46:sbl_iap.cpp   **** 
+  47:sbl_iap.cpp   **** 
+  48:sbl_iap.cpp   **** void write_data(unsigned cclk,unsigned flash_address,unsigned * flash_data_buf, unsigned count);
+  49:sbl_iap.cpp   **** void find_erase_prepare_sector(unsigned cclk, unsigned flash_address);
+  50:sbl_iap.cpp   **** void erase_sector(unsigned start_sector,unsigned end_sector,unsigned cclk);
+  51:sbl_iap.cpp   **** void prepare_sector(unsigned start_sector,unsigned end_sector,unsigned cclk);
+  52:sbl_iap.cpp   **** void iap_entry(unsigned param_tab[],unsigned result_tab[]);
+  53:sbl_iap.cpp   **** void enable_interrupts(unsigned interrupts);
+  54:sbl_iap.cpp   **** void disable_interrupts(unsigned interrupts);
+  55:sbl_iap.cpp   **** 
+  56:sbl_iap.cpp   **** unsigned write_flash(unsigned int * dst, unsigned char * src, unsigned no_of_bytes)
+  57:sbl_iap.cpp   **** {
+  58:sbl_iap.cpp   ****   unsigned i;
+  59:sbl_iap.cpp   **** 
+  60:sbl_iap.cpp   ****     if (flash_address == 0)
+  61:sbl_iap.cpp   **** 	{
+  62:sbl_iap.cpp   **** 	  /* Store flash start address */
+  63:sbl_iap.cpp   **** 	  flash_address = (unsigned *)dst;
+  64:sbl_iap.cpp   **** 	}
+  65:sbl_iap.cpp   **** 	for( i = 0;i<no_of_bytes;i++ )
+  66:sbl_iap.cpp   **** 	{
+  67:sbl_iap.cpp   **** 	  flash_buf[(byte_ctr+i)] = *(src+i);
+  68:sbl_iap.cpp   ****     }
+  69:sbl_iap.cpp   **** 	byte_ctr = byte_ctr + no_of_bytes;
+  70:sbl_iap.cpp   **** 
+  71:sbl_iap.cpp   **** 	if( byte_ctr == FLASH_BUF_SIZE)
+  72:sbl_iap.cpp   **** 	{
+  73:sbl_iap.cpp   **** 	  /* We have accumulated enough bytes to trigger a flash write */
+  74:sbl_iap.cpp   **** 	  find_erase_prepare_sector(cclk, (unsigned)flash_address);
+  75:sbl_iap.cpp   ****       if(result_table[0] != CMD_SUCCESS)
+  76:sbl_iap.cpp   ****       {
+  77:sbl_iap.cpp   ****         while(1); /* No way to recover. Just let Windows report a write failure */
+  78:sbl_iap.cpp   ****       }
+  79:sbl_iap.cpp   ****       write_data(cclk,(unsigned)flash_address,(unsigned *)flash_buf,FLASH_BUF_SIZE);
+  80:sbl_iap.cpp   ****       if(result_table[0] != CMD_SUCCESS)
+  81:sbl_iap.cpp   ****       {
+  82:sbl_iap.cpp   ****         while(1); /* No way to recover. Just let Windows report a write failure */
+  83:sbl_iap.cpp   ****       }
+  84:sbl_iap.cpp   **** 	  /* Reset byte counter and flash address */
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 3
+
+
+  85:sbl_iap.cpp   **** 	  byte_ctr = 0;
+  86:sbl_iap.cpp   **** 	  flash_address = 0;
+  87:sbl_iap.cpp   **** 	}
+  88:sbl_iap.cpp   ****     return(CMD_SUCCESS);
+  89:sbl_iap.cpp   **** }
+  90:sbl_iap.cpp   **** 
+  91:sbl_iap.cpp   **** void find_erase_prepare_sector(unsigned cclk, unsigned flash_address)
+  92:sbl_iap.cpp   **** {
+  93:sbl_iap.cpp   ****     unsigned i;
+  94:sbl_iap.cpp   ****     unsigned interrupts;
+  95:sbl_iap.cpp   **** 
+  96:sbl_iap.cpp   **** 
+  97:sbl_iap.cpp   ****     interrupts  = VICIntEnable;
+  98:sbl_iap.cpp   **** 	disable_interrupts(interrupts);
+  99:sbl_iap.cpp   **** 
+ 100:sbl_iap.cpp   ****     for(i=USER_START_SECTOR;i<=MAX_USER_SECTOR;i++)
+ 101:sbl_iap.cpp   ****     {
+ 102:sbl_iap.cpp   ****         if(flash_address < sector_end_map[i])
+ 103:sbl_iap.cpp   ****         {
+ 104:sbl_iap.cpp   ****             if( flash_address == sector_start_map[i])
+ 105:sbl_iap.cpp   ****             {
+ 106:sbl_iap.cpp   ****                 prepare_sector(i,i,cclk);
+ 107:sbl_iap.cpp   ****                 erase_sector(i,i,cclk);
+ 108:sbl_iap.cpp   ****             }
+ 109:sbl_iap.cpp   ****             prepare_sector(i,i,cclk);
+ 110:sbl_iap.cpp   ****             break;
+ 111:sbl_iap.cpp   ****         }
+ 112:sbl_iap.cpp   ****     }
+ 113:sbl_iap.cpp   **** 	enable_interrupts(interrupts);
+ 114:sbl_iap.cpp   **** }
+ 115:sbl_iap.cpp   **** 
+ 116:sbl_iap.cpp   **** void write_data(unsigned cclk,unsigned flash_address,unsigned * flash_data_buf, unsigned count)
+ 117:sbl_iap.cpp   **** {
+ 118:sbl_iap.cpp   ****     unsigned interrupts;
+ 119:sbl_iap.cpp   **** 
+ 120:sbl_iap.cpp   ****     interrupts  = VICIntEnable;
+ 121:sbl_iap.cpp   **** 	disable_interrupts(interrupts);
+ 122:sbl_iap.cpp   ****     param_table[0] = COPY_RAM_TO_FLASH;
+ 123:sbl_iap.cpp   ****     param_table[1] = flash_address;
+ 124:sbl_iap.cpp   ****     param_table[2] = (unsigned)flash_data_buf;
+ 125:sbl_iap.cpp   ****     param_table[3] = count;
+ 126:sbl_iap.cpp   ****     param_table[4] = cclk;
+ 127:sbl_iap.cpp   ****     iap_entry(param_table,result_table);
+ 128:sbl_iap.cpp   **** 	enable_interrupts(interrupts);
+ 129:sbl_iap.cpp   **** }
+ 130:sbl_iap.cpp   **** 
+ 131:sbl_iap.cpp   **** void erase_sector(unsigned start_sector,unsigned end_sector,unsigned cclk)
+ 132:sbl_iap.cpp   **** {
+ 133:sbl_iap.cpp   ****     param_table[0] = ERASE_SECTOR;
+ 134:sbl_iap.cpp   ****     param_table[1] = start_sector;
+ 135:sbl_iap.cpp   ****     param_table[2] = end_sector;
+ 136:sbl_iap.cpp   ****     param_table[3] = cclk;
+ 137:sbl_iap.cpp   ****     iap_entry(param_table,result_table);
+ 138:sbl_iap.cpp   **** }
+ 139:sbl_iap.cpp   **** 
+ 140:sbl_iap.cpp   **** void prepare_sector(unsigned start_sector,unsigned end_sector,unsigned cclk)
+ 141:sbl_iap.cpp   **** {
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 4
+
+
+ 142:sbl_iap.cpp   ****     param_table[0] = PREPARE_SECTOR_FOR_WRITE;
+ 143:sbl_iap.cpp   ****     param_table[1] = start_sector;
+ 144:sbl_iap.cpp   ****     param_table[2] = end_sector;
+ 145:sbl_iap.cpp   ****     param_table[3] = cclk;
+ 146:sbl_iap.cpp   ****     iap_entry(param_table,result_table);
+ 147:sbl_iap.cpp   **** }
+ 148:sbl_iap.cpp   **** 
+ 149:sbl_iap.cpp   **** void iap_entry(unsigned param_tab[],unsigned result_tab[])
+  27              	supports interworking.
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+  31              		stmfd	sp!, {r4, lr}
+  32 0000 10402DE9 	.LCFI0:
+  33              	.LBB2:
+  34              		.loc 1 154 0
+ 150:sbl_iap.cpp   **** {
+ 151:sbl_iap.cpp   ****     void (*iap)(unsigned [],unsigned []);
+ 152:sbl_iap.cpp   **** 
+ 153:sbl_iap.cpp   ****     iap = (void (*)(unsigned [],unsigned []))IAP_ADDRESS;
+ 154:sbl_iap.cpp   ****     iap(param_tab,result_tab);
+  35              	 #-2147483634
+  36 0004 3A31E0E3 		mov	lr, pc
+  37 0008 0FE0A0E1 		bx	r3
+  38 000c 13FF2FE1 	.LVL1:
+  39              	.LBE2:
+  40              		.loc 1 155 0
+ 155:sbl_iap.cpp   **** }
+  41              		sp!, {r4, lr}
+  42 0010 1040BDE8 		bx	lr
+  43 0014 1EFF2FE1 	.LFE7:
+  44              		.size	_Z9iap_entryPjS_, .-_Z9iap_entryPjS_
+  45              		.section	.text._Z14prepare_sectorjjj,"ax",%progbits
+  46              		.align	2
+  47              		.global	_Z14prepare_sectorjjj
+  48              		.type	_Z14prepare_sectorjjj, %function
+  49              	_Z14prepare_sectorjjj:
+  50              	.LFB6:
+  51              		.loc 1 140 0
+  52              		@ Function supports interworking.
+  53              		@ args = 0, pretend = 0, frame = 0
+  54              		@ frame_needed = 0, uses_anonymous_args = 0
+  55              		@ link register save eliminated.
+  56              	.LVL2:
+  57              		.loc 1 142 0
+  58              		ldr	ip, .L5
+  59 0000 1CC09FE5 		.loc 1 144 0
+  60              		str	r1, [ip, #8]
+  61 0004 08108CE5 		.loc 1 146 0
+  62              		ldr	r1, .L5+4
+  63 0008 18109FE5 	.LVL3:
+  64              		.loc 1 143 0
+  65              		str	r0, [ip, #4]
+  66 000c 04008CE5 		.loc 1 142 0
+  67              		mov	r3, #50
+  68 0010 3230A0E3 		.loc 1 146 0
+  69              		mov	r0, ip
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 5
+
+
+  70 0014 0C00A0E1 	.LVL4:
+  71              		.loc 1 142 0
+  72              		str	r3, [ip, #0]
+  73 0018 00308CE5 		.loc 1 145 0
+  74              		str	r2, [ip, #12]
+  75 001c 0C208CE5 		.loc 1 147 0
+  76              		.loc 1 146 0
+  77              		b	_Z9iap_entryPjS_
+  78 0020 FEFFFFEA 	.LVL5:
+  79              	.L6:
+  80              		.align	2
+  81              	.L5:
+  82              		.word	.LANCHOR0
+  83 0024 00000000 		.word	.LANCHOR1
+  84 0028 00000000 	.LFE6:
+  85              		.size	_Z14prepare_sectorjjj, .-_Z14prepare_sectorjjj
+  86              		.section	.text._Z12erase_sectorjjj,"ax",%progbits
+  87              		.align	2
+  88              		.global	_Z12erase_sectorjjj
+  89              		.type	_Z12erase_sectorjjj, %function
+  90              	_Z12erase_sectorjjj:
+  91              	.LFB5:
+  92              		.loc 1 131 0
+  93              		@ Function supports interworking.
+  94              		@ args = 0, pretend = 0, frame = 0
+  95              		@ frame_needed = 0, uses_anonymous_args = 0
+  96              		@ link register save eliminated.
+  97              	.LVL6:
+  98              		.loc 1 133 0
+  99              		ldr	ip, .L9
+ 100 0000 1CC09FE5 		.loc 1 135 0
+ 101              		str	r1, [ip, #8]
+ 102 0004 08108CE5 		.loc 1 137 0
+ 103              		ldr	r1, .L9+4
+ 104 0008 18109FE5 	.LVL7:
+ 105              		.loc 1 134 0
+ 106              		str	r0, [ip, #4]
+ 107 000c 04008CE5 		.loc 1 133 0
+ 108              		mov	r3, #52
+ 109 0010 3430A0E3 		.loc 1 137 0
+ 110              		mov	r0, ip
+ 111 0014 0C00A0E1 	.LVL8:
+ 112              		.loc 1 133 0
+ 113              		str	r3, [ip, #0]
+ 114 0018 00308CE5 		.loc 1 136 0
+ 115              		str	r2, [ip, #12]
+ 116 001c 0C208CE5 		.loc 1 138 0
+ 117              		.loc 1 137 0
+ 118              		b	_Z9iap_entryPjS_
+ 119 0020 FEFFFFEA 	.LVL9:
+ 120              	.L10:
+ 121              		.align	2
+ 122              	.L9:
+ 123              		.word	.LANCHOR0
+ 124 0024 00000000 		.word	.LANCHOR1
+ 125 0028 00000000 	.LFE5:
+ 126              		.size	_Z12erase_sectorjjj, .-_Z12erase_sectorjjj
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 6
+
+
+ 127              		.section	.text._Z17enable_interruptsj,"ax",%progbits
+ 128              		.align	2
+ 129              		.global	_Z17enable_interruptsj
+ 130              		.type	_Z17enable_interruptsj, %function
+ 131              	_Z17enable_interruptsj:
+ 132              	.LFB8:
+ 133              		.loc 1 157 0
+ 156:sbl_iap.cpp   **** 
+ 157:sbl_iap.cpp   **** void enable_interrupts(unsigned interrupts)
+ 134              	ses_anonymous_args = 0
+ 135              		@ link register save eliminated.
+ 136              	.LVL10:
+ 137              		.loc 1 159 0
+ 138              		mvn	r3, #0
+ 139              		str	r0, [r3, #-4079]
+ 158:sbl_iap.cpp   **** {
+ 159:sbl_iap.cpp   ****     VICIntEnable = interrupts;
+ 140              	1 160 0
+ 141 0000 0030E0E3 		bx	lr
+ 142 0004 EF0F03E5 	.LFE8:
+ 160:sbl_iap.cpp   **** }
+ 143              	ize	_Z17enable_interruptsj, .-_Z17enable_interruptsj
+ 144 0008 1EFF2FE1 		.section	.text._Z18disable_interruptsj,"ax",%progbits
+ 145              		.align	2
+ 146              		.global	_Z18disable_interruptsj
+ 147              		.type	_Z18disable_interruptsj, %function
+ 148              	_Z18disable_interruptsj:
+ 149              	.LFB9:
+ 150              		.loc 1 162 0
+ 151              		@ Function supports interworking.
+ 152              		@ args = 0, pretend = 0, frame = 0
+ 161:sbl_iap.cpp   **** 
+ 162:sbl_iap.cpp   **** void disable_interrupts(unsigned interrupts)
+ 153              	eeded = 0, uses_anonymous_args = 0
+ 154              		@ link register save eliminated.
+ 155              	.LVL11:
+ 156              		.loc 1 164 0
+ 157              		mvn	r3, #0
+ 158              		str	r0, [r3, #-4075]
+ 163:sbl_iap.cpp   **** {
+ 164:sbl_iap.cpp   ****     VICIntEnClr = interrupts;
+ 159              	1 165 0
+ 160 0000 0030E0E3 		bx	lr
+ 161 0004 EB0F03E5 	.LFE9:
+ 165:sbl_iap.cpp   **** }
+ 162              	ize	_Z18disable_interruptsj, .-_Z18disable_interruptsj
+ 163 0008 1EFF2FE1 		.section	.text._Z10write_datajjPjj,"ax",%progbits
+ 164              		.align	2
+ 165              		.global	_Z10write_datajjPjj
+ 166              		.type	_Z10write_datajjPjj, %function
+ 167              	_Z10write_datajjPjj:
+ 168              	.LFB4:
+ 169              		.loc 1 116 0
+ 170              		@ Function supports interworking.
+ 171              		@ args = 0, pretend = 0, frame = 0
+ 172              		@ frame_needed = 0, uses_anonymous_args = 0
+ 173              	.LVL12:
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 7
+
+
+ 174              	.LBB3:
+ 175              		.loc 1 120 0
+ 176              		mvn	ip, #0
+ 177              	.LBE3:
+ 178              		.loc 1 116 0
+ 179 0000 00C0E0E3 		stmfd	sp!, {r4, r5, r6, r7, r8, lr}
+ 180              	.LCFI1:
+ 181              	.LBB4:
+ 182 0004 F0412DE9 		.loc 1 120 0
+ 183              		ldr	r7, [ip, #-4079]
+ 184              	.LVL13:
+ 185              	.LBE4:
+ 186 0008 EF7F1CE5 		.loc 1 116 0
+ 187              		mov	r8, r0
+ 188              	.LBB5:
+ 189              		.loc 1 121 0
+ 190 000c 0080A0E1 		mov	r0, r7
+ 191              	.LVL14:
+ 192              	.LBE5:
+ 193 0010 0700A0E1 		.loc 1 116 0
+ 194              		mov	r4, r1
+ 195              		mov	r5, r2
+ 196              		mov	r6, r3
+ 197 0014 0140A0E1 	.LBB6:
+ 198 0018 0250A0E1 		.loc 1 121 0
+ 199 001c 0360A0E1 		bl	_Z18disable_interruptsj
+ 200              	.LVL15:
+ 201              		.loc 1 122 0
+ 202 0020 FEFFFFEB 		ldr	r2, .L17
+ 203              		mov	r3, #51
+ 204              		.loc 1 127 0
+ 205 0024 20209FE5 		mov	r0, r2
+ 206 0028 3330A0E3 		ldr	r1, .L17+4
+ 207              		.loc 1 122 0
+ 208 002c 0200A0E1 		stmia	r2, {r3, r4, r5, r6}	@ phole stm
+ 209 0030 18109FE5 		.loc 1 126 0
+ 210              		str	r8, [r2, #16]
+ 211 0034 780082E8 		.loc 1 127 0
+ 212              		bl	_Z9iap_entryPjS_
+ 213 0038 108082E5 		.loc 1 128 0
+ 214              		mov	r0, r7
+ 215 003c FEFFFFEB 	.LBE6:
+ 216              		.loc 1 129 0
+ 217 0040 0700A0E1 		ldmfd	sp!, {r4, r5, r6, r7, r8, lr}
+ 218              	.LBB7:
+ 219              		.loc 1 128 0
+ 220 0044 F041BDE8 		b	_Z17enable_interruptsj
+ 221              	.L18:
+ 222              		.align	2
+ 223 0048 FEFFFFEA 	.L17:
+ 224              		.word	.LANCHOR0
+ 225              		.word	.LANCHOR1
+ 226              	.LBE7:
+ 227 004c 00000000 	.LFE4:
+ 228 0050 00000000 		.size	_Z10write_datajjPjj, .-_Z10write_datajjPjj
+ 229              		.section	.text._Z25find_erase_prepare_sectorjj,"ax",%progbits
+ 230              		.align	2
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 8
+
+
+ 231              		.global	_Z25find_erase_prepare_sectorjj
+ 232              		.type	_Z25find_erase_prepare_sectorjj, %function
+ 233              	_Z25find_erase_prepare_sectorjj:
+ 234              	.LFB3:
+ 235              		.loc 1 91 0
+ 236              		@ Function supports interworking.
+ 237              		@ args = 0, pretend = 0, frame = 0
+ 238              		@ frame_needed = 0, uses_anonymous_args = 0
+ 239              	.LVL16:
+ 240              	.LBB8:
+ 241              		.loc 1 97 0
+ 242              		mvn	r3, #0
+ 243              	.LBE8:
+ 244              		.loc 1 91 0
+ 245 0000 0030E0E3 		stmfd	sp!, {r4, r5, r6, r7, r8, lr}
+ 246              	.LCFI2:
+ 247              	.LBB9:
+ 248 0004 F0412DE9 		.loc 1 97 0
+ 249              		ldr	r7, [r3, #-4079]
+ 250              	.LVL17:
+ 251              	.LBE9:
+ 252 0008 EF7F13E5 		.loc 1 91 0
+ 253              		mov	r5, r0
+ 254              	.LBB10:
+ 255              		.loc 1 98 0
+ 256 000c 0050A0E1 		mov	r0, r7
+ 257              	.LVL18:
+ 258              	.LBE10:
+ 259 0010 0700A0E1 		.loc 1 91 0
+ 260              		mov	r6, r1
+ 261              	.LBB11:
+ 262              		.loc 1 98 0
+ 263 0014 0160A0E1 		bl	_Z18disable_interruptsj
+ 264              	.LVL19:
+ 265              		mov	r4, #4
+ 266 0018 FEFFFFEB 	.LVL20:
+ 267              	.L23:
+ 268 001c 0440A0E3 		.loc 1 102 0
+ 269              		ldr	r3, .L25
+ 270              		ldr	r3, [r3, r4, asl #2]
+ 271              		cmp	r6, r3
+ 272 0020 64309FE5 		bcs	.L20
+ 273 0024 043193E7 		.loc 1 104 0
+ 274 0028 030056E1 		ldr	r3, .L25+4
+ 275 002c 1000002A 		ldr	r3, [r3, r4, asl #2]
+ 276              		cmp	r6, r3
+ 277 0030 58309FE5 		bne	.L21
+ 278 0034 043193E7 		.loc 1 106 0
+ 279 0038 030056E1 		mov	r0, r4
+ 280 003c 0700001A 		mov	r1, r4
+ 281              		mov	r2, r5
+ 282 0040 0400A0E1 		bl	_Z14prepare_sectorjjj
+ 283 0044 0410A0E1 		.loc 1 107 0
+ 284 0048 0520A0E1 		mov	r0, r4
+ 285 004c FEFFFFEB 		mov	r1, r4
+ 286              		mov	r2, r5
+ 287 0050 0400A0E1 		bl	_Z12erase_sectorjjj
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 9
+
+
+ 288 0054 0410A0E1 	.L21:
+ 289 0058 0520A0E1 		.loc 1 109 0
+ 290 005c FEFFFFEB 		mov	r0, r4
+ 291              		mov	r2, r5
+ 292              		mov	r1, r4
+ 293 0060 0400A0E1 	.LVL21:
+ 294 0064 0520A0E1 		bl	_Z14prepare_sectorjjj
+ 295 0068 0410A0E1 		b	.L22
+ 296              	.LVL22:
+ 297 006c FEFFFFEB 	.L20:
+ 298 0070 020000EA 		.loc 1 100 0
+ 299              		add	r4, r4, #1
+ 300              		cmp	r4, #27
+ 301              		bne	.L23
+ 302 0074 014084E2 	.L22:
+ 303 0078 1B0054E3 		.loc 1 113 0
+ 304 007c E7FFFF1A 		mov	r0, r7
+ 305              	.LBE11:
+ 306              		.loc 1 114 0
+ 307 0080 0700A0E1 		ldmfd	sp!, {r4, r5, r6, r7, r8, lr}
+ 308              	.LBB12:
+ 309              		.loc 1 113 0
+ 310 0084 F041BDE8 		b	_Z17enable_interruptsj
+ 311              	.L26:
+ 312              		.align	2
+ 313 0088 FEFFFFEA 	.L25:
+ 314              		.word	.LANCHOR2
+ 315              		.word	.LANCHOR3
+ 316              	.LBE12:
+ 317 008c 00000000 	.LFE3:
+ 318 0090 00000000 		.size	_Z25find_erase_prepare_sectorjj, .-_Z25find_erase_prepare_sectorjj
+ 319              		.section	.text._Z11write_flashPjPhj,"ax",%progbits
+ 320              		.align	2
+ 321              		.global	_Z11write_flashPjPhj
+ 322              		.type	_Z11write_flashPjPhj, %function
+ 323              	_Z11write_flashPjPhj:
+ 324              	.LFB2:
+ 325              		.loc 1 56 0
+ 326              		@ Function supports interworking.
+ 327              		@ args = 0, pretend = 0, frame = 0
+ 328              		@ frame_needed = 0, uses_anonymous_args = 0
+ 329              	.LVL23:
+ 330              	.LBB13:
+ 331              		.loc 1 60 0
+ 332              		ldr	ip, .L37
+ 333              		ldr	r3, [ip, #0]
+ 334              		cmp	r3, #0
+ 335 0000 B4C09FE5 		.loc 1 67 0
+ 336 0004 00309CE5 		ldr	r3, .L37+4
+ 337 0008 000053E3 	.LBE13:
+ 338              		.loc 1 56 0
+ 339 000c AC309FE5 		stmfd	sp!, {r4, r5, r6, r7, r8, lr}
+ 340              	.LCFI3:
+ 341              		.loc 1 56 0
+ 342 0010 F0412DE9 		mov	r4, r2
+ 343              	.LBB14:
+ 344              		.loc 1 67 0
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 10
+
+
+ 345 0014 0240A0E1 		ldr	r2, [r3, #0]
+ 346              	.LVL24:
+ 347              		ldr	r3, .L37+8
+ 348 0018 002093E5 		.loc 1 63 0
+ 349              		streq	r0, [ip, #0]
+ 350 001c A0309FE5 		.loc 1 67 0
+ 351              		add	ip, r3, r2
+ 352 0020 00008C05 		mov	r0, #0
+ 353              	.LVL25:
+ 354 0024 02C083E0 		b	.L29
+ 355 0028 0000A0E3 	.L30:
+ 356              		ldrb	r3, [r1, r0]	@ zero_extendqisi2
+ 357 002c 020000EA 		strb	r3, [ip, #-1]
+ 358              		.loc 1 65 0
+ 359 0030 0030D1E7 		add	r0, r0, #1
+ 360 0034 01304CE5 	.L29:
+ 361              		cmp	r0, r4
+ 362 0038 010080E2 		add	ip, ip, #1
+ 363              		bcc	.L30
+ 364 003c 040050E1 		.loc 1 69 0
+ 365 0040 01C08CE2 		add	r4, r4, r2
+ 366 0044 F9FFFF3A 	.LVL26:
+ 367              		ldr	r8, .L37+4
+ 368 0048 024084E0 		.loc 1 71 0
+ 369              		cmp	r4, #512
+ 370 004c 6C809FE5 		.loc 1 69 0
+ 371              		str	r4, [r8, #0]
+ 372 0050 020C54E3 		.loc 1 71 0
+ 373              		bne	.L31
+ 374 0054 004088E5 		.loc 1 74 0
+ 375              		ldr	r6, .L37+12
+ 376 0058 1400001A 		ldr	r5, .L37
+ 377              		.loc 1 75 0
+ 378 005c 64609FE5 		ldr	r7, .L37+16
+ 379 0060 54509FE5 		.loc 1 74 0
+ 380              		ldr	r0, [r6, #0]
+ 381 0064 60709FE5 	.LVL27:
+ 382              		ldr	r1, [r5, #0]
+ 383 0068 000096E5 	.LVL28:
+ 384              		bl	_Z25find_erase_prepare_sectorjj
+ 385 006c 001095E5 		.loc 1 75 0
+ 386              		ldr	r3, [r7, #0]
+ 387 0070 FEFFFFEB 		cmp	r3, #0
+ 388              		beq	.L32
+ 389 0074 003097E5 	.L33:
+ 390 0078 000053E3 		b	.L33
+ 391 007c 0000000A 	.L32:
+ 392              		.loc 1 79 0
+ 393 0080 FEFFFFEA 		mov	r3, r4
+ 394              		ldr	r0, [r6, #0]
+ 395              		ldr	r1, [r5, #0]
+ 396 0084 0430A0E1 		ldr	r2, .L37+8
+ 397 0088 000096E5 		bl	_Z10write_datajjPjj
+ 398 008c 001095E5 		.loc 1 80 0
+ 399 0090 2C209FE5 		ldr	r3, [r7, #0]
+ 400 0094 FEFFFFEB 		cmp	r3, #0
+ 401              		.loc 1 86 0
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 11
+
+
+ 402 0098 003097E5 		streq	r3, [r5, #0]
+ 403 009c 000053E3 		.loc 1 85 0
+ 404              		streq	r3, [r8, #0]
+ 405 00a0 00308505 		.loc 1 80 0
+ 406              		beq	.L31
+ 407 00a4 00308805 	.L35:
+ 408              		b	.L35
+ 409 00a8 0000000A 	.LVL29:
+ 410              	.L31:
+ 411 00ac FEFFFFEA 	.LBE14:
+ 412              		.loc 1 89 0
+ 413              		mov	r0, #0
+ 414              	.LVL30:
+ 415              		ldmfd	sp!, {r4, r5, r6, r7, r8, lr}
+ 416 00b0 0000A0E3 		bx	lr
+ 417              	.L38:
+ 418 00b4 F041BDE8 		.align	2
+ 419 00b8 1EFF2FE1 	.L37:
+ 420              		.word	.LANCHOR4
+ 421              		.word	.LANCHOR5
+ 422              		.word	.LANCHOR6
+ 423 00bc 00000000 		.word	.LANCHOR7
+ 424 00c0 00000000 		.word	.LANCHOR1
+ 425 00c4 00000000 	.LFE2:
+ 426 00c8 00000000 		.size	_Z11write_flashPjPhj, .-_Z11write_flashPjPhj
+ 427 00cc 00000000 		.section	.text._Z17execute_user_codev,"ax",%progbits
+ 428              		.align	2
+ 429              		.global	_Z17execute_user_codev
+ 430              		.type	_Z17execute_user_codev, %function
+ 431              	_Z17execute_user_codev:
+ 432              	.LFB10:
+ 433              		.loc 1 169 0
+ 434              		@ Function supports interworking.
+ 435              		@ args = 0, pretend = 0, frame = 0
+ 166:sbl_iap.cpp   **** 
+ 167:sbl_iap.cpp   **** void (*user_code_entry)(void);
+ 168:sbl_iap.cpp   **** 
+ 169:sbl_iap.cpp   **** void execute_user_code(void)
+ 436              	= 0, uses_anonymous_args = 0
+ 437              		.loc 1 172 0
+ 438              		ldr	r3, .L41
+ 439              		mov	r2, #16384
+ 170:sbl_iap.cpp   **** {
+ 171:sbl_iap.cpp   **** 
+ 172:sbl_iap.cpp   ****     user_code_entry =  (void (*)(void))USER_FLASH_START;
+ 440              	c 1 169 0
+ 441 0000 18309FE5 		stmfd	sp!, {r4, lr}
+ 442 0004 0129A0E3 	.LCFI4:
+ 443              		.loc 1 172 0
+ 444 0008 10402DE9 		str	r2, [r3, #0]
+ 445              		.loc 1 174 0
+ 446              		mov	lr, pc
+ 447 000c 002083E5 		bx	r2
+ 173:sbl_iap.cpp   **** 
+ 174:sbl_iap.cpp   ****     user_code_entry();
+ 448              	175 0
+ 449 0010 0FE0A0E1 		ldmfd	sp!, {r4, lr}
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 12
+
+
+ 450 0014 12FF2FE1 		bx	lr
+ 175:sbl_iap.cpp   **** }
+ 451              	2:
+ 452 0018 1040BDE8 		.align	2
+ 453 001c 1EFF2FE1 	.L41:
+ 454              		.word	.LANCHOR8
+ 455              	.LFE10:
+ 456              		.size	_Z17execute_user_codev, .-_Z17execute_user_codev
+ 457 0020 00000000 		.section	.text._Z17user_code_presentv,"ax",%progbits
+ 458              		.align	2
+ 459              		.global	_Z17user_code_presentv
+ 460              		.type	_Z17user_code_presentv, %function
+ 461              	_Z17user_code_presentv:
+ 462              	.LFB11:
+ 463              		.loc 1 177 0
+ 464              		@ Function supports interworking.
+ 465              		@ args = 0, pretend = 0, frame = 0
+ 176:sbl_iap.cpp   **** 
+ 177:sbl_iap.cpp   **** BOOL user_code_present(void)
+ 466              	 = 0, uses_anonymous_args = 0
+ 467              		.loc 1 179 0
+ 468              		ldr	r2, .L45
+ 469              		.loc 1 177 0
+ 178:sbl_iap.cpp   **** {
+ 179:sbl_iap.cpp   ****     param_table[0] = BLANK_CHECK_SECTOR;
+ 470              	fd	sp!, {r4, lr}
+ 471 0000 38209FE5 	.LCFI5:
+ 472              		.loc 1 182 0
+ 473 0004 10402DE9 		ldr	r4, .L45+4
+ 474              		.loc 1 180 0
+ 180:sbl_iap.cpp   ****     param_table[1] = USER_START_SECTOR;
+ 181:sbl_iap.cpp   ****     param_table[2] = USER_START_SECTOR;
+ 182:sbl_iap.cpp   ****     iap_entry(param_table,result_table);
+ 475              	ip, #4
+ 476 0008 34409FE5 		.loc 1 179 0
+ 477              		mov	r3, #53
+ 478 000c 04C0A0E3 		.loc 1 182 0
+ 479              		mov	r0, r2
+ 480 0010 3530A0E3 		mov	r1, r4
+ 481              		.loc 1 179 0
+ 482 0014 0200A0E1 		str	r3, [r2, #0]
+ 483 0018 0410A0E1 		.loc 1 181 0
+ 484              		str	ip, [r2, #8]
+ 485 001c 003082E5 		.loc 1 180 0
+ 486              		str	ip, [r2, #4]
+ 487 0020 08C082E5 		.loc 1 182 0
+ 488              		bl	_Z9iap_entryPjS_
+ 489 0024 04C082E5 		ldr	r0, [r4, #0]
+ 490              		.loc 1 191 0
+ 491 0028 FEFFFFEB 		subs	r0, r0, #0
+ 492 002c 000094E5 		movne	r0, #1
+ 183:sbl_iap.cpp   **** 	if( result_table[0] == CMD_SUCCESS )
+ 184:sbl_iap.cpp   **** 	{
+ 185:sbl_iap.cpp   **** 	    return (FALSE);
+ 186:sbl_iap.cpp   **** 	}
+ 187:sbl_iap.cpp   **** 	else
+ 188:sbl_iap.cpp   **** 	{
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 13
+
+
+ 189:sbl_iap.cpp   **** 	    return (TRUE);
+ 190:sbl_iap.cpp   **** 	}
+ 191:sbl_iap.cpp   **** }
+ 493              	r}
+ 494 0030 000050E2 		bx	lr
+ 495 0034 0100A013 	.L46:
+ 496 0038 1040BDE8 		.align	2
+ 497 003c 1EFF2FE1 	.L45:
+ 498              		.word	.LANCHOR0
+ 499              		.word	.LANCHOR1
+ 500              	.LFE11:
+ 501 0040 00000000 		.size	_Z17user_code_presentv, .-_Z17user_code_presentv
+ 502 0044 00000000 		.section	.text._Z19check_isp_entry_pinv,"ax",%progbits
+ 503              		.align	2
+ 504              		.global	_Z19check_isp_entry_pinv
+ 505              		.type	_Z19check_isp_entry_pinv, %function
+ 506              	_Z19check_isp_entry_pinv:
+ 507              	.LFB12:
+ 508              		.loc 1 193 0
+ 509              		@ Function supports interworking.
+ 510              		@ args = 0, pretend = 0, frame = 0
+ 192:sbl_iap.cpp   **** 
+ 193:sbl_iap.cpp   **** void check_isp_entry_pin(void)
+ 511              	0, uses_anonymous_args = 0
+ 512              		@ link register save eliminated.
+ 513              		.loc 1 195 0
+ 514              		ldr	r3, .L50
+ 515              		ldr	r3, [r3, #0]
+ 194:sbl_iap.cpp   **** {
+ 195:sbl_iap.cpp   ****     if( (*(volatile unsigned *)ISP_ENTRY_GPIO_REG) & (0x1<<ISP_ENTRY_PIN) )
+ 516              	r3, #64
+ 517 0000 0C309FE5 		bxeq	lr
+ 518 0004 003093E5 		.loc 1 203 0
+ 519 0008 400013E3 		.loc 1 197 0
+ 520 000c 1EFF2F01 		b	_Z17execute_user_codev
+ 196:sbl_iap.cpp   **** 	{
+ 197:sbl_iap.cpp   **** 	    execute_user_code();
+ 198:sbl_iap.cpp   **** 	}
+ 199:sbl_iap.cpp   **** 	else
+ 200:sbl_iap.cpp   **** 	{
+ 201:sbl_iap.cpp   **** 	    // Enter ISP mode
+ 202:sbl_iap.cpp   **** 	}		 
+ 203:sbl_iap.cpp   **** }
+ 521              	
+ 522              		.align	2
+ 523 0010 FEFFFFEA 	.L50:
+ 524              		.word	-536707072
+ 525              	.LFE12:
+ 526              		.size	_Z19check_isp_entry_pinv, .-_Z19check_isp_entry_pinv
+ 527 0014 008002E0 		.section	.text._Z16erase_user_flashv,"ax",%progbits
+ 528              		.align	2
+ 529              		.global	_Z16erase_user_flashv
+ 530              		.type	_Z16erase_user_flashv, %function
+ 531              	_Z16erase_user_flashv:
+ 532              	.LFB13:
+ 533              		.loc 1 205 0
+ 534              		@ Function supports interworking.
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 14
+
+
+ 535              		@ args = 0, pretend = 0, frame = 0
+ 204:sbl_iap.cpp   **** 
+ 205:sbl_iap.cpp   **** void erase_user_flash(void)
+ 536              	d = 0, uses_anonymous_args = 0
+ 537              		stmfd	sp!, {r4, lr}
+ 538              	.LCFI6:
+ 539              		.loc 1 207 0
+ 540 0000 10402DE9 		ldr	r4, .L56
+ 541              		mov	r0, #4
+ 206:sbl_iap.cpp   **** {
+ 207:sbl_iap.cpp   ****     prepare_sector(USER_START_SECTOR,MAX_USER_SECTOR,cclk);
+ 542              	1, #26
+ 543 0004 38409FE5 		ldr	r2, [r4, #0]
+ 544 0008 0400A0E3 		bl	_Z14prepare_sectorjjj
+ 545 000c 1A10A0E3 		.loc 1 208 0
+ 546 0010 002094E5 		ldr	r2, [r4, #0]
+ 547 0014 FEFFFFEB 		mov	r0, #4
+ 208:sbl_iap.cpp   ****     erase_sector(USER_START_SECTOR,MAX_USER_SECTOR,cclk);
+ 548              	1, #26
+ 549 0018 002094E5 		bl	_Z12erase_sectorjjj
+ 550 001c 0400A0E3 		.loc 1 209 0
+ 551 0020 1A10A0E3 		ldr	r3, .L56+4
+ 552 0024 FEFFFFEB 		ldr	r3, [r3, #0]
+ 209:sbl_iap.cpp   **** 	if(result_table[0] != CMD_SUCCESS)
+ 553              	r3, #0
+ 554 0028 18309FE5 		beq	.L55
+ 555 002c 003093E5 	.L54:
+ 556 0030 000053E3 		b	.L54
+ 557 0034 0000000A 	.L55:
+ 558              		.loc 1 213 0
+ 559 0038 FEFFFFEA 		ldmfd	sp!, {r4, lr}
+ 560              		bx	lr
+ 210:sbl_iap.cpp   ****     {
+ 211:sbl_iap.cpp   ****       while(1); /* No way to recover. Just let Windows report a write failure */
+ 212:sbl_iap.cpp   ****     }
+ 213:sbl_iap.cpp   **** }
+ 561              	align	2
+ 562 003c 1040BDE8 	.L56:
+ 563 0040 1EFF2FE1 		.word	.LANCHOR7
+ 564              		.word	.LANCHOR1
+ 565              	.LFE13:
+ 566              		.size	_Z16erase_user_flashv, .-_Z16erase_user_flashv
+ 567 0044 00000000 		.global	crp
+ 568 0048 00000000 		.global	sector_start_map
+ 569              		.global	sector_end_map
+ 570              		.global	param_table
+ 571              		.global	result_table
+ 572              		.global	cclk
+ 573              		.global	flash_buf
+ 574              		.global	flash_address
+ 575              		.global	byte_ctr
+ 576              		.global	user_code_entry
+ 577              		.section	.bss.user_code_entry,"aw",%nobits
+ 578              		.align	2
+ 579              		.set	.LANCHOR8,. + 0
+ 580              		.type	user_code_entry, %object
+ 581              		.size	user_code_entry, 4
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 15
+
+
+ 582              	user_code_entry:
+ 583              		.space	4
+ 584              		.section	.bss.flash_address,"aw",%nobits
+ 585              		.align	2
+ 586              		.set	.LANCHOR4,. + 0
+ 587 0000 00000000 		.type	flash_address, %object
+ 588              		.size	flash_address, 4
+ 589              	flash_address:
+ 590              		.space	4
+ 591              		.section	.data.cclk,"aw",%progbits
+ 592              		.align	2
+ 593              		.set	.LANCHOR7,. + 0
+ 594 0000 00000000 		.type	cclk, %object
+ 595              		.size	cclk, 4
+ 596              	cclk:
+ 597              		.word	72000
+ 598              		.section	.bss.result_table,"aw",%nobits
+ 599              		.align	2
+ 600              		.set	.LANCHOR1,. + 0
+ 601 0000 40190100 		.type	result_table, %object
+ 602              		.size	result_table, 20
+ 603              	result_table:
+ 604              		.space	20
+ 605              		.section	.bss.param_table,"aw",%nobits
+ 606              		.align	2
+ 607              		.set	.LANCHOR0,. + 0
+ 608 0000 00000000 		.type	param_table, %object
+ 608      00000000 
+ 608      00000000 
+ 608      00000000 
+ 608      00000000 
+ 609              		.size	param_table, 20
+ 610              	param_table:
+ 611              		.space	20
+ 612              		.section	.bss.flash_buf,"aw",%nobits
+ 613              		.set	.LANCHOR6,. + 0
+ 614              		.type	flash_buf, %object
+ 615 0000 00000000 		.size	flash_buf, 512
+ 615      00000000 
+ 615      00000000 
+ 615      00000000 
+ 615      00000000 
+ 616              	flash_buf:
+ 617              		.space	512
+ 618              		.section	.bss.byte_ctr,"aw",%nobits
+ 619              		.align	2
+ 620              		.set	.LANCHOR5,. + 0
+ 621 0000 00000000 		.type	byte_ctr, %object
+ 621      00000000 
+ 621      00000000 
+ 621      00000000 
+ 621      00000000 
+ 622              		.size	byte_ctr, 4
+ 623              	byte_ctr:
+ 624              		.space	4
+ 625              		.section	.ARM.__at_0x1FC,"a",%progbits
+ 626              		.align	2
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 16
+
+
+ 627              		.type	crp, %object
+ 628 0000 00000000 		.size	crp, 4
+ 629              	crp:
+ 630              		.word	287454020
+ 631              		.section	.rodata.sector_end_map,"a",%progbits
+ 632              		.align	2
+ 633              		.set	.LANCHOR2,. + 0
+ 634 0000 44332211 		.type	sector_end_map, %object
+ 635              		.size	sector_end_map, 128
+ 636              	sector_end_map:
+ 637              		.word	4095
+ 638              		.word	8191
+ 639              		.word	12287
+ 640              		.word	16383
+ 641 0000 FF0F0000 		.word	20479
+ 642 0004 FF1F0000 		.word	24575
+ 643 0008 FF2F0000 		.word	28671
+ 644 000c FF3F0000 		.word	32767
+ 645 0010 FF4F0000 		.word	65535
+ 646 0014 FF5F0000 		.word	98303
+ 647 0018 FF6F0000 		.word	131071
+ 648 001c FF7F0000 		.word	163839
+ 649 0020 FFFF0000 		.word	196607
+ 650 0024 FF7F0100 		.word	229375
+ 651 0028 FFFF0100 		.word	262143
+ 652 002c FF7F0200 		.word	294911
+ 653 0030 FFFF0200 		.word	327679
+ 654 0034 FF7F0300 		.word	360447
+ 655 0038 FFFF0300 		.word	393215
+ 656 003c FF7F0400 		.word	425983
+ 657 0040 FFFF0400 		.word	458751
+ 658 0044 FF7F0500 		.word	491519
+ 659 0048 FFFF0500 		.word	495615
+ 660 004c FF7F0600 		.word	499711
+ 661 0050 FFFF0600 		.word	503807
+ 662 0054 FF7F0700 		.word	507903
+ 663 0058 FF8F0700 		.word	511999
+ 664 005c FF9F0700 		.word	516095
+ 665 0060 FFAF0700 		.word	-1
+ 666 0064 FFBF0700 		.word	-1
+ 667 0068 FFCF0700 		.word	-1
+ 668 006c FFDF0700 		.word	-1
+ 669 0070 FFFFFFFF 		.section	.rodata.sector_start_map,"a",%progbits
+ 670 0074 FFFFFFFF 		.align	2
+ 671 0078 FFFFFFFF 		.set	.LANCHOR3,. + 0
+ 672 007c FFFFFFFF 		.type	sector_start_map, %object
+ 673              		.size	sector_start_map, 128
+ 674              	sector_start_map:
+ 675              		.word	0
+ 676              		.word	4096
+ 677              		.word	8192
+ 678              		.word	12288
+ 679 0000 00000000 		.word	16384
+ 680 0004 00100000 		.word	20480
+ 681 0008 00200000 		.word	24576
+ 682 000c 00300000 		.word	28672
+ 683 0010 00400000 		.word	32768
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 17
+
+
+ 684 0014 00500000 		.word	65536
+ 685 0018 00600000 		.word	98304
+ 686 001c 00700000 		.word	131072
+ 687 0020 00800000 		.word	163840
+ 688 0024 00000100 		.word	196608
+ 689 0028 00800100 		.word	229376
+ 690 002c 00000200 		.word	262144
+ 691 0030 00800200 		.word	294912
+ 692 0034 00000300 		.word	327680
+ 693 0038 00800300 		.word	360448
+ 694 003c 00000400 		.word	393216
+ 695 0040 00800400 		.word	425984
+ 696 0044 00000500 		.word	458752
+ 697 0048 00800500 		.word	491520
+ 698 004c 00000600 		.word	495616
+ 699 0050 00800600 		.word	499712
+ 700 0054 00000700 		.word	503808
+ 701 0058 00800700 		.word	507904
+ 702 005c 00900700 		.word	512000
+ 703 0060 00A00700 		.word	-1
+ 704 0064 00B00700 		.word	-1
+ 705 0068 00C00700 		.word	-1
+ 706 006c 00D00700 		.word	-1
+ 707 0070 FFFFFFFF 		.section	.debug_frame,"",%progbits
+ 708 0074 FFFFFFFF 	.Lframe0:
+ 709 0078 FFFFFFFF 		.4byte	.LECIE0-.LSCIE0
+ 710 007c FFFFFFFF 	.LSCIE0:
+ 711              		.4byte	0xffffffff
+ 712              		.byte	0x1
+ 713 0000 0C000000 		.ascii	"\000"
+ 714              		.uleb128 0x1
+ 715 0004 FFFFFFFF 		.sleb128 -4
+ 716 0008 01       		.byte	0xe
+ 717 0009 00       		.byte	0xc
+ 718 000a 01       		.uleb128 0xd
+ 719 000b 7C       		.uleb128 0x0
+ 720 000c 0E       		.align	2
+ 721 000d 0C       	.LECIE0:
+ 722 000e 0D       	.LSFDE0:
+ 723 000f 00       		.4byte	.LEFDE0-.LASFDE0
+ 724              	.LASFDE0:
+ 725              		.4byte	.Lframe0
+ 726              		.4byte	.LFB7
+ 727 0010 14000000 		.4byte	.LFE7-.LFB7
+ 728              		.byte	0x4
+ 729 0014 00000000 		.4byte	.LCFI0-.LFB7
+ 730 0018 00000000 		.byte	0xe
+ 731 001c 18000000 		.uleb128 0x8
+ 732 0020 44       		.byte	0x8e
+ 733              		.uleb128 0x1
+ 734 0021 0E       		.byte	0x84
+ 735 0022 08       		.uleb128 0x2
+ 736 0023 8E       		.align	2
+ 737 0024 01       	.LEFDE0:
+ 738 0025 84       	.LSFDE2:
+ 739 0026 02       		.4byte	.LEFDE2-.LASFDE2
+ 740 0027 00       	.LASFDE2:
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 18
+
+
+ 741              		.4byte	.Lframe0
+ 742              		.4byte	.LFB6
+ 743 0028 0C000000 		.4byte	.LFE6-.LFB6
+ 744              		.align	2
+ 745 002c 00000000 	.LEFDE2:
+ 746 0030 00000000 	.LSFDE4:
+ 747 0034 2C000000 		.4byte	.LEFDE4-.LASFDE4
+ 748              	.LASFDE4:
+ 749              		.4byte	.Lframe0
+ 750              		.4byte	.LFB5
+ 751 0038 0C000000 		.4byte	.LFE5-.LFB5
+ 752              		.align	2
+ 753 003c 00000000 	.LEFDE4:
+ 754 0040 00000000 	.LSFDE6:
+ 755 0044 2C000000 		.4byte	.LEFDE6-.LASFDE6
+ 756              	.LASFDE6:
+ 757              		.4byte	.Lframe0
+ 758              		.4byte	.LFB8
+ 759 0048 0C000000 		.4byte	.LFE8-.LFB8
+ 760              		.align	2
+ 761 004c 00000000 	.LEFDE6:
+ 762 0050 00000000 	.LSFDE8:
+ 763 0054 0C000000 		.4byte	.LEFDE8-.LASFDE8
+ 764              	.LASFDE8:
+ 765              		.4byte	.Lframe0
+ 766              		.4byte	.LFB9
+ 767 0058 0C000000 		.4byte	.LFE9-.LFB9
+ 768              		.align	2
+ 769 005c 00000000 	.LEFDE8:
+ 770 0060 00000000 	.LSFDE10:
+ 771 0064 0C000000 		.4byte	.LEFDE10-.LASFDE10
+ 772              	.LASFDE10:
+ 773              		.4byte	.Lframe0
+ 774              		.4byte	.LFB4
+ 775 0068 1C000000 		.4byte	.LFE4-.LFB4
+ 776              		.byte	0x4
+ 777 006c 00000000 		.4byte	.LCFI1-.LFB4
+ 778 0070 00000000 		.byte	0xe
+ 779 0074 54000000 		.uleb128 0x18
+ 780 0078 48       		.byte	0x8e
+ 781              		.uleb128 0x1
+ 782 0079 0E       		.byte	0x88
+ 783 007a 18       		.uleb128 0x2
+ 784 007b 8E       		.byte	0x87
+ 785 007c 01       		.uleb128 0x3
+ 786 007d 88       		.byte	0x86
+ 787 007e 02       		.uleb128 0x4
+ 788 007f 87       		.byte	0x85
+ 789 0080 03       		.uleb128 0x5
+ 790 0081 86       		.byte	0x84
+ 791 0082 04       		.uleb128 0x6
+ 792 0083 85       		.align	2
+ 793 0084 05       	.LEFDE10:
+ 794 0085 84       	.LSFDE12:
+ 795 0086 06       		.4byte	.LEFDE12-.LASFDE12
+ 796 0087 00       	.LASFDE12:
+ 797              		.4byte	.Lframe0
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 19
+
+
+ 798              		.4byte	.LFB3
+ 799 0088 1C000000 		.4byte	.LFE3-.LFB3
+ 800              		.byte	0x4
+ 801 008c 00000000 		.4byte	.LCFI2-.LFB3
+ 802 0090 00000000 		.byte	0xe
+ 803 0094 94000000 		.uleb128 0x18
+ 804 0098 48       		.byte	0x8e
+ 805              		.uleb128 0x1
+ 806 0099 0E       		.byte	0x88
+ 807 009a 18       		.uleb128 0x2
+ 808 009b 8E       		.byte	0x87
+ 809 009c 01       		.uleb128 0x3
+ 810 009d 88       		.byte	0x86
+ 811 009e 02       		.uleb128 0x4
+ 812 009f 87       		.byte	0x85
+ 813 00a0 03       		.uleb128 0x5
+ 814 00a1 86       		.byte	0x84
+ 815 00a2 04       		.uleb128 0x6
+ 816 00a3 85       		.align	2
+ 817 00a4 05       	.LEFDE12:
+ 818 00a5 84       	.LSFDE14:
+ 819 00a6 06       		.4byte	.LEFDE14-.LASFDE14
+ 820 00a7 00       	.LASFDE14:
+ 821              		.4byte	.Lframe0
+ 822              		.4byte	.LFB2
+ 823 00a8 1C000000 		.4byte	.LFE2-.LFB2
+ 824              		.byte	0x4
+ 825 00ac 00000000 		.4byte	.LCFI3-.LFB2
+ 826 00b0 00000000 		.byte	0xe
+ 827 00b4 D0000000 		.uleb128 0x18
+ 828 00b8 54       		.byte	0x8e
+ 829              		.uleb128 0x1
+ 830 00b9 0E       		.byte	0x88
+ 831 00ba 18       		.uleb128 0x2
+ 832 00bb 8E       		.byte	0x87
+ 833 00bc 01       		.uleb128 0x3
+ 834 00bd 88       		.byte	0x86
+ 835 00be 02       		.uleb128 0x4
+ 836 00bf 87       		.byte	0x85
+ 837 00c0 03       		.uleb128 0x5
+ 838 00c1 86       		.byte	0x84
+ 839 00c2 04       		.uleb128 0x6
+ 840 00c3 85       		.align	2
+ 841 00c4 05       	.LEFDE14:
+ 842 00c5 84       	.LSFDE16:
+ 843 00c6 06       		.4byte	.LEFDE16-.LASFDE16
+ 844 00c7 00       	.LASFDE16:
+ 845              		.4byte	.Lframe0
+ 846              		.4byte	.LFB10
+ 847 00c8 14000000 		.4byte	.LFE10-.LFB10
+ 848              		.byte	0x4
+ 849 00cc 00000000 		.4byte	.LCFI4-.LFB10
+ 850 00d0 00000000 		.byte	0xe
+ 851 00d4 24000000 		.uleb128 0x8
+ 852 00d8 4C       		.byte	0x8e
+ 853              		.uleb128 0x1
+ 854 00d9 0E       		.byte	0x84
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 20
+
+
+ 855 00da 08       		.uleb128 0x2
+ 856 00db 8E       		.align	2
+ 857 00dc 01       	.LEFDE16:
+ 858 00dd 84       	.LSFDE18:
+ 859 00de 02       		.4byte	.LEFDE18-.LASFDE18
+ 860 00df 00       	.LASFDE18:
+ 861              		.4byte	.Lframe0
+ 862              		.4byte	.LFB11
+ 863 00e0 14000000 		.4byte	.LFE11-.LFB11
+ 864              		.byte	0x4
+ 865 00e4 00000000 		.4byte	.LCFI5-.LFB11
+ 866 00e8 00000000 		.byte	0xe
+ 867 00ec 48000000 		.uleb128 0x8
+ 868 00f0 48       		.byte	0x8e
+ 869              		.uleb128 0x1
+ 870 00f1 0E       		.byte	0x84
+ 871 00f2 08       		.uleb128 0x2
+ 872 00f3 8E       		.align	2
+ 873 00f4 01       	.LEFDE18:
+ 874 00f5 84       	.LSFDE20:
+ 875 00f6 02       		.4byte	.LEFDE20-.LASFDE20
+ 876 00f7 00       	.LASFDE20:
+ 877              		.4byte	.Lframe0
+ 878              		.4byte	.LFB12
+ 879 00f8 0C000000 		.4byte	.LFE12-.LFB12
+ 880              		.align	2
+ 881 00fc 00000000 	.LEFDE20:
+ 882 0100 00000000 	.LSFDE22:
+ 883 0104 18000000 		.4byte	.LEFDE22-.LASFDE22
+ 884              	.LASFDE22:
+ 885              		.4byte	.Lframe0
+ 886              		.4byte	.LFB13
+ 887 0108 14000000 		.4byte	.LFE13-.LFB13
+ 888              		.byte	0x4
+ 889 010c 00000000 		.4byte	.LCFI6-.LFB13
+ 890 0110 00000000 		.byte	0xe
+ 891 0114 4C000000 		.uleb128 0x8
+ 892 0118 44       		.byte	0x8e
+ 893              		.uleb128 0x1
+ 894 0119 0E       		.byte	0x84
+ 895 011a 08       		.uleb128 0x2
+ 896 011b 8E       		.align	2
+ 897 011c 01       	.LEFDE22:
+ 898 011d 84       		.text
+ 899 011e 02       	.Letext0:
+ 900 011f 00       		.section	.debug_loc,"",%progbits
+ 901              	.Ldebug_loc0:
+ 902              	.LLST0:
+ 903              		.4byte	.LFB7
+ 904              		.4byte	.LCFI0
+ 905              		.2byte	0x1
+ 906              		.byte	0x5d
+ 907 0000 00000000 		.4byte	.LCFI0
+ 908 0004 04000000 		.4byte	.LFE7
+ 909 0008 0100     		.2byte	0x2
+ 910 000a 5D       		.byte	0x7d
+ 911 000b 04000000 		.sleb128 8
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 21
+
+
+ 912 000f 18000000 		.4byte	0x0
+ 913 0013 0200     		.4byte	0x0
+ 914 0015 7D       	.LLST1:
+ 915 0016 08       		.4byte	.LVL0
+ 916 0017 00000000 		.4byte	.LVL1
+ 917 001b 00000000 		.2byte	0x1
+ 918              		.byte	0x50
+ 919 001f 00000000 		.4byte	0x0
+ 920 0023 10000000 		.4byte	0x0
+ 921 0027 0100     	.LLST2:
+ 922 0029 50       		.4byte	.LVL0
+ 923 002a 00000000 		.4byte	.LVL1
+ 924 002e 00000000 		.2byte	0x1
+ 925              		.byte	0x51
+ 926 0032 00000000 		.4byte	0x0
+ 927 0036 10000000 		.4byte	0x0
+ 928 003a 0100     	.LLST4:
+ 929 003c 51       		.4byte	.LVL2
+ 930 003d 00000000 		.4byte	.LVL4
+ 931 0041 00000000 		.2byte	0x1
+ 932              		.byte	0x50
+ 933 0045 00000000 		.4byte	0x0
+ 934 0049 18000000 		.4byte	0x0
+ 935 004d 0100     	.LLST5:
+ 936 004f 50       		.4byte	.LVL2
+ 937 0050 00000000 		.4byte	.LVL3
+ 938 0054 00000000 		.2byte	0x1
+ 939              		.byte	0x51
+ 940 0058 00000000 		.4byte	0x0
+ 941 005c 0C000000 		.4byte	0x0
+ 942 0060 0100     	.LLST6:
+ 943 0062 51       		.4byte	.LVL2
+ 944 0063 00000000 		.4byte	.LVL5
+ 945 0067 00000000 		.2byte	0x1
+ 946              		.byte	0x52
+ 947 006b 00000000 		.4byte	0x0
+ 948 006f 24000000 		.4byte	0x0
+ 949 0073 0100     	.LLST8:
+ 950 0075 52       		.4byte	.LVL6
+ 951 0076 00000000 		.4byte	.LVL8
+ 952 007a 00000000 		.2byte	0x1
+ 953              		.byte	0x50
+ 954 007e 00000000 		.4byte	0x0
+ 955 0082 18000000 		.4byte	0x0
+ 956 0086 0100     	.LLST9:
+ 957 0088 50       		.4byte	.LVL6
+ 958 0089 00000000 		.4byte	.LVL7
+ 959 008d 00000000 		.2byte	0x1
+ 960              		.byte	0x51
+ 961 0091 00000000 		.4byte	0x0
+ 962 0095 0C000000 		.4byte	0x0
+ 963 0099 0100     	.LLST10:
+ 964 009b 51       		.4byte	.LVL6
+ 965 009c 00000000 		.4byte	.LVL9
+ 966 00a0 00000000 		.2byte	0x1
+ 967              		.byte	0x52
+ 968 00a4 00000000 		.4byte	0x0
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 22
+
+
+ 969 00a8 24000000 		.4byte	0x0
+ 970 00ac 0100     	.LLST13:
+ 971 00ae 52       		.4byte	.LFB4
+ 972 00af 00000000 		.4byte	.LCFI1
+ 973 00b3 00000000 		.2byte	0x1
+ 974              		.byte	0x5d
+ 975 00b7 00000000 		.4byte	.LCFI1
+ 976 00bb 08000000 		.4byte	.LFE4
+ 977 00bf 0100     		.2byte	0x2
+ 978 00c1 5D       		.byte	0x7d
+ 979 00c2 08000000 		.sleb128 24
+ 980 00c6 54000000 		.4byte	0x0
+ 981 00ca 0200     		.4byte	0x0
+ 982 00cc 7D       	.LLST14:
+ 983 00cd 18       		.4byte	.LVL12
+ 984 00ce 00000000 		.4byte	.LVL14
+ 985 00d2 00000000 		.2byte	0x1
+ 986              		.byte	0x50
+ 987 00d6 00000000 		.4byte	.LVL14
+ 988 00da 14000000 		.4byte	.LFE4
+ 989 00de 0100     		.2byte	0x1
+ 990 00e0 50       		.byte	0x58
+ 991 00e1 14000000 		.4byte	0x0
+ 992 00e5 54000000 		.4byte	0x0
+ 993 00e9 0100     	.LLST15:
+ 994 00eb 58       		.4byte	.LVL12
+ 995 00ec 00000000 		.4byte	.LVL15
+ 996 00f0 00000000 		.2byte	0x1
+ 997              		.byte	0x51
+ 998 00f4 00000000 		.4byte	.LVL15
+ 999 00f8 24000000 		.4byte	.LFE4
+ 1000 00fc 0100     		.2byte	0x1
+ 1001 00fe 51       		.byte	0x54
+ 1002 00ff 24000000 		.4byte	0x0
+ 1003 0103 54000000 		.4byte	0x0
+ 1004 0107 0100     	.LLST16:
+ 1005 0109 54       		.4byte	.LVL12
+ 1006 010a 00000000 		.4byte	.LVL15
+ 1007 010e 00000000 		.2byte	0x1
+ 1008              		.byte	0x52
+ 1009 0112 00000000 		.4byte	.LVL15
+ 1010 0116 24000000 		.4byte	.LFE4
+ 1011 011a 0100     		.2byte	0x1
+ 1012 011c 52       		.byte	0x55
+ 1013 011d 24000000 		.4byte	0x0
+ 1014 0121 54000000 		.4byte	0x0
+ 1015 0125 0100     	.LLST17:
+ 1016 0127 55       		.4byte	.LVL12
+ 1017 0128 00000000 		.4byte	.LVL15
+ 1018 012c 00000000 		.2byte	0x1
+ 1019              		.byte	0x53
+ 1020 0130 00000000 		.4byte	.LVL15
+ 1021 0134 24000000 		.4byte	.LFE4
+ 1022 0138 0100     		.2byte	0x1
+ 1023 013a 53       		.byte	0x56
+ 1024 013b 24000000 		.4byte	0x0
+ 1025 013f 54000000 		.4byte	0x0
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 23
+
+
+ 1026 0143 0100     	.LLST18:
+ 1027 0145 56       		.4byte	.LFB3
+ 1028 0146 00000000 		.4byte	.LCFI2
+ 1029 014a 00000000 		.2byte	0x1
+ 1030              		.byte	0x5d
+ 1031 014e 00000000 		.4byte	.LCFI2
+ 1032 0152 08000000 		.4byte	.LFE3
+ 1033 0156 0100     		.2byte	0x2
+ 1034 0158 5D       		.byte	0x7d
+ 1035 0159 08000000 		.sleb128 24
+ 1036 015d 94000000 		.4byte	0x0
+ 1037 0161 0200     		.4byte	0x0
+ 1038 0163 7D       	.LLST19:
+ 1039 0164 18       		.4byte	.LVL16
+ 1040 0165 00000000 		.4byte	.LVL18
+ 1041 0169 00000000 		.2byte	0x1
+ 1042              		.byte	0x50
+ 1043 016d 00000000 		.4byte	.LVL18
+ 1044 0171 14000000 		.4byte	.LFE3
+ 1045 0175 0100     		.2byte	0x1
+ 1046 0177 50       		.byte	0x55
+ 1047 0178 14000000 		.4byte	0x0
+ 1048 017c 94000000 		.4byte	0x0
+ 1049 0180 0100     	.LLST20:
+ 1050 0182 55       		.4byte	.LVL16
+ 1051 0183 00000000 		.4byte	.LVL19
+ 1052 0187 00000000 		.2byte	0x1
+ 1053              		.byte	0x51
+ 1054 018b 00000000 		.4byte	.LVL19
+ 1055 018f 1C000000 		.4byte	.LFE3
+ 1056 0193 0100     		.2byte	0x1
+ 1057 0195 51       		.byte	0x56
+ 1058 0196 1C000000 		.4byte	0x0
+ 1059 019a 94000000 		.4byte	0x0
+ 1060 019e 0100     	.LLST21:
+ 1061 01a0 56       		.4byte	.LVL20
+ 1062 01a1 00000000 		.4byte	.LVL21
+ 1063 01a5 00000000 		.2byte	0x1
+ 1064              		.byte	0x54
+ 1065 01a9 20000000 		.4byte	.LVL22
+ 1066 01ad 6C000000 		.4byte	.LFE3
+ 1067 01b1 0100     		.2byte	0x1
+ 1068 01b3 54       		.byte	0x54
+ 1069 01b4 74000000 		.4byte	0x0
+ 1070 01b8 94000000 		.4byte	0x0
+ 1071 01bc 0100     	.LLST22:
+ 1072 01be 54       		.4byte	.LFB2
+ 1073 01bf 00000000 		.4byte	.LCFI3
+ 1074 01c3 00000000 		.2byte	0x1
+ 1075              		.byte	0x5d
+ 1076 01c7 00000000 		.4byte	.LCFI3
+ 1077 01cb 14000000 		.4byte	.LFE2
+ 1078 01cf 0100     		.2byte	0x2
+ 1079 01d1 5D       		.byte	0x7d
+ 1080 01d2 14000000 		.sleb128 24
+ 1081 01d6 D0000000 		.4byte	0x0
+ 1082 01da 0200     		.4byte	0x0
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 24
+
+
+ 1083 01dc 7D       	.LLST23:
+ 1084 01dd 18       		.4byte	.LVL23
+ 1085 01de 00000000 		.4byte	.LVL25
+ 1086 01e2 00000000 		.2byte	0x1
+ 1087              		.byte	0x50
+ 1088 01e6 00000000 		.4byte	0x0
+ 1089 01ea 2C000000 		.4byte	0x0
+ 1090 01ee 0100     	.LLST24:
+ 1091 01f0 50       		.4byte	.LVL23
+ 1092 01f1 00000000 		.4byte	.LVL28
+ 1093 01f5 00000000 		.2byte	0x1
+ 1094              		.byte	0x51
+ 1095 01f9 00000000 		.4byte	.LVL29
+ 1096 01fd 70000000 		.4byte	.LFE2
+ 1097 0201 0100     		.2byte	0x1
+ 1098 0203 51       		.byte	0x51
+ 1099 0204 B0000000 		.4byte	0x0
+ 1100 0208 D0000000 		.4byte	0x0
+ 1101 020c 0100     	.LLST25:
+ 1102 020e 51       		.4byte	.LVL23
+ 1103 020f 00000000 		.4byte	.LVL24
+ 1104 0213 00000000 		.2byte	0x1
+ 1105              		.byte	0x52
+ 1106 0217 00000000 		.4byte	.LVL24
+ 1107 021b 1C000000 		.4byte	.LVL26
+ 1108 021f 0100     		.2byte	0x1
+ 1109 0221 52       		.byte	0x54
+ 1110 0222 1C000000 		.4byte	0x0
+ 1111 0226 4C000000 		.4byte	0x0
+ 1112 022a 0100     	.LLST26:
+ 1113 022c 54       		.4byte	.LVL25
+ 1114 022d 00000000 		.4byte	.LVL27
+ 1115 0231 00000000 		.2byte	0x1
+ 1116              		.byte	0x50
+ 1117 0235 2C000000 		.4byte	.LVL29
+ 1118 0239 6C000000 		.4byte	.LVL30
+ 1119 023d 0100     		.2byte	0x1
+ 1120 023f 50       		.byte	0x50
+ 1121 0240 B0000000 		.4byte	0x0
+ 1122 0244 B4000000 		.4byte	0x0
+ 1123 0248 0100     	.LLST27:
+ 1124 024a 50       		.4byte	.LFB10
+ 1125 024b 00000000 		.4byte	.LCFI4
+ 1126 024f 00000000 		.2byte	0x1
+ 1127              		.byte	0x5d
+ 1128 0253 00000000 		.4byte	.LCFI4
+ 1129 0257 0C000000 		.4byte	.LFE10
+ 1130 025b 0100     		.2byte	0x2
+ 1131 025d 5D       		.byte	0x7d
+ 1132 025e 0C000000 		.sleb128 8
+ 1133 0262 24000000 		.4byte	0x0
+ 1134 0266 0200     		.4byte	0x0
+ 1135 0268 7D       	.LLST28:
+ 1136 0269 08       		.4byte	.LFB11
+ 1137 026a 00000000 		.4byte	.LCFI5
+ 1138 026e 00000000 		.2byte	0x1
+ 1139              		.byte	0x5d
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 25
+
+
+ 1140 0272 00000000 		.4byte	.LCFI5
+ 1141 0276 08000000 		.4byte	.LFE11
+ 1142 027a 0100     		.2byte	0x2
+ 1143 027c 5D       		.byte	0x7d
+ 1144 027d 08000000 		.sleb128 8
+ 1145 0281 48000000 		.4byte	0x0
+ 1146 0285 0200     		.4byte	0x0
+ 1147 0287 7D       	.LLST30:
+ 1148 0288 08       		.4byte	.LFB13
+ 1149 0289 00000000 		.4byte	.LCFI6
+ 1150 028d 00000000 		.2byte	0x1
+ 1151              		.byte	0x5d
+ 1152 0291 00000000 		.4byte	.LCFI6
+ 1153 0295 04000000 		.4byte	.LFE13
+ 1154 0299 0100     		.2byte	0x2
+ 1155 029b 5D       		.byte	0x7d
+ 1156 029c 04000000 		.sleb128 8
+ 1157 02a0 4C000000 		.4byte	0x0
+ 1158 02a4 0200     		.4byte	0x0
+ 1159 02a6 7D       		.file 2 "type.h"
+ 1160 02a7 08       		.file 3 "sbl_iap.h"
+ 1161 02a8 00000000 		.section	.debug_info
+ 1162 02ac 00000000 		.4byte	0x44f
+ 1163              		.2byte	0x2
+ 1164              		.4byte	.Ldebug_abbrev0
+ 1165              		.byte	0x4
+ 1166 0000 4F040000 		.uleb128 0x1
+ 1167 0004 0200     		.4byte	.LASF50
+ 1168 0006 00000000 		.byte	0x4
+ 1169 000a 04       		.4byte	.LASF51
+ 1170 000b 01       		.4byte	.LASF52
+ 1171 000c D0000000 		.4byte	0x0
+ 1172 0010 04       		.4byte	0x0
+ 1173 0011 72010000 		.4byte	.Ldebug_ranges0+0x0
+ 1174 0015 45030000 		.4byte	.Ldebug_line0
+ 1175 0019 00000000 		.uleb128 0x2
+ 1176 001d 00000000 		.byte	0x1
+ 1177 0021 00000000 		.byte	0x8
+ 1178 0025 00000000 		.4byte	.LASF0
+ 1179 0029 02       		.uleb128 0x2
+ 1180 002a 01       		.byte	0x2
+ 1181 002b 08       		.byte	0x7
+ 1182 002c 36010000 		.4byte	.LASF1
+ 1183 0030 02       		.uleb128 0x2
+ 1184 0031 02       		.byte	0x4
+ 1185 0032 07       		.byte	0x7
+ 1186 0033 7E010000 		.4byte	.LASF2
+ 1187 0037 02       		.uleb128 0x3
+ 1188 0038 04       		.4byte	.LASF53
+ 1189 0039 07       		.byte	0x2
+ 1190 003a 00020000 		.byte	0x14
+ 1191 003e 03       		.4byte	0x49
+ 1192 003f 88000000 		.uleb128 0x2
+ 1193 0043 02       		.byte	0x4
+ 1194 0044 14       		.byte	0x7
+ 1195 0045 49000000 		.4byte	.LASF3
+ 1196 0049 02       		.uleb128 0x4
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 26
+
+
+ 1197 004a 04       		.4byte	.LASF54
+ 1198 004b 07       		.byte	0x1
+ 1199 004c 4B020000 		.byte	0x3
+ 1200 0050 04       		.byte	0x1e
+ 1201 0051 6F030000 		.4byte	0x8d
+ 1202 0055 01       		.uleb128 0x5
+ 1203 0056 03       		.4byte	.LASF4
+ 1204 0057 1E       		.sleb128 50
+ 1205 0058 8D000000 		.uleb128 0x5
+ 1206 005c 05       		.4byte	.LASF5
+ 1207 005d 1D010000 		.sleb128 51
+ 1208 0061 32       		.uleb128 0x5
+ 1209 0062 05       		.4byte	.LASF6
+ 1210 0063 F4000000 		.sleb128 52
+ 1211 0067 33       		.uleb128 0x5
+ 1212 0068 05       		.4byte	.LASF7
+ 1213 0069 BB020000 		.sleb128 53
+ 1214 006d 34       		.uleb128 0x5
+ 1215 006e 05       		.4byte	.LASF8
+ 1216 006f A8020000 		.sleb128 54
+ 1217 0073 35       		.uleb128 0x5
+ 1218 0074 05       		.4byte	.LASF9
+ 1219 0075 E5020000 		.sleb128 55
+ 1220 0079 36       		.uleb128 0x5
+ 1221 007a 05       		.4byte	.LASF10
+ 1222 007b 00000000 		.sleb128 56
+ 1223 007f 37       		.uleb128 0x5
+ 1224 0080 05       		.4byte	.LASF11
+ 1225 0081 43020000 		.sleb128 57
+ 1226 0085 38       		.byte	0x0
+ 1227 0086 05       		.uleb128 0x6
+ 1228 0087 58020000 		.byte	0x1
+ 1229 008b 39       		.4byte	.LASF14
+ 1230 008c 00       		.byte	0x1
+ 1231 008d 06       		.byte	0x95
+ 1232 008e 01       		.4byte	.LASF16
+ 1233 008f 13010000 		.4byte	.LFB7
+ 1234 0093 01       		.4byte	.LFE7
+ 1235 0094 95       		.4byte	.LLST0
+ 1236 0095 91010000 		.4byte	0xd3
+ 1237 0099 00000000 		.uleb128 0x7
+ 1238 009d 18000000 		.4byte	.LASF12
+ 1239 00a1 00000000 		.byte	0x1
+ 1240 00a5 D3000000 		.byte	0x95
+ 1241 00a9 07       		.4byte	0xd3
+ 1242 00aa C6000000 		.4byte	.LLST1
+ 1243 00ae 01       		.uleb128 0x7
+ 1244 00af 95       		.4byte	.LASF13
+ 1245 00b0 D3000000 		.byte	0x1
+ 1246 00b4 1F000000 		.byte	0x95
+ 1247 00b8 07       		.4byte	0xd3
+ 1248 00b9 7D000000 		.4byte	.LLST2
+ 1249 00bd 01       		.uleb128 0x8
+ 1250 00be 95       		.ascii	"iap\000"
+ 1251 00bf D3000000 		.byte	0x1
+ 1252 00c3 32000000 		.byte	0x97
+ 1253 00c7 08       		.4byte	0xe9
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 27
+
+
+ 1254 00c8 69617000 		.byte	0x0
+ 1255 00cc 01       		.uleb128 0x9
+ 1256 00cd 97       		.byte	0x4
+ 1257 00ce E9000000 		.4byte	0x49
+ 1258 00d2 00       		.uleb128 0xa
+ 1259 00d3 09       		.4byte	0xe9
+ 1260 00d4 04       		.uleb128 0xb
+ 1261 00d5 49000000 		.4byte	0xd3
+ 1262 00d9 0A       		.uleb128 0xb
+ 1263 00da E9000000 		.4byte	0xd3
+ 1264 00de 0B       		.byte	0x0
+ 1265 00df D3000000 		.uleb128 0x9
+ 1266 00e3 0B       		.byte	0x4
+ 1267 00e4 D3000000 		.4byte	0xd9
+ 1268 00e8 00       		.uleb128 0xc
+ 1269 00e9 09       		.byte	0x1
+ 1270 00ea 04       		.4byte	.LASF15
+ 1271 00eb D9000000 		.byte	0x1
+ 1272 00ef 0C       		.byte	0x8c
+ 1273 00f0 01       		.4byte	.LASF17
+ 1274 00f1 B7000000 		.4byte	.LFB6
+ 1275 00f5 01       		.4byte	.LFE6
+ 1276 00f6 8C       		.byte	0x1
+ 1277 00f7 DE000000 		.byte	0x5d
+ 1278 00fb 00000000 		.4byte	0x137
+ 1279 00ff 2C000000 		.uleb128 0x7
+ 1280 0103 01       		.4byte	.LASF18
+ 1281 0104 5D       		.byte	0x1
+ 1282 0105 37010000 		.byte	0x8c
+ 1283 0109 07       		.4byte	0x49
+ 1284 010a 06010000 		.4byte	.LLST4
+ 1285 010e 01       		.uleb128 0x7
+ 1286 010f 8C       		.4byte	.LASF19
+ 1287 0110 49000000 		.byte	0x1
+ 1288 0114 45000000 		.byte	0x8c
+ 1289 0118 07       		.4byte	0x49
+ 1290 0119 44010000 		.4byte	.LLST5
+ 1291 011d 01       		.uleb128 0x7
+ 1292 011e 8C       		.4byte	.LASF20
+ 1293 011f 49000000 		.byte	0x1
+ 1294 0123 58000000 		.byte	0x8c
+ 1295 0127 07       		.4byte	0x49
+ 1296 0128 6A020000 		.4byte	.LLST6
+ 1297 012c 01       		.byte	0x0
+ 1298 012d 8C       		.uleb128 0xc
+ 1299 012e 49000000 		.byte	0x1
+ 1300 0132 6B000000 		.4byte	.LASF21
+ 1301 0136 00       		.byte	0x1
+ 1302 0137 0C       		.byte	0x83
+ 1303 0138 01       		.4byte	.LASF22
+ 1304 0139 2C030000 		.4byte	.LFB5
+ 1305 013d 01       		.4byte	.LFE5
+ 1306 013e 83       		.byte	0x1
+ 1307 013f 46000000 		.byte	0x5d
+ 1308 0143 00000000 		.4byte	0x17f
+ 1309 0147 2C000000 		.uleb128 0x7
+ 1310 014b 01       		.4byte	.LASF18
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 28
+
+
+ 1311 014c 5D       		.byte	0x1
+ 1312 014d 7F010000 		.byte	0x83
+ 1313 0151 07       		.4byte	0x49
+ 1314 0152 06010000 		.4byte	.LLST8
+ 1315 0156 01       		.uleb128 0x7
+ 1316 0157 83       		.4byte	.LASF19
+ 1317 0158 49000000 		.byte	0x1
+ 1318 015c 7E000000 		.byte	0x83
+ 1319 0160 07       		.4byte	0x49
+ 1320 0161 44010000 		.4byte	.LLST9
+ 1321 0165 01       		.uleb128 0x7
+ 1322 0166 83       		.4byte	.LASF20
+ 1323 0167 49000000 		.byte	0x1
+ 1324 016b 91000000 		.byte	0x83
+ 1325 016f 07       		.4byte	0x49
+ 1326 0170 6A020000 		.4byte	.LLST10
+ 1327 0174 01       		.byte	0x0
+ 1328 0175 83       		.uleb128 0xc
+ 1329 0176 49000000 		.byte	0x1
+ 1330 017a A4000000 		.4byte	.LASF23
+ 1331 017e 00       		.byte	0x1
+ 1332 017f 0C       		.byte	0x9d
+ 1333 0180 01       		.4byte	.LASF24
+ 1334 0181 65000000 		.4byte	.LFB8
+ 1335 0185 01       		.4byte	.LFE8
+ 1336 0186 9D       		.byte	0x1
+ 1337 0187 F2020000 		.byte	0x5d
+ 1338 018b 00000000 		.4byte	0x1a7
+ 1339 018f 0C000000 		.uleb128 0xd
+ 1340 0193 01       		.4byte	.LASF25
+ 1341 0194 5D       		.byte	0x1
+ 1342 0195 A7010000 		.byte	0x9d
+ 1343 0199 0D       		.4byte	0x49
+ 1344 019a 5A000000 		.byte	0x1
+ 1345 019e 01       		.byte	0x50
+ 1346 019f 9D       		.byte	0x0
+ 1347 01a0 49000000 		.uleb128 0xc
+ 1348 01a4 01       		.byte	0x1
+ 1349 01a5 50       		.4byte	.LASF26
+ 1350 01a6 00       		.byte	0x1
+ 1351 01a7 0C       		.byte	0xa2
+ 1352 01a8 01       		.4byte	.LASF27
+ 1353 01a9 D2020000 		.4byte	.LFB9
+ 1354 01ad 01       		.4byte	.LFE9
+ 1355 01ae A2       		.byte	0x1
+ 1356 01af 57030000 		.byte	0x5d
+ 1357 01b3 00000000 		.4byte	0x1cf
+ 1358 01b7 0C000000 		.uleb128 0xd
+ 1359 01bb 01       		.4byte	.LASF25
+ 1360 01bc 5D       		.byte	0x1
+ 1361 01bd CF010000 		.byte	0xa2
+ 1362 01c1 0D       		.4byte	0x49
+ 1363 01c2 5A000000 		.byte	0x1
+ 1364 01c6 01       		.byte	0x50
+ 1365 01c7 A2       		.byte	0x0
+ 1366 01c8 49000000 		.uleb128 0x6
+ 1367 01cc 01       		.byte	0x1
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 29
+
+
+ 1368 01cd 50       		.4byte	.LASF28
+ 1369 01ce 00       		.byte	0x1
+ 1370 01cf 06       		.byte	0x74
+ 1371 01d0 01       		.4byte	.LASF29
+ 1372 01d1 CE010000 		.4byte	.LFB4
+ 1373 01d5 01       		.4byte	.LFE4
+ 1374 01d6 74       		.4byte	.LLST13
+ 1375 01d7 8D000000 		.4byte	0x235
+ 1376 01db 00000000 		.uleb128 0x7
+ 1377 01df 54000000 		.4byte	.LASF20
+ 1378 01e3 B7000000 		.byte	0x1
+ 1379 01e7 35020000 		.byte	0x74
+ 1380 01eb 07       		.4byte	0x49
+ 1381 01ec 6A020000 		.4byte	.LLST14
+ 1382 01f0 01       		.uleb128 0x7
+ 1383 01f1 74       		.4byte	.LASF30
+ 1384 01f2 49000000 		.byte	0x1
+ 1385 01f6 D6000000 		.byte	0x74
+ 1386 01fa 07       		.4byte	0x49
+ 1387 01fb D9010000 		.4byte	.LLST15
+ 1388 01ff 01       		.uleb128 0x7
+ 1389 0200 74       		.4byte	.LASF31
+ 1390 0201 49000000 		.byte	0x1
+ 1391 0205 F4000000 		.byte	0x74
+ 1392 0209 07       		.4byte	0xd3
+ 1393 020a 90030000 		.4byte	.LLST16
+ 1394 020e 01       		.uleb128 0x7
+ 1395 020f 74       		.4byte	.LASF32
+ 1396 0210 D3000000 		.byte	0x1
+ 1397 0214 12010000 		.byte	0x74
+ 1398 0218 07       		.4byte	0x49
+ 1399 0219 77000000 		.4byte	.LLST17
+ 1400 021d 01       		.uleb128 0xe
+ 1401 021e 74       		.4byte	.LASF25
+ 1402 021f 49000000 		.byte	0x1
+ 1403 0223 30010000 		.byte	0x76
+ 1404 0227 0E       		.4byte	0x49
+ 1405 0228 5A000000 		.byte	0x1
+ 1406 022c 01       		.byte	0x57
+ 1407 022d 76       		.byte	0x0
+ 1408 022e 49000000 		.uleb128 0x6
+ 1409 0232 01       		.byte	0x1
+ 1410 0233 57       		.4byte	.LASF33
+ 1411 0234 00       		.byte	0x1
+ 1412 0235 06       		.byte	0x5b
+ 1413 0236 01       		.4byte	.LASF34
+ 1414 0237 B4010000 		.4byte	.LFB3
+ 1415 023b 01       		.4byte	.LFE3
+ 1416 023c 5B       		.4byte	.LLST18
+ 1417 023d 6F020000 		.4byte	0x28a
+ 1418 0241 00000000 		.uleb128 0x7
+ 1419 0245 94000000 		.4byte	.LASF20
+ 1420 0249 4E010000 		.byte	0x1
+ 1421 024d 8A020000 		.byte	0x5b
+ 1422 0251 07       		.4byte	0x49
+ 1423 0252 6A020000 		.4byte	.LLST19
+ 1424 0256 01       		.uleb128 0x7
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 30
+
+
+ 1425 0257 5B       		.4byte	.LASF30
+ 1426 0258 49000000 		.byte	0x1
+ 1427 025c 6D010000 		.byte	0x5b
+ 1428 0260 07       		.4byte	0x49
+ 1429 0261 D9010000 		.4byte	.LLST20
+ 1430 0265 01       		.uleb128 0xf
+ 1431 0266 5B       		.ascii	"i\000"
+ 1432 0267 49000000 		.byte	0x1
+ 1433 026b 8B010000 		.byte	0x5d
+ 1434 026f 0F       		.4byte	0x49
+ 1435 0270 6900     		.4byte	.LLST21
+ 1436 0272 01       		.uleb128 0xe
+ 1437 0273 5D       		.4byte	.LASF25
+ 1438 0274 49000000 		.byte	0x1
+ 1439 0278 A9010000 		.byte	0x5e
+ 1440 027c 0E       		.4byte	0x49
+ 1441 027d 5A000000 		.byte	0x1
+ 1442 0281 01       		.byte	0x57
+ 1443 0282 5E       		.byte	0x0
+ 1444 0283 49000000 		.uleb128 0x10
+ 1445 0287 01       		.byte	0x1
+ 1446 0288 57       		.4byte	.LASF55
+ 1447 0289 00       		.byte	0x1
+ 1448 028a 10       		.byte	0x38
+ 1449 028b 01       		.4byte	.LASF56
+ 1450 028c F4010000 		.4byte	0x49
+ 1451 0290 01       		.4byte	.LFB2
+ 1452 0291 38       		.4byte	.LFE2
+ 1453 0292 22000000 		.4byte	.LLST22
+ 1454 0296 49000000 		.4byte	0x2e5
+ 1455 029a 00000000 		.uleb128 0x11
+ 1456 029e D0000000 		.ascii	"dst\000"
+ 1457 02a2 C7010000 		.byte	0x1
+ 1458 02a6 E5020000 		.byte	0x38
+ 1459 02aa 11       		.4byte	0xd3
+ 1460 02ab 64737400 		.4byte	.LLST23
+ 1461 02af 01       		.uleb128 0x11
+ 1462 02b0 38       		.ascii	"src\000"
+ 1463 02b1 D3000000 		.byte	0x1
+ 1464 02b5 E6010000 		.byte	0x38
+ 1465 02b9 11       		.4byte	0x2e5
+ 1466 02ba 73726300 		.4byte	.LLST24
+ 1467 02be 01       		.uleb128 0x7
+ 1468 02bf 38       		.4byte	.LASF35
+ 1469 02c0 E5020000 		.byte	0x1
+ 1470 02c4 F9010000 		.byte	0x38
+ 1471 02c8 07       		.4byte	0x49
+ 1472 02c9 39030000 		.4byte	.LLST25
+ 1473 02cd 01       		.uleb128 0xf
+ 1474 02ce 38       		.ascii	"i\000"
+ 1475 02cf 49000000 		.byte	0x1
+ 1476 02d3 17020000 		.byte	0x3a
+ 1477 02d7 0F       		.4byte	0x49
+ 1478 02d8 6900     		.4byte	.LLST26
+ 1479 02da 01       		.byte	0x0
+ 1480 02db 3A       		.uleb128 0x9
+ 1481 02dc 49000000 		.byte	0x4
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 31
+
+
+ 1482 02e0 35020000 		.4byte	0x29
+ 1483 02e4 00       		.uleb128 0x12
+ 1484 02e5 09       		.byte	0x1
+ 1485 02e6 04       		.4byte	.LASF36
+ 1486 02e7 29000000 		.byte	0x1
+ 1487 02eb 12       		.byte	0xa9
+ 1488 02ec 01       		.4byte	.LASF38
+ 1489 02ed 09030000 		.4byte	.LFB10
+ 1490 02f1 01       		.4byte	.LFE10
+ 1491 02f2 A9       		.4byte	.LLST27
+ 1492 02f3 4F010000 		.uleb128 0x13
+ 1493 02f7 00000000 		.byte	0x1
+ 1494 02fb 24000000 		.4byte	.LASF57
+ 1495 02ff 53020000 		.byte	0x1
+ 1496 0303 13       		.byte	0xb1
+ 1497 0304 01       		.4byte	.LASF58
+ 1498 0305 A2010000 		.4byte	0x3e
+ 1499 0309 01       		.4byte	.LFB11
+ 1500 030a B1       		.4byte	.LFE11
+ 1501 030b 23020000 		.4byte	.LLST28
+ 1502 030f 3E000000 		.uleb128 0x14
+ 1503 0313 00000000 		.byte	0x1
+ 1504 0317 48000000 		.4byte	.LASF37
+ 1505 031b 72020000 		.byte	0x1
+ 1506 031f 14       		.byte	0xc1
+ 1507 0320 01       		.4byte	.LASF39
+ 1508 0321 0E000000 		.4byte	.LFB12
+ 1509 0325 01       		.4byte	.LFE12
+ 1510 0326 C1       		.byte	0x1
+ 1511 0327 8F020000 		.byte	0x5d
+ 1512 032b 00000000 		.uleb128 0x12
+ 1513 032f 18000000 		.byte	0x1
+ 1514 0333 01       		.4byte	.LASF40
+ 1515 0334 5D       		.byte	0x1
+ 1516 0335 12       		.byte	0xcd
+ 1517 0336 01       		.4byte	.LASF41
+ 1518 0337 1B030000 		.4byte	.LFB13
+ 1519 033b 01       		.4byte	.LFE13
+ 1520 033c CD       		.4byte	.LLST30
+ 1521 033d A1000000 		.uleb128 0x15
+ 1522 0341 00000000 		.4byte	0x49
+ 1523 0345 4C000000 		.4byte	0x35d
+ 1524 0349 91020000 		.uleb128 0x16
+ 1525 034d 15       		.4byte	0x35d
+ 1526 034e 49000000 		.byte	0x1f
+ 1527 0352 5D030000 		.byte	0x0
+ 1528 0356 16       		.uleb128 0x17
+ 1529 0357 5D030000 		.byte	0x4
+ 1530 035b 1F       		.byte	0x7
+ 1531 035c 00       		.uleb128 0x18
+ 1532 035d 17       		.4byte	.LASF42
+ 1533 035e 04       		.byte	0x1
+ 1534 035f 07       		.byte	0x15
+ 1535 0360 18       		.4byte	0x372
+ 1536 0361 12020000 		.byte	0x1
+ 1537 0365 01       		.byte	0x5
+ 1538 0366 15       		.byte	0x3
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 32
+
+
+ 1539 0367 72030000 		.4byte	sector_start_map
+ 1540 036b 01       		.uleb128 0x19
+ 1541 036c 05       		.4byte	0x34d
+ 1542 036d 03       		.uleb128 0x18
+ 1543 036e 00000000 		.4byte	.LASF43
+ 1544 0372 19       		.byte	0x1
+ 1545 0373 4D030000 		.byte	0x1e
+ 1546 0377 18       		.4byte	0x389
+ 1547 0378 37000000 		.byte	0x1
+ 1548 037c 01       		.byte	0x5
+ 1549 037d 1E       		.byte	0x3
+ 1550 037e 89030000 		.4byte	sector_end_map
+ 1551 0382 01       		.uleb128 0x19
+ 1552 0383 05       		.4byte	0x34d
+ 1553 0384 03       		.uleb128 0x1a
+ 1554 0385 00000000 		.ascii	"crp\000"
+ 1555 0389 19       		.byte	0x1
+ 1556 038a 4D030000 		.byte	0x13
+ 1557 038e 1A       		.4byte	0x3a0
+ 1558 038f 63727000 		.byte	0x1
+ 1559 0393 01       		.byte	0x5
+ 1560 0394 13       		.byte	0x3
+ 1561 0395 A0030000 		.4byte	crp
+ 1562 0399 01       		.uleb128 0x19
+ 1563 039a 05       		.4byte	0x49
+ 1564 039b 03       		.uleb128 0x15
+ 1565 039c 00000000 		.4byte	0x49
+ 1566 03a0 19       		.4byte	0x3b5
+ 1567 03a1 49000000 		.uleb128 0x16
+ 1568 03a5 15       		.4byte	0x35d
+ 1569 03a6 49000000 		.byte	0x4
+ 1570 03aa B5030000 		.byte	0x0
+ 1571 03ae 16       		.uleb128 0x18
+ 1572 03af 5D030000 		.4byte	.LASF44
+ 1573 03b3 04       		.byte	0x1
+ 1574 03b4 00       		.byte	0x26
+ 1575 03b5 18       		.4byte	0x3a5
+ 1576 03b6 66010000 		.byte	0x1
+ 1577 03ba 01       		.byte	0x5
+ 1578 03bb 26       		.byte	0x3
+ 1579 03bc A5030000 		.4byte	param_table
+ 1580 03c0 01       		.uleb128 0x18
+ 1581 03c1 05       		.4byte	.LASF45
+ 1582 03c2 03       		.byte	0x1
+ 1583 03c3 00000000 		.byte	0x27
+ 1584 03c7 18       		.4byte	0x3a5
+ 1585 03c8 E7010000 		.byte	0x1
+ 1586 03cc 01       		.byte	0x5
+ 1587 03cd 27       		.byte	0x3
+ 1588 03ce A5030000 		.4byte	result_table
+ 1589 03d2 01       		.uleb128 0x18
+ 1590 03d3 05       		.4byte	.LASF20
+ 1591 03d4 03       		.byte	0x1
+ 1592 03d5 00000000 		.byte	0x29
+ 1593 03d9 18       		.4byte	0x49
+ 1594 03da 6A020000 		.byte	0x1
+ 1595 03de 01       		.byte	0x5
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 33
+
+
+ 1596 03df 29       		.byte	0x3
+ 1597 03e0 49000000 		.4byte	cclk
+ 1598 03e4 01       		.uleb128 0x15
+ 1599 03e5 05       		.4byte	0x3fc
+ 1600 03e6 03       		.4byte	0x3fc
+ 1601 03e7 00000000 		.uleb128 0x1b
+ 1602 03eb 15       		.4byte	0x35d
+ 1603 03ec FC030000 		.2byte	0x1ff
+ 1604 03f0 FC030000 		.byte	0x0
+ 1605 03f4 1B       		.uleb128 0x2
+ 1606 03f5 5D030000 		.byte	0x1
+ 1607 03f9 FF01     		.byte	0x8
+ 1608 03fb 00       		.4byte	.LASF46
+ 1609 03fc 02       		.uleb128 0x18
+ 1610 03fd 01       		.4byte	.LASF47
+ 1611 03fe 08       		.byte	0x1
+ 1612 03ff 65020000 		.byte	0x2a
+ 1613 0403 18       		.4byte	0x3eb
+ 1614 0404 C8020000 		.byte	0x1
+ 1615 0408 01       		.byte	0x5
+ 1616 0409 2A       		.byte	0x3
+ 1617 040a EB030000 		.4byte	flash_buf
+ 1618 040e 01       		.uleb128 0x18
+ 1619 040f 05       		.4byte	.LASF30
+ 1620 0410 03       		.byte	0x1
+ 1621 0411 00000000 		.byte	0x2c
+ 1622 0415 18       		.4byte	0xd3
+ 1623 0416 D9010000 		.byte	0x1
+ 1624 041a 01       		.byte	0x5
+ 1625 041b 2C       		.byte	0x3
+ 1626 041c D3000000 		.4byte	flash_address
+ 1627 0420 01       		.uleb128 0x18
+ 1628 0421 05       		.4byte	.LASF48
+ 1629 0422 03       		.byte	0x1
+ 1630 0423 00000000 		.byte	0x2d
+ 1631 0427 18       		.4byte	0x49
+ 1632 0428 3A020000 		.byte	0x1
+ 1633 042c 01       		.byte	0x5
+ 1634 042d 2D       		.byte	0x3
+ 1635 042e 49000000 		.4byte	byte_ctr
+ 1636 0432 01       		.uleb128 0x1c
+ 1637 0433 05       		.uleb128 0x18
+ 1638 0434 03       		.4byte	.LASF49
+ 1639 0435 00000000 		.byte	0x1
+ 1640 0439 1C       		.byte	0xa7
+ 1641 043a 18       		.4byte	0x44c
+ 1642 043b 80030000 		.byte	0x1
+ 1643 043f 01       		.byte	0x5
+ 1644 0440 A7       		.byte	0x3
+ 1645 0441 4C040000 		.4byte	user_code_entry
+ 1646 0445 01       		.uleb128 0x9
+ 1647 0446 05       		.byte	0x4
+ 1648 0447 03       		.4byte	0x439
+ 1649 0448 00000000 		.byte	0x0
+ 1650 044c 09       		.section	.debug_abbrev
+ 1651 044d 04       		.uleb128 0x1
+ 1652 044e 39040000 		.uleb128 0x11
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 34
+
+
+ 1653 0452 00       		.byte	0x1
+ 1654              		.uleb128 0x25
+ 1655 0000 01       		.uleb128 0xe
+ 1656 0001 11       		.uleb128 0x13
+ 1657 0002 01       		.uleb128 0xb
+ 1658 0003 25       		.uleb128 0x3
+ 1659 0004 0E       		.uleb128 0xe
+ 1660 0005 13       		.uleb128 0x1b
+ 1661 0006 0B       		.uleb128 0xe
+ 1662 0007 03       		.uleb128 0x11
+ 1663 0008 0E       		.uleb128 0x1
+ 1664 0009 1B       		.uleb128 0x52
+ 1665 000a 0E       		.uleb128 0x1
+ 1666 000b 11       		.uleb128 0x55
+ 1667 000c 01       		.uleb128 0x6
+ 1668 000d 52       		.uleb128 0x10
+ 1669 000e 01       		.uleb128 0x6
+ 1670 000f 55       		.byte	0x0
+ 1671 0010 06       		.byte	0x0
+ 1672 0011 10       		.uleb128 0x2
+ 1673 0012 06       		.uleb128 0x24
+ 1674 0013 00       		.byte	0x0
+ 1675 0014 00       		.uleb128 0xb
+ 1676 0015 02       		.uleb128 0xb
+ 1677 0016 24       		.uleb128 0x3e
+ 1678 0017 00       		.uleb128 0xb
+ 1679 0018 0B       		.uleb128 0x3
+ 1680 0019 0B       		.uleb128 0xe
+ 1681 001a 3E       		.byte	0x0
+ 1682 001b 0B       		.byte	0x0
+ 1683 001c 03       		.uleb128 0x3
+ 1684 001d 0E       		.uleb128 0x16
+ 1685 001e 00       		.byte	0x0
+ 1686 001f 00       		.uleb128 0x3
+ 1687 0020 03       		.uleb128 0xe
+ 1688 0021 16       		.uleb128 0x3a
+ 1689 0022 00       		.uleb128 0xb
+ 1690 0023 03       		.uleb128 0x3b
+ 1691 0024 0E       		.uleb128 0xb
+ 1692 0025 3A       		.uleb128 0x49
+ 1693 0026 0B       		.uleb128 0x13
+ 1694 0027 3B       		.byte	0x0
+ 1695 0028 0B       		.byte	0x0
+ 1696 0029 49       		.uleb128 0x4
+ 1697 002a 13       		.uleb128 0x4
+ 1698 002b 00       		.byte	0x1
+ 1699 002c 00       		.uleb128 0x3
+ 1700 002d 04       		.uleb128 0xe
+ 1701 002e 04       		.uleb128 0xb
+ 1702 002f 01       		.uleb128 0xb
+ 1703 0030 03       		.uleb128 0x3a
+ 1704 0031 0E       		.uleb128 0xb
+ 1705 0032 0B       		.uleb128 0x3b
+ 1706 0033 0B       		.uleb128 0xb
+ 1707 0034 3A       		.uleb128 0x1
+ 1708 0035 0B       		.uleb128 0x13
+ 1709 0036 3B       		.byte	0x0
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 35
+
+
+ 1710 0037 0B       		.byte	0x0
+ 1711 0038 01       		.uleb128 0x5
+ 1712 0039 13       		.uleb128 0x28
+ 1713 003a 00       		.byte	0x0
+ 1714 003b 00       		.uleb128 0x3
+ 1715 003c 05       		.uleb128 0xe
+ 1716 003d 28       		.uleb128 0x1c
+ 1717 003e 00       		.uleb128 0xd
+ 1718 003f 03       		.byte	0x0
+ 1719 0040 0E       		.byte	0x0
+ 1720 0041 1C       		.uleb128 0x6
+ 1721 0042 0D       		.uleb128 0x2e
+ 1722 0043 00       		.byte	0x1
+ 1723 0044 00       		.uleb128 0x3f
+ 1724 0045 06       		.uleb128 0xc
+ 1725 0046 2E       		.uleb128 0x3
+ 1726 0047 01       		.uleb128 0xe
+ 1727 0048 3F       		.uleb128 0x3a
+ 1728 0049 0C       		.uleb128 0xb
+ 1729 004a 03       		.uleb128 0x3b
+ 1730 004b 0E       		.uleb128 0xb
+ 1731 004c 3A       		.uleb128 0x2007
+ 1732 004d 0B       		.uleb128 0xe
+ 1733 004e 3B       		.uleb128 0x11
+ 1734 004f 0B       		.uleb128 0x1
+ 1735 0050 8740     		.uleb128 0x12
+ 1736 0052 0E       		.uleb128 0x1
+ 1737 0053 11       		.uleb128 0x40
+ 1738 0054 01       		.uleb128 0x6
+ 1739 0055 12       		.uleb128 0x1
+ 1740 0056 01       		.uleb128 0x13
+ 1741 0057 40       		.byte	0x0
+ 1742 0058 06       		.byte	0x0
+ 1743 0059 01       		.uleb128 0x7
+ 1744 005a 13       		.uleb128 0x5
+ 1745 005b 00       		.byte	0x0
+ 1746 005c 00       		.uleb128 0x3
+ 1747 005d 07       		.uleb128 0xe
+ 1748 005e 05       		.uleb128 0x3a
+ 1749 005f 00       		.uleb128 0xb
+ 1750 0060 03       		.uleb128 0x3b
+ 1751 0061 0E       		.uleb128 0xb
+ 1752 0062 3A       		.uleb128 0x49
+ 1753 0063 0B       		.uleb128 0x13
+ 1754 0064 3B       		.uleb128 0x2
+ 1755 0065 0B       		.uleb128 0x6
+ 1756 0066 49       		.byte	0x0
+ 1757 0067 13       		.byte	0x0
+ 1758 0068 02       		.uleb128 0x8
+ 1759 0069 06       		.uleb128 0x34
+ 1760 006a 00       		.byte	0x0
+ 1761 006b 00       		.uleb128 0x3
+ 1762 006c 08       		.uleb128 0x8
+ 1763 006d 34       		.uleb128 0x3a
+ 1764 006e 00       		.uleb128 0xb
+ 1765 006f 03       		.uleb128 0x3b
+ 1766 0070 08       		.uleb128 0xb
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 36
+
+
+ 1767 0071 3A       		.uleb128 0x49
+ 1768 0072 0B       		.uleb128 0x13
+ 1769 0073 3B       		.byte	0x0
+ 1770 0074 0B       		.byte	0x0
+ 1771 0075 49       		.uleb128 0x9
+ 1772 0076 13       		.uleb128 0xf
+ 1773 0077 00       		.byte	0x0
+ 1774 0078 00       		.uleb128 0xb
+ 1775 0079 09       		.uleb128 0xb
+ 1776 007a 0F       		.uleb128 0x49
+ 1777 007b 00       		.uleb128 0x13
+ 1778 007c 0B       		.byte	0x0
+ 1779 007d 0B       		.byte	0x0
+ 1780 007e 49       		.uleb128 0xa
+ 1781 007f 13       		.uleb128 0x15
+ 1782 0080 00       		.byte	0x1
+ 1783 0081 00       		.uleb128 0x1
+ 1784 0082 0A       		.uleb128 0x13
+ 1785 0083 15       		.byte	0x0
+ 1786 0084 01       		.byte	0x0
+ 1787 0085 01       		.uleb128 0xb
+ 1788 0086 13       		.uleb128 0x5
+ 1789 0087 00       		.byte	0x0
+ 1790 0088 00       		.uleb128 0x49
+ 1791 0089 0B       		.uleb128 0x13
+ 1792 008a 05       		.byte	0x0
+ 1793 008b 00       		.byte	0x0
+ 1794 008c 49       		.uleb128 0xc
+ 1795 008d 13       		.uleb128 0x2e
+ 1796 008e 00       		.byte	0x1
+ 1797 008f 00       		.uleb128 0x3f
+ 1798 0090 0C       		.uleb128 0xc
+ 1799 0091 2E       		.uleb128 0x3
+ 1800 0092 01       		.uleb128 0xe
+ 1801 0093 3F       		.uleb128 0x3a
+ 1802 0094 0C       		.uleb128 0xb
+ 1803 0095 03       		.uleb128 0x3b
+ 1804 0096 0E       		.uleb128 0xb
+ 1805 0097 3A       		.uleb128 0x2007
+ 1806 0098 0B       		.uleb128 0xe
+ 1807 0099 3B       		.uleb128 0x11
+ 1808 009a 0B       		.uleb128 0x1
+ 1809 009b 8740     		.uleb128 0x12
+ 1810 009d 0E       		.uleb128 0x1
+ 1811 009e 11       		.uleb128 0x40
+ 1812 009f 01       		.uleb128 0xa
+ 1813 00a0 12       		.uleb128 0x1
+ 1814 00a1 01       		.uleb128 0x13
+ 1815 00a2 40       		.byte	0x0
+ 1816 00a3 0A       		.byte	0x0
+ 1817 00a4 01       		.uleb128 0xd
+ 1818 00a5 13       		.uleb128 0x5
+ 1819 00a6 00       		.byte	0x0
+ 1820 00a7 00       		.uleb128 0x3
+ 1821 00a8 0D       		.uleb128 0xe
+ 1822 00a9 05       		.uleb128 0x3a
+ 1823 00aa 00       		.uleb128 0xb
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 37
+
+
+ 1824 00ab 03       		.uleb128 0x3b
+ 1825 00ac 0E       		.uleb128 0xb
+ 1826 00ad 3A       		.uleb128 0x49
+ 1827 00ae 0B       		.uleb128 0x13
+ 1828 00af 3B       		.uleb128 0x2
+ 1829 00b0 0B       		.uleb128 0xa
+ 1830 00b1 49       		.byte	0x0
+ 1831 00b2 13       		.byte	0x0
+ 1832 00b3 02       		.uleb128 0xe
+ 1833 00b4 0A       		.uleb128 0x34
+ 1834 00b5 00       		.byte	0x0
+ 1835 00b6 00       		.uleb128 0x3
+ 1836 00b7 0E       		.uleb128 0xe
+ 1837 00b8 34       		.uleb128 0x3a
+ 1838 00b9 00       		.uleb128 0xb
+ 1839 00ba 03       		.uleb128 0x3b
+ 1840 00bb 0E       		.uleb128 0xb
+ 1841 00bc 3A       		.uleb128 0x49
+ 1842 00bd 0B       		.uleb128 0x13
+ 1843 00be 3B       		.uleb128 0x2
+ 1844 00bf 0B       		.uleb128 0xa
+ 1845 00c0 49       		.byte	0x0
+ 1846 00c1 13       		.byte	0x0
+ 1847 00c2 02       		.uleb128 0xf
+ 1848 00c3 0A       		.uleb128 0x34
+ 1849 00c4 00       		.byte	0x0
+ 1850 00c5 00       		.uleb128 0x3
+ 1851 00c6 0F       		.uleb128 0x8
+ 1852 00c7 34       		.uleb128 0x3a
+ 1853 00c8 00       		.uleb128 0xb
+ 1854 00c9 03       		.uleb128 0x3b
+ 1855 00ca 08       		.uleb128 0xb
+ 1856 00cb 3A       		.uleb128 0x49
+ 1857 00cc 0B       		.uleb128 0x13
+ 1858 00cd 3B       		.uleb128 0x2
+ 1859 00ce 0B       		.uleb128 0x6
+ 1860 00cf 49       		.byte	0x0
+ 1861 00d0 13       		.byte	0x0
+ 1862 00d1 02       		.uleb128 0x10
+ 1863 00d2 06       		.uleb128 0x2e
+ 1864 00d3 00       		.byte	0x1
+ 1865 00d4 00       		.uleb128 0x3f
+ 1866 00d5 10       		.uleb128 0xc
+ 1867 00d6 2E       		.uleb128 0x3
+ 1868 00d7 01       		.uleb128 0xe
+ 1869 00d8 3F       		.uleb128 0x3a
+ 1870 00d9 0C       		.uleb128 0xb
+ 1871 00da 03       		.uleb128 0x3b
+ 1872 00db 0E       		.uleb128 0xb
+ 1873 00dc 3A       		.uleb128 0x2007
+ 1874 00dd 0B       		.uleb128 0xe
+ 1875 00de 3B       		.uleb128 0x49
+ 1876 00df 0B       		.uleb128 0x13
+ 1877 00e0 8740     		.uleb128 0x11
+ 1878 00e2 0E       		.uleb128 0x1
+ 1879 00e3 49       		.uleb128 0x12
+ 1880 00e4 13       		.uleb128 0x1
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 38
+
+
+ 1881 00e5 11       		.uleb128 0x40
+ 1882 00e6 01       		.uleb128 0x6
+ 1883 00e7 12       		.uleb128 0x1
+ 1884 00e8 01       		.uleb128 0x13
+ 1885 00e9 40       		.byte	0x0
+ 1886 00ea 06       		.byte	0x0
+ 1887 00eb 01       		.uleb128 0x11
+ 1888 00ec 13       		.uleb128 0x5
+ 1889 00ed 00       		.byte	0x0
+ 1890 00ee 00       		.uleb128 0x3
+ 1891 00ef 11       		.uleb128 0x8
+ 1892 00f0 05       		.uleb128 0x3a
+ 1893 00f1 00       		.uleb128 0xb
+ 1894 00f2 03       		.uleb128 0x3b
+ 1895 00f3 08       		.uleb128 0xb
+ 1896 00f4 3A       		.uleb128 0x49
+ 1897 00f5 0B       		.uleb128 0x13
+ 1898 00f6 3B       		.uleb128 0x2
+ 1899 00f7 0B       		.uleb128 0x6
+ 1900 00f8 49       		.byte	0x0
+ 1901 00f9 13       		.byte	0x0
+ 1902 00fa 02       		.uleb128 0x12
+ 1903 00fb 06       		.uleb128 0x2e
+ 1904 00fc 00       		.byte	0x0
+ 1905 00fd 00       		.uleb128 0x3f
+ 1906 00fe 12       		.uleb128 0xc
+ 1907 00ff 2E       		.uleb128 0x3
+ 1908 0100 00       		.uleb128 0xe
+ 1909 0101 3F       		.uleb128 0x3a
+ 1910 0102 0C       		.uleb128 0xb
+ 1911 0103 03       		.uleb128 0x3b
+ 1912 0104 0E       		.uleb128 0xb
+ 1913 0105 3A       		.uleb128 0x2007
+ 1914 0106 0B       		.uleb128 0xe
+ 1915 0107 3B       		.uleb128 0x11
+ 1916 0108 0B       		.uleb128 0x1
+ 1917 0109 8740     		.uleb128 0x12
+ 1918 010b 0E       		.uleb128 0x1
+ 1919 010c 11       		.uleb128 0x40
+ 1920 010d 01       		.uleb128 0x6
+ 1921 010e 12       		.byte	0x0
+ 1922 010f 01       		.byte	0x0
+ 1923 0110 40       		.uleb128 0x13
+ 1924 0111 06       		.uleb128 0x2e
+ 1925 0112 00       		.byte	0x0
+ 1926 0113 00       		.uleb128 0x3f
+ 1927 0114 13       		.uleb128 0xc
+ 1928 0115 2E       		.uleb128 0x3
+ 1929 0116 00       		.uleb128 0xe
+ 1930 0117 3F       		.uleb128 0x3a
+ 1931 0118 0C       		.uleb128 0xb
+ 1932 0119 03       		.uleb128 0x3b
+ 1933 011a 0E       		.uleb128 0xb
+ 1934 011b 3A       		.uleb128 0x2007
+ 1935 011c 0B       		.uleb128 0xe
+ 1936 011d 3B       		.uleb128 0x49
+ 1937 011e 0B       		.uleb128 0x13
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 39
+
+
+ 1938 011f 8740     		.uleb128 0x11
+ 1939 0121 0E       		.uleb128 0x1
+ 1940 0122 49       		.uleb128 0x12
+ 1941 0123 13       		.uleb128 0x1
+ 1942 0124 11       		.uleb128 0x40
+ 1943 0125 01       		.uleb128 0x6
+ 1944 0126 12       		.byte	0x0
+ 1945 0127 01       		.byte	0x0
+ 1946 0128 40       		.uleb128 0x14
+ 1947 0129 06       		.uleb128 0x2e
+ 1948 012a 00       		.byte	0x0
+ 1949 012b 00       		.uleb128 0x3f
+ 1950 012c 14       		.uleb128 0xc
+ 1951 012d 2E       		.uleb128 0x3
+ 1952 012e 00       		.uleb128 0xe
+ 1953 012f 3F       		.uleb128 0x3a
+ 1954 0130 0C       		.uleb128 0xb
+ 1955 0131 03       		.uleb128 0x3b
+ 1956 0132 0E       		.uleb128 0xb
+ 1957 0133 3A       		.uleb128 0x2007
+ 1958 0134 0B       		.uleb128 0xe
+ 1959 0135 3B       		.uleb128 0x11
+ 1960 0136 0B       		.uleb128 0x1
+ 1961 0137 8740     		.uleb128 0x12
+ 1962 0139 0E       		.uleb128 0x1
+ 1963 013a 11       		.uleb128 0x40
+ 1964 013b 01       		.uleb128 0xa
+ 1965 013c 12       		.byte	0x0
+ 1966 013d 01       		.byte	0x0
+ 1967 013e 40       		.uleb128 0x15
+ 1968 013f 0A       		.uleb128 0x1
+ 1969 0140 00       		.byte	0x1
+ 1970 0141 00       		.uleb128 0x49
+ 1971 0142 15       		.uleb128 0x13
+ 1972 0143 01       		.uleb128 0x1
+ 1973 0144 01       		.uleb128 0x13
+ 1974 0145 49       		.byte	0x0
+ 1975 0146 13       		.byte	0x0
+ 1976 0147 01       		.uleb128 0x16
+ 1977 0148 13       		.uleb128 0x21
+ 1978 0149 00       		.byte	0x0
+ 1979 014a 00       		.uleb128 0x49
+ 1980 014b 16       		.uleb128 0x13
+ 1981 014c 21       		.uleb128 0x2f
+ 1982 014d 00       		.uleb128 0xb
+ 1983 014e 49       		.byte	0x0
+ 1984 014f 13       		.byte	0x0
+ 1985 0150 2F       		.uleb128 0x17
+ 1986 0151 0B       		.uleb128 0x24
+ 1987 0152 00       		.byte	0x0
+ 1988 0153 00       		.uleb128 0xb
+ 1989 0154 17       		.uleb128 0xb
+ 1990 0155 24       		.uleb128 0x3e
+ 1991 0156 00       		.uleb128 0xb
+ 1992 0157 0B       		.byte	0x0
+ 1993 0158 0B       		.byte	0x0
+ 1994 0159 3E       		.uleb128 0x18
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 40
+
+
+ 1995 015a 0B       		.uleb128 0x34
+ 1996 015b 00       		.byte	0x0
+ 1997 015c 00       		.uleb128 0x3
+ 1998 015d 18       		.uleb128 0xe
+ 1999 015e 34       		.uleb128 0x3a
+ 2000 015f 00       		.uleb128 0xb
+ 2001 0160 03       		.uleb128 0x3b
+ 2002 0161 0E       		.uleb128 0xb
+ 2003 0162 3A       		.uleb128 0x49
+ 2004 0163 0B       		.uleb128 0x13
+ 2005 0164 3B       		.uleb128 0x3f
+ 2006 0165 0B       		.uleb128 0xc
+ 2007 0166 49       		.uleb128 0x2
+ 2008 0167 13       		.uleb128 0xa
+ 2009 0168 3F       		.byte	0x0
+ 2010 0169 0C       		.byte	0x0
+ 2011 016a 02       		.uleb128 0x19
+ 2012 016b 0A       		.uleb128 0x26
+ 2013 016c 00       		.byte	0x0
+ 2014 016d 00       		.uleb128 0x49
+ 2015 016e 19       		.uleb128 0x13
+ 2016 016f 26       		.byte	0x0
+ 2017 0170 00       		.byte	0x0
+ 2018 0171 49       		.uleb128 0x1a
+ 2019 0172 13       		.uleb128 0x34
+ 2020 0173 00       		.byte	0x0
+ 2021 0174 00       		.uleb128 0x3
+ 2022 0175 1A       		.uleb128 0x8
+ 2023 0176 34       		.uleb128 0x3a
+ 2024 0177 00       		.uleb128 0xb
+ 2025 0178 03       		.uleb128 0x3b
+ 2026 0179 08       		.uleb128 0xb
+ 2027 017a 3A       		.uleb128 0x49
+ 2028 017b 0B       		.uleb128 0x13
+ 2029 017c 3B       		.uleb128 0x3f
+ 2030 017d 0B       		.uleb128 0xc
+ 2031 017e 49       		.uleb128 0x2
+ 2032 017f 13       		.uleb128 0xa
+ 2033 0180 3F       		.byte	0x0
+ 2034 0181 0C       		.byte	0x0
+ 2035 0182 02       		.uleb128 0x1b
+ 2036 0183 0A       		.uleb128 0x21
+ 2037 0184 00       		.byte	0x0
+ 2038 0185 00       		.uleb128 0x49
+ 2039 0186 1B       		.uleb128 0x13
+ 2040 0187 21       		.uleb128 0x2f
+ 2041 0188 00       		.uleb128 0x5
+ 2042 0189 49       		.byte	0x0
+ 2043 018a 13       		.byte	0x0
+ 2044 018b 2F       		.uleb128 0x1c
+ 2045 018c 05       		.uleb128 0x15
+ 2046 018d 00       		.byte	0x0
+ 2047 018e 00       		.byte	0x0
+ 2048 018f 1C       		.byte	0x0
+ 2049 0190 15       		.byte	0x0
+ 2050 0191 00       		.section	.debug_pubnames,"",%progbits
+ 2051 0192 00       		.4byte	0x19e
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 41
+
+
+ 2052 0193 00       		.2byte	0x2
+ 2053 0194 00       		.4byte	.Ldebug_info0
+ 2054              		.4byte	0x453
+ 2055 0000 9E010000 		.4byte	0x8d
+ 2056 0004 0200     		.ascii	"iap_entry\000"
+ 2057 0006 00000000 		.4byte	0xef
+ 2058 000a 53040000 		.ascii	"prepare_sector\000"
+ 2059 000e 8D000000 		.4byte	0x137
+ 2060 0012 6961705F 		.ascii	"erase_sector\000"
+ 2060      656E7472 
+ 2060      7900
+ 2061 001c EF000000 		.4byte	0x17f
+ 2062 0020 70726570 		.ascii	"enable_interrupts\000"
+ 2062      6172655F 
+ 2062      73656374 
+ 2062      6F7200
+ 2063 002f 37010000 		.4byte	0x1a7
+ 2064 0033 65726173 		.ascii	"disable_interrupts\000"
+ 2064      655F7365 
+ 2064      63746F72 
+ 2064      00
+ 2065 0040 7F010000 		.4byte	0x1cf
+ 2066 0044 656E6162 		.ascii	"write_data\000"
+ 2066      6C655F69 
+ 2066      6E746572 
+ 2066      72757074 
+ 2066      7300
+ 2067 0056 A7010000 		.4byte	0x235
+ 2068 005a 64697361 		.ascii	"find_erase_prepare_sector\000"
+ 2068      626C655F 
+ 2068      696E7465 
+ 2068      72727570 
+ 2068      747300
+ 2069 006d CF010000 		.4byte	0x28a
+ 2070 0071 77726974 		.ascii	"write_flash\000"
+ 2070      655F6461 
+ 2070      746100
+ 2071 007c 35020000 		.4byte	0x2eb
+ 2072 0080 66696E64 		.ascii	"execute_user_code\000"
+ 2072      5F657261 
+ 2072      73655F70 
+ 2072      72657061 
+ 2072      72655F73 
+ 2073 009a 8A020000 		.4byte	0x303
+ 2074 009e 77726974 		.ascii	"user_code_present\000"
+ 2074      655F666C 
+ 2074      61736800 
+ 2075 00aa EB020000 		.4byte	0x31f
+ 2076 00ae 65786563 		.ascii	"check_isp_entry_pin\000"
+ 2076      7574655F 
+ 2076      75736572 
+ 2076      5F636F64 
+ 2076      6500
+ 2077 00c0 03030000 		.4byte	0x335
+ 2078 00c4 75736572 		.ascii	"erase_user_flash\000"
+ 2078      5F636F64 
+ 2078      655F7072 
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 42
+
+
+ 2078      6573656E 
+ 2078      7400
+ 2079 00d6 1F030000 		.4byte	0x360
+ 2080 00da 63686563 		.ascii	"sector_start_map\000"
+ 2080      6B5F6973 
+ 2080      705F656E 
+ 2080      7472795F 
+ 2080      70696E00 
+ 2081 00ee 35030000 		.4byte	0x377
+ 2082 00f2 65726173 		.ascii	"sector_end_map\000"
+ 2082      655F7573 
+ 2082      65725F66 
+ 2082      6C617368 
+ 2082      00
+ 2083 0103 60030000 		.4byte	0x38e
+ 2084 0107 73656374 		.ascii	"crp\000"
+ 2084      6F725F73 
+ 2084      74617274 
+ 2084      5F6D6170 
+ 2084      00
+ 2085 0118 77030000 		.4byte	0x3b5
+ 2086 011c 73656374 		.ascii	"param_table\000"
+ 2086      6F725F65 
+ 2086      6E645F6D 
+ 2086      617000
+ 2087 012b 8E030000 		.4byte	0x3c7
+ 2088 012f 63727000 		.ascii	"result_table\000"
+ 2089 0133 B5030000 		.4byte	0x3d9
+ 2090 0137 70617261 		.ascii	"cclk\000"
+ 2090      6D5F7461 
+ 2090      626C6500 
+ 2091 0143 C7030000 		.4byte	0x403
+ 2092 0147 72657375 		.ascii	"flash_buf\000"
+ 2092      6C745F74 
+ 2092      61626C65 
+ 2092      00
+ 2093 0154 D9030000 		.4byte	0x415
+ 2094 0158 63636C6B 		.ascii	"flash_address\000"
+ 2094      00
+ 2095 015d 03040000 		.4byte	0x427
+ 2096 0161 666C6173 		.ascii	"byte_ctr\000"
+ 2096      685F6275 
+ 2096      6600
+ 2097 016b 15040000 		.4byte	0x43a
+ 2098 016f 666C6173 		.ascii	"user_code_entry\000"
+ 2098      685F6164 
+ 2098      64726573 
+ 2098      7300
+ 2099 017d 27040000 		.4byte	0x0
+ 2100 0181 62797465 		.section	.debug_aranges,"",%progbits
+ 2100      5F637472 
+ 2100      00
+ 2101 018a 3A040000 		.4byte	0x74
+ 2102 018e 75736572 		.2byte	0x2
+ 2102      5F636F64 
+ 2102      655F656E 
+ 2102      74727900 
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 43
+
+
+ 2103 019e 00000000 		.4byte	.Ldebug_info0
+ 2104              		.byte	0x4
+ 2105 0000 74000000 		.byte	0x0
+ 2106 0004 0200     		.2byte	0x0
+ 2107 0006 00000000 		.2byte	0x0
+ 2108 000a 04       		.4byte	.LFB7
+ 2109 000b 00       		.4byte	.LFE7-.LFB7
+ 2110 000c 0000     		.4byte	.LFB6
+ 2111 000e 0000     		.4byte	.LFE6-.LFB6
+ 2112 0010 00000000 		.4byte	.LFB5
+ 2113 0014 18000000 		.4byte	.LFE5-.LFB5
+ 2114 0018 00000000 		.4byte	.LFB8
+ 2115 001c 2C000000 		.4byte	.LFE8-.LFB8
+ 2116 0020 00000000 		.4byte	.LFB9
+ 2117 0024 2C000000 		.4byte	.LFE9-.LFB9
+ 2118 0028 00000000 		.4byte	.LFB4
+ 2119 002c 0C000000 		.4byte	.LFE4-.LFB4
+ 2120 0030 00000000 		.4byte	.LFB3
+ 2121 0034 0C000000 		.4byte	.LFE3-.LFB3
+ 2122 0038 00000000 		.4byte	.LFB2
+ 2123 003c 54000000 		.4byte	.LFE2-.LFB2
+ 2124 0040 00000000 		.4byte	.LFB10
+ 2125 0044 94000000 		.4byte	.LFE10-.LFB10
+ 2126 0048 00000000 		.4byte	.LFB11
+ 2127 004c D0000000 		.4byte	.LFE11-.LFB11
+ 2128 0050 00000000 		.4byte	.LFB12
+ 2129 0054 24000000 		.4byte	.LFE12-.LFB12
+ 2130 0058 00000000 		.4byte	.LFB13
+ 2131 005c 48000000 		.4byte	.LFE13-.LFB13
+ 2132 0060 00000000 		.4byte	0x0
+ 2133 0064 18000000 		.4byte	0x0
+ 2134 0068 00000000 		.section	.debug_ranges,"",%progbits
+ 2135 006c 4C000000 	.Ldebug_ranges0:
+ 2136 0070 00000000 		.4byte	.Ltext0
+ 2137 0074 00000000 		.4byte	.Letext0
+ 2138              		.4byte	.LFB7
+ 2139              		.4byte	.LFE7
+ 2140 0000 00000000 		.4byte	.LFB6
+ 2141 0004 00000000 		.4byte	.LFE6
+ 2142 0008 00000000 		.4byte	.LFB5
+ 2143 000c 18000000 		.4byte	.LFE5
+ 2144 0010 00000000 		.4byte	.LFB8
+ 2145 0014 2C000000 		.4byte	.LFE8
+ 2146 0018 00000000 		.4byte	.LFB9
+ 2147 001c 2C000000 		.4byte	.LFE9
+ 2148 0020 00000000 		.4byte	.LFB4
+ 2149 0024 0C000000 		.4byte	.LFE4
+ 2150 0028 00000000 		.4byte	.LFB3
+ 2151 002c 0C000000 		.4byte	.LFE3
+ 2152 0030 00000000 		.4byte	.LFB2
+ 2153 0034 54000000 		.4byte	.LFE2
+ 2154 0038 00000000 		.4byte	.LFB10
+ 2155 003c 94000000 		.4byte	.LFE10
+ 2156 0040 00000000 		.4byte	.LFB11
+ 2157 0044 D0000000 		.4byte	.LFE11
+ 2158 0048 00000000 		.4byte	.LFB12
+ 2159 004c 24000000 		.4byte	.LFE12
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 44
+
+
+ 2160 0050 00000000 		.4byte	.LFB13
+ 2161 0054 48000000 		.4byte	.LFE13
+ 2162 0058 00000000 		.4byte	0x0
+ 2163 005c 18000000 		.4byte	0x0
+ 2164 0060 00000000 		.section	.debug_str,"MS",%progbits,1
+ 2165 0064 4C000000 	.LASF9:
+ 2166 0068 00000000 		.ascii	"READ_BOOT_VER\000"
+ 2167 006c 00000000 	.LASF37:
+ 2168              		.ascii	"check_isp_entry_pin\000"
+ 2169              	.LASF56:
+ 2170 0000 52454144 		.ascii	"_Z11write_flashPjPhj\000"
+ 2170      5F424F4F 
+ 2170      545F5645 
+ 2170      5200
+ 2171              	.LASF43:
+ 2172 000e 63686563 		.ascii	"sector_end_map\000"
+ 2172      6B5F6973 
+ 2172      705F656E 
+ 2172      7472795F 
+ 2172      70696E00 
+ 2173              	.LASF22:
+ 2174 0022 5F5A3131 		.ascii	"_Z12erase_sectorjjj\000"
+ 2174      77726974 
+ 2174      655F666C 
+ 2174      61736850 
+ 2174      6A50686A 
+ 2175              	.LASF25:
+ 2176 0037 73656374 		.ascii	"interrupts\000"
+ 2176      6F725F65 
+ 2176      6E645F6D 
+ 2176      617000
+ 2177              	.LASF23:
+ 2178 0046 5F5A3132 		.ascii	"enable_interrupts\000"
+ 2178      65726173 
+ 2178      655F7365 
+ 2178      63746F72 
+ 2178      6A6A6A00 
+ 2179              	.LASF32:
+ 2180 005a 696E7465 		.ascii	"count\000"
+ 2180      72727570 
+ 2180      747300
+ 2181              	.LASF13:
+ 2182 0065 656E6162 		.ascii	"result_tab\000"
+ 2182      6C655F69 
+ 2182      6E746572 
+ 2182      72757074 
+ 2182      7300
+ 2183              	.LASF53:
+ 2184 0077 636F756E 		.ascii	"BOOL\000"
+ 2184      7400
+ 2185              	.LASF29:
+ 2186 007d 72657375 		.ascii	"_Z10write_datajjPjj\000"
+ 2186      6C745F74 
+ 2186      616200
+ 2187              	.LASF41:
+ 2188 0088 424F4F4C 		.ascii	"_Z16erase_user_flashv\000"
+ 2188      00
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 45
+
+
+ 2189              	.LASF15:
+ 2190 008d 5F5A3130 		.ascii	"prepare_sector\000"
+ 2190      77726974 
+ 2190      655F6461 
+ 2190      74616A6A 
+ 2190      506A6A00 
+ 2191              	.LASF12:
+ 2192 00a1 5F5A3136 		.ascii	"param_tab\000"
+ 2192      65726173 
+ 2192      655F7573 
+ 2192      65725F66 
+ 2192      6C617368 
+ 2193              	.LASF50:
+ 2194 00b7 70726570 		.ascii	"GNU C++ 4.3.2\000"
+ 2194      6172655F 
+ 2194      73656374 
+ 2194      6F7200
+ 2195              	.LASF17:
+ 2196 00c6 70617261 		.ascii	"_Z14prepare_sectorjjj\000"
+ 2196      6D5F7461 
+ 2196      6200
+ 2197              	.LASF5:
+ 2198 00d0 474E5520 		.ascii	"COPY_RAM_TO_FLASH\000"
+ 2198      432B2B20 
+ 2198      342E332E 
+ 2198      3200
+ 2199              	.LASF18:
+ 2200 00de 5F5A3134 		.ascii	"start_sector\000"
+ 2200      70726570 
+ 2200      6172655F 
+ 2200      73656374 
+ 2200      6F726A6A 
+ 2201              	.LASF14:
+ 2202 00f4 434F5059 		.ascii	"iap_entry\000"
+ 2202      5F52414D 
+ 2202      5F544F5F 
+ 2202      464C4153 
+ 2202      4800
+ 2203              	.LASF4:
+ 2204 0106 73746172 		.ascii	"PREPARE_SECTOR_FOR_WRITE\000"
+ 2204      745F7365 
+ 2204      63746F72 
+ 2204      00
+ 2205              	.LASF0:
+ 2206 0113 6961705F 		.ascii	"unsigned char\000"
+ 2206      656E7472 
+ 2206      7900
+ 2207              	.LASF19:
+ 2208 011d 50524550 		.ascii	"end_sector\000"
+ 2208      4152455F 
+ 2208      53454354 
+ 2208      4F525F46 
+ 2208      4F525F57 
+ 2209              	.LASF38:
+ 2210 0136 756E7369 		.ascii	"_Z17execute_user_codev\000"
+ 2210      676E6564 
+ 2210      20636861 
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 46
+
+
+ 2210      7200
+ 2211              	.LASF44:
+ 2212 0144 656E645F 		.ascii	"param_table\000"
+ 2212      73656374 
+ 2212      6F7200
+ 2213              	.LASF51:
+ 2214 014f 5F5A3137 		.ascii	"sbl_iap.cpp\000"
+ 2214      65786563 
+ 2214      7574655F 
+ 2214      75736572 
+ 2214      5F636F64 
+ 2215              	.LASF1:
+ 2216 0166 70617261 		.ascii	"short unsigned int\000"
+ 2216      6D5F7461 
+ 2216      626C6500 
+ 2217              	.LASF16:
+ 2218 0172 73626C5F 		.ascii	"_Z9iap_entryPjS_\000"
+ 2218      6961702E 
+ 2218      63707000 
+ 2219              	.LASF57:
+ 2220 017e 73686F72 		.ascii	"user_code_present\000"
+ 2220      7420756E 
+ 2220      7369676E 
+ 2220      65642069 
+ 2220      6E7400
+ 2221              	.LASF33:
+ 2222 0191 5F5A3969 		.ascii	"find_erase_prepare_sector\000"
+ 2222      61705F65 
+ 2222      6E747279 
+ 2222      506A535F 
+ 2222      00
+ 2223              	.LASF28:
+ 2224 01a2 75736572 		.ascii	"write_data\000"
+ 2224      5F636F64 
+ 2224      655F7072 
+ 2224      6573656E 
+ 2224      7400
+ 2225              	.LASF30:
+ 2226 01b4 66696E64 		.ascii	"flash_address\000"
+ 2226      5F657261 
+ 2226      73655F70 
+ 2226      72657061 
+ 2226      72655F73 
+ 2227              	.LASF45:
+ 2228 01ce 77726974 		.ascii	"result_table\000"
+ 2228      655F6461 
+ 2228      746100
+ 2229              	.LASF55:
+ 2230 01d9 666C6173 		.ascii	"write_flash\000"
+ 2230      685F6164 
+ 2230      64726573 
+ 2230      7300
+ 2231              	.LASF2:
+ 2232 01e7 72657375 		.ascii	"long unsigned int\000"
+ 2232      6C745F74 
+ 2232      61626C65 
+ 2232      00
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 47
+
+
+ 2233              	.LASF42:
+ 2234 01f4 77726974 		.ascii	"sector_start_map\000"
+ 2234      655F666C 
+ 2234      61736800 
+ 2235              	.LASF58:
+ 2236 0200 6C6F6E67 		.ascii	"_Z17user_code_presentv\000"
+ 2236      20756E73 
+ 2236      69676E65 
+ 2236      6420696E 
+ 2236      7400
+ 2237              	.LASF48:
+ 2238 0212 73656374 		.ascii	"byte_ctr\000"
+ 2238      6F725F73 
+ 2238      74617274 
+ 2238      5F6D6170 
+ 2238      00
+ 2239              	.LASF10:
+ 2240 0223 5F5A3137 		.ascii	"COMPARE\000"
+ 2240      75736572 
+ 2240      5F636F64 
+ 2240      655F7072 
+ 2240      6573656E 
+ 2241              	.LASF3:
+ 2242 023a 62797465 		.ascii	"unsigned int\000"
+ 2242      5F637472 
+ 2242      00
+ 2243              	.LASF11:
+ 2244 0243 434F4D50 		.ascii	"REINVOKE_ISP\000"
+ 2244      41524500 
+ 2245              	.LASF46:
+ 2246 024b 756E7369 		.ascii	"char\000"
+ 2246      676E6564 
+ 2246      20696E74 
+ 2246      00
+ 2247              	.LASF20:
+ 2248 0258 5245494E 		.ascii	"cclk\000"
+ 2248      564F4B45 
+ 2248      5F495350 
+ 2248      00
+ 2249              	.LASF34:
+ 2250 0265 63686172 		.ascii	"_Z25find_erase_prepare_sectorjj\000"
+ 2250      00
+ 2251              	.LASF39:
+ 2252 026a 63636C6B 		.ascii	"_Z19check_isp_entry_pinv\000"
+ 2252      00
+ 2253              	.LASF7:
+ 2254 026f 5F5A3235 		.ascii	"BLANK_CHECK_SECTOR\000"
+ 2254      66696E64 
+ 2254      5F657261 
+ 2254      73655F70 
+ 2254      72657061 
+ 2255              	.LASF6:
+ 2256 028f 5F5A3139 		.ascii	"ERASE_SECTOR\000"
+ 2256      63686563 
+ 2256      6B5F6973 
+ 2256      705F656E 
+ 2256      7472795F 
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 48
+
+
+ 2257              	.LASF47:
+ 2258 02a8 424C414E 		.ascii	"flash_buf\000"
+ 2258      4B5F4348 
+ 2258      45434B5F 
+ 2258      53454354 
+ 2258      4F5200
+ 2259              	.LASF26:
+ 2260 02bb 45524153 		.ascii	"disable_interrupts\000"
+ 2260      455F5345 
+ 2260      43544F52 
+ 2260      00
+ 2261              	.LASF8:
+ 2262 02c8 666C6173 		.ascii	"READ_PART_ID\000"
+ 2262      685F6275 
+ 2262      6600
+ 2263              	.LASF24:
+ 2264 02d2 64697361 		.ascii	"_Z17enable_interruptsj\000"
+ 2264      626C655F 
+ 2264      696E7465 
+ 2264      72727570 
+ 2264      747300
+ 2265              	.LASF36:
+ 2266 02e5 52454144 		.ascii	"execute_user_code\000"
+ 2266      5F504152 
+ 2266      545F4944 
+ 2266      00
+ 2267              	.LASF40:
+ 2268 02f2 5F5A3137 		.ascii	"erase_user_flash\000"
+ 2268      656E6162 
+ 2268      6C655F69 
+ 2268      6E746572 
+ 2268      72757074 
+ 2269              	.LASF21:
+ 2270 0309 65786563 		.ascii	"erase_sector\000"
+ 2270      7574655F 
+ 2270      75736572 
+ 2270      5F636F64 
+ 2270      6500
+ 2271              	.LASF35:
+ 2272 031b 65726173 		.ascii	"no_of_bytes\000"
+ 2272      655F7573 
+ 2272      65725F66 
+ 2272      6C617368 
+ 2272      00
+ 2273              	.LASF52:
+ 2274 032c 65726173 		.ascii	"E:\\ARM\\GNU_Blinky\000"
+ 2274      655F7365 
+ 2274      63746F72 
+ 2274      00
+ 2275              	.LASF27:
+ 2276 0339 6E6F5F6F 		.ascii	"_Z18disable_interruptsj\000"
+ 2276      665F6279 
+ 2276      74657300 
+ 2277              	.LASF54:
+ 2278 0345 453A5C41 		.ascii	"<anonymous enum>\000"
+ 2278      524D5C47 
+ 2278      4E555F42 
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 49
+
+
+ 2278      6C696E6B 
+ 2278      7900
+ 2279              	.LASF49:
+ 2280 0357 5F5A3138 		.ascii	"user_code_entry\000"
+ 2280      64697361 
+ 2280      626C655F 
+ 2280      696E7465 
+ 2280      72727570 
+ 2281              	.LASF31:
+ 2282 036f 3C616E6F 		.ascii	"flash_data_buf\000"
+ 2282      6E796D6F 
+ 2282      75732065 
+ 2282      6E756D3E 
+ 2282      00
+ 2283              		.ident	"GCC: (Sourcery G++ Lite 2008q3-39) 4.3.2"
+ 2284 0380 75736572 	...
+ 2284      5F636F64 
+ 2284      655F656E 
+ 2284      74727900 
+ARM GAS  C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s 			page 50
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 sbl_iap.cpp
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:24     .text._Z9iap_entryPjS_:00000000 _Z9iap_entryPjS_
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:32     .text._Z9iap_entryPjS_:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:50     .text._Z14prepare_sectorjjj:00000000 _Z14prepare_sectorjjj
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:59     .text._Z14prepare_sectorjjj:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:83     .text._Z14prepare_sectorjjj:00000024 $d
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:91     .text._Z12erase_sectorjjj:00000000 _Z12erase_sectorjjj
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:100    .text._Z12erase_sectorjjj:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:124    .text._Z12erase_sectorjjj:00000024 $d
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:132    .text._Z17enable_interruptsj:00000000 _Z17enable_interruptsj
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:141    .text._Z17enable_interruptsj:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:151    .text._Z18disable_interruptsj:00000000 _Z18disable_interruptsj
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:160    .text._Z18disable_interruptsj:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:170    .text._Z10write_datajjPjj:00000000 _Z10write_datajjPjj
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:179    .text._Z10write_datajjPjj:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:227    .text._Z10write_datajjPjj:0000004c $d
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:236    .text._Z25find_erase_prepare_sectorjj:00000000 _Z25find_erase_prepare_sectorjj
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:245    .text._Z25find_erase_prepare_sectorjj:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:317    .text._Z25find_erase_prepare_sectorjj:0000008c $d
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:326    .text._Z11write_flashPjPhj:00000000 _Z11write_flashPjPhj
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:335    .text._Z11write_flashPjPhj:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:423    .text._Z11write_flashPjPhj:000000bc $d
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:434    .text._Z17execute_user_codev:00000000 _Z17execute_user_codev
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:441    .text._Z17execute_user_codev:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:457    .text._Z17execute_user_codev:00000020 $d
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:464    .text._Z17user_code_presentv:00000000 _Z17user_code_presentv
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:471    .text._Z17user_code_presentv:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:501    .text._Z17user_code_presentv:00000040 $d
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:509    .text._Z19check_isp_entry_pinv:00000000 _Z19check_isp_entry_pinv
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:517    .text._Z19check_isp_entry_pinv:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:527    .text._Z19check_isp_entry_pinv:00000014 $d
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:534    .text._Z16erase_user_flashv:00000000 _Z16erase_user_flashv
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:540    .text._Z16erase_user_flashv:00000000 $a
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:567    .text._Z16erase_user_flashv:00000044 $d
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:633    .ARM.__at_0x1FC:00000000 crp
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:678    .rodata.sector_start_map:00000000 sector_start_map
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:640    .rodata.sector_end_map:00000000 sector_end_map
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:614    .bss.param_table:00000000 param_table
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:607    .bss.result_table:00000000 result_table
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:600    .data.cclk:00000000 cclk
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:620    .bss.flash_buf:00000000 flash_buf
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:593    .bss.flash_address:00000000 flash_address
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:627    .bss.byte_ctr:00000000 byte_ctr
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:586    .bss.user_code_entry:00000000 user_code_entry
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:601    .data.cclk:00000000 $d
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:634    .ARM.__at_0x1FC:00000000 $d
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:641    .rodata.sector_end_map:00000000 $d
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:679    .rodata.sector_start_map:00000000 $d
+C:\Users\Chris\AppData\Local\Temp/ccu2aaaa.s:907    .debug_loc:00000000 $d
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,2006 @@
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 1
+
+
+   1              		.cpu arm7tdmi
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"IAP.c"
+  12              		.section	.debug_abbrev,"",%progbits
+  13              	.Ldebug_abbrev0:
+  14              		.section	.debug_info,"",%progbits
+  15              	.Ldebug_info0:
+  16              		.section	.debug_line,"",%progbits
+  17              	.Ldebug_line0:
+  18 0000 8E000000 		.text
+  18      02001C00 
+  18      00000201 
+  18      FB0E0D00 
+  18      01010101 
+  19              	.Ltext0:
+  20              		.align	2
+  21              		.global	BufferLoad
+  22              		.type	BufferLoad, %function
+  23              	BufferLoad:
+  24              	.LFB5:
+  25              		.file 1 "IAP.c"
+   1:IAP.c         **** /******************************************************************************/
+   2:IAP.c         **** /* IAP In-System Application Programming Demo                                 */
+   3:IAP.c         **** /******************************************************************************/
+   4:IAP.c         **** /* This file is part of the uVision/ARM development tools.                    */
+   5:IAP.c         **** /* Copyright (c) 2005-2006 Keil Software. All rights reserved.                */
+   6:IAP.c         **** /* This software may only be used under the terms of a valid, current,        */
+   7:IAP.c         **** /* end user licence from KEIL for a compatible version of KEIL software       */
+   8:IAP.c         **** /* development tools. Nothing else gives you the right to use this software.  */
+   9:IAP.c         **** /******************************************************************************/
+  10:IAP.c         **** 
+  11:IAP.c         **** #include <stdio.h>                         /* standard I/O .h-file */
+  12:IAP.c         **** #include <LPC23xx.H>                       /* LPC23xx definitions  */
+  13:IAP.c         **** #include <math.h>
+  14:IAP.c         **** #include <stdlib.h>
+  15:IAP.c         **** 
+  16:IAP.c         **** #include "Serial.h"
+  17:IAP.c         **** #include "sbl_iap.h"
+  18:IAP.c         **** 
+  19:IAP.c         **** // Clock Frequency
+  20:IAP.c         **** 
+  21:IAP.c         **** #define XTAL    12000000                   // Oscillator Frequency
+  22:IAP.c         **** #define CPUCLK (XTAL*6)                    // CPU Clock with PLL
+  23:IAP.c         **** #define CCLK   (CPUCLK / 1000)             // CPU Clock in kHz
+  24:IAP.c         **** 
+  25:IAP.c         **** #define kMCUId "lpc2368"
+  26:IAP.c         **** #define kApplicationStartAddr  0x00002000
+  27:IAP.c         **** #define kApplicationEndAddr    0x0007BFFF
+  28:IAP.c         **** #define kSPM_PAGE_SIZE         512
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 2
+
+
+  29:IAP.c         **** #define kUSART_RX_BUFFER_SIZE  kSPM_PAGE_SIZE               
+  30:IAP.c         **** #define kSoftwareIdentifier     "AVRBOOT"
+  31:IAP.c         **** #define kSoftwareVersionHigh   '0'
+  32:IAP.c         **** #define kSoftwareVersionLow    '7'
+  33:IAP.c         **** 
+  34:IAP.c         **** #define kDevType               0x74         //mega645
+  35:IAP.c         **** #define kSignatureByte3        0x1E         //mega2560
+  36:IAP.c         **** #define kSignatureByte2        0x98         //mega2560
+  37:IAP.c         **** #define kSignatureByte1        0x01         //mega2560      
+  38:IAP.c         **** 
+  39:IAP.c         **** void butterflyService(void);
+  40:IAP.c         **** char BufferLoad(unsigned int size, unsigned char memType);
+  41:IAP.c         **** void BlockRead(unsigned int size, unsigned char memType);
+  42:IAP.c         **** 
+  43:IAP.c         **** unsigned int gAddress=kApplicationStartAddr;      //address to program
+  44:IAP.c         **** unsigned char gBuffer[kUSART_RX_BUFFER_SIZE];  //RAM buffer for  
+  45:IAP.c         **** unsigned char gDevice;
+  46:IAP.c         **** unsigned char gDevType;
+  47:IAP.c         **** unsigned int purge;
+  48:IAP.c         **** 
+  49:IAP.c         **** int main (void)  {
+  50:IAP.c         **** 
+  51:IAP.c         ****    SerialBegin(9600);
+  52:IAP.c         ****    
+  53:IAP.c         ****    while(1)
+  54:IAP.c         ****    {
+  55:IAP.c         ****       butterflyService();
+  56:IAP.c         ****    }
+  57:IAP.c         **** 
+  58:IAP.c         **** }
+  59:IAP.c         **** 
+  60:IAP.c         **** //*******************************************************************************
+  61:IAP.c         **** // Loosely based on the AVR buttery protocol.
+  62:IAP.c         **** // Handles the received commands
+  63:IAP.c         **** void butterflyService(void)
+  64:IAP.c         **** {
+  65:IAP.c         ****    char recvCommand;
+  66:IAP.c         **** 
+  67:IAP.c         ****    /* Get the command character */
+  68:IAP.c         ****    recvCommand = SerialRead();
+  69:IAP.c         ****    
+  70:IAP.c         ****    /* Handle Command Character */
+  71:IAP.c         ****    switch(recvCommand)
+  72:IAP.c         ****    {
+  73:IAP.c         ****    
+  74:IAP.c         ****       case 'a':            // Autoincrement?
+  75:IAP.c         ****          SerialWrite('Y');
+  76:IAP.c         ****       break;
+  77:IAP.c         **** 
+  78:IAP.c         ****       case 'A':            // Write address
+  79:IAP.c         ****          purge  = ( SerialRead() << 8);    // High byte of address
+  80:IAP.c         ****          purge |=   SerialRead();          // low byte of address
+  81:IAP.c         ****          
+  82:IAP.c         ****          purge <<= 2;                      // !! convert from word address to byte address
+  83:IAP.c         **** 
+  84:IAP.c         ****          SerialWrite('\r');
+  85:IAP.c         ****       break;
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 3
+
+
+  86:IAP.c         **** 
+  87:IAP.c         ****        case 'H':           // Write address
+  88:IAP.c         ****        {
+  89:IAP.c         ****        
+  90:IAP.c         **** 
+  91:IAP.c         ****         purge |= ( SerialRead() << 16);    // High byte of address
+  92:IAP.c         ****         purge |= ( SerialRead() << 8);    // 2nd byte of address
+  93:IAP.c         ****         purge |=   SerialRead();          // low byte of address
+  94:IAP.c         ****         
+  95:IAP.c         ****         if(purge == 0)
+  96:IAP.c         ****         {
+  97:IAP.c         ****          gAddress =  kApplicationStartAddr;
+  98:IAP.c         ****         }
+  99:IAP.c         **** 
+ 100:IAP.c         ****          SerialWrite('\r');
+ 101:IAP.c         ****          }
+ 102:IAP.c         ****       break;
+ 103:IAP.c         **** 
+ 104:IAP.c         ****       case 'b':            // Buffer load support
+ 105:IAP.c         ****          SerialWrite('Y');                          // Report buffer load supported
+ 106:IAP.c         ****          SerialWrite((kUSART_RX_BUFFER_SIZE >>8));    // Report buffer size in bytes
+ 107:IAP.c         ****          SerialWrite(kUSART_RX_BUFFER_SIZE);          // low byte of size
+ 108:IAP.c         **** 
+ 109:IAP.c         ****          SerialWrite('\r');
+ 110:IAP.c         ****       break;
+ 111:IAP.c         **** 
+ 112:IAP.c         ****       case 'B':            // Start Buffer load
+ 113:IAP.c         ****       {
+ 114:IAP.c         ****          unsigned int bufferSize;
+ 115:IAP.c         ****          unsigned char memType;
+ 116:IAP.c         ****          unsigned char res;
+ 117:IAP.c         **** 
+ 118:IAP.c         ****          bufferSize = SerialRead() << 8;     // Load high byte of buffersize
+ 119:IAP.c         ****          bufferSize |= SerialRead();          // Load low byte of buffersize
+ 120:IAP.c         ****          memType = SerialRead();            // Load memory type ('E' or 'F')
+ 121:IAP.c         **** 
+ 122:IAP.c         ****          res = BufferLoad(bufferSize, memType);
+ 123:IAP.c         **** 
+ 124:IAP.c         ****          SerialWrite(res);    //return the result
+ 125:IAP.c         ****       }
+ 126:IAP.c         ****       break;
+ 127:IAP.c         **** 
+ 128:IAP.c         ****       case 'g':            // Block readout
+ 129:IAP.c         ****       {
+ 130:IAP.c         ****          unsigned int bufferSize;
+ 131:IAP.c         ****          unsigned char memType;
+ 132:IAP.c         **** 
+ 133:IAP.c         ****          bufferSize = SerialRead() << 8;            // Load high byte of buffersize
+ 134:IAP.c         ****          bufferSize |= SerialRead();                 // Load low byte of buffersize
+ 135:IAP.c         ****          memType = SerialRead();            // Load memory type ('E' or 'F')         
+ 136:IAP.c         **** 
+ 137:IAP.c         ****         if (bufferSize == 1)
+ 138:IAP.c         ****         {         
+ 139:IAP.c         ****             SerialWrite('\r');
+ 140:IAP.c         ****         }
+ 141:IAP.c         ****         else
+ 142:IAP.c         ****         {
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 4
+
+
+ 143:IAP.c         ****             BlockRead(bufferSize, memType);
+ 144:IAP.c         ****         }
+ 145:IAP.c         **** 
+ 146:IAP.c         ****         break;
+ 147:IAP.c         ****       }
+ 148:IAP.c         ****       case 'e':            // Chip Erase 
+ 149:IAP.c         ****          erase_user_flash();
+ 150:IAP.c         ****          //erase(kApplicationStartAddr,kApplicationEndAddr);
+ 151:IAP.c         **** 
+ 152:IAP.c         ****          SerialWrite('\r');
+ 153:IAP.c         ****       break;
+ 154:IAP.c         **** 
+ 155:IAP.c         ****       case 'E':            // Exit Upgrade
+ 156:IAP.c         ****            //jump to application here!!!
+ 157:IAP.c         ****          SerialWrite('\r');
+ 158:IAP.c         ****       break;
+ 159:IAP.c         **** 
+ 160:IAP.c         ****       case 'P':            // Enter programming mode
+ 161:IAP.c         ****          SerialWrite('\r');
+ 162:IAP.c         ****       break;
+ 163:IAP.c         **** 
+ 164:IAP.c         ****       case 'F':            // fuse
+ 165:IAP.c         ****          SerialWrite('\r');
+ 166:IAP.c         ****       break;
+ 167:IAP.c         **** 
+ 168:IAP.c         ****       case 'r':            // fuse
+ 169:IAP.c         ****          SerialWrite('\r');
+ 170:IAP.c         ****       break;
+ 171:IAP.c         **** 
+ 172:IAP.c         ****       case 'N':            // fuse
+ 173:IAP.c         ****          SerialWrite('\r');
+ 174:IAP.c         ****       break;
+ 175:IAP.c         **** 
+ 176:IAP.c         ****       case 'Q':            // fuse
+ 177:IAP.c         ****          SerialWrite('\r');
+ 178:IAP.c         ****       break;
+ 179:IAP.c         **** 
+ 180:IAP.c         ****       case 'L':            // Leave programming mode
+ 181:IAP.c         ****          SerialWrite('\r');
+ 182:IAP.c         ****       break;
+ 183:IAP.c         **** 
+ 184:IAP.c         ****       case 'p':            // return programmer type
+ 185:IAP.c         ****          SerialWrite('S');
+ 186:IAP.c         ****       break;
+ 187:IAP.c         **** 
+ 188:IAP.c         ****       case 't':           // return device type
+ 189:IAP.c         ****          SerialWrite(kDevType);
+ 190:IAP.c         ****          SerialWrite(0);
+ 191:IAP.c         ****       break;
+ 192:IAP.c         **** 
+ 193:IAP.c         ****       case 'T':           // Set device
+ 194:IAP.c         ****          gDevice = SerialRead();
+ 195:IAP.c         ****          SerialWrite('\r');
+ 196:IAP.c         ****       break;
+ 197:IAP.c         **** 
+ 198:IAP.c         ****       case 'S':            //return software identifier
+ 199:IAP.c         ****          {
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 5
+
+
+ 200:IAP.c         ****          volatile long xx;
+ 201:IAP.c         **** 
+ 202:IAP.c         ****          //unsigned int res=0;
+ 203:IAP.c         ****           SerialStr(kSoftwareIdentifier);
+ 204:IAP.c         ****           
+ 205:IAP.c         ****          //erase_user_flash();
+ 206:IAP.c         ****             for(xx=0;xx<20000000;xx++) {;}         
+ 207:IAP.c         ****          //for(res=0; res<512; res++)
+ 208:IAP.c         ****          //{
+ 209:IAP.c         ****         // gBuffer[res] = res;
+ 210:IAP.c         ****          
+ 211:IAP.c         ****         // }
+ 212:IAP.c         ****         // write_flash((unsigned int*)gAddress, gBuffer, 512);
+ 213:IAP.c         ****          }
+ 214:IAP.c         ****       break;
+ 215:IAP.c         **** 
+ 216:IAP.c         ****       case 'V':            //return software version
+ 217:IAP.c         ****           SerialWrite(kSoftwareVersionHigh);
+ 218:IAP.c         ****           SerialWrite(kSoftwareVersionLow);
+ 219:IAP.c         ****       break;
+ 220:IAP.c         **** 
+ 221:IAP.c         ****       case 's':            // Return Signature byte
+ 222:IAP.c         ****          SerialWrite(kSignatureByte1);
+ 223:IAP.c         ****          SerialWrite(kSignatureByte2);
+ 224:IAP.c         ****          SerialWrite(kSignatureByte3);
+ 225:IAP.c         ****       break;
+ 226:IAP.c         **** 
+ 227:IAP.c         ****       default:
+ 228:IAP.c         ****          SerialStr("?");
+ 229:IAP.c         ****       break;
+ 230:IAP.c         ****    }
+ 231:IAP.c         **** 
+ 232:IAP.c         **** }
+ 233:IAP.c         **** 
+ 234:IAP.c         **** //*******************************************************************************
+ 235:IAP.c         **** // Send a block of program memory via serial
+ 236:IAP.c         **** void BlockRead(unsigned int size, unsigned char memType)
+ 237:IAP.c         **** {
+ 238:IAP.c         ****     unsigned int cnt=0;
+ 239:IAP.c         **** 
+ 240:IAP.c         ****     if (memType == 'F')
+ 241:IAP.c         ****     {
+ 242:IAP.c         ****         for(cnt = 0; cnt< size; cnt++)
+ 243:IAP.c         ****         {
+ 244:IAP.c         ****            unsigned char *b = (unsigned char*)gAddress;
+ 245:IAP.c         ****    
+ 246:IAP.c         ****            unsigned char byte = b[cnt];
+ 247:IAP.c         ****            SerialWrite(byte);
+ 248:IAP.c         ****         }
+ 249:IAP.c         ****     }
+ 250:IAP.c         **** 
+ 251:IAP.c         ****     gAddress+=size;
+ 252:IAP.c         **** }
+ 253:IAP.c         **** 
+ 254:IAP.c         **** //*******************************************************************************
+ 255:IAP.c         **** // Load the RAM buffer with bytes from serial
+ 256:IAP.c         **** char BufferLoad(unsigned int size, unsigned char memType)
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 6
+
+
+ 257:IAP.c         **** {
+  26              	 supports interworking.
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 1, uses_anonymous_args = 0
+  29              	.LVL0:
+  30              		mov	ip, sp
+  31 0000 0DC0A0E1 	.LCFI0:
+  32              		stmfd	sp!, {r4, r5, fp, ip, lr, pc}
+  33 0004 30D82DE9 	.LCFI1:
+  34              		sub	fp, ip, #4
+  35 0008 04B04CE2 	.LCFI2:
+  36              		.loc 1 260 0
+ 258:IAP.c         ****    unsigned int cnt;
+ 259:IAP.c         **** 
+ 260:IAP.c         ****     for (cnt=0; cnt < size; cnt++) 
+  37              	0, #0
+  38 000c 005050E2 		beq	.L2
+  39 0010 0600000A 	.LVL1:
+  40              		mov	r3, #0
+  41 0014 0030A0E3 	.LVL2:
+  42              		.loc 1 264 0
+ 261:IAP.c         ****     {
+ 262:IAP.c         ****         if (cnt<size)
+ 263:IAP.c         ****         {    
+ 264:IAP.c         ****             gBuffer[cnt] = 2;//SerialRead();
+  43              	0, .L7
+  44 0018 60009FE5 		mov	r2, #2
+  45 001c 0220A0E3 	.L3:
+  46              		strb	r2, [r0, r3]
+  47 0020 0320C0E7 		.loc 1 260 0
+  48              		add	r3, r3, #1
+  49 0024 013083E2 		cmp	r5, r3
+  50 0028 030055E1 		bhi	.L3
+  51 002c FBFFFF8A 	.LVL3:
+  52              	.L2:
+  53              		.loc 1 272 0
+ 265:IAP.c         ****         }
+ 266:IAP.c         ****         else
+ 267:IAP.c         ****         {     
+ 268:IAP.c         ****             gBuffer[cnt]=0xFF;
+ 269:IAP.c         ****         }
+ 270:IAP.c         ****     }
+ 271:IAP.c         ****    
+ 272:IAP.c         ****    if (memType == 'F')
+  54              	0
+  55 0030 460051E3 		bne	.L4
+  56 0034 0D00001A 		.loc 1 274 0
+ 273:IAP.c         ****    {
+ 274:IAP.c         ****        if (gDevice == gDevType)
+  57              	r	r3, .L7+4
+  58 0038 44309FE5 	.LVL4:
+  59              		ldrb	r2, [r3, #0]	@ zero_extendqisi2
+  60 003c 0020D3E5 		ldr	r3, .L7+8
+  61 0040 40309FE5 		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+  62 0044 0030D3E5 		cmp	r2, r3
+  63 0048 030052E1 		bne	.L4
+  64 004c 0700001A 		.loc 1 276 0
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 7
+
+
+ 275:IAP.c         ****        {
+ 276:IAP.c         ****            write_flash((unsigned int*)gAddress, gBuffer, 512);
+  65              	 .L7+12
+  66 0050 34409FE5 		ldr	r0, [r4, #0]
+  67 0054 000094E5 		ldr	r1, .L7
+  68 0058 20109FE5 	.LVL5:
+  69              		mov	r2, #512
+  70 005c 022CA0E3 		bl	write_flash
+  71 0060 FEFFFFEB 		.loc 1 277 0
+ 277:IAP.c         ****            gAddress+=size;
+  72              	, [r4, #0]
+  73 0064 003094E5 		add	r3, r5, r3
+  74 0068 033085E0 		str	r3, [r4, #0]
+  75 006c 003084E5 	.LVL6:
+  76              	.L4:
+  77              		.loc 1 282 0
+ 278:IAP.c         ****        }
+ 279:IAP.c         ****    }
+ 280:IAP.c         **** 
+ 281:IAP.c         ****    return '\r';
+ 282:IAP.c         **** }
+  78              	0, #13
+  79 0070 0D00A0E3 		sub	sp, fp, #20
+  80 0074 14D04BE2 		ldmfd	sp, {r4, r5, fp, sp, lr}
+  81 0078 30689DE8 		bx	lr
+  82 007c 1EFF2FE1 	.L8:
+  83              		.align	2
+  84              	.L7:
+  85              		.word	gBuffer
+  86 0080 00000000 		.word	gDevice
+  87 0084 00000000 		.word	gDevType
+  88 0088 00000000 		.word	.LANCHOR0
+  89 008c 00000000 	.LFE5:
+  90              		.size	BufferLoad, .-BufferLoad
+  91              		.align	2
+  92              		.global	BlockRead
+  93              		.type	BlockRead, %function
+  94              	BlockRead:
+  95              	.LFB4:
+  96              		.loc 1 237 0
+  97              		@ Function supports interworking.
+  98              		@ args = 0, pretend = 0, frame = 0
+  99              		@ frame_needed = 1, uses_anonymous_args = 0
+ 100              	.LVL7:
+ 101              		mov	ip, sp
+ 102 0090 0DC0A0E1 	.LCFI3:
+ 103              		stmfd	sp!, {r4, r5, r6, r7, fp, ip, lr, pc}
+ 104 0094 F0D82DE9 	.LCFI4:
+ 105              		sub	fp, ip, #4
+ 106 0098 04B04CE2 	.LCFI5:
+ 107              		mov	r5, r0
+ 108 009c 0050A0E1 		.loc 1 240 0
+ 109              		cmp	r1, #70
+ 110 00a0 460051E3 		bne	.L10
+ 111 00a4 0900001A 	.LVL8:
+ 112              		.loc 1 242 0
+ 113              		cmp	r0, #0
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 8
+
+
+ 114 00a8 000050E3 		beq	.L10
+ 115 00ac 0700000A 	.LVL9:
+ 116              		mov	r4, #0
+ 117 00b0 0040A0E3 	.LVL10:
+ 118              	.LBB2:
+ 119              		.loc 1 247 0
+ 120              		ldr	r6, .L14
+ 121 00b4 30609FE5 	.L11:
+ 122              		ldr	r3, [r6, #0]
+ 123 00b8 003096E5 		ldrb	r0, [r3, r4]	@ zero_extendqisi2
+ 124 00bc 0400D3E7 	.LVL11:
+ 125              		bl	SerialWrite
+ 126 00c0 FEFFFFEB 	.LVL12:
+ 127              	.LBE2:
+ 128              		.loc 1 242 0
+ 129              		add	r4, r4, #1
+ 130 00c4 014084E2 		cmp	r5, r4
+ 131 00c8 040055E1 		bhi	.L11
+ 132 00cc F9FFFF8A 	.LVL13:
+ 133              	.L10:
+ 134              		.loc 1 251 0
+ 135              		ldr	r2, .L14
+ 136 00d0 14209FE5 		ldr	r3, [r2, #0]
+ 137 00d4 003092E5 		add	r3, r5, r3
+ 138 00d8 033085E0 		str	r3, [r2, #0]
+ 139 00dc 003082E5 		.loc 1 252 0
+ 140              		sub	sp, fp, #28
+ 141 00e0 1CD04BE2 		ldmfd	sp, {r4, r5, r6, r7, fp, sp, lr}
+ 142 00e4 F0689DE8 		bx	lr
+ 143 00e8 1EFF2FE1 	.L15:
+ 144              		.align	2
+ 145              	.L14:
+ 146              		.word	.LANCHOR0
+ 147 00ec 00000000 	.LFE4:
+ 148              		.size	BlockRead, .-BlockRead
+ 149              		.align	2
+ 150              		.global	butterflyService
+ 151              		.type	butterflyService, %function
+ 152              	butterflyService:
+ 153              	.LFB3:
+ 154              		.loc 1 64 0
+ 155              		@ Function supports interworking.
+ 156              		@ args = 0, pretend = 0, frame = 8
+ 157              		@ frame_needed = 1, uses_anonymous_args = 0
+ 158              		mov	ip, sp
+ 159 00f0 0DC0A0E1 	.LCFI6:
+ 160              		stmfd	sp!, {r4, r5, fp, ip, lr, pc}
+ 161 00f4 30D82DE9 	.LCFI7:
+ 162              		sub	fp, ip, #4
+ 163 00f8 04B04CE2 	.LCFI8:
+ 164              		sub	sp, sp, #8
+ 165 00fc 08D04DE2 	.LCFI9:
+ 166              		.loc 1 68 0
+ 167              		bl	SerialRead
+ 168 0100 FEFFFFEB 		.loc 1 71 0
+ 169              		and	r0, r0, #255
+ 170 0104 FF0000E2 		sub	r0, r0, #65
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 9
+
+
+ 171 0108 410040E2 		cmp	r0, #51
+ 172 010c 330050E3 		ldrls	pc, [pc, r0, asl #2]
+ 173 0110 00F19F97 		b	.L17
+ 174 0114 BE0000EA 	.L38:
+ 175              		.word	.L18
+ 176 0118 F4010000 		.word	.L19
+ 177 011c 98020000 		.word	.L17
+ 178 0120 14040000 		.word	.L17
+ 179 0124 14040000 		.word	.L20
+ 180 0128 08030000 		.word	.L21
+ 181 012c 20030000 		.word	.L17
+ 182 0130 14040000 		.word	.L22
+ 183 0134 24020000 		.word	.L17
+ 184 0138 14040000 		.word	.L17
+ 185 013c 14040000 		.word	.L17
+ 186 0140 14040000 		.word	.L23
+ 187 0144 50030000 		.word	.L17
+ 188 0148 14040000 		.word	.L24
+ 189 014c 38030000 		.word	.L17
+ 190 0150 14040000 		.word	.L25
+ 191 0154 14030000 		.word	.L26
+ 192 0158 44030000 		.word	.L17
+ 193 015c 14040000 		.word	.L27
+ 194 0160 94030000 		.word	.L28
+ 195 0164 7C030000 		.word	.L17
+ 196 0168 14040000 		.word	.L29
+ 197 016c E4030000 		.word	.L17
+ 198 0170 14040000 		.word	.L17
+ 199 0174 14040000 		.word	.L17
+ 200 0178 14040000 		.word	.L17
+ 201 017c 14040000 		.word	.L17
+ 202 0180 14040000 		.word	.L17
+ 203 0184 14040000 		.word	.L17
+ 204 0188 14040000 		.word	.L17
+ 205 018c 14040000 		.word	.L17
+ 206 0190 14040000 		.word	.L17
+ 207 0194 14040000 		.word	.L30
+ 208 0198 E8010000 		.word	.L31
+ 209 019c 74020000 		.word	.L17
+ 210 01a0 14040000 		.word	.L17
+ 211 01a4 14040000 		.word	.L32
+ 212 01a8 F8020000 		.word	.L17
+ 213 01ac 14040000 		.word	.L33
+ 214 01b0 C0020000 		.word	.L17
+ 215 01b4 14040000 		.word	.L17
+ 216 01b8 14040000 		.word	.L17
+ 217 01bc 14040000 		.word	.L17
+ 218 01c0 14040000 		.word	.L17
+ 219 01c4 14040000 		.word	.L17
+ 220 01c8 14040000 		.word	.L17
+ 221 01cc 14040000 		.word	.L17
+ 222 01d0 14040000 		.word	.L34
+ 223 01d4 5C030000 		.word	.L17
+ 224 01d8 14040000 		.word	.L35
+ 225 01dc 2C030000 		.word	.L36
+ 226 01e0 F8030000 		.word	.L37
+ 227 01e4 68030000 	.L30:
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 10
+
+
+ 228              		.loc 1 75 0
+ 229              		mov	r0, #89
+ 230 01e8 5900A0E3 		bl	SerialWrite
+ 231 01ec FEFFFFEB 		b	.L43
+ 232 01f0 890000EA 	.L18:
+ 233              		.loc 1 79 0
+ 234              		bl	SerialRead
+ 235 01f4 FEFFFFEB 		ldr	r4, .L46
+ 236 01f8 28429FE5 		mov	r0, r0, asl #8
+ 237 01fc 0004A0E1 		str	r0, [r4, #0]
+ 238 0200 000084E5 		.loc 1 80 0
+ 239              		bl	SerialRead
+ 240 0204 FEFFFFEB 		.loc 1 82 0
+ 241              		ldr	r3, [r4, #0]
+ 242 0208 003094E5 		orr	r0, r0, r3
+ 243 020c 030080E1 		mov	r0, r0, asl #2
+ 244 0210 0001A0E1 		str	r0, [r4, #0]
+ 245 0214 000084E5 		.loc 1 84 0
+ 246              		mov	r0, #13
+ 247 0218 0D00A0E3 		bl	SerialWrite
+ 248 021c FEFFFFEB 		b	.L43
+ 249 0220 7D0000EA 	.L22:
+ 250              		.loc 1 91 0
+ 251              		bl	SerialRead
+ 252 0224 FEFFFFEB 		ldr	r4, .L46
+ 253 0228 F8419FE5 		ldr	r3, [r4, #0]
+ 254 022c 003094E5 		orr	r3, r3, r0, asl #16
+ 255 0230 003883E1 		str	r3, [r4, #0]
+ 256 0234 003084E5 		.loc 1 92 0
+ 257              		bl	SerialRead
+ 258 0238 FEFFFFEB 		ldr	r3, [r4, #0]
+ 259 023c 003094E5 		orr	r3, r3, r0, asl #8
+ 260 0240 003483E1 		str	r3, [r4, #0]
+ 261 0244 003084E5 		.loc 1 93 0
+ 262              		bl	SerialRead
+ 263 0248 FEFFFFEB 		ldr	r3, [r4, #0]
+ 264 024c 003094E5 		orr	r0, r0, r3
+ 265 0250 030080E1 		str	r0, [r4, #0]
+ 266 0254 000084E5 		.loc 1 95 0
+ 267              		cmp	r0, #0
+ 268 0258 000050E3 		.loc 1 97 0
+ 269              		moveq	r2, #8192
+ 270 025c 022AA003 		ldreq	r3, .L46+4
+ 271 0260 C4319F05 		streq	r2, [r3, #0]
+ 272 0264 00208305 		.loc 1 100 0
+ 273              		mov	r0, #13
+ 274 0268 0D00A0E3 		bl	SerialWrite
+ 275 026c FEFFFFEB 		b	.L43
+ 276 0270 690000EA 	.L31:
+ 277              		.loc 1 105 0
+ 278              		mov	r0, #89
+ 279 0274 5900A0E3 		bl	SerialWrite
+ 280 0278 FEFFFFEB 		.loc 1 106 0
+ 281              		mov	r0, #2
+ 282 027c 0200A0E3 		bl	SerialWrite
+ 283 0280 FEFFFFEB 		.loc 1 107 0
+ 284              		mov	r0, #512
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 11
+
+
+ 285 0284 020CA0E3 		bl	SerialWrite
+ 286 0288 FEFFFFEB 		.loc 1 109 0
+ 287              		mov	r0, #13
+ 288 028c 0D00A0E3 		bl	SerialWrite
+ 289 0290 FEFFFFEB 		b	.L43
+ 290 0294 600000EA 	.L19:
+ 291              	.LBB3:
+ 292              		.loc 1 118 0
+ 293              		bl	SerialRead
+ 294 0298 FEFFFFEB 		mov	r5, r0, asl #8
+ 295 029c 0054A0E1 	.LVL14:
+ 296              		.loc 1 119 0
+ 297              		bl	SerialRead
+ 298 02a0 FEFFFFEB 		mov	r4, r0
+ 299 02a4 0040A0E1 		.loc 1 120 0
+ 300              		bl	SerialRead
+ 301 02a8 FEFFFFEB 		.loc 1 122 0
+ 302              		and	r1, r0, #255
+ 303 02ac FF1000E2 		orr	r0, r5, r4
+ 304 02b0 040085E1 		bl	BufferLoad
+ 305 02b4 FEFFFFEB 		.loc 1 124 0
+ 306              		bl	SerialWrite
+ 307 02b8 FEFFFFEB 		b	.L43
+ 308 02bc 560000EA 	.LVL15:
+ 309              	.L33:
+ 310              	.LBE3:
+ 311              	.LBB4:
+ 312              		.loc 1 133 0
+ 313              		bl	SerialRead
+ 314 02c0 FEFFFFEB 		mov	r4, r0, asl #8
+ 315 02c4 0044A0E1 	.LVL16:
+ 316              		.loc 1 134 0
+ 317              		bl	SerialRead
+ 318 02c8 FEFFFFEB 		orr	r4, r4, r0
+ 319 02cc 004084E1 	.LVL17:
+ 320              		.loc 1 135 0
+ 321              		bl	SerialRead
+ 322 02d0 FEFFFFEB 		.loc 1 137 0
+ 323              		cmp	r4, #1
+ 324 02d4 010054E3 		bne	.L41
+ 325 02d8 0200001A 		.loc 1 139 0
+ 326              		mov	r0, #13
+ 327 02dc 0D00A0E3 		bl	SerialWrite
+ 328 02e0 FEFFFFEB 		b	.L43
+ 329 02e4 4C0000EA 	.L41:
+ 330              		.loc 1 143 0
+ 331              		and	r1, r0, #255
+ 332 02e8 FF1000E2 		mov	r0, r4
+ 333 02ec 0400A0E1 		bl	BlockRead
+ 334 02f0 FEFFFFEB 		b	.L43
+ 335 02f4 480000EA 	.LVL18:
+ 336              	.L32:
+ 337              	.LBE4:
+ 338              		.loc 1 149 0
+ 339              		bl	erase_user_flash
+ 340 02f8 FEFFFFEB 		.loc 1 152 0
+ 341              		mov	r0, #13
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 12
+
+
+ 342 02fc 0D00A0E3 		bl	SerialWrite
+ 343 0300 FEFFFFEB 		b	.L43
+ 344 0304 440000EA 	.L20:
+ 345              		.loc 1 157 0
+ 346              		mov	r0, #13
+ 347 0308 0D00A0E3 		bl	SerialWrite
+ 348 030c FEFFFFEB 		b	.L43
+ 349 0310 410000EA 	.L25:
+ 350              		.loc 1 161 0
+ 351              		mov	r0, #13
+ 352 0314 0D00A0E3 		bl	SerialWrite
+ 353 0318 FEFFFFEB 		b	.L43
+ 354 031c 3E0000EA 	.L21:
+ 355              		.loc 1 165 0
+ 356              		mov	r0, #13
+ 357 0320 0D00A0E3 		bl	SerialWrite
+ 358 0324 FEFFFFEB 		b	.L43
+ 359 0328 3B0000EA 	.L35:
+ 360              		.loc 1 169 0
+ 361              		mov	r0, #13
+ 362 032c 0D00A0E3 		bl	SerialWrite
+ 363 0330 FEFFFFEB 		b	.L43
+ 364 0334 380000EA 	.L24:
+ 365              		.loc 1 173 0
+ 366              		mov	r0, #13
+ 367 0338 0D00A0E3 		bl	SerialWrite
+ 368 033c FEFFFFEB 		b	.L43
+ 369 0340 350000EA 	.L26:
+ 370              		.loc 1 177 0
+ 371              		mov	r0, #13
+ 372 0344 0D00A0E3 		bl	SerialWrite
+ 373 0348 FEFFFFEB 		b	.L43
+ 374 034c 320000EA 	.L23:
+ 375              		.loc 1 181 0
+ 376              		mov	r0, #13
+ 377 0350 0D00A0E3 		bl	SerialWrite
+ 378 0354 FEFFFFEB 		b	.L43
+ 379 0358 2F0000EA 	.L34:
+ 380              		.loc 1 185 0
+ 381              		mov	r0, #83
+ 382 035c 5300A0E3 		bl	SerialWrite
+ 383 0360 FEFFFFEB 		b	.L43
+ 384 0364 2C0000EA 	.L37:
+ 385              		.loc 1 189 0
+ 386              		mov	r0, #116
+ 387 0368 7400A0E3 		bl	SerialWrite
+ 388 036c FEFFFFEB 		.loc 1 190 0
+ 389              		mov	r0, #0
+ 390 0370 0000A0E3 		bl	SerialWrite
+ 391 0374 FEFFFFEB 		b	.L43
+ 392 0378 270000EA 	.L28:
+ 393              		.loc 1 194 0
+ 394              		bl	SerialRead
+ 395 037c FEFFFFEB 		ldr	r3, .L46+8
+ 396 0380 A8309FE5 		strb	r0, [r3, #0]
+ 397 0384 0000C3E5 		.loc 1 195 0
+ 398              		mov	r0, #13
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 13
+
+
+ 399 0388 0D00A0E3 		bl	SerialWrite
+ 400 038c FEFFFFEB 		b	.L43
+ 401 0390 210000EA 	.L27:
+ 402              	.LBB5:
+ 403              		.loc 1 203 0
+ 404              		ldr	r0, .L46+12
+ 405 0394 98009FE5 		bl	SerialStr
+ 406 0398 FEFFFFEB 		.loc 1 206 0
+ 407              		mov	r3, #0
+ 408 039c 0030A0E3 		str	r3, [fp, #-24]
+ 409 03a0 18300BE5 	.LVL19:
+ 410              		ldr	r2, [fp, #-24]
+ 411 03a4 18201BE5 		add	r3, r3, #19922944
+ 412 03a8 133683E2 		add	r3, r3, #76800
+ 413 03ac 4B3B83E2 		add	r3, r3, #255
+ 414 03b0 FF3083E2 		cmp	r3, r2
+ 415 03b4 020053E1 		blt	.L43
+ 416 03b8 170000BA 		mov	r3, #19922944
+ 417 03bc 1336A0E3 		add	r3, r3, #76800
+ 418 03c0 4B3B83E2 		add	r2, r3, #255
+ 419 03c4 FF2083E2 	.L44:
+ 420              		ldr	r3, [fp, #-24]
+ 421 03c8 18301BE5 		add	r3, r3, #1
+ 422 03cc 013083E2 	.LVL20:
+ 423              		str	r3, [fp, #-24]
+ 424 03d0 18300BE5 		ldr	r3, [fp, #-24]
+ 425 03d4 18301BE5 	.LVL21:
+ 426              		cmp	r3, r2
+ 427 03d8 020053E1 		ble	.L44
+ 428 03dc F9FFFFDA 		b	.L43
+ 429 03e0 0D0000EA 	.LVL22:
+ 430              	.L29:
+ 431              	.LBE5:
+ 432              		.loc 1 217 0
+ 433              		mov	r0, #48
+ 434 03e4 3000A0E3 		bl	SerialWrite
+ 435 03e8 FEFFFFEB 		.loc 1 218 0
+ 436              		mov	r0, #55
+ 437 03ec 3700A0E3 		bl	SerialWrite
+ 438 03f0 FEFFFFEB 		b	.L43
+ 439 03f4 080000EA 	.L36:
+ 440              		.loc 1 222 0
+ 441              		mov	r0, #1
+ 442 03f8 0100A0E3 		bl	SerialWrite
+ 443 03fc FEFFFFEB 		.loc 1 223 0
+ 444              		mov	r0, #152
+ 445 0400 9800A0E3 		bl	SerialWrite
+ 446 0404 FEFFFFEB 		.loc 1 224 0
+ 447              		mov	r0, #30
+ 448 0408 1E00A0E3 		bl	SerialWrite
+ 449 040c FEFFFFEB 		b	.L43
+ 450 0410 010000EA 	.L17:
+ 451              		.loc 1 228 0
+ 452              		ldr	r0, .L46+16
+ 453 0414 1C009FE5 		bl	SerialStr
+ 454 0418 FEFFFFEB 	.LVL23:
+ 455              	.L43:
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 14
+
+
+ 456              		.loc 1 232 0
+ 457              		sub	sp, fp, #20
+ 458 041c 14D04BE2 		ldmfd	sp, {r4, r5, fp, sp, lr}
+ 459 0420 30689DE8 		bx	lr
+ 460 0424 1EFF2FE1 	.L47:
+ 461              		.align	2
+ 462              	.L46:
+ 463              		.word	purge
+ 464 0428 00000000 		.word	.LANCHOR0
+ 465 042c 00000000 		.word	gDevice
+ 466 0430 00000000 		.word	.LC0
+ 467 0434 00000000 		.word	.LC1
+ 468 0438 08000000 	.LFE3:
+ 469              		.size	butterflyService, .-butterflyService
+ 470              		.align	2
+ 471              		.global	main
+ 472              		.type	main, %function
+ 473              	main:
+ 474              	.LFB2:
+ 475              		.loc 1 49 0
+ 476              		@ Function supports interworking.
+ 477              		@ args = 0, pretend = 0, frame = 0
+ 478              		@ frame_needed = 1, uses_anonymous_args = 0
+ 479              		mov	ip, sp
+ 480 043c 0DC0A0E1 	.LCFI10:
+ 481              		stmfd	sp!, {fp, ip, lr, pc}
+ 482 0440 00D82DE9 	.LCFI11:
+ 483              		sub	fp, ip, #4
+ 484 0444 04B04CE2 	.LCFI12:
+ 485              		.loc 1 51 0
+ 486              		mov	r0, #9600
+ 487 0448 960DA0E3 		bl	SerialBegin
+ 488 044c FEFFFFEB 	.L49:
+ 489              		.loc 1 55 0
+ 490              		bl	butterflyService
+ 491 0450 FEFFFFEB 		b	.L49
+ 492 0454 FDFFFFEA 	.LFE2:
+ 493              		.size	main, .-main
+ 494              		.global	gAddress
+ 495              		.comm	gBuffer,512,1
+ 496              		.comm	gDevice,1,1
+ 497              		.comm	gDevType,1,1
+ 498              		.comm	purge,4,4
+ 499              		.data
+ 500              		.align	2
+ 501              		.set	.LANCHOR0,. + 0
+ 502              		.type	gAddress, %object
+ 503              		.size	gAddress, 4
+ 504              	gAddress:
+ 505              		.word	8192
+ 506 0000 00200000 		.section	.rodata.str1.4,"aMS",%progbits,1
+ 507              		.align	2
+ 508              	.LC0:
+ 509              		.ascii	"AVRBOOT\000"
+ 510 0000 41565242 	.LC1:
+ 510      4F4F5400 
+ 511              		.ascii	"?\000"
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 15
+
+
+ 512 0008 3F00     		.section	.debug_frame,"",%progbits
+ 513 000a 0000     	.Lframe0:
+ 514              		.4byte	.LECIE0-.LSCIE0
+ 515 0000 0C000000 	.LSCIE0:
+ 516              		.4byte	0xffffffff
+ 517 0004 FFFFFFFF 		.byte	0x1
+ 518 0008 01       		.ascii	"\000"
+ 519 0009 00       		.uleb128 0x1
+ 520 000a 01       		.sleb128 -4
+ 521 000b 7C       		.byte	0xe
+ 522 000c 0E       		.byte	0xc
+ 523 000d 0C       		.uleb128 0xd
+ 524 000e 0D       		.uleb128 0x0
+ 525 000f 00       		.align	2
+ 526              	.LECIE0:
+ 527              	.LSFDE0:
+ 528              		.4byte	.LEFDE0-.LASFDE0
+ 529 0010 20000000 	.LASFDE0:
+ 530              		.4byte	.Lframe0
+ 531 0014 00000000 		.4byte	.LFB5
+ 532 0018 00000000 		.4byte	.LFE5-.LFB5
+ 533 001c 90000000 		.byte	0x4
+ 534 0020 44       		.4byte	.LCFI0-.LFB5
+ 535              		.byte	0xd
+ 536 0021 0D       		.uleb128 0xc
+ 537 0022 0C       		.byte	0x4
+ 538 0023 44       		.4byte	.LCFI1-.LCFI0
+ 539              		.byte	0x8e
+ 540 0024 8E       		.uleb128 0x2
+ 541 0025 02       		.byte	0x8d
+ 542 0026 8D       		.uleb128 0x3
+ 543 0027 03       		.byte	0x8b
+ 544 0028 8B       		.uleb128 0x4
+ 545 0029 04       		.byte	0x85
+ 546 002a 85       		.uleb128 0x5
+ 547 002b 05       		.byte	0x84
+ 548 002c 84       		.uleb128 0x6
+ 549 002d 06       		.byte	0x4
+ 550 002e 44       		.4byte	.LCFI2-.LCFI1
+ 551              		.byte	0xc
+ 552 002f 0C       		.uleb128 0xb
+ 553 0030 0B       		.uleb128 0x4
+ 554 0031 04       		.align	2
+ 555 0032 0000     	.LEFDE0:
+ 556              	.LSFDE2:
+ 557              		.4byte	.LEFDE2-.LASFDE2
+ 558 0034 24000000 	.LASFDE2:
+ 559              		.4byte	.Lframe0
+ 560 0038 00000000 		.4byte	.LFB4
+ 561 003c 90000000 		.4byte	.LFE4-.LFB4
+ 562 0040 60000000 		.byte	0x4
+ 563 0044 44       		.4byte	.LCFI3-.LFB4
+ 564              		.byte	0xd
+ 565 0045 0D       		.uleb128 0xc
+ 566 0046 0C       		.byte	0x4
+ 567 0047 44       		.4byte	.LCFI4-.LCFI3
+ 568              		.byte	0x8e
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 16
+
+
+ 569 0048 8E       		.uleb128 0x2
+ 570 0049 02       		.byte	0x8d
+ 571 004a 8D       		.uleb128 0x3
+ 572 004b 03       		.byte	0x8b
+ 573 004c 8B       		.uleb128 0x4
+ 574 004d 04       		.byte	0x87
+ 575 004e 87       		.uleb128 0x5
+ 576 004f 05       		.byte	0x86
+ 577 0050 86       		.uleb128 0x6
+ 578 0051 06       		.byte	0x85
+ 579 0052 85       		.uleb128 0x7
+ 580 0053 07       		.byte	0x84
+ 581 0054 84       		.uleb128 0x8
+ 582 0055 08       		.byte	0x4
+ 583 0056 44       		.4byte	.LCFI5-.LCFI4
+ 584              		.byte	0xc
+ 585 0057 0C       		.uleb128 0xb
+ 586 0058 0B       		.uleb128 0x4
+ 587 0059 04       		.align	2
+ 588 005a 0000     	.LEFDE2:
+ 589              	.LSFDE4:
+ 590              		.4byte	.LEFDE4-.LASFDE4
+ 591 005c 20000000 	.LASFDE4:
+ 592              		.4byte	.Lframe0
+ 593 0060 00000000 		.4byte	.LFB3
+ 594 0064 F0000000 		.4byte	.LFE3-.LFB3
+ 595 0068 4C030000 		.byte	0x4
+ 596 006c 44       		.4byte	.LCFI6-.LFB3
+ 597              		.byte	0xd
+ 598 006d 0D       		.uleb128 0xc
+ 599 006e 0C       		.byte	0x4
+ 600 006f 44       		.4byte	.LCFI7-.LCFI6
+ 601              		.byte	0x8e
+ 602 0070 8E       		.uleb128 0x2
+ 603 0071 02       		.byte	0x8d
+ 604 0072 8D       		.uleb128 0x3
+ 605 0073 03       		.byte	0x8b
+ 606 0074 8B       		.uleb128 0x4
+ 607 0075 04       		.byte	0x85
+ 608 0076 85       		.uleb128 0x5
+ 609 0077 05       		.byte	0x84
+ 610 0078 84       		.uleb128 0x6
+ 611 0079 06       		.byte	0x4
+ 612 007a 44       		.4byte	.LCFI8-.LCFI7
+ 613              		.byte	0xc
+ 614 007b 0C       		.uleb128 0xb
+ 615 007c 0B       		.uleb128 0x4
+ 616 007d 04       		.align	2
+ 617 007e 0000     	.LEFDE4:
+ 618              	.LSFDE6:
+ 619              		.4byte	.LEFDE6-.LASFDE6
+ 620 0080 1C000000 	.LASFDE6:
+ 621              		.4byte	.Lframe0
+ 622 0084 00000000 		.4byte	.LFB2
+ 623 0088 3C040000 		.4byte	.LFE2-.LFB2
+ 624 008c 1C000000 		.byte	0x4
+ 625 0090 44       		.4byte	.LCFI10-.LFB2
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 17
+
+
+ 626              		.byte	0xd
+ 627 0091 0D       		.uleb128 0xc
+ 628 0092 0C       		.byte	0x4
+ 629 0093 44       		.4byte	.LCFI11-.LCFI10
+ 630              		.byte	0x8e
+ 631 0094 8E       		.uleb128 0x2
+ 632 0095 02       		.byte	0x8d
+ 633 0096 8D       		.uleb128 0x3
+ 634 0097 03       		.byte	0x8b
+ 635 0098 8B       		.uleb128 0x4
+ 636 0099 04       		.byte	0x4
+ 637 009a 44       		.4byte	.LCFI12-.LCFI11
+ 638              		.byte	0xc
+ 639 009b 0C       		.uleb128 0xb
+ 640 009c 0B       		.uleb128 0x4
+ 641 009d 04       		.align	2
+ 642 009e 0000     	.LEFDE6:
+ 643              		.text
+ 644              	.Letext0:
+ 645              		.section	.debug_loc,"",%progbits
+ 646              	.Ldebug_loc0:
+ 647              	.LLST0:
+ 648              		.4byte	.LFB5-.Ltext0
+ 649 0000 00000000 		.4byte	.LCFI0-.Ltext0
+ 650 0004 04000000 		.2byte	0x1
+ 651 0008 0100     		.byte	0x5d
+ 652 000a 5D       		.4byte	.LCFI0-.Ltext0
+ 653 000b 04000000 		.4byte	.LCFI2-.Ltext0
+ 654 000f 0C000000 		.2byte	0x1
+ 655 0013 0100     		.byte	0x5c
+ 656 0015 5C       		.4byte	.LCFI2-.Ltext0
+ 657 0016 0C000000 		.4byte	.LFE5-.Ltext0
+ 658 001a 90000000 		.2byte	0x2
+ 659 001e 0200     		.byte	0x7b
+ 660 0020 7B       		.sleb128 4
+ 661 0021 04       		.4byte	0x0
+ 662 0022 00000000 		.4byte	0x0
+ 663 0026 00000000 	.LLST1:
+ 664              		.4byte	.LVL0-.Ltext0
+ 665 002a 00000000 		.4byte	.LVL1-.Ltext0
+ 666 002e 14000000 		.2byte	0x1
+ 667 0032 0100     		.byte	0x50
+ 668 0034 50       		.4byte	.LVL1-.Ltext0
+ 669 0035 14000000 		.4byte	.LFE5-.Ltext0
+ 670 0039 90000000 		.2byte	0x1
+ 671 003d 0100     		.byte	0x55
+ 672 003f 55       		.4byte	0x0
+ 673 0040 00000000 		.4byte	0x0
+ 674 0044 00000000 	.LLST2:
+ 675              		.4byte	.LVL0-.Ltext0
+ 676 0048 00000000 		.4byte	.LVL5-.Ltext0
+ 677 004c 5C000000 		.2byte	0x1
+ 678 0050 0100     		.byte	0x51
+ 679 0052 51       		.4byte	.LVL6-.Ltext0
+ 680 0053 70000000 		.4byte	.LFE5-.Ltext0
+ 681 0057 90000000 		.2byte	0x1
+ 682 005b 0100     		.byte	0x51
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 18
+
+
+ 683 005d 51       		.4byte	0x0
+ 684 005e 00000000 		.4byte	0x0
+ 685 0062 00000000 	.LLST3:
+ 686              		.4byte	.LVL2-.Ltext0
+ 687 0066 18000000 		.4byte	.LVL4-.Ltext0
+ 688 006a 3C000000 		.2byte	0x1
+ 689 006e 0100     		.byte	0x53
+ 690 0070 53       		.4byte	.LVL6-.Ltext0
+ 691 0071 70000000 		.4byte	.LFE5-.Ltext0
+ 692 0075 90000000 		.2byte	0x1
+ 693 0079 0100     		.byte	0x53
+ 694 007b 53       		.4byte	0x0
+ 695 007c 00000000 		.4byte	0x0
+ 696 0080 00000000 	.LLST4:
+ 697              		.4byte	.LFB4-.Ltext0
+ 698 0084 90000000 		.4byte	.LCFI3-.Ltext0
+ 699 0088 94000000 		.2byte	0x1
+ 700 008c 0100     		.byte	0x5d
+ 701 008e 5D       		.4byte	.LCFI3-.Ltext0
+ 702 008f 94000000 		.4byte	.LCFI5-.Ltext0
+ 703 0093 9C000000 		.2byte	0x1
+ 704 0097 0100     		.byte	0x5c
+ 705 0099 5C       		.4byte	.LCFI5-.Ltext0
+ 706 009a 9C000000 		.4byte	.LFE4-.Ltext0
+ 707 009e F0000000 		.2byte	0x2
+ 708 00a2 0200     		.byte	0x7b
+ 709 00a4 7B       		.sleb128 4
+ 710 00a5 04       		.4byte	0x0
+ 711 00a6 00000000 		.4byte	0x0
+ 712 00aa 00000000 	.LLST5:
+ 713              		.4byte	.LVL7-.Ltext0
+ 714 00ae 90000000 		.4byte	.LVL8-.Ltext0
+ 715 00b2 A8000000 		.2byte	0x1
+ 716 00b6 0100     		.byte	0x50
+ 717 00b8 50       		.4byte	.LVL8-.Ltext0
+ 718 00b9 A8000000 		.4byte	.LVL9-.Ltext0
+ 719 00bd B0000000 		.2byte	0x1
+ 720 00c1 0100     		.byte	0x55
+ 721 00c3 55       		.4byte	.LVL9-.Ltext0
+ 722 00c4 B0000000 		.4byte	.LVL11-.Ltext0
+ 723 00c8 C0000000 		.2byte	0x1
+ 724 00cc 0100     		.byte	0x50
+ 725 00ce 50       		.4byte	.LVL11-.Ltext0
+ 726 00cf C0000000 		.4byte	.LFE4-.Ltext0
+ 727 00d3 F0000000 		.2byte	0x1
+ 728 00d7 0100     		.byte	0x55
+ 729 00d9 55       		.4byte	0x0
+ 730 00da 00000000 		.4byte	0x0
+ 731 00de 00000000 	.LLST6:
+ 732              		.4byte	.LVL7-.Ltext0
+ 733 00e2 90000000 		.4byte	.LVL12-.Ltext0
+ 734 00e6 C4000000 		.2byte	0x1
+ 735 00ea 0100     		.byte	0x51
+ 736 00ec 51       		.4byte	.LVL13-.Ltext0
+ 737 00ed D0000000 		.4byte	.LFE4-.Ltext0
+ 738 00f1 F0000000 		.2byte	0x1
+ 739 00f5 0100     		.byte	0x51
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 19
+
+
+ 740 00f7 51       		.4byte	0x0
+ 741 00f8 00000000 		.4byte	0x0
+ 742 00fc 00000000 	.LLST7:
+ 743              		.4byte	.LFB3-.Ltext0
+ 744 0100 F0000000 		.4byte	.LCFI6-.Ltext0
+ 745 0104 F4000000 		.2byte	0x1
+ 746 0108 0100     		.byte	0x5d
+ 747 010a 5D       		.4byte	.LCFI6-.Ltext0
+ 748 010b F4000000 		.4byte	.LCFI8-.Ltext0
+ 749 010f FC000000 		.2byte	0x1
+ 750 0113 0100     		.byte	0x5c
+ 751 0115 5C       		.4byte	.LCFI8-.Ltext0
+ 752 0116 FC000000 		.4byte	.LFE3-.Ltext0
+ 753 011a 3C040000 		.2byte	0x2
+ 754 011e 0200     		.byte	0x7b
+ 755 0120 7B       		.sleb128 4
+ 756 0121 04       		.4byte	0x0
+ 757 0122 00000000 		.4byte	0x0
+ 758 0126 00000000 	.LLST8:
+ 759              		.4byte	.LVL14-.Ltext0
+ 760 012a A0020000 		.4byte	.LVL15-.Ltext0
+ 761 012e C0020000 		.2byte	0x1
+ 762 0132 0100     		.byte	0x55
+ 763 0134 55       		.4byte	.LVL23-.Ltext0
+ 764 0135 1C040000 		.4byte	.LFE3-.Ltext0
+ 765 0139 3C040000 		.2byte	0x1
+ 766 013d 0100     		.byte	0x55
+ 767 013f 55       		.4byte	0x0
+ 768 0140 00000000 		.4byte	0x0
+ 769 0144 00000000 	.LLST9:
+ 770              		.4byte	.LVL16-.Ltext0
+ 771 0148 C8020000 		.4byte	.LVL18-.Ltext0
+ 772 014c F8020000 		.2byte	0x1
+ 773 0150 0100     		.byte	0x54
+ 774 0152 54       		.4byte	.LVL23-.Ltext0
+ 775 0153 1C040000 		.4byte	.LFE3-.Ltext0
+ 776 0157 3C040000 		.2byte	0x1
+ 777 015b 0100     		.byte	0x54
+ 778 015d 54       		.4byte	0x0
+ 779 015e 00000000 		.4byte	0x0
+ 780 0162 00000000 	.LLST10:
+ 781              		.4byte	.LVL19-.Ltext0
+ 782 0166 A4030000 		.4byte	.LVL20-.Ltext0
+ 783 016a D0030000 		.2byte	0x2
+ 784 016e 0200     		.byte	0x7b
+ 785 0170 7B       		.sleb128 -24
+ 786 0171 68       		.4byte	.LVL20-.Ltext0
+ 787 0172 D0030000 		.4byte	.LVL21-.Ltext0
+ 788 0176 D8030000 		.2byte	0x1
+ 789 017a 0100     		.byte	0x53
+ 790 017c 53       		.4byte	.LVL21-.Ltext0
+ 791 017d D8030000 		.4byte	.LVL22-.Ltext0
+ 792 0181 E4030000 		.2byte	0x2
+ 793 0185 0200     		.byte	0x7b
+ 794 0187 7B       		.sleb128 -24
+ 795 0188 68       		.4byte	.LVL23-.Ltext0
+ 796 0189 1C040000 		.4byte	.LFE3-.Ltext0
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 20
+
+
+ 797 018d 3C040000 		.2byte	0x2
+ 798 0191 0200     		.byte	0x7b
+ 799 0193 7B       		.sleb128 -24
+ 800 0194 68       		.4byte	0x0
+ 801 0195 00000000 		.4byte	0x0
+ 802 0199 00000000 	.LLST11:
+ 803              		.4byte	.LFB2-.Ltext0
+ 804 019d 3C040000 		.4byte	.LCFI10-.Ltext0
+ 805 01a1 40040000 		.2byte	0x1
+ 806 01a5 0100     		.byte	0x5d
+ 807 01a7 5D       		.4byte	.LCFI10-.Ltext0
+ 808 01a8 40040000 		.4byte	.LCFI12-.Ltext0
+ 809 01ac 48040000 		.2byte	0x1
+ 810 01b0 0100     		.byte	0x5c
+ 811 01b2 5C       		.4byte	.LCFI12-.Ltext0
+ 812 01b3 48040000 		.4byte	.LFE2-.Ltext0
+ 813 01b7 58040000 		.2byte	0x2
+ 814 01bb 0200     		.byte	0x7b
+ 815 01bd 7B       		.sleb128 4
+ 816 01be 04       		.4byte	0x0
+ 817 01bf 00000000 		.4byte	0x0
+ 818 01c3 00000000 		.section	.debug_info
+ 819              		.4byte	0x260
+ 820 0000 60020000 		.2byte	0x2
+ 821 0004 0200     		.4byte	.Ldebug_abbrev0
+ 822 0006 00000000 		.byte	0x4
+ 823 000a 04       		.uleb128 0x1
+ 824 000b 01       		.4byte	.LASF25
+ 825 000c 4E000000 		.byte	0x1
+ 826 0010 01       		.4byte	.LASF26
+ 827 0011 23000000 		.4byte	.LASF27
+ 828 0015 FF000000 		.4byte	.Ltext0
+ 829 0019 00000000 		.4byte	.Letext0
+ 830 001d 58040000 		.4byte	.Ldebug_line0
+ 831 0021 00000000 		.uleb128 0x2
+ 832 0025 02       		.byte	0x4
+ 833 0026 04       		.byte	0x7
+ 834 0027 07       		.4byte	.LASF0
+ 835 0028 89000000 		.uleb128 0x2
+ 836 002c 02       		.byte	0x1
+ 837 002d 01       		.byte	0x6
+ 838 002e 06       		.4byte	.LASF1
+ 839 002f 65010000 		.uleb128 0x2
+ 840 0033 02       		.byte	0x1
+ 841 0034 01       		.byte	0x8
+ 842 0035 08       		.4byte	.LASF2
+ 843 0036 66000000 		.uleb128 0x2
+ 844 003a 02       		.byte	0x2
+ 845 003b 02       		.byte	0x5
+ 846 003c 05       		.4byte	.LASF3
+ 847 003d E4000000 		.uleb128 0x2
+ 848 0041 02       		.byte	0x2
+ 849 0042 02       		.byte	0x7
+ 850 0043 07       		.4byte	.LASF4
+ 851 0044 3B000000 		.uleb128 0x3
+ 852 0048 03       		.byte	0x4
+ 853 0049 04       		.byte	0x5
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 21
+
+
+ 854 004a 05       		.ascii	"int\000"
+ 855 004b 696E7400 		.uleb128 0x2
+ 856 004f 02       		.byte	0x8
+ 857 0050 08       		.byte	0x5
+ 858 0051 05       		.4byte	.LASF5
+ 859 0052 C6000000 		.uleb128 0x2
+ 860 0056 02       		.byte	0x8
+ 861 0057 08       		.byte	0x7
+ 862 0058 07       		.4byte	.LASF6
+ 863 0059 A0000000 		.uleb128 0x2
+ 864 005d 02       		.byte	0x4
+ 865 005e 04       		.byte	0x5
+ 866 005f 05       		.4byte	.LASF7
+ 867 0060 48010000 		.uleb128 0x4
+ 868 0064 04       		.byte	0x4
+ 869 0065 04       		.byte	0x7
+ 870 0066 07       		.uleb128 0x2
+ 871 0067 02       		.byte	0x4
+ 872 0068 04       		.byte	0x7
+ 873 0069 07       		.4byte	.LASF8
+ 874 006a 29000000 		.uleb128 0x5
+ 875 006e 05       		.byte	0x4
+ 876 006f 04       		.4byte	0x33
+ 877 0070 33000000 		.uleb128 0x2
+ 878 0074 02       		.byte	0x1
+ 879 0075 01       		.byte	0x8
+ 880 0076 08       		.4byte	.LASF9
+ 881 0077 D4000000 		.uleb128 0x2
+ 882 007b 02       		.byte	0x8
+ 883 007c 08       		.byte	0x4
+ 884 007d 04       		.4byte	.LASF10
+ 885 007e 7D000000 		.uleb128 0x2
+ 886 0082 02       		.byte	0x4
+ 887 0083 04       		.byte	0x4
+ 888 0084 04       		.4byte	.LASF11
+ 889 0085 18000000 		.uleb128 0x2
+ 890 0089 02       		.byte	0x8
+ 891 008a 08       		.byte	0x4
+ 892 008b 04       		.4byte	.LASF12
+ 893 008c 59010000 		.uleb128 0x6
+ 894 0090 06       		.byte	0x1
+ 895 0091 01       		.4byte	.LASF28
+ 896 0092 08000000 		.byte	0x1
+ 897 0096 01       		.2byte	0x101
+ 898 0097 0101     		.byte	0x1
+ 899 0099 01       		.4byte	0x74
+ 900 009a 74000000 		.4byte	.LFB5
+ 901 009e 00000000 		.4byte	.LFE5
+ 902 00a2 90000000 		.4byte	.LLST0
+ 903 00a6 00000000 		.4byte	0xdf
+ 904 00aa DF000000 		.uleb128 0x7
+ 905 00ae 07       		.4byte	.LASF13
+ 906 00af 1E000000 		.byte	0x1
+ 907 00b3 01       		.2byte	0x100
+ 908 00b4 0001     		.4byte	0x25
+ 909 00b6 25000000 		.4byte	.LLST1
+ 910 00ba 2A000000 		.uleb128 0x7
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 22
+
+
+ 911 00be 07       		.4byte	.LASF14
+ 912 00bf 00000000 		.byte	0x1
+ 913 00c3 01       		.2byte	0x100
+ 914 00c4 0001     		.4byte	0x33
+ 915 00c6 33000000 		.4byte	.LLST2
+ 916 00ca 48000000 		.uleb128 0x8
+ 917 00ce 08       		.ascii	"cnt\000"
+ 918 00cf 636E7400 		.byte	0x1
+ 919 00d3 01       		.2byte	0x102
+ 920 00d4 0201     		.4byte	0x25
+ 921 00d6 25000000 		.4byte	.LLST3
+ 922 00da 66000000 		.byte	0x0
+ 923 00de 00       		.uleb128 0x9
+ 924 00df 09       		.byte	0x1
+ 925 00e0 01       		.4byte	.LASF16
+ 926 00e1 96000000 		.byte	0x1
+ 927 00e5 01       		.byte	0xed
+ 928 00e6 ED       		.byte	0x1
+ 929 00e7 01       		.4byte	.LFB4
+ 930 00e8 90000000 		.4byte	.LFE4
+ 931 00ec F0000000 		.4byte	.LLST4
+ 932 00f0 84000000 		.4byte	0x142
+ 933 00f4 42010000 		.uleb128 0xa
+ 934 00f8 0A       		.4byte	.LASF13
+ 935 00f9 1E000000 		.byte	0x1
+ 936 00fd 01       		.byte	0xec
+ 937 00fe EC       		.4byte	0x25
+ 938 00ff 25000000 		.4byte	.LLST5
+ 939 0103 AE000000 		.uleb128 0xa
+ 940 0107 0A       		.4byte	.LASF14
+ 941 0108 00000000 		.byte	0x1
+ 942 010c 01       		.byte	0xec
+ 943 010d EC       		.4byte	0x33
+ 944 010e 33000000 		.4byte	.LLST6
+ 945 0112 E2000000 		.uleb128 0xb
+ 946 0116 0B       		.ascii	"cnt\000"
+ 947 0117 636E7400 		.byte	0x1
+ 948 011b 01       		.byte	0xee
+ 949 011c EE       		.4byte	0x25
+ 950 011d 25000000 		.byte	0x1
+ 951 0121 01       		.byte	0x54
+ 952 0122 54       		.uleb128 0xc
+ 953 0123 0C       		.4byte	.LBB2
+ 954 0124 B4000000 		.4byte	.LBE2
+ 955 0128 C4000000 		.uleb128 0xd
+ 956 012c 0D       		.ascii	"b\000"
+ 957 012d 6200     		.byte	0x1
+ 958 012f 01       		.byte	0xf4
+ 959 0130 F4       		.4byte	0x6e
+ 960 0131 6E000000 		.uleb128 0xe
+ 961 0135 0E       		.4byte	.LASF15
+ 962 0136 13000000 		.byte	0x1
+ 963 013a 01       		.byte	0xf6
+ 964 013b F6       		.4byte	0x33
+ 965 013c 33000000 		.byte	0x0
+ 966 0140 00       		.byte	0x0
+ 967 0141 00       		.uleb128 0x9
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 23
+
+
+ 968 0142 09       		.byte	0x1
+ 969 0143 01       		.4byte	.LASF17
+ 970 0144 EE000000 		.byte	0x1
+ 971 0148 01       		.byte	0x40
+ 972 0149 40       		.byte	0x1
+ 973 014a 01       		.4byte	.LFB3
+ 974 014b F0000000 		.4byte	.LFE3
+ 975 014f 3C040000 		.4byte	.LLST7
+ 976 0153 00010000 		.4byte	0x1da
+ 977 0157 DA010000 		.uleb128 0xe
+ 978 015b 0E       		.4byte	.LASF18
+ 979 015c 5A000000 		.byte	0x1
+ 980 0160 01       		.byte	0x41
+ 981 0161 41       		.4byte	0x74
+ 982 0162 74000000 		.uleb128 0xf
+ 983 0166 0F       		.4byte	.LBB3
+ 984 0167 98020000 		.4byte	.LBE3
+ 985 016b C0020000 		.4byte	0x199
+ 986 016f 99010000 		.uleb128 0x10
+ 987 0173 10       		.4byte	.LASF19
+ 988 0174 D9000000 		.byte	0x1
+ 989 0178 01       		.byte	0x72
+ 990 0179 72       		.4byte	0x25
+ 991 017a 25000000 		.4byte	.LLST8
+ 992 017e 2A010000 		.uleb128 0xe
+ 993 0182 0E       		.4byte	.LASF14
+ 994 0183 00000000 		.byte	0x1
+ 995 0187 01       		.byte	0x73
+ 996 0188 73       		.4byte	0x33
+ 997 0189 33000000 		.uleb128 0xd
+ 998 018d 0D       		.ascii	"res\000"
+ 999 018e 72657300 		.byte	0x1
+ 1000 0192 01       		.byte	0x74
+ 1001 0193 74       		.4byte	0x33
+ 1002 0194 33000000 		.byte	0x0
+ 1003 0198 00       		.uleb128 0xf
+ 1004 0199 0F       		.4byte	.LBB4
+ 1005 019a C0020000 		.4byte	.LBE4
+ 1006 019e F8020000 		.4byte	0x1c1
+ 1007 01a2 C1010000 		.uleb128 0x10
+ 1008 01a6 10       		.4byte	.LASF19
+ 1009 01a7 D9000000 		.byte	0x1
+ 1010 01ab 01       		.byte	0x82
+ 1011 01ac 82       		.4byte	0x25
+ 1012 01ad 25000000 		.4byte	.LLST9
+ 1013 01b1 48010000 		.uleb128 0xe
+ 1014 01b5 0E       		.4byte	.LASF14
+ 1015 01b6 00000000 		.byte	0x1
+ 1016 01ba 01       		.byte	0x83
+ 1017 01bb 83       		.4byte	0x33
+ 1018 01bc 33000000 		.byte	0x0
+ 1019 01c0 00       		.uleb128 0xc
+ 1020 01c1 0C       		.4byte	.LBB5
+ 1021 01c2 94030000 		.4byte	.LBE5
+ 1022 01c6 E4030000 		.uleb128 0x11
+ 1023 01ca 11       		.ascii	"xx\000"
+ 1024 01cb 787800   		.byte	0x1
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 24
+
+
+ 1025 01ce 01       		.byte	0xc8
+ 1026 01cf C8       		.4byte	0x1da
+ 1027 01d0 DA010000 		.4byte	.LLST10
+ 1028 01d4 66010000 		.byte	0x0
+ 1029 01d8 00       		.byte	0x0
+ 1030 01d9 00       		.uleb128 0x12
+ 1031 01da 12       		.4byte	0x5d
+ 1032 01db 5D000000 		.uleb128 0x13
+ 1033 01df 13       		.byte	0x1
+ 1034 01e0 01       		.4byte	.LASF29
+ 1035 01e1 84000000 		.byte	0x1
+ 1036 01e5 01       		.byte	0x31
+ 1037 01e6 31       		.byte	0x1
+ 1038 01e7 01       		.4byte	0x48
+ 1039 01e8 48000000 		.4byte	.LFB2
+ 1040 01ec 3C040000 		.4byte	.LFE2
+ 1041 01f0 58040000 		.4byte	.LLST11
+ 1042 01f4 9D010000 		.uleb128 0x14
+ 1043 01f8 14       		.4byte	.LASF20
+ 1044 01f9 B7000000 		.byte	0x1
+ 1045 01fd 01       		.byte	0x2b
+ 1046 01fe 2B       		.4byte	0x25
+ 1047 01ff 25000000 		.byte	0x1
+ 1048 0203 01       		.byte	0x5
+ 1049 0204 05       		.byte	0x3
+ 1050 0205 03       		.4byte	gAddress
+ 1051 0206 00000000 		.uleb128 0x15
+ 1052 020a 15       		.4byte	0x33
+ 1053 020b 33000000 		.4byte	0x21b
+ 1054 020f 1B020000 		.uleb128 0x16
+ 1055 0213 16       		.4byte	0x64
+ 1056 0214 64000000 		.2byte	0x1ff
+ 1057 0218 FF01     		.byte	0x0
+ 1058 021a 00       		.uleb128 0x14
+ 1059 021b 14       		.4byte	.LASF21
+ 1060 021c 71010000 		.byte	0x1
+ 1061 0220 01       		.byte	0x2c
+ 1062 0221 2C       		.4byte	0x20a
+ 1063 0222 0A020000 		.byte	0x1
+ 1064 0226 01       		.byte	0x5
+ 1065 0227 05       		.byte	0x3
+ 1066 0228 03       		.4byte	gBuffer
+ 1067 0229 00000000 		.uleb128 0x14
+ 1068 022d 14       		.4byte	.LASF22
+ 1069 022e 51010000 		.byte	0x1
+ 1070 0232 01       		.byte	0x2d
+ 1071 0233 2D       		.4byte	0x33
+ 1072 0234 33000000 		.byte	0x1
+ 1073 0238 01       		.byte	0x5
+ 1074 0239 05       		.byte	0x3
+ 1075 023a 03       		.4byte	gDevice
+ 1076 023b 00000000 		.uleb128 0x14
+ 1077 023f 14       		.4byte	.LASF23
+ 1078 0240 74000000 		.byte	0x1
+ 1079 0244 01       		.byte	0x2e
+ 1080 0245 2E       		.4byte	0x33
+ 1081 0246 33000000 		.byte	0x1
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 25
+
+
+ 1082 024a 01       		.byte	0x5
+ 1083 024b 05       		.byte	0x3
+ 1084 024c 03       		.4byte	gDevType
+ 1085 024d 00000000 		.uleb128 0x14
+ 1086 0251 14       		.4byte	.LASF24
+ 1087 0252 C0000000 		.byte	0x1
+ 1088 0256 01       		.byte	0x2f
+ 1089 0257 2F       		.4byte	0x25
+ 1090 0258 25000000 		.byte	0x1
+ 1091 025c 01       		.byte	0x5
+ 1092 025d 05       		.byte	0x3
+ 1093 025e 03       		.4byte	purge
+ 1094 025f 00000000 		.byte	0x0
+ 1095 0263 00       		.section	.debug_abbrev
+ 1096              		.uleb128 0x1
+ 1097 0000 01       		.uleb128 0x11
+ 1098 0001 11       		.byte	0x1
+ 1099 0002 01       		.uleb128 0x25
+ 1100 0003 25       		.uleb128 0xe
+ 1101 0004 0E       		.uleb128 0x13
+ 1102 0005 13       		.uleb128 0xb
+ 1103 0006 0B       		.uleb128 0x3
+ 1104 0007 03       		.uleb128 0xe
+ 1105 0008 0E       		.uleb128 0x1b
+ 1106 0009 1B       		.uleb128 0xe
+ 1107 000a 0E       		.uleb128 0x11
+ 1108 000b 11       		.uleb128 0x1
+ 1109 000c 01       		.uleb128 0x12
+ 1110 000d 12       		.uleb128 0x1
+ 1111 000e 01       		.uleb128 0x10
+ 1112 000f 10       		.uleb128 0x6
+ 1113 0010 06       		.byte	0x0
+ 1114 0011 00       		.byte	0x0
+ 1115 0012 00       		.uleb128 0x2
+ 1116 0013 02       		.uleb128 0x24
+ 1117 0014 24       		.byte	0x0
+ 1118 0015 00       		.uleb128 0xb
+ 1119 0016 0B       		.uleb128 0xb
+ 1120 0017 0B       		.uleb128 0x3e
+ 1121 0018 3E       		.uleb128 0xb
+ 1122 0019 0B       		.uleb128 0x3
+ 1123 001a 03       		.uleb128 0xe
+ 1124 001b 0E       		.byte	0x0
+ 1125 001c 00       		.byte	0x0
+ 1126 001d 00       		.uleb128 0x3
+ 1127 001e 03       		.uleb128 0x24
+ 1128 001f 24       		.byte	0x0
+ 1129 0020 00       		.uleb128 0xb
+ 1130 0021 0B       		.uleb128 0xb
+ 1131 0022 0B       		.uleb128 0x3e
+ 1132 0023 3E       		.uleb128 0xb
+ 1133 0024 0B       		.uleb128 0x3
+ 1134 0025 03       		.uleb128 0x8
+ 1135 0026 08       		.byte	0x0
+ 1136 0027 00       		.byte	0x0
+ 1137 0028 00       		.uleb128 0x4
+ 1138 0029 04       		.uleb128 0x24
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 26
+
+
+ 1139 002a 24       		.byte	0x0
+ 1140 002b 00       		.uleb128 0xb
+ 1141 002c 0B       		.uleb128 0xb
+ 1142 002d 0B       		.uleb128 0x3e
+ 1143 002e 3E       		.uleb128 0xb
+ 1144 002f 0B       		.byte	0x0
+ 1145 0030 00       		.byte	0x0
+ 1146 0031 00       		.uleb128 0x5
+ 1147 0032 05       		.uleb128 0xf
+ 1148 0033 0F       		.byte	0x0
+ 1149 0034 00       		.uleb128 0xb
+ 1150 0035 0B       		.uleb128 0xb
+ 1151 0036 0B       		.uleb128 0x49
+ 1152 0037 49       		.uleb128 0x13
+ 1153 0038 13       		.byte	0x0
+ 1154 0039 00       		.byte	0x0
+ 1155 003a 00       		.uleb128 0x6
+ 1156 003b 06       		.uleb128 0x2e
+ 1157 003c 2E       		.byte	0x1
+ 1158 003d 01       		.uleb128 0x3f
+ 1159 003e 3F       		.uleb128 0xc
+ 1160 003f 0C       		.uleb128 0x3
+ 1161 0040 03       		.uleb128 0xe
+ 1162 0041 0E       		.uleb128 0x3a
+ 1163 0042 3A       		.uleb128 0xb
+ 1164 0043 0B       		.uleb128 0x3b
+ 1165 0044 3B       		.uleb128 0x5
+ 1166 0045 05       		.uleb128 0x27
+ 1167 0046 27       		.uleb128 0xc
+ 1168 0047 0C       		.uleb128 0x49
+ 1169 0048 49       		.uleb128 0x13
+ 1170 0049 13       		.uleb128 0x11
+ 1171 004a 11       		.uleb128 0x1
+ 1172 004b 01       		.uleb128 0x12
+ 1173 004c 12       		.uleb128 0x1
+ 1174 004d 01       		.uleb128 0x40
+ 1175 004e 40       		.uleb128 0x6
+ 1176 004f 06       		.uleb128 0x1
+ 1177 0050 01       		.uleb128 0x13
+ 1178 0051 13       		.byte	0x0
+ 1179 0052 00       		.byte	0x0
+ 1180 0053 00       		.uleb128 0x7
+ 1181 0054 07       		.uleb128 0x5
+ 1182 0055 05       		.byte	0x0
+ 1183 0056 00       		.uleb128 0x3
+ 1184 0057 03       		.uleb128 0xe
+ 1185 0058 0E       		.uleb128 0x3a
+ 1186 0059 3A       		.uleb128 0xb
+ 1187 005a 0B       		.uleb128 0x3b
+ 1188 005b 3B       		.uleb128 0x5
+ 1189 005c 05       		.uleb128 0x49
+ 1190 005d 49       		.uleb128 0x13
+ 1191 005e 13       		.uleb128 0x2
+ 1192 005f 02       		.uleb128 0x6
+ 1193 0060 06       		.byte	0x0
+ 1194 0061 00       		.byte	0x0
+ 1195 0062 00       		.uleb128 0x8
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 27
+
+
+ 1196 0063 08       		.uleb128 0x34
+ 1197 0064 34       		.byte	0x0
+ 1198 0065 00       		.uleb128 0x3
+ 1199 0066 03       		.uleb128 0x8
+ 1200 0067 08       		.uleb128 0x3a
+ 1201 0068 3A       		.uleb128 0xb
+ 1202 0069 0B       		.uleb128 0x3b
+ 1203 006a 3B       		.uleb128 0x5
+ 1204 006b 05       		.uleb128 0x49
+ 1205 006c 49       		.uleb128 0x13
+ 1206 006d 13       		.uleb128 0x2
+ 1207 006e 02       		.uleb128 0x6
+ 1208 006f 06       		.byte	0x0
+ 1209 0070 00       		.byte	0x0
+ 1210 0071 00       		.uleb128 0x9
+ 1211 0072 09       		.uleb128 0x2e
+ 1212 0073 2E       		.byte	0x1
+ 1213 0074 01       		.uleb128 0x3f
+ 1214 0075 3F       		.uleb128 0xc
+ 1215 0076 0C       		.uleb128 0x3
+ 1216 0077 03       		.uleb128 0xe
+ 1217 0078 0E       		.uleb128 0x3a
+ 1218 0079 3A       		.uleb128 0xb
+ 1219 007a 0B       		.uleb128 0x3b
+ 1220 007b 3B       		.uleb128 0xb
+ 1221 007c 0B       		.uleb128 0x27
+ 1222 007d 27       		.uleb128 0xc
+ 1223 007e 0C       		.uleb128 0x11
+ 1224 007f 11       		.uleb128 0x1
+ 1225 0080 01       		.uleb128 0x12
+ 1226 0081 12       		.uleb128 0x1
+ 1227 0082 01       		.uleb128 0x40
+ 1228 0083 40       		.uleb128 0x6
+ 1229 0084 06       		.uleb128 0x1
+ 1230 0085 01       		.uleb128 0x13
+ 1231 0086 13       		.byte	0x0
+ 1232 0087 00       		.byte	0x0
+ 1233 0088 00       		.uleb128 0xa
+ 1234 0089 0A       		.uleb128 0x5
+ 1235 008a 05       		.byte	0x0
+ 1236 008b 00       		.uleb128 0x3
+ 1237 008c 03       		.uleb128 0xe
+ 1238 008d 0E       		.uleb128 0x3a
+ 1239 008e 3A       		.uleb128 0xb
+ 1240 008f 0B       		.uleb128 0x3b
+ 1241 0090 3B       		.uleb128 0xb
+ 1242 0091 0B       		.uleb128 0x49
+ 1243 0092 49       		.uleb128 0x13
+ 1244 0093 13       		.uleb128 0x2
+ 1245 0094 02       		.uleb128 0x6
+ 1246 0095 06       		.byte	0x0
+ 1247 0096 00       		.byte	0x0
+ 1248 0097 00       		.uleb128 0xb
+ 1249 0098 0B       		.uleb128 0x34
+ 1250 0099 34       		.byte	0x0
+ 1251 009a 00       		.uleb128 0x3
+ 1252 009b 03       		.uleb128 0x8
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 28
+
+
+ 1253 009c 08       		.uleb128 0x3a
+ 1254 009d 3A       		.uleb128 0xb
+ 1255 009e 0B       		.uleb128 0x3b
+ 1256 009f 3B       		.uleb128 0xb
+ 1257 00a0 0B       		.uleb128 0x49
+ 1258 00a1 49       		.uleb128 0x13
+ 1259 00a2 13       		.uleb128 0x2
+ 1260 00a3 02       		.uleb128 0xa
+ 1261 00a4 0A       		.byte	0x0
+ 1262 00a5 00       		.byte	0x0
+ 1263 00a6 00       		.uleb128 0xc
+ 1264 00a7 0C       		.uleb128 0xb
+ 1265 00a8 0B       		.byte	0x1
+ 1266 00a9 01       		.uleb128 0x11
+ 1267 00aa 11       		.uleb128 0x1
+ 1268 00ab 01       		.uleb128 0x12
+ 1269 00ac 12       		.uleb128 0x1
+ 1270 00ad 01       		.byte	0x0
+ 1271 00ae 00       		.byte	0x0
+ 1272 00af 00       		.uleb128 0xd
+ 1273 00b0 0D       		.uleb128 0x34
+ 1274 00b1 34       		.byte	0x0
+ 1275 00b2 00       		.uleb128 0x3
+ 1276 00b3 03       		.uleb128 0x8
+ 1277 00b4 08       		.uleb128 0x3a
+ 1278 00b5 3A       		.uleb128 0xb
+ 1279 00b6 0B       		.uleb128 0x3b
+ 1280 00b7 3B       		.uleb128 0xb
+ 1281 00b8 0B       		.uleb128 0x49
+ 1282 00b9 49       		.uleb128 0x13
+ 1283 00ba 13       		.byte	0x0
+ 1284 00bb 00       		.byte	0x0
+ 1285 00bc 00       		.uleb128 0xe
+ 1286 00bd 0E       		.uleb128 0x34
+ 1287 00be 34       		.byte	0x0
+ 1288 00bf 00       		.uleb128 0x3
+ 1289 00c0 03       		.uleb128 0xe
+ 1290 00c1 0E       		.uleb128 0x3a
+ 1291 00c2 3A       		.uleb128 0xb
+ 1292 00c3 0B       		.uleb128 0x3b
+ 1293 00c4 3B       		.uleb128 0xb
+ 1294 00c5 0B       		.uleb128 0x49
+ 1295 00c6 49       		.uleb128 0x13
+ 1296 00c7 13       		.byte	0x0
+ 1297 00c8 00       		.byte	0x0
+ 1298 00c9 00       		.uleb128 0xf
+ 1299 00ca 0F       		.uleb128 0xb
+ 1300 00cb 0B       		.byte	0x1
+ 1301 00cc 01       		.uleb128 0x11
+ 1302 00cd 11       		.uleb128 0x1
+ 1303 00ce 01       		.uleb128 0x12
+ 1304 00cf 12       		.uleb128 0x1
+ 1305 00d0 01       		.uleb128 0x1
+ 1306 00d1 01       		.uleb128 0x13
+ 1307 00d2 13       		.byte	0x0
+ 1308 00d3 00       		.byte	0x0
+ 1309 00d4 00       		.uleb128 0x10
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 29
+
+
+ 1310 00d5 10       		.uleb128 0x34
+ 1311 00d6 34       		.byte	0x0
+ 1312 00d7 00       		.uleb128 0x3
+ 1313 00d8 03       		.uleb128 0xe
+ 1314 00d9 0E       		.uleb128 0x3a
+ 1315 00da 3A       		.uleb128 0xb
+ 1316 00db 0B       		.uleb128 0x3b
+ 1317 00dc 3B       		.uleb128 0xb
+ 1318 00dd 0B       		.uleb128 0x49
+ 1319 00de 49       		.uleb128 0x13
+ 1320 00df 13       		.uleb128 0x2
+ 1321 00e0 02       		.uleb128 0x6
+ 1322 00e1 06       		.byte	0x0
+ 1323 00e2 00       		.byte	0x0
+ 1324 00e3 00       		.uleb128 0x11
+ 1325 00e4 11       		.uleb128 0x34
+ 1326 00e5 34       		.byte	0x0
+ 1327 00e6 00       		.uleb128 0x3
+ 1328 00e7 03       		.uleb128 0x8
+ 1329 00e8 08       		.uleb128 0x3a
+ 1330 00e9 3A       		.uleb128 0xb
+ 1331 00ea 0B       		.uleb128 0x3b
+ 1332 00eb 3B       		.uleb128 0xb
+ 1333 00ec 0B       		.uleb128 0x49
+ 1334 00ed 49       		.uleb128 0x13
+ 1335 00ee 13       		.uleb128 0x2
+ 1336 00ef 02       		.uleb128 0x6
+ 1337 00f0 06       		.byte	0x0
+ 1338 00f1 00       		.byte	0x0
+ 1339 00f2 00       		.uleb128 0x12
+ 1340 00f3 12       		.uleb128 0x35
+ 1341 00f4 35       		.byte	0x0
+ 1342 00f5 00       		.uleb128 0x49
+ 1343 00f6 49       		.uleb128 0x13
+ 1344 00f7 13       		.byte	0x0
+ 1345 00f8 00       		.byte	0x0
+ 1346 00f9 00       		.uleb128 0x13
+ 1347 00fa 13       		.uleb128 0x2e
+ 1348 00fb 2E       		.byte	0x0
+ 1349 00fc 00       		.uleb128 0x3f
+ 1350 00fd 3F       		.uleb128 0xc
+ 1351 00fe 0C       		.uleb128 0x3
+ 1352 00ff 03       		.uleb128 0xe
+ 1353 0100 0E       		.uleb128 0x3a
+ 1354 0101 3A       		.uleb128 0xb
+ 1355 0102 0B       		.uleb128 0x3b
+ 1356 0103 3B       		.uleb128 0xb
+ 1357 0104 0B       		.uleb128 0x27
+ 1358 0105 27       		.uleb128 0xc
+ 1359 0106 0C       		.uleb128 0x49
+ 1360 0107 49       		.uleb128 0x13
+ 1361 0108 13       		.uleb128 0x11
+ 1362 0109 11       		.uleb128 0x1
+ 1363 010a 01       		.uleb128 0x12
+ 1364 010b 12       		.uleb128 0x1
+ 1365 010c 01       		.uleb128 0x40
+ 1366 010d 40       		.uleb128 0x6
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 30
+
+
+ 1367 010e 06       		.byte	0x0
+ 1368 010f 00       		.byte	0x0
+ 1369 0110 00       		.uleb128 0x14
+ 1370 0111 14       		.uleb128 0x34
+ 1371 0112 34       		.byte	0x0
+ 1372 0113 00       		.uleb128 0x3
+ 1373 0114 03       		.uleb128 0xe
+ 1374 0115 0E       		.uleb128 0x3a
+ 1375 0116 3A       		.uleb128 0xb
+ 1376 0117 0B       		.uleb128 0x3b
+ 1377 0118 3B       		.uleb128 0xb
+ 1378 0119 0B       		.uleb128 0x49
+ 1379 011a 49       		.uleb128 0x13
+ 1380 011b 13       		.uleb128 0x3f
+ 1381 011c 3F       		.uleb128 0xc
+ 1382 011d 0C       		.uleb128 0x2
+ 1383 011e 02       		.uleb128 0xa
+ 1384 011f 0A       		.byte	0x0
+ 1385 0120 00       		.byte	0x0
+ 1386 0121 00       		.uleb128 0x15
+ 1387 0122 15       		.uleb128 0x1
+ 1388 0123 01       		.byte	0x1
+ 1389 0124 01       		.uleb128 0x49
+ 1390 0125 49       		.uleb128 0x13
+ 1391 0126 13       		.uleb128 0x1
+ 1392 0127 01       		.uleb128 0x13
+ 1393 0128 13       		.byte	0x0
+ 1394 0129 00       		.byte	0x0
+ 1395 012a 00       		.uleb128 0x16
+ 1396 012b 16       		.uleb128 0x21
+ 1397 012c 21       		.byte	0x0
+ 1398 012d 00       		.uleb128 0x49
+ 1399 012e 49       		.uleb128 0x13
+ 1400 012f 13       		.uleb128 0x2f
+ 1401 0130 2F       		.uleb128 0x5
+ 1402 0131 05       		.byte	0x0
+ 1403 0132 00       		.byte	0x0
+ 1404 0133 00       		.byte	0x0
+ 1405 0134 00       		.section	.debug_pubnames,"",%progbits
+ 1406              		.4byte	0x85
+ 1407 0000 85000000 		.2byte	0x2
+ 1408 0004 0200     		.4byte	.Ldebug_info0
+ 1409 0006 00000000 		.4byte	0x264
+ 1410 000a 64020000 		.4byte	0x90
+ 1411 000e 90000000 		.ascii	"BufferLoad\000"
+ 1412 0012 42756666 		.4byte	0xdf
+ 1412      65724C6F 
+ 1412      616400
+ 1413 001d DF000000 		.ascii	"BlockRead\000"
+ 1414 0021 426C6F63 		.4byte	0x142
+ 1414      6B526561 
+ 1414      6400
+ 1415 002b 42010000 		.ascii	"butterflyService\000"
+ 1416 002f 62757474 		.4byte	0x1df
+ 1416      6572666C 
+ 1416      79536572 
+ 1416      76696365 
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 31
+
+
+ 1416      00
+ 1417 0040 DF010000 		.ascii	"main\000"
+ 1418 0044 6D61696E 		.4byte	0x1f8
+ 1418      00
+ 1419 0049 F8010000 		.ascii	"gAddress\000"
+ 1420 004d 67416464 		.4byte	0x21b
+ 1420      72657373 
+ 1420      00
+ 1421 0056 1B020000 		.ascii	"gBuffer\000"
+ 1422 005a 67427566 		.4byte	0x22d
+ 1422      66657200 
+ 1423 0062 2D020000 		.ascii	"gDevice\000"
+ 1424 0066 67446576 		.4byte	0x23f
+ 1424      69636500 
+ 1425 006e 3F020000 		.ascii	"gDevType\000"
+ 1426 0072 67446576 		.4byte	0x251
+ 1426      54797065 
+ 1426      00
+ 1427 007b 51020000 		.ascii	"purge\000"
+ 1428 007f 70757267 		.4byte	0x0
+ 1428      6500
+ 1429 0085 00000000 		.section	.debug_aranges,"",%progbits
+ 1430              		.4byte	0x1c
+ 1431 0000 1C000000 		.2byte	0x2
+ 1432 0004 0200     		.4byte	.Ldebug_info0
+ 1433 0006 00000000 		.byte	0x4
+ 1434 000a 04       		.byte	0x0
+ 1435 000b 00       		.2byte	0x0
+ 1436 000c 0000     		.2byte	0x0
+ 1437 000e 0000     		.4byte	.Ltext0
+ 1438 0010 00000000 		.4byte	.Letext0-.Ltext0
+ 1439 0014 58040000 		.4byte	0x0
+ 1440 0018 00000000 		.4byte	0x0
+ 1441 001c 00000000 		.section	.debug_str,"MS",%progbits,1
+ 1442              	.LASF14:
+ 1443              		.ascii	"memType\000"
+ 1444 0000 6D656D54 	.LASF28:
+ 1444      79706500 
+ 1445              		.ascii	"BufferLoad\000"
+ 1446 0008 42756666 	.LASF15:
+ 1446      65724C6F 
+ 1446      616400
+ 1447              		.ascii	"byte\000"
+ 1448 0013 62797465 	.LASF11:
+ 1448      00
+ 1449              		.ascii	"float\000"
+ 1450 0018 666C6F61 	.LASF13:
+ 1450      7400
+ 1451              		.ascii	"size\000"
+ 1452 001e 73697A65 	.LASF26:
+ 1452      00
+ 1453              		.ascii	"IAP.c\000"
+ 1454 0023 4941502E 	.LASF8:
+ 1454      6300
+ 1455              		.ascii	"long unsigned int\000"
+ 1456 0029 6C6F6E67 	.LASF4:
+ 1456      20756E73 
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 32
+
+
+ 1456      69676E65 
+ 1456      6420696E 
+ 1456      7400
+ 1457              		.ascii	"short unsigned int\000"
+ 1458 003b 73686F72 	.LASF25:
+ 1458      7420756E 
+ 1458      7369676E 
+ 1458      65642069 
+ 1458      6E7400
+ 1459              		.ascii	"GNU C 4.3.2\000"
+ 1460 004e 474E5520 	.LASF18:
+ 1460      4320342E 
+ 1460      332E3200 
+ 1461              		.ascii	"recvCommand\000"
+ 1462 005a 72656376 	.LASF2:
+ 1462      436F6D6D 
+ 1462      616E6400 
+ 1463              		.ascii	"unsigned char\000"
+ 1464 0066 756E7369 	.LASF23:
+ 1464      676E6564 
+ 1464      20636861 
+ 1464      7200
+ 1465              		.ascii	"gDevType\000"
+ 1466 0074 67446576 	.LASF10:
+ 1466      54797065 
+ 1466      00
+ 1467              		.ascii	"double\000"
+ 1468 007d 646F7562 	.LASF29:
+ 1468      6C6500
+ 1469              		.ascii	"main\000"
+ 1470 0084 6D61696E 	.LASF0:
+ 1470      00
+ 1471              		.ascii	"unsigned int\000"
+ 1472 0089 756E7369 	.LASF16:
+ 1472      676E6564 
+ 1472      20696E74 
+ 1472      00
+ 1473              		.ascii	"BlockRead\000"
+ 1474 0096 426C6F63 	.LASF6:
+ 1474      6B526561 
+ 1474      6400
+ 1475              		.ascii	"long long unsigned int\000"
+ 1476 00a0 6C6F6E67 	.LASF20:
+ 1476      206C6F6E 
+ 1476      6720756E 
+ 1476      7369676E 
+ 1476      65642069 
+ 1477              		.ascii	"gAddress\000"
+ 1478 00b7 67416464 	.LASF24:
+ 1478      72657373 
+ 1478      00
+ 1479              		.ascii	"purge\000"
+ 1480 00c0 70757267 	.LASF5:
+ 1480      6500
+ 1481              		.ascii	"long long int\000"
+ 1482 00c6 6C6F6E67 	.LASF9:
+ 1482      206C6F6E 
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 33
+
+
+ 1482      6720696E 
+ 1482      7400
+ 1483              		.ascii	"char\000"
+ 1484 00d4 63686172 	.LASF19:
+ 1484      00
+ 1485              		.ascii	"bufferSize\000"
+ 1486 00d9 62756666 	.LASF3:
+ 1486      65725369 
+ 1486      7A6500
+ 1487              		.ascii	"short int\000"
+ 1488 00e4 73686F72 	.LASF17:
+ 1488      7420696E 
+ 1488      7400
+ 1489              		.ascii	"butterflyService\000"
+ 1490 00ee 62757474 	.LASF27:
+ 1490      6572666C 
+ 1490      79536572 
+ 1490      76696365 
+ 1490      00
+ 1491              		.ascii	"C:\\Documents and Settings\\christopher.ladden\\My "
+ 1492 00ff 433A5C44 		.ascii	"Documents\\ARM\\GNU_Blinky\000"
+ 1492      6F63756D 
+ 1492      656E7473 
+ 1492      20616E64 
+ 1492      20536574 
+ 1493 012f 446F6375 	.LASF7:
+ 1493      6D656E74 
+ 1493      735C4152 
+ 1493      4D5C474E 
+ 1493      555F426C 
+ 1494              		.ascii	"long int\000"
+ 1495 0148 6C6F6E67 	.LASF22:
+ 1495      20696E74 
+ 1495      00
+ 1496              		.ascii	"gDevice\000"
+ 1497 0151 67446576 	.LASF12:
+ 1497      69636500 
+ 1498              		.ascii	"long double\000"
+ 1499 0159 6C6F6E67 	.LASF1:
+ 1499      20646F75 
+ 1499      626C6500 
+ 1500              		.ascii	"signed char\000"
+ 1501 0165 7369676E 	.LASF21:
+ 1501      65642063 
+ 1501      68617200 
+ 1502              		.ascii	"gBuffer\000"
+ 1503 0171 67427566 		.ident	"GCC: (Sourcery G++ Lite 2008q3-39) 4.3.2"
+ 1503      66657200 
+ 1504              	...
+ARM GAS  C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s 			page 34
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 IAP.c
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:23     .text:00000000 BufferLoad
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:31     .text:00000000 $a
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:86     .text:00000080 $d
+                            *COM*:00000200 gBuffer
+                            *COM*:00000001 gDevice
+                            *COM*:00000001 gDevType
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:95     .text:00000090 BlockRead
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:102    .text:00000090 $a
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:147    .text:000000ec $d
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:153    .text:000000f0 butterflyService
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:159    .text:000000f0 $a
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:176    .text:00000118 $d
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:230    .text:000001e8 $a
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:464    .text:00000428 $d
+                            *COM*:00000004 purge
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:474    .text:0000043c main
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:480    .text:0000043c $a
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:505    .data:00000000 gAddress
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:506    .data:00000000 $d
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:515    .debug_frame:00000000 $d
+C:\DOCUME~1\CHRIST~1.LAD\LOCALS~1\Temp/ccmibaaa.s:649    .debug_loc:00000000 $d
+
+UNDEFINED SYMBOLS
+write_flash
+SerialWrite
+SerialRead
+erase_user_flash
+SerialStr
+SerialBegin

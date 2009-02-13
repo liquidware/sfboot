@@ -1,0 +1,1 @@
+-T ./ARM.ld -mcpu=arm7tdmi -Wl,-Map="./lst/Blinky.map" --gc-sections -o ./obj/Blinky.elf "./obj/startup.o" "./obj/fio.o" "./obj/sbl_iap.o" "./obj/serial.o" "./obj/sys_init.o" "./obj/syscalls.o" "./obj/sfbchecksum.o" "./obj/main.o" -nostartfiles

@@ -1,0 +1,765 @@
+Archive member included because of file (symbol)
+
+c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o)
+                              ./obj/startup.o (__aeabi_unwind_cpp_pr0)
+c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(libunwind.o)
+                              c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o) (restore_core_regs)
+c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(pr-support.o)
+                              c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o) (__gnu_unwind_execute)
+c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-memcpy.o)
+                              c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o) (memcpy)
+c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3.a(start_c.o)
+                              (__cs3_start_c)
+c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+                              c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3.a(start_c.o) (__libc_init_array)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+rom              0x00000000         0x0007f000         xr
+ram              0x40000000         0x00007fe0         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ./obj/startup.o
+LOAD ./obj/fio.o
+LOAD ./obj/sbl_iap.o
+LOAD ./obj/serial.o
+LOAD ./obj/sys_init.o
+LOAD ./obj/syscalls.o
+LOAD ./obj/sfbchecksum.o
+LOAD ./obj/main.o
+START GROUP
+LOAD c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a
+LOAD c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a
+END GROUP
+START GROUP
+LOAD c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a
+LOAD c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a
+LOAD c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3.a
+LOAD c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3unhosted.a
+LOAD c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3arm.a
+END GROUP
+                0x40007fe0                PROVIDE (__cs3_stack, (__cs3_region_start_ram + __cs3_region_size_ram))
+                0x00007b68                PROVIDE (__cs3_stack_size, ((__cs3_region_start_ram + __cs3_region_size_ram) - _end))
+                0x40000478                PROVIDE (__cs3_heap_start, _end)
+                0x40007fe0                PROVIDE (__cs3_heap_end, (__cs3_region_start_ram + __cs3_region_size_ram))
+
+.text           0x00000000     0x29f8
+ CREATE_OBJECT_SYMBOLS
+                0x00000000                __cs3_region_start_rom = .
+ *(.cs3.region-head.rom)
+                0x00000000                __cs3_interrupt_vector = __cs3_interrupt_vector_arm
+ *(.cs3.interrupt_vector)
+ .cs3.interrupt_vector
+                0x00000000       0x40 ./obj/startup.o
+                0x00000000                __cs3_interrupt_vector_arm
+                0x00000001                ASSERT ((. != __cs3_interrupt_vector_arm), No interrupt vector)
+ *(.rom)
+ *(.rom.b)
+                0x00000040                __cs3_reset = __cs3_reset_arm
+ *(.cs3.reset)
+ .cs3.reset     0x00000040       0x5c ./obj/startup.o
+                0x0000008c                _start
+                0x00000040                __cs3_reset_arm
+                0x00000001                ASSERT ((. != __cs3_reset), No reset code)
+ *(.text .text.* .gnu.linkonce.t.*)
+ .text          0x0000009c       0x18 ./obj/startup.o
+                0x000000ac                IRQ_Handler
+                0x000000a0                SWI_Handler
+                0x0000009c                Undef_Handler
+                0x000000a8                DAbt_Handler
+                0x000000b0                FIQ_Handler
+                0x000000a4                PAbt_Handler
+ .text          0x000000b4        0x0 ./obj/fio.o
+ .text.GPIOInit
+                0x000000b4       0xb0 ./obj/fio.o
+                0x000000b4                GPIOInit
+ .text          0x00000164        0x0 ./obj/sbl_iap.o
+ .text._Z9iap_entryPjS_
+                0x00000164       0x18 ./obj/sbl_iap.o
+                0x00000164                iap_entry(unsigned int*, unsigned int*)
+ .text._Z14prepare_sectorjjj
+                0x0000017c       0x2c ./obj/sbl_iap.o
+                0x0000017c                prepare_sector(unsigned int, unsigned int, unsigned int)
+ .text._Z12erase_sectorjjj
+                0x000001a8       0x2c ./obj/sbl_iap.o
+                0x000001a8                erase_sector(unsigned int, unsigned int, unsigned int)
+ .text._Z17enable_interruptsj
+                0x000001d4        0xc ./obj/sbl_iap.o
+                0x000001d4                enable_interrupts(unsigned int)
+ .text._Z18disable_interruptsj
+                0x000001e0        0xc ./obj/sbl_iap.o
+                0x000001e0                disable_interrupts(unsigned int)
+ .text._Z10write_datajjPjj
+                0x000001ec       0x54 ./obj/sbl_iap.o
+                0x000001ec                write_data(unsigned int, unsigned int, unsigned int*, unsigned int)
+ .text._Z25find_erase_prepare_sectorjj
+                0x00000240       0x94 ./obj/sbl_iap.o
+                0x00000240                find_erase_prepare_sector(unsigned int, unsigned int)
+ .text._Z11write_flashPjPhj
+                0x000002d4       0xd0 ./obj/sbl_iap.o
+                0x000002d4                write_flash(unsigned int*, unsigned char*, unsigned int)
+ .text._Z17execute_user_codev
+                0x000003a4       0x24 ./obj/sbl_iap.o
+                0x000003a4                execute_user_code()
+ .text._Z17user_code_presentv
+                0x000003c8       0x48 ./obj/sbl_iap.o
+                0x000003c8                user_code_present()
+ .text._Z19check_isp_entry_pinv
+                0x00000410       0x18 ./obj/sbl_iap.o
+                0x00000410                check_isp_entry_pin()
+ .text._Z16erase_user_flashv
+                0x00000428       0x4c ./obj/sbl_iap.o
+                0x00000428                erase_user_flash()
+ .text          0x00000474        0x0 ./obj/serial.o
+ .text._Z11SerialBegini
+                0x00000474       0x44 ./obj/serial.o
+                0x00000474                SerialBegin(int)
+ .text._Z11SerialWritei
+                0x000004b8       0x24 ./obj/serial.o
+                0x000004b8                SerialWrite(int)
+ .text._Z9SerialStrPc
+                0x000004dc       0x2c ./obj/serial.o
+                0x000004dc                SerialStr(char*)
+ .text._Z10SerialReadv
+                0x00000508       0x1c ./obj/serial.o
+                0x00000508                SerialRead()
+ .text          0x00000524        0x0 ./obj/sys_init.o
+ .text._Z7sysInitv
+                0x00000524      0x154 ./obj/sys_init.o
+                0x00000524                sysInit()
+ .text          0x00000678        0x0 ./obj/syscalls.o
+ .text._read    0x00000678        0x8 ./obj/syscalls.o
+                0x00000678                _read
+ .text._lseek   0x00000680        0x8 ./obj/syscalls.o
+                0x00000680                _lseek
+ .text._write   0x00000688        0x8 ./obj/syscalls.o
+                0x00000688                _write
+ .text._open    0x00000690       0x10 ./obj/syscalls.o
+                0x00000690                _open
+ .text._close   0x000006a0        0x8 ./obj/syscalls.o
+                0x000006a0                _close
+ .text._kill    0x000006a8        0x8 ./obj/syscalls.o
+                0x000006a8                _kill
+ .text._getpid  0x000006b0        0x8 ./obj/syscalls.o
+                0x000006b0                _getpid
+ .text._sbrk    0x000006b8        0x8 ./obj/syscalls.o
+                0x000006b8                _sbrk
+ .text._fstat   0x000006c0        0x8 ./obj/syscalls.o
+                0x000006c0                _fstat
+ .text._link    0x000006c8        0x8 ./obj/syscalls.o
+                0x000006c8                _link
+ .text._unlink  0x000006d0        0x8 ./obj/syscalls.o
+                0x000006d0                _unlink
+ .text.isatty   0x000006d8        0x8 ./obj/syscalls.o
+                0x000006d8                isatty
+ .text.__exidx_start
+                0x000006e0        0x4 ./obj/syscalls.o
+ .text.__exidx_end
+                0x000006e4        0x4 ./obj/syscalls.o
+ .text.abort    0x000006e8        0x4 ./obj/syscalls.o
+                0x000006e8                abort
+ .text._init    0x000006ec        0x4 ./obj/syscalls.o
+                0x000006ec                _init
+ .text          0x000006f0        0x0 ./obj/sfbchecksum.o
+ .text._Z15SFBChecksumInitPm
+                0x000006f0       0x1c ./obj/sfbchecksum.o
+                0x000006f0                SFBChecksumInit(unsigned long*)
+ .text._Z18SFBChecksumAddBytePmc
+                0x0000070c       0x2c ./obj/sfbchecksum.o
+                0x0000070c                SFBChecksumAddByte(unsigned long*, char)
+ .text._Z19SFBChecksumAddBytesPmPKci
+                0x00000738       0x38 ./obj/sfbchecksum.o
+                0x00000738                SFBChecksumAddBytes(unsigned long*, char const*, int)
+ .text._Z16SFBChecksumEqualPKmS0_
+                0x00000770       0x2c ./obj/sfbchecksum.o
+                0x00000770                SFBChecksumEqual(unsigned long const*, unsigned long const*)
+ .text._Z19SFBChecksumToStringPm
+                0x0000079c       0x6c ./obj/sfbchecksum.o
+                0x0000079c                SFBChecksumToString(unsigned long*)
+ .text._Z21SFBChecksumFromStringPmPKc
+                0x00000808       0x98 ./obj/sfbchecksum.o
+                0x00000808                SFBChecksumFromString(unsigned long*, char const*)
+ .text          0x000008a0        0x0 ./obj/main.o
+ .text._vfprintf_r
+                0x000008a0        0x8 ./obj/main.o
+                0x000008a0                _vfprintf_r
+ .text._malloc_r
+                0x000008a8        0x8 ./obj/main.o
+                0x000008a8                _malloc_r
+ .text._free_r  0x000008b0        0x4 ./obj/main.o
+                0x000008b0                _free_r
+ .text._realloc_r
+                0x000008b4        0x8 ./obj/main.o
+                0x000008b4                _realloc_r
+ .text.realloc  0x000008bc        0x8 ./obj/main.o
+                0x000008bc                realloc
+ .text._calloc_r
+                0x000008c4        0x8 ./obj/main.o
+                0x000008c4                _calloc_r
+ .text.malloc   0x000008cc        0x8 ./obj/main.o
+                0x000008cc                malloc
+ .text.free     0x000008d4        0x4 ./obj/main.o
+                0x000008d4                free
+ .text.__aeabi_atexit
+                0x000008d8        0x8 ./obj/main.o
+                0x000008d8                __aeabi_atexit
+ .text._GLOBAL__I__vfprintf_r
+                0x000008e0       0x38 ./obj/main.o
+ .text._Z10BufferLoadjh
+                0x00000918       0x98 ./obj/main.o
+                0x00000918                BufferLoad(unsigned int, unsigned char)
+ .text._Z9BlockReadjh
+                0x000009b0       0x80 ./obj/main.o
+                0x000009b0                BlockRead(unsigned int, unsigned char)
+ .text._Z16ButterflyServicec
+                0x00000a30      0x2e4 ./obj/main.o
+                0x00000a30                ButterflyService(char)
+ .text._Z14LEDSpinPatternj
+                0x00000d14      0x218 ./obj/main.o
+                0x00000d14                LEDSpinPattern(unsigned int)
+ .text.main     0x00000f2c       0xe0 ./obj/main.o
+                0x00000f2c                main
+ .text          0x0000100c      0xf6c c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o)
+                0x00001a78                __gnu_Unwind_RaiseException
+                0x0000160c                __aeabi_unwind_cpp_pr0
+                0x000011d4                _Unwind_GetCFA
+                0x000010a4                _Unwind_VRS_Set
+                0x000017e0                __gnu_Unwind_Backtrace
+                0x00001bac                _Unwind_VRS_Pop
+                0x000015fc                __aeabi_unwind_cpp_pr2
+                0x000011e0                _Unwind_DeleteException
+                0x000011dc                _Unwind_Complete
+                0x00001b44                __gnu_Unwind_Resume
+                0x00001a00                __gnu_Unwind_ForcedUnwind
+                0x00001b24                __gnu_Unwind_Resume_or_Rethrow
+                0x00001020                _Unwind_VRS_Get
+                0x00001604                __aeabi_unwind_cpp_pr1
+ .text          0x00001f78      0x1b0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(libunwind.o)
+                0x000020e0                ___Unwind_ForcedUnwind
+                0x00001f9c                __gnu_Unwind_Save_VFP
+                0x000020bc                _Unwind_Resume_or_Rethrow
+                0x000020bc                ___Unwind_Resume_or_Rethrow
+                0x00002104                _Unwind_Backtrace
+                0x00001f78                __restore_core_regs
+                0x00001fbc                __gnu_Unwind_Save_VFP_D_16_to_31
+                0x00001fac                __gnu_Unwind_Save_VFP_D
+                0x00002104                ___Unwind_Backtrace
+                0x00002074                ___Unwind_RaiseException
+                0x00002098                ___Unwind_Resume
+                0x00001fc4                __gnu_Unwind_Restore_WMMXD
+                0x00001f94                __gnu_Unwind_Restore_VFP
+                0x00002098                _Unwind_Resume
+                0x00001fa4                __gnu_Unwind_Restore_VFP_D
+                0x00001fb4                __gnu_Unwind_Restore_VFP_D_16_to_31
+                0x00002074                _Unwind_RaiseException
+                0x00001f78                restore_core_regs
+                0x00002060                __gnu_Unwind_Save_WMMXC
+                0x0000204c                __gnu_Unwind_Restore_WMMXC
+                0x000020e0                _Unwind_ForcedUnwind
+                0x00002008                __gnu_Unwind_Save_WMMXD
+ .text          0x00002128      0x53c c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(pr-support.o)
+                0x00002204                _Unwind_GetRegionStart
+                0x00002218                __gnu_unwind_execute
+                0x00002194                _Unwind_GetTextRelBase
+                0x000021dc                _Unwind_GetLanguageSpecificData
+                0x0000261c                __gnu_unwind_frame
+                0x0000219c                _Unwind_GetDataRelBase
+ .text          0x00002664       0xfc c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-memcpy.o)
+                0x00002664                memcpy
+ .text          0x00002760       0xcc c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3.a(start_c.o)
+                0x00002760                __cs3_start_c
+ .text          0x0000282c       0x80 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+                0x0000282c                __libc_init_array
+ *(.plt)
+ *(.gnu.warning)
+ *(.glue_7t)
+ .glue_7t       0x000028ac        0x0 ./obj/startup.o
+ .glue_7t       0x000028ac        0x0 ./obj/fio.o
+ .glue_7t       0x000028ac        0x0 ./obj/sbl_iap.o
+ .glue_7t       0x000028ac        0x0 ./obj/serial.o
+ .glue_7t       0x000028ac        0x0 ./obj/sys_init.o
+ .glue_7t       0x000028ac        0x0 ./obj/syscalls.o
+ .glue_7t       0x000028ac        0x0 ./obj/sfbchecksum.o
+ .glue_7t       0x000028ac        0x0 ./obj/main.o
+ .glue_7t       0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o)
+ .glue_7t       0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(libunwind.o)
+ .glue_7t       0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(pr-support.o)
+ .glue_7t       0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-memcpy.o)
+ .glue_7t       0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3.a(start_c.o)
+ .glue_7t       0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+ *(.glue_7)
+ .glue_7        0x000028ac        0x0 ./obj/startup.o
+ .glue_7        0x000028ac        0x0 ./obj/fio.o
+ .glue_7        0x000028ac        0x0 ./obj/sbl_iap.o
+ .glue_7        0x000028ac        0x0 ./obj/serial.o
+ .glue_7        0x000028ac        0x0 ./obj/sys_init.o
+ .glue_7        0x000028ac        0x0 ./obj/syscalls.o
+ .glue_7        0x000028ac        0x0 ./obj/sfbchecksum.o
+ .glue_7        0x000028ac        0x0 ./obj/main.o
+ .glue_7        0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o)
+ .glue_7        0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(libunwind.o)
+ .glue_7        0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(pr-support.o)
+ .glue_7        0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-memcpy.o)
+ .glue_7        0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3.a(start_c.o)
+ .glue_7        0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+ *(.vfp11_veneer)
+ .vfp11_veneer  0x000028ac        0x0 ./obj/startup.o
+ .vfp11_veneer  0x000028ac        0x0 ./obj/fio.o
+ .vfp11_veneer  0x000028ac        0x0 ./obj/sbl_iap.o
+ .vfp11_veneer  0x000028ac        0x0 ./obj/serial.o
+ .vfp11_veneer  0x000028ac        0x0 ./obj/sys_init.o
+ .vfp11_veneer  0x000028ac        0x0 ./obj/syscalls.o
+ .vfp11_veneer  0x000028ac        0x0 ./obj/sfbchecksum.o
+ .vfp11_veneer  0x000028ac        0x0 ./obj/main.o
+ .vfp11_veneer  0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o)
+ .vfp11_veneer  0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(libunwind.o)
+ .vfp11_veneer  0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(pr-support.o)
+ .vfp11_veneer  0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-memcpy.o)
+ .vfp11_veneer  0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3.a(start_c.o)
+ .vfp11_veneer  0x000028ac        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+ *(.rodata .rodata.* .gnu.linkonce.r.*)
+ .rodata.sector_end_map
+                0x000028ac       0x80 ./obj/sbl_iap.o
+                0x000028ac                sector_end_map
+ .rodata.sector_start_map
+                0x0000292c       0x80 ./obj/sbl_iap.o
+                0x0000292c                sector_start_map
+ .rodata.str1.1
+                0x000029ac       0x11 ./obj/sfbchecksum.o
+ .rodata.str1.1
+                0x000029bd        0xa ./obj/main.o
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+ .ARM.extab.cs3.reset
+                0x000029c7        0x0 ./obj/startup.o
+ *fill*         0x000029c7        0x1 00
+ .ARM.extab     0x000029c8       0x18 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o)
+ .ARM.extab     0x000029e0        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(pr-support.o)
+ *(.gcc_except_table)
+ *(.eh_frame_hdr)
+ *(.eh_frame)
+                0x000029e0                . = ALIGN (0x4)
+ *(.init)
+                0x000029e0                . = ALIGN (0x4)
+                0x000029e0                __preinit_array_start = .
+ *(.preinit_array)
+                0x000029e0                __preinit_array_end = .
+                0x000029e0                . = ALIGN (0x4)
+                0x000029e0                __init_array_start = .
+ *(SORT(.init_array.*))
+ *(.init_array)
+ .init_array    0x000029e0        0x4 ./obj/main.o
+                0x000029e4                __init_array_end = .
+                0x000029e4                . = ALIGN (0x4)
+ *crtbegin.o(.ctors)
+ *(EXCLUDE_FILE(*crtend.o) .ctors)
+ *(SORT(.ctors.*))
+ *crtend.o(.ctors)
+                0x000029e4                . = ALIGN (0x4)
+ *(.fini)
+                0x000029e4                . = ALIGN (0x4)
+                0x000029e4                __fini_array_start = .
+ *(.fini_array)
+ *(SORT(.fini_array.*))
+                0x000029e4                __fini_array_end = .
+ *crtbegin.o(.dtors)
+ *(EXCLUDE_FILE(*crtend.o) .dtors)
+ *(SORT(.dtors.*))
+ *crtend.o(.dtors)
+                0x000029e4                . = ALIGN (0x4)
+                0x000029e4                __cs3_regions = .
+                0x000029e4        0x4 LONG 0x0
+                0x000029e8        0x4 LONG 0x2b10 __cs3_region_init_ram
+                0x000029ec        0x4 LONG 0x40000000 __cs3_region_start_ram
+                0x000029f0        0x4 LONG 0x8 __cs3_region_init_size_ram
+                0x000029f4        0x4 LONG 0x470 __cs3_region_zero_size_ram
+                0x000029f8                __exidx_start = .
+
+.janus_2cc_veneer
+                0x000029f8        0x0
+ .janus_2cc_veneer
+                0x000029f8        0x0 ./obj/startup.o
+ .janus_2cc_veneer
+                0x000029f8        0x0 ./obj/fio.o
+ .janus_2cc_veneer
+                0x000029f8        0x0 ./obj/sbl_iap.o
+ .janus_2cc_veneer
+                0x000029f8        0x0 ./obj/serial.o
+ .janus_2cc_veneer
+                0x000029f8        0x0 ./obj/sys_init.o
+ .janus_2cc_veneer
+                0x000029f8        0x0 ./obj/syscalls.o
+ .janus_2cc_veneer
+                0x000029f8        0x0 ./obj/sfbchecksum.o
+ .janus_2cc_veneer
+                0x000029f8        0x0 ./obj/main.o
+ .janus_2cc_veneer
+                0x000029f8        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o)
+ .janus_2cc_veneer
+                0x000029f8        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(libunwind.o)
+ .janus_2cc_veneer
+                0x000029f8        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(pr-support.o)
+ .janus_2cc_veneer
+                0x000029f8        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-memcpy.o)
+ .janus_2cc_veneer
+                0x000029f8        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3.a(start_c.o)
+ .janus_2cc_veneer
+                0x000029f8        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+
+.v4_bx          0x000029f8        0x0
+ .v4_bx         0x000029f8        0x0 ./obj/startup.o
+ .v4_bx         0x000029f8        0x0 ./obj/fio.o
+ .v4_bx         0x000029f8        0x0 ./obj/sbl_iap.o
+ .v4_bx         0x000029f8        0x0 ./obj/serial.o
+ .v4_bx         0x000029f8        0x0 ./obj/sys_init.o
+ .v4_bx         0x000029f8        0x0 ./obj/syscalls.o
+ .v4_bx         0x000029f8        0x0 ./obj/sfbchecksum.o
+ .v4_bx         0x000029f8        0x0 ./obj/main.o
+ .v4_bx         0x000029f8        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o)
+ .v4_bx         0x000029f8        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(libunwind.o)
+ .v4_bx         0x000029f8        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(pr-support.o)
+ .v4_bx         0x000029f8        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-memcpy.o)
+ .v4_bx         0x000029f8        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3.a(start_c.o)
+ .v4_bx         0x000029f8        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+
+.ARM.exidx      0x000029f8      0x110
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+ .ARM.exidx.cs3.reset
+                0x000029f8        0x8 ./obj/startup.o
+ .ARM.exidx     0x00002a00       0xc0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o)
+ .ARM.exidx     0x00002ac0       0x48 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(pr-support.o)
+                0x00002b08                __exidx_end = .
+
+.ARM.__at_0x1FC
+                0x00002b08        0x4
+ .ARM.__at_0x1FC
+                0x00002b08        0x4 ./obj/sbl_iap.o
+                0x00002b08                crp
+
+.text.align     0x00002b0c        0x4
+                0x00002b10                . = ALIGN (0x8)
+ *fill*         0x00002b0c        0x4 00
+                0x00002b10                _etext = .
+                0x0007f000                __cs3_region_size_rom = 0x7f000
+                0x00000001                __cs3_region_num = 0x1
+
+.data           0x40000000        0x8 load address 0x00002b10
+                0x40000000                __cs3_region_start_ram = .
+ *(.cs3.region-head.ram)
+ *(.jcr)
+ *(.got.plt)
+ *(.got)
+ *(.shdata)
+ *(.data .data.* .gnu.linkonce.d.*)
+ .data          0x40000000        0x0 ./obj/startup.o
+ .data          0x40000000        0x0 ./obj/fio.o
+ .data          0x40000000        0x0 ./obj/sbl_iap.o
+ .data.cclk     0x40000000        0x4 ./obj/sbl_iap.o
+                0x40000000                cclk
+ .data          0x40000004        0x0 ./obj/serial.o
+ .data          0x40000004        0x0 ./obj/sys_init.o
+ .data          0x40000004        0x0 ./obj/syscalls.o
+ .data          0x40000004        0x0 ./obj/sfbchecksum.o
+ .data          0x40000004        0x0 ./obj/main.o
+ .data          0x40000004        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o)
+ .data          0x40000004        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(libunwind.o)
+ .data          0x40000004        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(pr-support.o)
+ .data          0x40000004        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-memcpy.o)
+ .data          0x40000004        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3.a(start_c.o)
+ .data          0x40000004        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+ *(.ram)
+                0x40000008                . = ALIGN (0x8)
+ *fill*         0x40000004        0x4 00
+                0x40000008                _edata = .
+
+.bss            0x40000008      0x470 load address 0x00002b18
+ *(.shbss)
+ *(.bss .bss.* .gnu.linkonce.b.*)
+ .bss           0x40000008        0x0 ./obj/startup.o
+ .bss           0x40000008        0x0 ./obj/fio.o
+ .bss           0x40000008        0x0 ./obj/sbl_iap.o
+ .bss.user_code_entry
+                0x40000008        0x4 ./obj/sbl_iap.o
+                0x40000008                user_code_entry
+ .bss.flash_address
+                0x4000000c        0x4 ./obj/sbl_iap.o
+                0x4000000c                flash_address
+ .bss.result_table
+                0x40000010       0x14 ./obj/sbl_iap.o
+                0x40000010                result_table
+ .bss.param_table
+                0x40000024       0x14 ./obj/sbl_iap.o
+                0x40000024                param_table
+ .bss.flash_buf
+                0x40000038      0x200 ./obj/sbl_iap.o
+                0x40000038                flash_buf
+ .bss.byte_ctr  0x40000238        0x4 ./obj/sbl_iap.o
+                0x40000238                byte_ctr
+ .bss           0x4000023c        0x0 ./obj/serial.o
+ .bss           0x4000023c        0x0 ./obj/sys_init.o
+ .bss           0x4000023c        0x0 ./obj/syscalls.o
+ .bss           0x4000023c        0x0 ./obj/sfbchecksum.o
+ .bss._ZL3buf   0x4000023c       0x11 ./obj/sfbchecksum.o
+ .bss           0x4000024d        0x0 ./obj/main.o
+ .bss.gDevType  0x4000024d        0x1 ./obj/main.o
+                0x4000024d                gDevType
+ *fill*         0x4000024e        0x2 00
+ .bss.kApplicationStartAddr
+                0x40000250        0x4 ./obj/main.o
+                0x40000250                kApplicationStartAddr
+ .bss.gRecvCommand
+                0x40000254        0x1 ./obj/main.o
+                0x40000254                gRecvCommand
+ .bss.gBuffer   0x40000255      0x200 ./obj/main.o
+                0x40000255                gBuffer
+ *fill*         0x40000455        0x3 00
+ .bss.gAddress  0x40000458        0x4 ./obj/main.o
+                0x40000458                gAddress
+ .bss.gConfigCs
+                0x4000045c        0x4 ./obj/main.o
+                0x4000045c                gConfigCs
+ .bss.gDevice   0x40000460        0x1 ./obj/main.o
+                0x40000460                gDevice
+ .bss.gSFBootValidChecksum
+                0x40000461        0x1 ./obj/main.o
+                0x40000461                gSFBootValidChecksum
+ *fill*         0x40000462        0x2 00
+ .bss.purge     0x40000464        0x4 ./obj/main.o
+                0x40000464                purge
+ .bss._ZL8gRunning
+                0x40000468        0x8 ./obj/main.o
+ .bss.gAddressPgm
+                0x40000470        0x4 ./obj/main.o
+                0x40000470                gAddressPgm
+ .bss.app_code_entry
+                0x40000474        0x4 ./obj/main.o
+                0x40000474                app_code_entry
+ .bss           0x40000478        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o)
+ .bss           0x40000478        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(libunwind.o)
+ .bss           0x40000478        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(pr-support.o)
+ .bss           0x40000478        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-memcpy.o)
+ .bss           0x40000478        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3.a(start_c.o)
+ .bss           0x40000478        0x0 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+ *(COMMON)
+ *(.ram.b)
+                0x40000478                . = ALIGN (0x8)
+                0x40000478                _end = .
+                0x40000478                __end = .
+
+.heap           0x40000478        0x0
+ *(.heap)
+ .heap          0x40000478        0x0 ./obj/startup.o
+
+.stack          0x40007ce0      0x300
+ *(.stack)
+ .stack         0x40007ce0      0x300 ./obj/startup.o
+                0x40007ce0                __cs3_stack_mem
+                0x00002b10                __cs3_region_init_ram = LOADADDR (.data)
+                0x00000008                __cs3_region_init_size_ram = (_edata - __cs3_region_start_ram)
+                0x00000470                __cs3_region_zero_size_ram = (_end - _edata)
+                0x00007fe0                __cs3_region_size_ram = 0x7fe0
+                0x00000001                __cs3_region_num = 0x1
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000      0x290
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x30 ./obj/startup.o
+ .debug_aranges
+                0x00000030       0x20 ./obj/fio.o
+ .debug_aranges
+                0x00000050       0x78 ./obj/sbl_iap.o
+ .debug_aranges
+                0x000000c8       0x38 ./obj/serial.o
+ .debug_aranges
+                0x00000100       0x20 ./obj/sys_init.o
+ .debug_aranges
+                0x00000120       0x98 ./obj/syscalls.o
+ .debug_aranges
+                0x000001b8       0x48 ./obj/sfbchecksum.o
+ .debug_aranges
+                0x00000200       0x90 ./obj/main.o
+
+.debug_pubnames
+                0x00000000      0x51e
+ *(.debug_pubnames)
+ .debug_pubnames
+                0x00000000       0x1f ./obj/fio.o
+ .debug_pubnames
+                0x0000001f      0x1a2 ./obj/sbl_iap.o
+ .debug_pubnames
+                0x000001c1       0x4f ./obj/serial.o
+ .debug_pubnames
+                0x00000210       0x1e ./obj/sys_init.o
+ .debug_pubnames
+                0x0000022e       0xc9 ./obj/syscalls.o
+ .debug_pubnames
+                0x000002f7       0x9c ./obj/sfbchecksum.o
+ .debug_pubnames
+                0x00000393      0x18b ./obj/main.o
+
+.debug_info     0x00000000     0x1ce7
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x00000000       0x41 ./obj/startup.o
+ .debug_info    0x00000041       0xa0 ./obj/fio.o
+ .debug_info    0x000000e1      0x453 ./obj/sbl_iap.o
+ .debug_info    0x00000534       0xdb ./obj/serial.o
+ .debug_info    0x0000060f      0x10b ./obj/sys_init.o
+ .debug_info    0x0000071a      0x4d3 ./obj/syscalls.o
+ .debug_info    0x00000bed      0x29d ./obj/sfbchecksum.o
+ .debug_info    0x00000e8a      0xe5d ./obj/main.o
+
+.debug_abbrev   0x00000000      0x8e8
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000       0x12 ./obj/startup.o
+ .debug_abbrev  0x00000012       0x5f ./obj/fio.o
+ .debug_abbrev  0x00000071      0x195 ./obj/sbl_iap.o
+ .debug_abbrev  0x00000206       0xb5 ./obj/serial.o
+ .debug_abbrev  0x000002bb       0xc3 ./obj/sys_init.o
+ .debug_abbrev  0x0000037e      0x121 ./obj/syscalls.o
+ .debug_abbrev  0x0000049f      0x13d ./obj/sfbchecksum.o
+ .debug_abbrev  0x000005dc      0x30c ./obj/main.o
+
+.debug_line     0x00000000      0xa6d
+ *(.debug_line)
+ .debug_line    0x00000000       0x7a ./obj/startup.o
+ .debug_line    0x0000007a       0x5b ./obj/fio.o
+ .debug_line    0x000000d5      0x17c ./obj/sbl_iap.o
+ .debug_line    0x00000251       0x81 ./obj/serial.o
+ .debug_line    0x000002d2      0x100 ./obj/sys_init.o
+ .debug_line    0x000003d2      0x1c9 ./obj/syscalls.o
+ .debug_line    0x0000059b      0x13c ./obj/sfbchecksum.o
+ .debug_line    0x000006d7      0x396 ./obj/main.o
+
+.debug_frame    0x00000000      0x878
+ *(.debug_frame)
+ .debug_frame   0x00000000       0x28 ./obj/fio.o
+ .debug_frame   0x00000028      0x120 ./obj/sbl_iap.o
+ .debug_frame   0x00000148       0x5c ./obj/serial.o
+ .debug_frame   0x000001a4       0x20 ./obj/sys_init.o
+ .debug_frame   0x000001c4      0x11c ./obj/syscalls.o
+ .debug_frame   0x000002e0       0x98 ./obj/sfbchecksum.o
+ .debug_frame   0x00000378      0x13c ./obj/main.o
+ .debug_frame   0x000004b4      0x264 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o)
+ .debug_frame   0x00000718       0xe8 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(pr-support.o)
+ .debug_frame   0x00000800       0x2c c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-memcpy.o)
+ .debug_frame   0x0000082c       0x20 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3.a(start_c.o)
+ .debug_frame   0x0000084c       0x2c c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+
+.debug_str      0x00000000      0xd1e
+ *(.debug_str)
+ .debug_str     0x00000000       0x76 ./obj/fio.o
+                                 0x95 (size before relaxing)
+ .debug_str     0x00000076      0x31a ./obj/sbl_iap.o
+                                0x39f (size before relaxing)
+ .debug_str     0x00000390       0x7e ./obj/serial.o
+                                 0xa3 (size before relaxing)
+ .debug_str     0x0000040e       0x88 ./obj/sys_init.o
+                                0x102 (size before relaxing)
+ .debug_str     0x00000496      0x170 ./obj/syscalls.o
+                                0x22e (size before relaxing)
+ .debug_str     0x00000606      0x13e ./obj/sfbchecksum.o
+                                0x1f5 (size before relaxing)
+ .debug_str     0x00000744      0x5da ./obj/main.o
+                                0x712 (size before relaxing)
+
+.debug_loc      0x00000000      0x849
+ *(.debug_loc)
+ .debug_loc     0x00000000       0x79 ./obj/fio.o
+ .debug_loc     0x00000079      0x2b0 ./obj/sbl_iap.o
+ .debug_loc     0x00000329       0x6e ./obj/serial.o
+ .debug_loc     0x00000397       0xf0 ./obj/syscalls.o
+ .debug_loc     0x00000487      0x189 ./obj/sfbchecksum.o
+ .debug_loc     0x00000610      0x239 ./obj/main.o
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.note.gnu.arm.ident
+ *(.note.gnu.arm.ident)
+
+.ARM.attributes
+                0x00000000       0x2c
+ *(.ARM.attributes)
+ .ARM.attributes
+                0x00000000       0x1e ./obj/startup.o
+ .ARM.attributes
+                0x0000001e       0x2e ./obj/fio.o
+ .ARM.attributes
+                0x0000004c       0x2e ./obj/sbl_iap.o
+ .ARM.attributes
+                0x0000007a       0x2e ./obj/serial.o
+ .ARM.attributes
+                0x000000a8       0x2e ./obj/sys_init.o
+ .ARM.attributes
+                0x000000d6       0x2e ./obj/syscalls.o
+ .ARM.attributes
+                0x00000104       0x2e ./obj/sfbchecksum.o
+ .ARM.attributes
+                0x00000132       0x2e ./obj/main.o
+ .ARM.attributes
+                0x00000160       0x2e c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(unwind-arm.o)
+ .ARM.attributes
+                0x0000018e       0x18 c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(libunwind.o)
+ .ARM.attributes
+                0x000001a6       0x2e c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2\libgcc.a(pr-support.o)
+ .ARM.attributes
+                0x000001d4       0x2e c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-memcpy.o)
+ .ARM.attributes
+                0x00000202       0x2e c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libcs3.a(start_c.o)
+ .ARM.attributes
+                0x00000230       0x2e c:/program files/codesourcery/sourcery g++ lite/bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+
+/DISCARD/
+ *(.note.GNU-stack)
+OUTPUT(./obj/Blinky.elf elf32-littlearm)
+
+.debug_ranges   0x00000000      0x298
+ .debug_ranges  0x00000000       0x28 ./obj/startup.o
+ .debug_ranges  0x00000028       0x18 ./obj/fio.o
+ .debug_ranges  0x00000040       0x70 ./obj/sbl_iap.o
+ .debug_ranges  0x000000b0       0x30 ./obj/serial.o
+ .debug_ranges  0x000000e0       0x30 ./obj/sys_init.o
+ .debug_ranges  0x00000110       0x90 ./obj/syscalls.o
+ .debug_ranges  0x000001a0       0x58 ./obj/sfbchecksum.o
+ .debug_ranges  0x000001f8       0xa0 ./obj/main.o
+
+.comment        0x00000000      0x126
+ .comment       0x00000000       0x2a ./obj/fio.o
+ .comment       0x0000002a       0x2a ./obj/sbl_iap.o
+ .comment       0x00000054       0x2a ./obj/serial.o
+ .comment       0x0000007e       0x2a ./obj/sys_init.o
+ .comment       0x000000a8       0x2a ./obj/syscalls.o
+ .comment       0x000000d2       0x2a ./obj/sfbchecksum.o
+ .comment       0x000000fc       0x2a ./obj/main.o
