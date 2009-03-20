@@ -11,7 +11,7 @@
 // use without further testing or modification. 
 //-----------------------------------------------------------------------------
 
-#include <LPC23XX.H>
+#include <LPC23xx.H>
 #include "type.h"
 #include "sbl_iap.h"
 #include "sbl_config.h"

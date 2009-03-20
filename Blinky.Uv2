@@ -10,7 +10,7 @@ Group (Source Code)
 Group (Documentation)
 Group (Header Files)
 
-File 1,2,<.\Startup.s><Startup.s>
+File 1,2,<.\crt0.S><crt0.S>
 File 2,8,<.\fio.cpp><fio.cpp>
 File 2,8,<.\sbl_iap.cpp><sbl_iap.cpp>
 File 2,8,<.\Serial.cpp><Serial.cpp>
@@ -171,12 +171,12 @@ Options 2,0,0  // Target 'MCB2130 Flash'
  OCMXRAM { 0,0,0,0,0,0,0,0,0 }
  OCMIRAM2 { 0,0,0,224,127,0,64,0,0 }
  OCMIROM2 { 0,0,0,0,0,0,0,0,0 }
- ACCFLG { 0,64,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ACCFLG { 64,64,32,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ACMISC (-ffunction-sections -fdata-sections  -fno-builtin -fno-exceptions -fno-unwind-tables)
  ACDEFN ()
  ACUDEF ()
  ACINCD ()
- AASFLG { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ AASFLG { 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  AAMISC ()
  AADEFN ()
  AAUDEF ()
@@ -190,16 +190,16 @@ Options 2,0,0  // Target 'MCB2130 Flash'
  StopCode=3
  CustArgs ()
  LibMods ()
- ALDFLAG { 3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ALDFLAG { 15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ALDTADR ()
  ALDDADR ()
  ALDBSSR ()
  ALDICLB ()
  ALDICDR ()
  ALDMISC (-nostartfiles)
- ALDSCAT (.\ARM.ld)
+ ALDSCAT (.\LPC2378-ROM.ld)
   OPTDL (SARM.DLL)(-cLPC236x)(DARMP.DLL)(-pLPC2368)(SARM.DLL)()(TARMP.DLL)(-pLPC2368)
-  OPTDBG 49149,0,()()()()()()()()()() (BIN\UL2ARM.DLL)()()()
+  OPTDBG 49150,0,()()()()()()()()()() (BIN\UL2ARM.DLL)()()()
  FLASH1 { 1,0,0,0,1,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0 }
  FLASH2 (BIN\UL2ARM.DLL)
  FLASH3 ("LPC210x_ISP.EXE" ("#H" ^X $D COM1: 38400 1))

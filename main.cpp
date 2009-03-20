@@ -80,8 +80,8 @@ extern void sysInit(void);
 //************************************************
 //*	Global Variables 
 //************************************************
-unsigned char *kApplicationStartAddr = (unsigned char *)(USER_FLASH_START + 
-														 kSFBootConfigSize); // the user application
+unsigned char *kApplicationStartAddr = (unsigned char*)0x1000;//(unsigned char *)(USER_FLASH_START + 
+													       //	 kSFBootConfigSize); // the user application
 unsigned char *gAddress=0; // butterfly address 
 unsigned char *gAddressPgm=(unsigned char*)kApplicationStartAddr;   //address to program
 unsigned char gBuffer[kUSART_RX_BUFFER_SIZE];  //RAM buffer for incoming data 
@@ -92,7 +92,7 @@ volatile unsigned int purge;
 
 static SFBChecksum gRunning;
 bool gSFBootValidChecksum = false;
-const SFBChecksum *gConfigCs = (SFBChecksum *)(kApplicationStartAddr - 0x1000);        //1 sector behind the user app
+const SFBChecksum *gConfigCs = (SFBChecksum *)(0x1000);        //1 sector behind the user app
 void (*app_code_entry)(void);
 
 //************************************************
@@ -187,17 +187,18 @@ void LEDSpinPattern(unsigned int spinCount) {
    }  
 }
 
-
+ 
 
 int main (void)  {
 	 
 	/* System Init */
 	sysInit();
-   SerialBegin(57600);
-   
+   SerialBegin(57600); 
+
    /* Startup effects, don't be annoying here */
    LEDSpinPattern(2);  
 
+#if 0
    /* Calculate the checksum on the entire user application space */
    SFBChecksumInit(gRunning);
    SFBChecksumAddBytes(gRunning,
@@ -210,14 +211,13 @@ int main (void)  {
 		/* Got a valid checksum */
 		gSFBootValidChecksum = true;
 	}
-
+#endif
 
    while(1)
    {
       
       /* Check for a app start request */ 
-     if (  (!(SWITCH_FIOPIN & SWITCH_MASK) &&
-            gSFBootValidChecksum))
+     if ( !(SWITCH_FIOPIN & SWITCH_MASK))
       {
          /* Start the app!! */
          app_code_entry =  (void (*)(void))kApplicationStartAddr;
@@ -335,6 +335,7 @@ void ButterflyService(char recvCommand)
       {
    //         unsigned int x;
 
+#if 0
             /* Write out the checksum */
             SFBChecksumInit(gRunning);
             SFBChecksumAddBytes(gRunning,
@@ -347,9 +348,11 @@ void ButterflyService(char recvCommand)
  //              gBuffer[x] = dataPtr[x];
             
             write_flash((unsigned int*)(gConfigCs), (unsigned char*)&gRunning, kSPM_PAGE_SIZE);
+#endif
 
          SerialWrite('\r');
-         
+         SerialWrite('\r');
+          
          app_code_entry =  (void (*)(void))kApplicationStartAddr;
          app_code_entry();
 
