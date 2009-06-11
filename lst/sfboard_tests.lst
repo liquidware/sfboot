@@ -1,4 +1,4 @@
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 1
 
 
    1              		.cpu arm7tdmi
@@ -58,7 +58,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
   25:sfboard_tests.cpp ****       pinMode(x, OUTPUT);
   26:sfboard_tests.cpp ****    }
   27:sfboard_tests.cpp **** 
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 2
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 2
 
 
   28:sfboard_tests.cpp ****    /* Pin Toggling */
@@ -118,7 +118,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
   34              	.LVL1:
   35              		.loc 1 74 0
   36 0004 0040A0E1 		mov	r4, r0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 3
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 3
 
 
   37              	.LVL2:
@@ -178,7 +178,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
   72 0054 78000000 		.word	.L5
   73 0058 9C000000 		.word	.L6
   74 005c CC000000 		.word	.L7
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 4
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 4
 
 
   75              	.L4:
@@ -238,7 +238,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  110              	.L17:
  111 00bc FEFFFFEB 		bl	_Z12digitalWritehh
  113:sfboard_tests.cpp ****          digitalWrite(38, HIGH);
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 5
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 5
 
 
  112              		.loc 1 113 0
@@ -298,7 +298,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  150 0120 014084E2 		add	r4, r4, #1
  130:sfboard_tests.cpp ****       if (face>=4) {
  151              		.loc 1 130 0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 6
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 6
 
 
  152 0124 030054E3 		cmp	r4, #3
@@ -358,7 +358,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  202              		.loc 1 50 0
  203 0040 0F00A0E3 		mov	r0, #15
  204 0044 0010A0E3 		mov	r1, #0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 7
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 7
 
 
  205 0048 FEFFFFEB 		bl	_Z12digitalWritehh
@@ -418,7 +418,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  259              		.loc 1 25 0
  260 0014 FEFFFFEB 		bl	_Z7pinModehh
  261              		.loc 1 24 0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 8
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 8
 
 
  262 0018 260054E3 		cmp	r4, #38
@@ -478,7 +478,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  316 0000 10402DE9 		stmfd	sp!, {r4, lr}
  317              	.LCFI3:
  318              		.loc 1 7 0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 9
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 9
 
 
  319 0004 2040A0E3 		mov	r4, #32
@@ -538,7 +538,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  373 002a 04       		.uleb128 0x4
  374 002b 81       		.byte	0x81
  375 002c 05       		.uleb128 0x5
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 10
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 10
 
 
  376 002d 80       		.byte	0x80
@@ -598,7 +598,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  430 007b 00       		.align	2
  431              	.LEFDE6:
  432              		.text
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 11
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 11
 
 
  433              	.Letext0:
@@ -658,7 +658,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  487 0086 0100     		.2byte	0x1
  488 0088 5D       		.byte	0x5d
  489 0089 04000000 		.4byte	.LCFI1
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 12
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 12
 
 
  490 008d 9C000000 		.4byte	.LFE4
@@ -718,7 +718,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  544 002b 06       		.byte	0x6
  545 002c 3E010000 		.4byte	.LASF0
  546 0030 03       		.uleb128 0x3
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 13
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 13
 
 
  547 0031 EF000000 		.4byte	.LASF20
@@ -778,7 +778,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  601 009d 73000000 		.4byte	0x73
  602 00a1 1F000000 		.4byte	.LLST1
  603 00a5 07       		.uleb128 0x7
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 14
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 14
 
 
  604 00a6 26010000 		.4byte	.LASF9
@@ -838,7 +838,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  658 0128 01       		.byte	0x1
  659 0129 18       		.byte	0x18
  660 012a 6C000000 		.4byte	0x6c
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 15
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 15
 
 
  661 012e BC000000 		.4byte	.LLST5
@@ -898,7 +898,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  715 0017 00       		.byte	0x0
  716 0018 0B       		.uleb128 0xb
  717 0019 0B       		.uleb128 0xb
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 16
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 16
 
 
  718 001a 3E       		.uleb128 0x3e
@@ -958,7 +958,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  772 0051 05       		.uleb128 0x5
  773 0052 00       		.byte	0x0
  774 0053 03       		.uleb128 0x3
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 17
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 17
 
 
  775 0054 0E       		.uleb128 0xe
@@ -1018,7 +1018,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  829 008a 0B       		.uleb128 0xb
  830 008b 3B       		.uleb128 0x3b
  831 008c 0B       		.uleb128 0xb
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 18
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 18
 
 
  832 008d 49       		.uleb128 0x49
@@ -1078,7 +1078,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  886 00c3 0F       		.uleb128 0xf
  887 00c4 2E       		.uleb128 0x2e
  888 00c5 01       		.byte	0x1
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 19
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 19
 
 
  889 00c6 3F       		.uleb128 0x3f
@@ -1138,7 +1138,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  933      4F6E416C 
  933      6C4C4544 
  933      7300
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 20
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 20
 
 
  934 0057 00000000 		.4byte	0x0
@@ -1198,7 +1198,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  977 0033 756E7369 		.ascii	"unsigned char\000"
  977      676E6564 
  977      20636861 
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 21
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 21
 
 
  977      7200
@@ -1258,7 +1258,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  999      7475726E 
  999      4F6E416C 
  999      6C4C4544 
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 22
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 22
 
 
  999      737600
@@ -1300,24 +1300,24 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 1
  1015      6C50696E 
  1015      737600
  1016              		.ident	"GCC: (AHAX Arm-Linux 2008q3-66) 4.3.2"
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s 			page 23
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 23
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 sfboard_tests.cpp
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s:24     .text._Z8spinLEDsj:00000000 _Z8spinLEDsj
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s:32     .text._Z8spinLEDsj:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s:71     .text._Z8spinLEDsj:00000050 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s:77     .text._Z8spinLEDsj:00000060 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s:166    .text._Z8spinLEDsj:00000140 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s:173    .text._Z19toggleOutboundPowerv:00000000 _Z19toggleOutboundPowerv
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s:179    .text._Z19toggleOutboundPowerv:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s:240    .text._Z13wiggleAllPinsv:00000000 _Z13wiggleAllPinsv
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s:246    .text._Z13wiggleAllPinsv:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s:310    .text._Z13turnOnAllLEDsv:00000000 _Z13turnOnAllLEDsv
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s:316    .text._Z13turnOnAllLEDsv:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s:343    .debug_frame:00000000 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccVChAbd.s:437    .debug_loc:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:24     .text._Z8spinLEDsj:00000000 _Z8spinLEDsj
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:32     .text._Z8spinLEDsj:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:71     .text._Z8spinLEDsj:00000050 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:77     .text._Z8spinLEDsj:00000060 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:166    .text._Z8spinLEDsj:00000140 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:173    .text._Z19toggleOutboundPowerv:00000000 _Z19toggleOutboundPowerv
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:179    .text._Z19toggleOutboundPowerv:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:240    .text._Z13wiggleAllPinsv:00000000 _Z13wiggleAllPinsv
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:246    .text._Z13wiggleAllPinsv:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:310    .text._Z13turnOnAllLEDsv:00000000 _Z13turnOnAllLEDsv
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:316    .text._Z13turnOnAllLEDsv:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:343    .debug_frame:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:437    .debug_loc:00000000 $d
 
 UNDEFINED SYMBOLS
 _Z12digitalWritehh

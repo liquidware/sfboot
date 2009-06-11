@@ -1,4 +1,4 @@
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 1
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s 			page 1
 
 
    1              		.cpu arm7tdmi
@@ -58,7 +58,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 1
   25:fio.cpp       **** *****************************************************************************/
   26:fio.cpp       **** void GPIOInit( DWORD PortNum, DWORD PortType, DWORD PortDir, DWORD Mask )
   27              		.loc 1 26 0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 2
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s 			page 2
 
 
   28              		@ Function supports interworking.
@@ -118,7 +118,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 1
   69              	.L2:
   40:fio.cpp       **** 		}
   41:fio.cpp       **** 	}
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 3
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s 			page 3
 
 
   42:fio.cpp       **** 	else if ( PortType == FAST_PORT )
@@ -178,7 +178,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 1
  105              	.L12:
  106              		.align	2
  107              	.L11:
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 4
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s 			page 4
 
 
  108 00a8 00C01FE0 		.word	-534790144
@@ -238,7 +238,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 1
  162 0027 0100     		.2byte	0x1
  163 0029 50       		.byte	0x50
  164 002a 54000000 		.4byte	.LVL3
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 5
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s 			page 5
 
 
  165 002e B0000000 		.4byte	.LFE2
@@ -298,7 +298,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 1
  219 003e 42000000 		.4byte	0x42
  220 0042 02       		.uleb128 0x2
  221 0043 04       		.byte	0x4
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 6
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s 			page 6
 
 
  222 0044 07       		.byte	0x7
@@ -358,7 +358,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 1
  276 00b3 1B000000 		.4byte	.LASF11
  277 00b7 01       		.byte	0x1
  278 00b8 1A       		.byte	0x1a
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 7
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s 			page 7
 
 
  279 00b9 37000000 		.4byte	0x37
@@ -418,7 +418,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 1
  333 0031 0B       		.uleb128 0xb
  334 0032 3E       		.uleb128 0x3e
  335 0033 0B       		.uleb128 0xb
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 8
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s 			page 8
 
 
  336 0034 03       		.uleb128 0x3
@@ -478,7 +478,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 1
  390              		.section	.debug_pubnames,"",%progbits
  391 0000 1B000000 		.4byte	0x1b
  392 0004 0200     		.2byte	0x2
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 9
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s 			page 9
 
 
  393 0006 00000000 		.4byte	.Ldebug_info0
@@ -538,7 +538,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 1
  430      69676E65 
  430      6420696E 
  430      7400
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 10
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s 			page 10
 
 
  431              	.LASF13:
@@ -588,14 +588,14 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 1
  452 00e9 44574F52 		.ascii	"DWORD\000"
  452      4400
  453              		.ident	"GCC: (AHAX Arm-Linux 2008q3-66) 4.3.2"
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s 			page 11
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s 			page 11
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 fio.cpp
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s:24     .text.GPIOInit:00000000 GPIOInit
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s:33     .text.GPIOInit:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s:108    .text.GPIOInit:000000a8 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccN0E9tc.s:148    .debug_loc:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s:24     .text.GPIOInit:00000000 GPIOInit
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s:33     .text.GPIOInit:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s:108    .text.GPIOInit:000000a8 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccUnV8ge.s:148    .debug_loc:00000000 $d
 
 NO UNDEFINED SYMBOLS

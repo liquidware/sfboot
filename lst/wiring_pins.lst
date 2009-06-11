@@ -1,4 +1,4 @@
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 1
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s 			page 1
 
 
    1              		.cpu arm7tdmi
@@ -58,7 +58,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 1
   51 001a 10       		.byte	16
   52 001b 01       		.byte	1
   53 001c 07       		.byte	7
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 2
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s 			page 2
 
 
   54 001d 01       		.byte	1
@@ -118,7 +118,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 1
  108 0053 01       		.byte	1
  109 0054 15       		.byte	21
  110 0055 01       		.byte	1
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 3
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s 			page 3
 
 
  111 0056 1A       		.byte	26
@@ -178,7 +178,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 1
  165 008c 23       		.byte	35
  166 008d 02       		.byte	2
  167 008e 03       		.byte	3
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 4
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s 			page 4
 
 
  168 008f 01       		.byte	1
@@ -238,7 +238,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 1
  222 004e 05       		.byte	0x5
  223 004f 0F010000 		.4byte	.LASF4
  224 0053 02       		.uleb128 0x2
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 5
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s 			page 5
 
 
  225 0054 04       		.byte	0x4
@@ -298,7 +298,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 1
  279 00ba 65503300 		.ascii	"eP3\000"
  280 00be 03       		.sleb128 3
  281 00bf 07       		.uleb128 0x7
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 6
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s 			page 6
 
 
  282 00c0 65503400 		.ascii	"eP4\000"
@@ -358,7 +358,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 1
  336 0123 03       		.byte	0x3
  337 0124 04       		.byte	0x4
  338 0125 0B010000 		.4byte	0x10b
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 7
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s 			page 7
 
 
  339 0129 01       		.byte	0x1
@@ -418,7 +418,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 1
  393 0030 3E       		.uleb128 0x3e
  394 0031 0B       		.uleb128 0xb
  395 0032 03       		.uleb128 0x3
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 8
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s 			page 8
 
 
  396 0033 08       		.uleb128 0x8
@@ -478,7 +478,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 1
  450 0069 03       		.uleb128 0x3
  451 006a 0E       		.uleb128 0xe
  452 006b 3A       		.uleb128 0x3a
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 9
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s 			page 9
 
 
  453 006c 0B       		.uleb128 0xb
@@ -538,7 +538,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 1
  507              		.section	.debug_pubnames,"",%progbits
  508 0000 1B000000 		.4byte	0x1b
  509 0004 0200     		.2byte	0x2
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 10
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s 			page 10
 
 
  510 0006 00000000 		.4byte	.Ldebug_info0
@@ -598,7 +598,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 1
  537 007c 65525854 		.ascii	"eRXTX\000"
  537      5800
  538              	.LASF20:
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 11
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s 			page 11
 
 
  539 0082 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot2.0/sfboot\000"
@@ -658,18 +658,18 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 1
  563 013c 654E756D 		.ascii	"eNumPinTypes\000"
  563      50696E54 
  563      79706573 
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 12
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s 			page 12
 
 
  563      00
  564              		.ident	"GCC: (AHAX Arm-Linux 2008q3-66) 4.3.2"
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s 			page 13
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s 			page 13
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 wiring_pins.cpp
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s:24     .data.PinTable:00000000 PinTable
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s:25     .data.PinTable:00000000 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cchmse1O.s:187    .debug_info:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s:24     .data.PinTable:00000000 PinTable
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s:25     .data.PinTable:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccN4KpQt.s:187    .debug_info:00000000 $d
 
 NO UNDEFINED SYMBOLS

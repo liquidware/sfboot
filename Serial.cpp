@@ -8,7 +8,7 @@
 /* development tools. Nothing else gives you the right to use this software.  */
 /******************************************************************************/
 
-
+#include <stdlib.h>
 #include <stdint.h>
 #include <LPC23xx.H>                     /* LPC23xx definitions               */
 #include "Serial.h"
