@@ -1,0 +1,568 @@
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s 			page 1
+
+
+   1              		.cpu arm7tdmi
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 18, 4
+  11              		.file	"heapless.c"
+  12              		.section	.debug_abbrev,"",%progbits
+  13              	.Ldebug_abbrev0:
+  14              		.section	.debug_info,"",%progbits
+  15              	.Ldebug_info0:
+  16              		.section	.debug_line,"",%progbits
+  17              	.Ldebug_line0:
+  18 0000 A6000000 		.text
+  18      02008300 
+  18      00000201 
+  18      FB0E0D00 
+  18      01010101 
+  19              	.Ltext0:
+  20              		.section	.text.malloc,"ax",%progbits
+  21              		.align	2
+  22              		.global	malloc
+  23              		.type	malloc, %function
+  24              	malloc:
+  25              	.LFB2:
+  26              		.file 1 "heapless.c"
+   1:heapless.c    **** #include <stdlib.h>             /* for malloc and free */
+   2:heapless.c    **** 
+   3:heapless.c    **** #ifndef USE_HEAP                /* If you want a heap, you must ask */
+   4:heapless.c    **** void *malloc(size_t amt) {
+  27              		.loc 1 4 0
+  28              		@ Function supports interworking.
+  29              		@ args = 0, pretend = 0, frame = 8
+  30              		@ frame_needed = 1, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32 0000 04B02DE5 		str	fp, [sp, #-4]!
+  33              	.LCFI0:
+  34 0004 00B08DE2 		add	fp, sp, #0
+  35              	.LCFI1:
+  36 0008 0CD04DE2 		sub	sp, sp, #12
+  37              	.LCFI2:
+  38 000c 08000BE5 		str	r0, [fp, #-8]
+   5:heapless.c    ****     return (void *) 0;
+  39              		.loc 1 5 0
+  40 0010 0030A0E3 		mov	r3, #0
+   6:heapless.c    **** }
+  41              		.loc 1 6 0
+  42 0014 0300A0E1 		mov	r0, r3
+  43 0018 00D08BE2 		add	sp, fp, #0
+  44 001c 0008BDE8 		ldmfd	sp!, {fp}
+  45 0020 1EFF2FE1 		bx	lr
+  46              	.LFE2:
+  47              		.size	malloc, .-malloc
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s 			page 2
+
+
+  48              		.section	.text.free,"ax",%progbits
+  49              		.align	2
+  50              		.global	free
+  51              		.type	free, %function
+  52              	free:
+  53              	.LFB3:
+   7:heapless.c    **** 
+   8:heapless.c    **** void free(void * ptr) {
+  54              		.loc 1 8 0
+  55              		@ Function supports interworking.
+  56              		@ args = 0, pretend = 0, frame = 8
+  57              		@ frame_needed = 1, uses_anonymous_args = 0
+  58              		@ link register save eliminated.
+  59 0000 04B02DE5 		str	fp, [sp, #-4]!
+  60              	.LCFI3:
+  61 0004 00B08DE2 		add	fp, sp, #0
+  62              	.LCFI4:
+  63 0008 0CD04DE2 		sub	sp, sp, #12
+  64              	.LCFI5:
+  65 000c 08000BE5 		str	r0, [fp, #-8]
+   9:heapless.c    **** }
+  66              		.loc 1 9 0
+  67 0010 00D08BE2 		add	sp, fp, #0
+  68 0014 0008BDE8 		ldmfd	sp!, {fp}
+  69 0018 1EFF2FE1 		bx	lr
+  70              	.LFE3:
+  71              		.size	free, .-free
+  72              		.section	.debug_frame,"",%progbits
+  73              	.Lframe0:
+  74 0000 0C000000 		.4byte	.LECIE0-.LSCIE0
+  75              	.LSCIE0:
+  76 0004 FFFFFFFF 		.4byte	0xffffffff
+  77 0008 01       		.byte	0x1
+  78 0009 00       		.ascii	"\000"
+  79 000a 01       		.uleb128 0x1
+  80 000b 7C       		.sleb128 -4
+  81 000c 0E       		.byte	0xe
+  82 000d 0C       		.byte	0xc
+  83 000e 0D       		.uleb128 0xd
+  84 000f 00       		.uleb128 0x0
+  85              		.align	2
+  86              	.LECIE0:
+  87              	.LSFDE0:
+  88 0010 14000000 		.4byte	.LEFDE0-.LASFDE0
+  89              	.LASFDE0:
+  90 0014 00000000 		.4byte	.Lframe0
+  91 0018 00000000 		.4byte	.LFB2
+  92 001c 24000000 		.4byte	.LFE2-.LFB2
+  93 0020 44       		.byte	0x4
+  94              		.4byte	.LCFI0-.LFB2
+  95 0021 0E       		.byte	0xe
+  96 0022 04       		.uleb128 0x4
+  97 0023 8B       		.byte	0x8b
+  98 0024 01       		.uleb128 0x1
+  99 0025 44       		.byte	0x4
+ 100              		.4byte	.LCFI1-.LCFI0
+ 101 0026 0D       		.byte	0xd
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s 			page 3
+
+
+ 102 0027 0B       		.uleb128 0xb
+ 103              		.align	2
+ 104              	.LEFDE0:
+ 105              	.LSFDE2:
+ 106 0028 14000000 		.4byte	.LEFDE2-.LASFDE2
+ 107              	.LASFDE2:
+ 108 002c 00000000 		.4byte	.Lframe0
+ 109 0030 00000000 		.4byte	.LFB3
+ 110 0034 1C000000 		.4byte	.LFE3-.LFB3
+ 111 0038 44       		.byte	0x4
+ 112              		.4byte	.LCFI3-.LFB3
+ 113 0039 0E       		.byte	0xe
+ 114 003a 04       		.uleb128 0x4
+ 115 003b 8B       		.byte	0x8b
+ 116 003c 01       		.uleb128 0x1
+ 117 003d 44       		.byte	0x4
+ 118              		.4byte	.LCFI4-.LCFI3
+ 119 003e 0D       		.byte	0xd
+ 120 003f 0B       		.uleb128 0xb
+ 121              		.align	2
+ 122              	.LEFDE2:
+ 123              		.text
+ 124              	.Letext0:
+ 125              		.section	.debug_loc,"",%progbits
+ 126              	.Ldebug_loc0:
+ 127              	.LLST0:
+ 128 0000 00000000 		.4byte	.LFB2
+ 129 0004 04000000 		.4byte	.LCFI0
+ 130 0008 0100     		.2byte	0x1
+ 131 000a 5D       		.byte	0x5d
+ 132 000b 04000000 		.4byte	.LCFI0
+ 133 000f 08000000 		.4byte	.LCFI1
+ 134 0013 0200     		.2byte	0x2
+ 135 0015 7D       		.byte	0x7d
+ 136 0016 04       		.sleb128 4
+ 137 0017 08000000 		.4byte	.LCFI1
+ 138 001b 24000000 		.4byte	.LFE2
+ 139 001f 0200     		.2byte	0x2
+ 140 0021 7B       		.byte	0x7b
+ 141 0022 04       		.sleb128 4
+ 142 0023 00000000 		.4byte	0x0
+ 143 0027 00000000 		.4byte	0x0
+ 144              	.LLST1:
+ 145 002b 00000000 		.4byte	.LFB3
+ 146 002f 04000000 		.4byte	.LCFI3
+ 147 0033 0100     		.2byte	0x1
+ 148 0035 5D       		.byte	0x5d
+ 149 0036 04000000 		.4byte	.LCFI3
+ 150 003a 08000000 		.4byte	.LCFI4
+ 151 003e 0200     		.2byte	0x2
+ 152 0040 7D       		.byte	0x7d
+ 153 0041 04       		.sleb128 4
+ 154 0042 08000000 		.4byte	.LCFI4
+ 155 0046 1C000000 		.4byte	.LFE3
+ 156 004a 0200     		.2byte	0x2
+ 157 004c 7B       		.byte	0x7b
+ 158 004d 04       		.sleb128 4
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s 			page 4
+
+
+ 159 004e 00000000 		.4byte	0x0
+ 160 0052 00000000 		.4byte	0x0
+ 161              		.file 2 "/cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/include/std
+ 162              		.section	.debug_info
+ 163 0000 D3000000 		.4byte	0xd3
+ 164 0004 0200     		.2byte	0x2
+ 165 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 166 000a 04       		.byte	0x4
+ 167 000b 01       		.uleb128 0x1
+ 168 000c 89000000 		.4byte	.LASF10
+ 169 0010 01       		.byte	0x1
+ 170 0011 5F000000 		.4byte	.LASF11
+ 171 0015 9F000000 		.4byte	.LASF12
+ 172 0019 00000000 		.4byte	0x0
+ 173 001d 00000000 		.4byte	0x0
+ 174 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 175 0025 00000000 		.4byte	.Ldebug_line0
+ 176 0029 02       		.uleb128 0x2
+ 177 002a 0E000000 		.4byte	.LASF13
+ 178 002e 02       		.byte	0x2
+ 179 002f D6       		.byte	0xd6
+ 180 0030 34000000 		.4byte	0x34
+ 181 0034 03       		.uleb128 0x3
+ 182 0035 04       		.byte	0x4
+ 183 0036 07       		.byte	0x7
+ 184 0037 D0000000 		.4byte	.LASF0
+ 185 003b 03       		.uleb128 0x3
+ 186 003c 01       		.byte	0x1
+ 187 003d 06       		.byte	0x6
+ 188 003e 7D000000 		.4byte	.LASF1
+ 189 0042 03       		.uleb128 0x3
+ 190 0043 01       		.byte	0x1
+ 191 0044 08       		.byte	0x8
+ 192 0045 43000000 		.4byte	.LASF2
+ 193 0049 03       		.uleb128 0x3
+ 194 004a 02       		.byte	0x2
+ 195 004b 05       		.byte	0x5
+ 196 004c 95000000 		.4byte	.LASF3
+ 197 0050 03       		.uleb128 0x3
+ 198 0051 02       		.byte	0x2
+ 199 0052 07       		.byte	0x7
+ 200 0053 6A000000 		.4byte	.LASF4
+ 201 0057 04       		.uleb128 0x4
+ 202 0058 04       		.byte	0x4
+ 203 0059 05       		.byte	0x5
+ 204 005a 696E7400 		.ascii	"int\000"
+ 205 005e 03       		.uleb128 0x3
+ 206 005f 08       		.byte	0x8
+ 207 0060 05       		.byte	0x5
+ 208 0061 00000000 		.4byte	.LASF5
+ 209 0065 03       		.uleb128 0x3
+ 210 0066 08       		.byte	0x8
+ 211 0067 07       		.byte	0x7
+ 212 0068 2C000000 		.4byte	.LASF6
+ 213 006c 03       		.uleb128 0x3
+ 214 006d 04       		.byte	0x4
+ 215 006e 05       		.byte	0x5
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s 			page 5
+
+
+ 216 006f 56000000 		.4byte	.LASF7
+ 217 0073 05       		.uleb128 0x5
+ 218 0074 04       		.byte	0x4
+ 219 0075 07       		.byte	0x7
+ 220 0076 06       		.uleb128 0x6
+ 221 0077 04       		.byte	0x4
+ 222 0078 03       		.uleb128 0x3
+ 223 0079 04       		.byte	0x4
+ 224 007a 07       		.byte	0x7
+ 225 007b 1A000000 		.4byte	.LASF8
+ 226 007f 03       		.uleb128 0x3
+ 227 0080 01       		.byte	0x1
+ 228 0081 08       		.byte	0x8
+ 229 0082 51000000 		.4byte	.LASF9
+ 230 0086 07       		.uleb128 0x7
+ 231 0087 01       		.byte	0x1
+ 232 0088 DD000000 		.4byte	.LASF14
+ 233 008c 01       		.byte	0x1
+ 234 008d 04       		.byte	0x4
+ 235 008e 01       		.byte	0x1
+ 236 008f 76000000 		.4byte	0x76
+ 237 0093 00000000 		.4byte	.LFB2
+ 238 0097 24000000 		.4byte	.LFE2
+ 239 009b 00000000 		.4byte	.LLST0
+ 240 009f B2000000 		.4byte	0xb2
+ 241 00a3 08       		.uleb128 0x8
+ 242 00a4 616D7400 		.ascii	"amt\000"
+ 243 00a8 01       		.byte	0x1
+ 244 00a9 04       		.byte	0x4
+ 245 00aa 29000000 		.4byte	0x29
+ 246 00ae 02       		.byte	0x2
+ 247 00af 91       		.byte	0x91
+ 248 00b0 74       		.sleb128 -12
+ 249 00b1 00       		.byte	0x0
+ 250 00b2 09       		.uleb128 0x9
+ 251 00b3 01       		.byte	0x1
+ 252 00b4 15000000 		.4byte	.LASF15
+ 253 00b8 01       		.byte	0x1
+ 254 00b9 08       		.byte	0x8
+ 255 00ba 01       		.byte	0x1
+ 256 00bb 00000000 		.4byte	.LFB3
+ 257 00bf 1C000000 		.4byte	.LFE3
+ 258 00c3 2B000000 		.4byte	.LLST1
+ 259 00c7 08       		.uleb128 0x8
+ 260 00c8 70747200 		.ascii	"ptr\000"
+ 261 00cc 01       		.byte	0x1
+ 262 00cd 08       		.byte	0x8
+ 263 00ce 76000000 		.4byte	0x76
+ 264 00d2 02       		.byte	0x2
+ 265 00d3 91       		.byte	0x91
+ 266 00d4 74       		.sleb128 -12
+ 267 00d5 00       		.byte	0x0
+ 268 00d6 00       		.byte	0x0
+ 269              		.section	.debug_abbrev
+ 270 0000 01       		.uleb128 0x1
+ 271 0001 11       		.uleb128 0x11
+ 272 0002 01       		.byte	0x1
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s 			page 6
+
+
+ 273 0003 25       		.uleb128 0x25
+ 274 0004 0E       		.uleb128 0xe
+ 275 0005 13       		.uleb128 0x13
+ 276 0006 0B       		.uleb128 0xb
+ 277 0007 03       		.uleb128 0x3
+ 278 0008 0E       		.uleb128 0xe
+ 279 0009 1B       		.uleb128 0x1b
+ 280 000a 0E       		.uleb128 0xe
+ 281 000b 11       		.uleb128 0x11
+ 282 000c 01       		.uleb128 0x1
+ 283 000d 52       		.uleb128 0x52
+ 284 000e 01       		.uleb128 0x1
+ 285 000f 55       		.uleb128 0x55
+ 286 0010 06       		.uleb128 0x6
+ 287 0011 10       		.uleb128 0x10
+ 288 0012 06       		.uleb128 0x6
+ 289 0013 00       		.byte	0x0
+ 290 0014 00       		.byte	0x0
+ 291 0015 02       		.uleb128 0x2
+ 292 0016 16       		.uleb128 0x16
+ 293 0017 00       		.byte	0x0
+ 294 0018 03       		.uleb128 0x3
+ 295 0019 0E       		.uleb128 0xe
+ 296 001a 3A       		.uleb128 0x3a
+ 297 001b 0B       		.uleb128 0xb
+ 298 001c 3B       		.uleb128 0x3b
+ 299 001d 0B       		.uleb128 0xb
+ 300 001e 49       		.uleb128 0x49
+ 301 001f 13       		.uleb128 0x13
+ 302 0020 00       		.byte	0x0
+ 303 0021 00       		.byte	0x0
+ 304 0022 03       		.uleb128 0x3
+ 305 0023 24       		.uleb128 0x24
+ 306 0024 00       		.byte	0x0
+ 307 0025 0B       		.uleb128 0xb
+ 308 0026 0B       		.uleb128 0xb
+ 309 0027 3E       		.uleb128 0x3e
+ 310 0028 0B       		.uleb128 0xb
+ 311 0029 03       		.uleb128 0x3
+ 312 002a 0E       		.uleb128 0xe
+ 313 002b 00       		.byte	0x0
+ 314 002c 00       		.byte	0x0
+ 315 002d 04       		.uleb128 0x4
+ 316 002e 24       		.uleb128 0x24
+ 317 002f 00       		.byte	0x0
+ 318 0030 0B       		.uleb128 0xb
+ 319 0031 0B       		.uleb128 0xb
+ 320 0032 3E       		.uleb128 0x3e
+ 321 0033 0B       		.uleb128 0xb
+ 322 0034 03       		.uleb128 0x3
+ 323 0035 08       		.uleb128 0x8
+ 324 0036 00       		.byte	0x0
+ 325 0037 00       		.byte	0x0
+ 326 0038 05       		.uleb128 0x5
+ 327 0039 24       		.uleb128 0x24
+ 328 003a 00       		.byte	0x0
+ 329 003b 0B       		.uleb128 0xb
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s 			page 7
+
+
+ 330 003c 0B       		.uleb128 0xb
+ 331 003d 3E       		.uleb128 0x3e
+ 332 003e 0B       		.uleb128 0xb
+ 333 003f 00       		.byte	0x0
+ 334 0040 00       		.byte	0x0
+ 335 0041 06       		.uleb128 0x6
+ 336 0042 0F       		.uleb128 0xf
+ 337 0043 00       		.byte	0x0
+ 338 0044 0B       		.uleb128 0xb
+ 339 0045 0B       		.uleb128 0xb
+ 340 0046 00       		.byte	0x0
+ 341 0047 00       		.byte	0x0
+ 342 0048 07       		.uleb128 0x7
+ 343 0049 2E       		.uleb128 0x2e
+ 344 004a 01       		.byte	0x1
+ 345 004b 3F       		.uleb128 0x3f
+ 346 004c 0C       		.uleb128 0xc
+ 347 004d 03       		.uleb128 0x3
+ 348 004e 0E       		.uleb128 0xe
+ 349 004f 3A       		.uleb128 0x3a
+ 350 0050 0B       		.uleb128 0xb
+ 351 0051 3B       		.uleb128 0x3b
+ 352 0052 0B       		.uleb128 0xb
+ 353 0053 27       		.uleb128 0x27
+ 354 0054 0C       		.uleb128 0xc
+ 355 0055 49       		.uleb128 0x49
+ 356 0056 13       		.uleb128 0x13
+ 357 0057 11       		.uleb128 0x11
+ 358 0058 01       		.uleb128 0x1
+ 359 0059 12       		.uleb128 0x12
+ 360 005a 01       		.uleb128 0x1
+ 361 005b 40       		.uleb128 0x40
+ 362 005c 06       		.uleb128 0x6
+ 363 005d 01       		.uleb128 0x1
+ 364 005e 13       		.uleb128 0x13
+ 365 005f 00       		.byte	0x0
+ 366 0060 00       		.byte	0x0
+ 367 0061 08       		.uleb128 0x8
+ 368 0062 05       		.uleb128 0x5
+ 369 0063 00       		.byte	0x0
+ 370 0064 03       		.uleb128 0x3
+ 371 0065 08       		.uleb128 0x8
+ 372 0066 3A       		.uleb128 0x3a
+ 373 0067 0B       		.uleb128 0xb
+ 374 0068 3B       		.uleb128 0x3b
+ 375 0069 0B       		.uleb128 0xb
+ 376 006a 49       		.uleb128 0x49
+ 377 006b 13       		.uleb128 0x13
+ 378 006c 02       		.uleb128 0x2
+ 379 006d 0A       		.uleb128 0xa
+ 380 006e 00       		.byte	0x0
+ 381 006f 00       		.byte	0x0
+ 382 0070 09       		.uleb128 0x9
+ 383 0071 2E       		.uleb128 0x2e
+ 384 0072 01       		.byte	0x1
+ 385 0073 3F       		.uleb128 0x3f
+ 386 0074 0C       		.uleb128 0xc
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s 			page 8
+
+
+ 387 0075 03       		.uleb128 0x3
+ 388 0076 0E       		.uleb128 0xe
+ 389 0077 3A       		.uleb128 0x3a
+ 390 0078 0B       		.uleb128 0xb
+ 391 0079 3B       		.uleb128 0x3b
+ 392 007a 0B       		.uleb128 0xb
+ 393 007b 27       		.uleb128 0x27
+ 394 007c 0C       		.uleb128 0xc
+ 395 007d 11       		.uleb128 0x11
+ 396 007e 01       		.uleb128 0x1
+ 397 007f 12       		.uleb128 0x12
+ 398 0080 01       		.uleb128 0x1
+ 399 0081 40       		.uleb128 0x40
+ 400 0082 06       		.uleb128 0x6
+ 401 0083 00       		.byte	0x0
+ 402 0084 00       		.byte	0x0
+ 403 0085 00       		.byte	0x0
+ 404              		.section	.debug_pubnames,"",%progbits
+ 405 0000 22000000 		.4byte	0x22
+ 406 0004 0200     		.2byte	0x2
+ 407 0006 00000000 		.4byte	.Ldebug_info0
+ 408 000a D7000000 		.4byte	0xd7
+ 409 000e 86000000 		.4byte	0x86
+ 410 0012 6D616C6C 		.ascii	"malloc\000"
+ 410      6F6300
+ 411 0019 B2000000 		.4byte	0xb2
+ 412 001d 66726565 		.ascii	"free\000"
+ 412      00
+ 413 0022 00000000 		.4byte	0x0
+ 414              		.section	.debug_aranges,"",%progbits
+ 415 0000 24000000 		.4byte	0x24
+ 416 0004 0200     		.2byte	0x2
+ 417 0006 00000000 		.4byte	.Ldebug_info0
+ 418 000a 04       		.byte	0x4
+ 419 000b 00       		.byte	0x0
+ 420 000c 0000     		.2byte	0x0
+ 421 000e 0000     		.2byte	0x0
+ 422 0010 00000000 		.4byte	.LFB2
+ 423 0014 24000000 		.4byte	.LFE2-.LFB2
+ 424 0018 00000000 		.4byte	.LFB3
+ 425 001c 1C000000 		.4byte	.LFE3-.LFB3
+ 426 0020 00000000 		.4byte	0x0
+ 427 0024 00000000 		.4byte	0x0
+ 428              		.section	.debug_ranges,"",%progbits
+ 429              	.Ldebug_ranges0:
+ 430 0000 00000000 		.4byte	.Ltext0
+ 431 0004 00000000 		.4byte	.Letext0
+ 432 0008 00000000 		.4byte	.LFB2
+ 433 000c 24000000 		.4byte	.LFE2
+ 434 0010 00000000 		.4byte	.LFB3
+ 435 0014 1C000000 		.4byte	.LFE3
+ 436 0018 00000000 		.4byte	0x0
+ 437 001c 00000000 		.4byte	0x0
+ 438              		.section	.debug_str,"MS",%progbits,1
+ 439              	.LASF5:
+ 440 0000 6C6F6E67 		.ascii	"long long int\000"
+ 440      206C6F6E 
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s 			page 9
+
+
+ 440      6720696E 
+ 440      7400
+ 441              	.LASF13:
+ 442 000e 73697A65 		.ascii	"size_t\000"
+ 442      5F7400
+ 443              	.LASF15:
+ 444 0015 66726565 		.ascii	"free\000"
+ 444      00
+ 445              	.LASF8:
+ 446 001a 6C6F6E67 		.ascii	"long unsigned int\000"
+ 446      20756E73 
+ 446      69676E65 
+ 446      6420696E 
+ 446      7400
+ 447              	.LASF6:
+ 448 002c 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 448      206C6F6E 
+ 448      6720756E 
+ 448      7369676E 
+ 448      65642069 
+ 449              	.LASF2:
+ 450 0043 756E7369 		.ascii	"unsigned char\000"
+ 450      676E6564 
+ 450      20636861 
+ 450      7200
+ 451              	.LASF9:
+ 452 0051 63686172 		.ascii	"char\000"
+ 452      00
+ 453              	.LASF7:
+ 454 0056 6C6F6E67 		.ascii	"long int\000"
+ 454      20696E74 
+ 454      00
+ 455              	.LASF11:
+ 456 005f 68656170 		.ascii	"heapless.c\000"
+ 456      6C657373 
+ 456      2E6300
+ 457              	.LASF4:
+ 458 006a 73686F72 		.ascii	"short unsigned int\000"
+ 458      7420756E 
+ 458      7369676E 
+ 458      65642069 
+ 458      6E7400
+ 459              	.LASF1:
+ 460 007d 7369676E 		.ascii	"signed char\000"
+ 460      65642063 
+ 460      68617200 
+ 461              	.LASF10:
+ 462 0089 474E5520 		.ascii	"GNU C 4.3.2\000"
+ 462      4320342E 
+ 462      332E3200 
+ 463              	.LASF3:
+ 464 0095 73686F72 		.ascii	"short int\000"
+ 464      7420696E 
+ 464      7400
+ 465              	.LASF12:
+ 466 009f 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot2.0/sfboot\000"
+ 466      64726976 
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s 			page 10
+
+
+ 466      652F632F 
+ 466      55736572 
+ 466      732F4368 
+ 467              	.LASF0:
+ 468 00d0 756E7369 		.ascii	"unsigned int\000"
+ 468      676E6564 
+ 468      20696E74 
+ 468      00
+ 469              	.LASF14:
+ 470 00dd 6D616C6C 		.ascii	"malloc\000"
+ 470      6F6300
+ 471              		.ident	"GCC: (AHAX Arm-Linux 2008q3-66) 4.3.2"
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 heapless.c
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s:24     .text.malloc:00000000 malloc
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s:32     .text.malloc:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s:52     .text.free:00000000 free
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s:59     .text.free:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s:74     .debug_frame:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cc0096ba.s:128    .debug_loc:00000000 $d
+
+NO UNDEFINED SYMBOLS

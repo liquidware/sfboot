@@ -3,6 +3,24 @@
 #include "LPC_REGS.h"
 #include "sys_config.h"
 
+// setup parameters
+#define T0_PCLK_DIV     1
+#define sysTICSperSEC   (PCLK / T0_PCLK_DIV)
+
+#define USECS_128	    (uint32_t)((128e-6 * sysTICSperSEC) + .5)
+#define ONE_MS          (uint32_t)((  1e-3 * sysTICSperSEC) + .5)
+#define SYSTIME_INT_DT          (USECS_128)
+
+#define ISR_ENTRY() asm volatile(" sub   lr, lr,#4\n" \
+                                 " stmfd sp!,{r0-r12,lr}\n" \
+                                 " mrs   r1, spsr\n" \
+                                 " stmfd sp!,{r1}")
+
+
+#define ISR_EXIT()  asm volatile(" ldmfd sp!,{r1}\n" \
+                                 " msr   spsr_c,r1\n" \
+                                 " ldmfd sp!,{r0-r12,pc}^")
+
 /******************************************************************************
  *
  * Function Name: configPLL()
@@ -124,44 +142,20 @@ static void lowInit(void)
  *****************************************************************************/
 void sysInit(void)
 {
-	uint32_t i = 0;
-	volatile uint32_t *vect_addr, *vect_prio;
 
 	lowInit();                            // setup clocks and processor port pins
 
+	PCONP = 0xFFFFFFFF; //everything powered on    
 	// set the interrupt controller defaults
-#if defined(RAM_RUN)
+//   MEMMAP = 0;
+//#if defined(RAM_RUN)
 	MEMMAP = MEMMAP_SRAM;                 // map interrupt vectors space into SRAM
-#elif defined(ROM_RUN)
-	MEMMAP = MEMMAP_FLASH;                // map interrupt vectors space into FLASH
-#else
-#error RUN_MODE not defined!
-#endif
-	
-	/* initialize VIC */
-	VICIntEnClr  = 0xffffffff;
-	VICVectAddr  = 0x00000000;
-	VICIntSelect = 0x00000000; /* all IRQ */
-	
-	/* set all the vector and vector control register to 0 */
-	for ( i = 0; i < 32; i++ ) {
-		vect_addr = (uint32_t *)(VIC_BASE_ADDR + VECT_ADDR_INDEX + i*4);
-		vect_prio = (uint32_t *)(VIC_BASE_ADDR + VECT_PRIO_INDEX + i*4);
-		*vect_addr = 0x00000000;
-		*vect_prio = 0x0000000F;
-	}
+//#elif defined(ROM_RUN)
+//	MEMMAP = MEMMAP_FLASH;                // map interrupt vectors space into FLASH
+//#else
+//#error RUN_MODE not defined!
+//#endif
 
-	// non-existing on LPC23xx/24xx:  VICDefVectAddr = (uint32_t)reset;     // point unvectored IRQs to reset()
-	
-	//  wdtInit();                         // initialize the watchdog timer
-//	initSysTime();                        // initialize the system timer
-
-#if (UART0_SUPPORT)
-//	uart0Init(UART_BAUD(HOST_BAUD_U0), UART_8N1, UART_FIFO_8); // setup the UART
-#endif
-#if (UART1_SUPPORT)
-//	uart1Init(UART_BAUD(HOST_BAUD_U1), UART_8N1, UART_FIFO_8); // setup the UART
-#endif
 
 	SCS |= (1UL<<0); // set GPIOM in SCS for fast IO
 }

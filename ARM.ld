@@ -22,7 +22,6 @@ GROUP(-lgcc -lc -lcs3 -lcs3unhosted -lcs3arm)
 
 MEMORY
 {
-/*  rom (rx)  : ORIGIN = 0x00000000, LENGTH = (512k-4k) */
   rom (rx)  : ORIGIN = 0x00000000, LENGTH = (512k-4k)
   ram (rwx) : ORIGIN = 0x40000000, LENGTH = (32k-32)
 }
@@ -47,8 +46,8 @@ SECTIONS
     CREATE_OBJECT_SYMBOLS
     __cs3_region_start_rom = .;
     *(.cs3.region-head.rom)
-    __cs3_interrupt_vector = __cs3_interrupt_vector_arm;
-    *(.cs3.interrupt_vector)
+/*    __cs3_interrupt_vector = __cs3_interrupt_vector_arm; */
+/*    *(.cs3.interrupt_vector)                             */
     /* Make sure we pulled in an interrupt vector.  */
     ASSERT (. != __cs3_interrupt_vector_arm, "No interrupt vector");
     *(.rom)
@@ -64,9 +63,9 @@ SECTIONS
     *(.gnu.warning)
     *(.glue_7t) *(.glue_7) *(.vfp11_veneer)
 
-     *(.rodata .rodata.* .gnu.linkonce.r.*)
+    *(.rodata .rodata.* .gnu.linkonce.r.*)
 
-    *(.ARM.extab* .gnu.linkonce.armextab.*) 
+    *(.ARM.extab* .gnu.linkonce.armextab.*)
     *(.gcc_except_table)
     *(.eh_frame_hdr)
     *(.eh_frame)
@@ -121,8 +120,6 @@ SECTIONS
     *(.ARM.exidx* .gnu.linkonce.armexidx.*)
   } >rom
   __exidx_end = .;
-
-
   .text.align :
   {
     . = ALIGN(8);
@@ -135,6 +132,8 @@ SECTIONS
   {
     __cs3_region_start_ram = .;
     *(.cs3.region-head.ram)
+    __cs3_interrupt_vector = __cs3_interrupt_vector_arm; 
+    *(.cs3.interrupt_vector)                             
     KEEP(*(.jcr))
     *(.got.plt) *(.got)
     *(.shdata)
@@ -195,7 +194,7 @@ SECTIONS
   .debug_typenames 0 : { *(.debug_typenames) }
   .debug_varnames  0 : { *(.debug_varnames) }
 
-   .note.gnu.arm.ident 0 : { KEEP (*(.note.gnu.arm.ident)) } 
-   .ARM.attributes 0 : { KEEP (*(.ARM.attributes)) } 
+  .note.gnu.arm.ident 0 : { KEEP (*(.note.gnu.arm.ident)) }
+  .ARM.attributes 0 : { KEEP (*(.ARM.attributes)) }
   /DISCARD/ : { *(.note.GNU-stack) }
 }

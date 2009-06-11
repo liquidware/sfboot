@@ -1,1 +1,1 @@
-obj/fio.o: fio.cpp LPC23xx.h type.h fio.h
+obj\fio.o: fio.cpp LPC23xx.h types.h fio.h

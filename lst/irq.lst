@@ -1,0 +1,762 @@
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s 			page 1
+
+
+   1              		.cpu arm7tdmi
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 18, 4
+  11              		.file	"irq.cpp"
+  12              		.section	.debug_abbrev,"",%progbits
+  13              	.Ldebug_abbrev0:
+  14              		.section	.debug_info,"",%progbits
+  15              	.Ldebug_info0:
+  16              		.section	.debug_line,"",%progbits
+  17              	.Ldebug_line0:
+  18 0000 6F000000 		.text
+  18      02002900 
+  18      00000201 
+  18      FB0E0D00 
+  18      01010101 
+  19              	.Ltext0:
+  20              		.section	.text._Z8init_VICv,"ax",%progbits
+  21              		.align	2
+  22              		.global	_Z8init_VICv
+  23              		.type	_Z8init_VICv, %function
+  24              	_Z8init_VICv:
+  25              	.LFB2:
+  26              		.file 1 "irq.cpp"
+   1:irq.cpp       **** /*****************************************************************************
+   2:irq.cpp       ****  *   irq.c: Interrupt handler C file for NXP LPC23xx/24xx Family Microprocessors
+   3:irq.cpp       ****  *
+   4:irq.cpp       ****  *   Copyright(C) 2006, NXP Semiconductor
+   5:irq.cpp       ****  *   All rights reserved.
+   6:irq.cpp       ****  *
+   7:irq.cpp       ****  *   History
+   8:irq.cpp       ****  *   2006.07.13  ver 1.00    Prelimnary version, first Release
+   9:irq.cpp       ****  *
+  10:irq.cpp       ****  ******************************************************************************/ 
+  11:irq.cpp       **** 
+  12:irq.cpp       **** /* TODO mthomas - volatiles for vect_addr, vect_cntl? */
+  13:irq.cpp       **** 
+  14:irq.cpp       **** #include "LPC23xx.h"			/* LPC23XX/24xx Peripheral Registers */
+  15:irq.cpp       **** #include "types.h"
+  16:irq.cpp       **** #include "irq.h"
+  17:irq.cpp       **** 
+  18:irq.cpp       **** /* Initialize the interrupt controller */
+  19:irq.cpp       **** /******************************************************************************
+  20:irq.cpp       **** ** Function name:		init_VIC
+  21:irq.cpp       **** **
+  22:irq.cpp       **** ** Descriptions:		Initialize VIC interrupt controller.
+  23:irq.cpp       **** ** parameters:			None
+  24:irq.cpp       **** ** Returned value:		None
+  25:irq.cpp       **** ** 
+  26:irq.cpp       **** ******************************************************************************/
+  27:irq.cpp       **** void init_VIC(void) 
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s 			page 2
+
+
+  27              		.loc 1 27 0
+  28              		@ Function supports interworking.
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32              	.LBB2:
+  28:irq.cpp       **** {
+  29:irq.cpp       ****     DWORD i = 0;
+  30:irq.cpp       ****     DWORD *vect_addr, *vect_cntl;
+  31:irq.cpp       ****    	
+  32:irq.cpp       ****     /* initialize VIC*/
+  33:irq.cpp       ****     VICIntEnClr = 0xffffffff;
+  33              		.loc 1 33 0
+  34 0000 0030E0E3 		mvn	r3, #0
+  34:irq.cpp       ****     VICVectAddr = 0;
+  35              		.loc 1 34 0
+  36 0004 0020A0E3 		mov	r2, #0
+  37              		.loc 1 33 0
+  38 0008 EB3F03E5 		str	r3, [r3, #-4075]
+  39              		.loc 1 34 0
+  40 000c FF2003E5 		str	r2, [r3, #-255]
+  35:irq.cpp       ****     VICIntSelect = 0;
+  41              		.loc 1 35 0
+  42 0010 F32F03E5 		str	r2, [r3, #-4083]
+  43 0014 0F2C42E2 		sub	r2, r2, #3840
+  44              	.L2:
+  36:irq.cpp       **** 
+  37:irq.cpp       ****     /* set all the vector and vector control register to 0 */
+  38:irq.cpp       ****     for ( i = 0; i < VIC_SIZE; i++ )
+  39:irq.cpp       ****     {
+  40:irq.cpp       **** 		vect_addr = (DWORD *)(VIC_BASE_ADDR + VECT_ADDR_INDEX + i*4);
+  41:irq.cpp       **** 		vect_cntl = (DWORD *)(VIC_BASE_ADDR + VECT_CNTL_INDEX + i*4);
+  42:irq.cpp       **** 		*vect_addr = 0x0;	
+  45              		.loc 1 42 0
+  46 0018 0030A0E3 		mov	r3, #0
+  47 001c 003082E5 		str	r3, [r2, #0]
+  43:irq.cpp       **** 		*vect_cntl = 0xF;
+  48              		.loc 1 43 0
+  49 0020 0F3083E2 		add	r3, r3, #15
+  50 0024 003182E5 		str	r3, [r2, #256]
+  51 0028 042082E2 		add	r2, r2, #4
+  52              		.loc 1 38 0
+  53 002c 3A0D72E3 		cmn	r2, #3712
+  54 0030 F8FFFF1A 		bne	.L2
+  55              	.LBE2:
+  44:irq.cpp       ****     }
+  45:irq.cpp       ****     return;
+  46:irq.cpp       **** }
+  56              		.loc 1 46 0
+  57 0034 1EFF2FE1 		bx	lr
+  58              	.LFE2:
+  59              		.size	_Z8init_VICv, .-_Z8init_VICv
+  60              		.section	.text._Z11install_irqmPvm,"ax",%progbits
+  61              		.align	2
+  62              		.global	_Z11install_irqmPvm
+  63              		.type	_Z11install_irqmPvm, %function
+  64              	_Z11install_irqmPvm:
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s 			page 3
+
+
+  65              	.LFB3:
+  47:irq.cpp       **** 
+  48:irq.cpp       **** /******************************************************************************
+  49:irq.cpp       **** ** Function name:		install_irq
+  50:irq.cpp       **** **
+  51:irq.cpp       **** ** Descriptions:		Install interrupt handler
+  52:irq.cpp       **** ** parameters:			Interrupt number, interrupt handler address, 
+  53:irq.cpp       **** **						interrupt priority
+  54:irq.cpp       **** ** Returned value:		true or false, return false if IntNum is out of range
+  55:irq.cpp       **** ** 
+  56:irq.cpp       **** ******************************************************************************/
+  57:irq.cpp       **** DWORD install_irq( DWORD IntNumber, void *HandlerAddr, DWORD Priority )
+  66              		.loc 1 57 0
+  67              		@ Function supports interworking.
+  68              		@ args = 0, pretend = 0, frame = 0
+  69              		@ frame_needed = 0, uses_anonymous_args = 0
+  70              		@ link register save eliminated.
+  71              	.LVL0:
+  72 0000 70002DE9 		stmfd	sp!, {r4, r5, r6}
+  73              	.LCFI0:
+  74              	.LBB3:
+  58:irq.cpp       **** {
+  59:irq.cpp       ****     DWORD *vect_addr;
+  60:irq.cpp       ****     DWORD *vect_cntl;
+  61:irq.cpp       ****       
+  62:irq.cpp       ****     VICIntEnClr = 1 << IntNumber;	/* Disable Interrupt */
+  75              		.loc 1 62 0
+  76 0004 0160A0E3 		mov	r6, #1
+  77 0008 1640A0E1 		mov	r4, r6, asl r0
+  63:irq.cpp       ****     if ( IntNumber >= VIC_SIZE )
+  78              		.loc 1 63 0
+  79 000c 1F0050E3 		cmp	r0, #31
+  80              	.LBE3:
+  81              		.loc 1 57 0
+  82 0010 02C0A0E1 		mov	ip, r2
+  83              	.LBB4:
+  64:irq.cpp       ****     {
+  65:irq.cpp       **** 		return ( FALSE );
+  66:irq.cpp       ****     }
+  67:irq.cpp       ****     else
+  68:irq.cpp       ****     {
+  69:irq.cpp       **** 		/* find first un-assigned VIC address for the handler */
+  70:irq.cpp       **** 		vect_addr = (DWORD *)(VIC_BASE_ADDR + VECT_ADDR_INDEX + IntNumber*4);
+  71:irq.cpp       **** 		vect_cntl = (DWORD *)(VIC_BASE_ADDR + VECT_CNTL_INDEX + IntNumber*4);
+  72:irq.cpp       **** 		*vect_addr = (DWORD)HandlerAddr;	/* set interrupt vector */
+  73:irq.cpp       **** 		*vect_cntl = Priority;
+  84              		.loc 1 73 0
+  85 0014 0021A091 		movls	r2, r0, asl #2
+  86              	.LVL1:
+  87              		.loc 1 62 0
+  88 0018 0050E0E3 		mvn	r5, #0
+  89              		.loc 1 72 0
+  90 001c 0230A091 		movls	r3, r2
+  91              		.loc 1 62 0
+  92 0020 EB4F05E5 		str	r4, [r5, #-4075]
+  93              		.loc 1 63 0
+  94 0024 0000A083 		movhi	r0, #0
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s 			page 4
+
+
+  95              	.LVL2:
+  96              		.loc 1 72 0
+  97 0028 001F0395 		strls	r1, [r3, #-3840]
+  74:irq.cpp       **** 		VICIntEnable = 1 << IntNumber;	/* Enable Interrupt */
+  98              		.loc 1 74 0
+  99 002c 0600A091 		movls	r0, r6
+ 100              		.loc 1 73 0
+ 101 0030 00CE0295 		strls	ip, [r2, #-3584]
+ 102              		.loc 1 74 0
+ 103 0034 EF4F0595 		strls	r4, [r5, #-4079]
+ 104              	.LBE4:
+  75:irq.cpp       **** 		return( TRUE );
+  76:irq.cpp       ****     }
+  77:irq.cpp       **** }
+ 105              		.loc 1 77 0
+ 106 0038 7000BDE8 		ldmfd	sp!, {r4, r5, r6}
+ 107 003c 1EFF2FE1 		bx	lr
+ 108              	.LFE3:
+ 109              		.size	_Z11install_irqmPvm, .-_Z11install_irqmPvm
+ 110              		.section	.debug_frame,"",%progbits
+ 111              	.Lframe0:
+ 112 0000 0C000000 		.4byte	.LECIE0-.LSCIE0
+ 113              	.LSCIE0:
+ 114 0004 FFFFFFFF 		.4byte	0xffffffff
+ 115 0008 01       		.byte	0x1
+ 116 0009 00       		.ascii	"\000"
+ 117 000a 01       		.uleb128 0x1
+ 118 000b 7C       		.sleb128 -4
+ 119 000c 0E       		.byte	0xe
+ 120 000d 0C       		.byte	0xc
+ 121 000e 0D       		.uleb128 0xd
+ 122 000f 00       		.uleb128 0x0
+ 123              		.align	2
+ 124              	.LECIE0:
+ 125              	.LSFDE0:
+ 126 0010 0C000000 		.4byte	.LEFDE0-.LASFDE0
+ 127              	.LASFDE0:
+ 128 0014 00000000 		.4byte	.Lframe0
+ 129 0018 00000000 		.4byte	.LFB2
+ 130 001c 38000000 		.4byte	.LFE2-.LFB2
+ 131              		.align	2
+ 132              	.LEFDE0:
+ 133              	.LSFDE2:
+ 134 0020 18000000 		.4byte	.LEFDE2-.LASFDE2
+ 135              	.LASFDE2:
+ 136 0024 00000000 		.4byte	.Lframe0
+ 137 0028 00000000 		.4byte	.LFB3
+ 138 002c 40000000 		.4byte	.LFE3-.LFB3
+ 139 0030 44       		.byte	0x4
+ 140              		.4byte	.LCFI0-.LFB3
+ 141 0031 0E       		.byte	0xe
+ 142 0032 0C       		.uleb128 0xc
+ 143 0033 86       		.byte	0x86
+ 144 0034 01       		.uleb128 0x1
+ 145 0035 85       		.byte	0x85
+ 146 0036 02       		.uleb128 0x2
+ 147 0037 84       		.byte	0x84
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s 			page 5
+
+
+ 148 0038 03       		.uleb128 0x3
+ 149 0039 000000   		.align	2
+ 150              	.LEFDE2:
+ 151              		.text
+ 152              	.Letext0:
+ 153              		.section	.debug_loc,"",%progbits
+ 154              	.Ldebug_loc0:
+ 155              	.LLST1:
+ 156 0000 00000000 		.4byte	.LFB3
+ 157 0004 04000000 		.4byte	.LCFI0
+ 158 0008 0100     		.2byte	0x1
+ 159 000a 5D       		.byte	0x5d
+ 160 000b 04000000 		.4byte	.LCFI0
+ 161 000f 40000000 		.4byte	.LFE3
+ 162 0013 0200     		.2byte	0x2
+ 163 0015 7D       		.byte	0x7d
+ 164 0016 0C       		.sleb128 12
+ 165 0017 00000000 		.4byte	0x0
+ 166 001b 00000000 		.4byte	0x0
+ 167              	.LLST2:
+ 168 001f 00000000 		.4byte	.LVL0
+ 169 0023 28000000 		.4byte	.LVL2
+ 170 0027 0100     		.2byte	0x1
+ 171 0029 50       		.byte	0x50
+ 172 002a 00000000 		.4byte	0x0
+ 173 002e 00000000 		.4byte	0x0
+ 174              	.LLST3:
+ 175 0032 00000000 		.4byte	.LVL0
+ 176 0036 18000000 		.4byte	.LVL1
+ 177 003a 0100     		.2byte	0x1
+ 178 003c 52       		.byte	0x52
+ 179 003d 18000000 		.4byte	.LVL1
+ 180 0041 40000000 		.4byte	.LFE3
+ 181 0045 0100     		.2byte	0x1
+ 182 0047 5C       		.byte	0x5c
+ 183 0048 00000000 		.4byte	0x0
+ 184 004c 00000000 		.4byte	0x0
+ 185              		.file 2 "types.h"
+ 186              		.section	.debug_info
+ 187 0000 14010000 		.4byte	0x114
+ 188 0004 0200     		.2byte	0x2
+ 189 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 190 000a 04       		.byte	0x4
+ 191 000b 01       		.uleb128 0x1
+ 192 000c F3000000 		.4byte	.LASF13
+ 193 0010 04       		.byte	0x4
+ 194 0011 29010000 		.4byte	.LASF14
+ 195 0015 27000000 		.4byte	.LASF15
+ 196 0019 00000000 		.4byte	0x0
+ 197 001d 00000000 		.4byte	0x0
+ 198 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 199 0025 00000000 		.4byte	.Ldebug_line0
+ 200 0029 02       		.uleb128 0x2
+ 201 002a 01       		.byte	0x1
+ 202 002b 08       		.byte	0x8
+ 203 002c AA000000 		.4byte	.LASF0
+ 204 0030 02       		.uleb128 0x2
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s 			page 6
+
+
+ 205 0031 02       		.byte	0x2
+ 206 0032 07       		.byte	0x7
+ 207 0033 D4000000 		.4byte	.LASF1
+ 208 0037 03       		.uleb128 0x3
+ 209 0038 80000000 		.4byte	.LASF16
+ 210 003c 02       		.byte	0x2
+ 211 003d 13       		.byte	0x13
+ 212 003e 42000000 		.4byte	0x42
+ 213 0042 02       		.uleb128 0x2
+ 214 0043 04       		.byte	0x4
+ 215 0044 07       		.byte	0x7
+ 216 0045 6E000000 		.4byte	.LASF2
+ 217 0049 02       		.uleb128 0x2
+ 218 004a 04       		.byte	0x4
+ 219 004b 07       		.byte	0x7
+ 220 004c 0E000000 		.4byte	.LASF3
+ 221 0050 02       		.uleb128 0x2
+ 222 0051 01       		.byte	0x1
+ 223 0052 06       		.byte	0x6
+ 224 0053 E7000000 		.4byte	.LASF4
+ 225 0057 02       		.uleb128 0x2
+ 226 0058 02       		.byte	0x2
+ 227 0059 05       		.byte	0x5
+ 228 005a 01010000 		.4byte	.LASF5
+ 229 005e 04       		.uleb128 0x4
+ 230 005f 04       		.byte	0x4
+ 231 0060 05       		.byte	0x5
+ 232 0061 696E7400 		.ascii	"int\000"
+ 233 0065 02       		.uleb128 0x2
+ 234 0066 08       		.byte	0x8
+ 235 0067 05       		.byte	0x5
+ 236 0068 00000000 		.4byte	.LASF6
+ 237 006c 02       		.uleb128 0x2
+ 238 006d 08       		.byte	0x8
+ 239 006e 07       		.byte	0x7
+ 240 006f 86000000 		.4byte	.LASF7
+ 241 0073 05       		.uleb128 0x5
+ 242 0074 01       		.byte	0x1
+ 243 0075 B8000000 		.4byte	.LASF17
+ 244 0079 01       		.byte	0x1
+ 245 007a 1B       		.byte	0x1b
+ 246 007b 9D000000 		.4byte	.LASF18
+ 247 007f 00000000 		.4byte	.LFB2
+ 248 0083 38000000 		.4byte	.LFE2
+ 249 0087 01       		.byte	0x1
+ 250 0088 5D       		.byte	0x5d
+ 251 0089 AD000000 		.4byte	0xad
+ 252 008d 06       		.uleb128 0x6
+ 253 008e 6900     		.ascii	"i\000"
+ 254 0090 01       		.byte	0x1
+ 255 0091 1D       		.byte	0x1d
+ 256 0092 37000000 		.4byte	0x37
+ 257 0096 07       		.uleb128 0x7
+ 258 0097 64000000 		.4byte	.LASF8
+ 259 009b 01       		.byte	0x1
+ 260 009c 1E       		.byte	0x1e
+ 261 009d AD000000 		.4byte	0xad
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s 			page 7
+
+
+ 262 00a1 07       		.uleb128 0x7
+ 263 00a2 CA000000 		.4byte	.LASF9
+ 264 00a6 01       		.byte	0x1
+ 265 00a7 1E       		.byte	0x1e
+ 266 00a8 AD000000 		.4byte	0xad
+ 267 00ac 00       		.byte	0x0
+ 268 00ad 08       		.uleb128 0x8
+ 269 00ae 04       		.byte	0x4
+ 270 00af 37000000 		.4byte	0x37
+ 271 00b3 09       		.uleb128 0x9
+ 272 00b4 01       		.byte	0x1
+ 273 00b5 1B000000 		.4byte	.LASF19
+ 274 00b9 01       		.byte	0x1
+ 275 00ba 39       		.byte	0x39
+ 276 00bb 0B010000 		.4byte	.LASF20
+ 277 00bf 37000000 		.4byte	0x37
+ 278 00c3 00000000 		.4byte	.LFB3
+ 279 00c7 40000000 		.4byte	.LFE3
+ 280 00cb 00000000 		.4byte	.LLST1
+ 281 00cf 15010000 		.4byte	0x115
+ 282 00d3 0A       		.uleb128 0xa
+ 283 00d4 1F010000 		.4byte	.LASF10
+ 284 00d8 01       		.byte	0x1
+ 285 00d9 39       		.byte	0x39
+ 286 00da 37000000 		.4byte	0x37
+ 287 00de 1F000000 		.4byte	.LLST2
+ 288 00e2 0B       		.uleb128 0xb
+ 289 00e3 58000000 		.4byte	.LASF11
+ 290 00e7 01       		.byte	0x1
+ 291 00e8 39       		.byte	0x39
+ 292 00e9 15010000 		.4byte	0x115
+ 293 00ed 01       		.byte	0x1
+ 294 00ee 51       		.byte	0x51
+ 295 00ef 0A       		.uleb128 0xa
+ 296 00f0 C1000000 		.4byte	.LASF12
+ 297 00f4 01       		.byte	0x1
+ 298 00f5 39       		.byte	0x39
+ 299 00f6 37000000 		.4byte	0x37
+ 300 00fa 32000000 		.4byte	.LLST3
+ 301 00fe 07       		.uleb128 0x7
+ 302 00ff 64000000 		.4byte	.LASF8
+ 303 0103 01       		.byte	0x1
+ 304 0104 3B       		.byte	0x3b
+ 305 0105 AD000000 		.4byte	0xad
+ 306 0109 07       		.uleb128 0x7
+ 307 010a CA000000 		.4byte	.LASF9
+ 308 010e 01       		.byte	0x1
+ 309 010f 3C       		.byte	0x3c
+ 310 0110 AD000000 		.4byte	0xad
+ 311 0114 00       		.byte	0x0
+ 312 0115 0C       		.uleb128 0xc
+ 313 0116 04       		.byte	0x4
+ 314 0117 00       		.byte	0x0
+ 315              		.section	.debug_abbrev
+ 316 0000 01       		.uleb128 0x1
+ 317 0001 11       		.uleb128 0x11
+ 318 0002 01       		.byte	0x1
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s 			page 8
+
+
+ 319 0003 25       		.uleb128 0x25
+ 320 0004 0E       		.uleb128 0xe
+ 321 0005 13       		.uleb128 0x13
+ 322 0006 0B       		.uleb128 0xb
+ 323 0007 03       		.uleb128 0x3
+ 324 0008 0E       		.uleb128 0xe
+ 325 0009 1B       		.uleb128 0x1b
+ 326 000a 0E       		.uleb128 0xe
+ 327 000b 11       		.uleb128 0x11
+ 328 000c 01       		.uleb128 0x1
+ 329 000d 52       		.uleb128 0x52
+ 330 000e 01       		.uleb128 0x1
+ 331 000f 55       		.uleb128 0x55
+ 332 0010 06       		.uleb128 0x6
+ 333 0011 10       		.uleb128 0x10
+ 334 0012 06       		.uleb128 0x6
+ 335 0013 00       		.byte	0x0
+ 336 0014 00       		.byte	0x0
+ 337 0015 02       		.uleb128 0x2
+ 338 0016 24       		.uleb128 0x24
+ 339 0017 00       		.byte	0x0
+ 340 0018 0B       		.uleb128 0xb
+ 341 0019 0B       		.uleb128 0xb
+ 342 001a 3E       		.uleb128 0x3e
+ 343 001b 0B       		.uleb128 0xb
+ 344 001c 03       		.uleb128 0x3
+ 345 001d 0E       		.uleb128 0xe
+ 346 001e 00       		.byte	0x0
+ 347 001f 00       		.byte	0x0
+ 348 0020 03       		.uleb128 0x3
+ 349 0021 16       		.uleb128 0x16
+ 350 0022 00       		.byte	0x0
+ 351 0023 03       		.uleb128 0x3
+ 352 0024 0E       		.uleb128 0xe
+ 353 0025 3A       		.uleb128 0x3a
+ 354 0026 0B       		.uleb128 0xb
+ 355 0027 3B       		.uleb128 0x3b
+ 356 0028 0B       		.uleb128 0xb
+ 357 0029 49       		.uleb128 0x49
+ 358 002a 13       		.uleb128 0x13
+ 359 002b 00       		.byte	0x0
+ 360 002c 00       		.byte	0x0
+ 361 002d 04       		.uleb128 0x4
+ 362 002e 24       		.uleb128 0x24
+ 363 002f 00       		.byte	0x0
+ 364 0030 0B       		.uleb128 0xb
+ 365 0031 0B       		.uleb128 0xb
+ 366 0032 3E       		.uleb128 0x3e
+ 367 0033 0B       		.uleb128 0xb
+ 368 0034 03       		.uleb128 0x3
+ 369 0035 08       		.uleb128 0x8
+ 370 0036 00       		.byte	0x0
+ 371 0037 00       		.byte	0x0
+ 372 0038 05       		.uleb128 0x5
+ 373 0039 2E       		.uleb128 0x2e
+ 374 003a 01       		.byte	0x1
+ 375 003b 3F       		.uleb128 0x3f
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s 			page 9
+
+
+ 376 003c 0C       		.uleb128 0xc
+ 377 003d 03       		.uleb128 0x3
+ 378 003e 0E       		.uleb128 0xe
+ 379 003f 3A       		.uleb128 0x3a
+ 380 0040 0B       		.uleb128 0xb
+ 381 0041 3B       		.uleb128 0x3b
+ 382 0042 0B       		.uleb128 0xb
+ 383 0043 8740     		.uleb128 0x2007
+ 384 0045 0E       		.uleb128 0xe
+ 385 0046 11       		.uleb128 0x11
+ 386 0047 01       		.uleb128 0x1
+ 387 0048 12       		.uleb128 0x12
+ 388 0049 01       		.uleb128 0x1
+ 389 004a 40       		.uleb128 0x40
+ 390 004b 0A       		.uleb128 0xa
+ 391 004c 01       		.uleb128 0x1
+ 392 004d 13       		.uleb128 0x13
+ 393 004e 00       		.byte	0x0
+ 394 004f 00       		.byte	0x0
+ 395 0050 06       		.uleb128 0x6
+ 396 0051 34       		.uleb128 0x34
+ 397 0052 00       		.byte	0x0
+ 398 0053 03       		.uleb128 0x3
+ 399 0054 08       		.uleb128 0x8
+ 400 0055 3A       		.uleb128 0x3a
+ 401 0056 0B       		.uleb128 0xb
+ 402 0057 3B       		.uleb128 0x3b
+ 403 0058 0B       		.uleb128 0xb
+ 404 0059 49       		.uleb128 0x49
+ 405 005a 13       		.uleb128 0x13
+ 406 005b 00       		.byte	0x0
+ 407 005c 00       		.byte	0x0
+ 408 005d 07       		.uleb128 0x7
+ 409 005e 34       		.uleb128 0x34
+ 410 005f 00       		.byte	0x0
+ 411 0060 03       		.uleb128 0x3
+ 412 0061 0E       		.uleb128 0xe
+ 413 0062 3A       		.uleb128 0x3a
+ 414 0063 0B       		.uleb128 0xb
+ 415 0064 3B       		.uleb128 0x3b
+ 416 0065 0B       		.uleb128 0xb
+ 417 0066 49       		.uleb128 0x49
+ 418 0067 13       		.uleb128 0x13
+ 419 0068 00       		.byte	0x0
+ 420 0069 00       		.byte	0x0
+ 421 006a 08       		.uleb128 0x8
+ 422 006b 0F       		.uleb128 0xf
+ 423 006c 00       		.byte	0x0
+ 424 006d 0B       		.uleb128 0xb
+ 425 006e 0B       		.uleb128 0xb
+ 426 006f 49       		.uleb128 0x49
+ 427 0070 13       		.uleb128 0x13
+ 428 0071 00       		.byte	0x0
+ 429 0072 00       		.byte	0x0
+ 430 0073 09       		.uleb128 0x9
+ 431 0074 2E       		.uleb128 0x2e
+ 432 0075 01       		.byte	0x1
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s 			page 10
+
+
+ 433 0076 3F       		.uleb128 0x3f
+ 434 0077 0C       		.uleb128 0xc
+ 435 0078 03       		.uleb128 0x3
+ 436 0079 0E       		.uleb128 0xe
+ 437 007a 3A       		.uleb128 0x3a
+ 438 007b 0B       		.uleb128 0xb
+ 439 007c 3B       		.uleb128 0x3b
+ 440 007d 0B       		.uleb128 0xb
+ 441 007e 8740     		.uleb128 0x2007
+ 442 0080 0E       		.uleb128 0xe
+ 443 0081 49       		.uleb128 0x49
+ 444 0082 13       		.uleb128 0x13
+ 445 0083 11       		.uleb128 0x11
+ 446 0084 01       		.uleb128 0x1
+ 447 0085 12       		.uleb128 0x12
+ 448 0086 01       		.uleb128 0x1
+ 449 0087 40       		.uleb128 0x40
+ 450 0088 06       		.uleb128 0x6
+ 451 0089 01       		.uleb128 0x1
+ 452 008a 13       		.uleb128 0x13
+ 453 008b 00       		.byte	0x0
+ 454 008c 00       		.byte	0x0
+ 455 008d 0A       		.uleb128 0xa
+ 456 008e 05       		.uleb128 0x5
+ 457 008f 00       		.byte	0x0
+ 458 0090 03       		.uleb128 0x3
+ 459 0091 0E       		.uleb128 0xe
+ 460 0092 3A       		.uleb128 0x3a
+ 461 0093 0B       		.uleb128 0xb
+ 462 0094 3B       		.uleb128 0x3b
+ 463 0095 0B       		.uleb128 0xb
+ 464 0096 49       		.uleb128 0x49
+ 465 0097 13       		.uleb128 0x13
+ 466 0098 02       		.uleb128 0x2
+ 467 0099 06       		.uleb128 0x6
+ 468 009a 00       		.byte	0x0
+ 469 009b 00       		.byte	0x0
+ 470 009c 0B       		.uleb128 0xb
+ 471 009d 05       		.uleb128 0x5
+ 472 009e 00       		.byte	0x0
+ 473 009f 03       		.uleb128 0x3
+ 474 00a0 0E       		.uleb128 0xe
+ 475 00a1 3A       		.uleb128 0x3a
+ 476 00a2 0B       		.uleb128 0xb
+ 477 00a3 3B       		.uleb128 0x3b
+ 478 00a4 0B       		.uleb128 0xb
+ 479 00a5 49       		.uleb128 0x49
+ 480 00a6 13       		.uleb128 0x13
+ 481 00a7 02       		.uleb128 0x2
+ 482 00a8 0A       		.uleb128 0xa
+ 483 00a9 00       		.byte	0x0
+ 484 00aa 00       		.byte	0x0
+ 485 00ab 0C       		.uleb128 0xc
+ 486 00ac 0F       		.uleb128 0xf
+ 487 00ad 00       		.byte	0x0
+ 488 00ae 0B       		.uleb128 0xb
+ 489 00af 0B       		.uleb128 0xb
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s 			page 11
+
+
+ 490 00b0 00       		.byte	0x0
+ 491 00b1 00       		.byte	0x0
+ 492 00b2 00       		.byte	0x0
+ 493              		.section	.debug_pubnames,"",%progbits
+ 494 0000 2B000000 		.4byte	0x2b
+ 495 0004 0200     		.2byte	0x2
+ 496 0006 00000000 		.4byte	.Ldebug_info0
+ 497 000a 18010000 		.4byte	0x118
+ 498 000e 73000000 		.4byte	0x73
+ 499 0012 696E6974 		.ascii	"init_VIC\000"
+ 499      5F564943 
+ 499      00
+ 500 001b B3000000 		.4byte	0xb3
+ 501 001f 696E7374 		.ascii	"install_irq\000"
+ 501      616C6C5F 
+ 501      69727100 
+ 502 002b 00000000 		.4byte	0x0
+ 503              		.section	.debug_aranges,"",%progbits
+ 504 0000 24000000 		.4byte	0x24
+ 505 0004 0200     		.2byte	0x2
+ 506 0006 00000000 		.4byte	.Ldebug_info0
+ 507 000a 04       		.byte	0x4
+ 508 000b 00       		.byte	0x0
+ 509 000c 0000     		.2byte	0x0
+ 510 000e 0000     		.2byte	0x0
+ 511 0010 00000000 		.4byte	.LFB2
+ 512 0014 38000000 		.4byte	.LFE2-.LFB2
+ 513 0018 00000000 		.4byte	.LFB3
+ 514 001c 40000000 		.4byte	.LFE3-.LFB3
+ 515 0020 00000000 		.4byte	0x0
+ 516 0024 00000000 		.4byte	0x0
+ 517              		.section	.debug_ranges,"",%progbits
+ 518              	.Ldebug_ranges0:
+ 519 0000 00000000 		.4byte	.Ltext0
+ 520 0004 00000000 		.4byte	.Letext0
+ 521 0008 00000000 		.4byte	.LFB2
+ 522 000c 38000000 		.4byte	.LFE2
+ 523 0010 00000000 		.4byte	.LFB3
+ 524 0014 40000000 		.4byte	.LFE3
+ 525 0018 00000000 		.4byte	0x0
+ 526 001c 00000000 		.4byte	0x0
+ 527              		.section	.debug_str,"MS",%progbits,1
+ 528              	.LASF6:
+ 529 0000 6C6F6E67 		.ascii	"long long int\000"
+ 529      206C6F6E 
+ 529      6720696E 
+ 529      7400
+ 530              	.LASF3:
+ 531 000e 756E7369 		.ascii	"unsigned int\000"
+ 531      676E6564 
+ 531      20696E74 
+ 531      00
+ 532              	.LASF19:
+ 533 001b 696E7374 		.ascii	"install_irq\000"
+ 533      616C6C5F 
+ 533      69727100 
+ 534              	.LASF15:
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s 			page 12
+
+
+ 535 0027 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot2.0/sfboot\000"
+ 535      64726976 
+ 535      652F632F 
+ 535      55736572 
+ 535      732F4368 
+ 536              	.LASF11:
+ 537 0058 48616E64 		.ascii	"HandlerAddr\000"
+ 537      6C657241 
+ 537      64647200 
+ 538              	.LASF8:
+ 539 0064 76656374 		.ascii	"vect_addr\000"
+ 539      5F616464 
+ 539      7200
+ 540              	.LASF2:
+ 541 006e 6C6F6E67 		.ascii	"long unsigned int\000"
+ 541      20756E73 
+ 541      69676E65 
+ 541      6420696E 
+ 541      7400
+ 542              	.LASF16:
+ 543 0080 44574F52 		.ascii	"DWORD\000"
+ 543      4400
+ 544              	.LASF7:
+ 545 0086 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 545      206C6F6E 
+ 545      6720756E 
+ 545      7369676E 
+ 545      65642069 
+ 546              	.LASF18:
+ 547 009d 5F5A3869 		.ascii	"_Z8init_VICv\000"
+ 547      6E69745F 
+ 547      56494376 
+ 547      00
+ 548              	.LASF0:
+ 549 00aa 756E7369 		.ascii	"unsigned char\000"
+ 549      676E6564 
+ 549      20636861 
+ 549      7200
+ 550              	.LASF17:
+ 551 00b8 696E6974 		.ascii	"init_VIC\000"
+ 551      5F564943 
+ 551      00
+ 552              	.LASF12:
+ 553 00c1 5072696F 		.ascii	"Priority\000"
+ 553      72697479 
+ 553      00
+ 554              	.LASF9:
+ 555 00ca 76656374 		.ascii	"vect_cntl\000"
+ 555      5F636E74 
+ 555      6C00
+ 556              	.LASF1:
+ 557 00d4 73686F72 		.ascii	"short unsigned int\000"
+ 557      7420756E 
+ 557      7369676E 
+ 557      65642069 
+ 557      6E7400
+ 558              	.LASF4:
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s 			page 13
+
+
+ 559 00e7 7369676E 		.ascii	"signed char\000"
+ 559      65642063 
+ 559      68617200 
+ 560              	.LASF13:
+ 561 00f3 474E5520 		.ascii	"GNU C++ 4.3.2\000"
+ 561      432B2B20 
+ 561      342E332E 
+ 561      3200
+ 562              	.LASF5:
+ 563 0101 73686F72 		.ascii	"short int\000"
+ 563      7420696E 
+ 563      7400
+ 564              	.LASF20:
+ 565 010b 5F5A3131 		.ascii	"_Z11install_irqmPvm\000"
+ 565      696E7374 
+ 565      616C6C5F 
+ 565      6972716D 
+ 565      50766D00 
+ 566              	.LASF10:
+ 567 011f 496E744E 		.ascii	"IntNumber\000"
+ 567      756D6265 
+ 567      7200
+ 568              	.LASF14:
+ 569 0129 6972712E 		.ascii	"irq.cpp\000"
+ 569      63707000 
+ 570              		.ident	"GCC: (AHAX Arm-Linux 2008q3-66) 4.3.2"
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s 			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 irq.cpp
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s:24     .text._Z8init_VICv:00000000 _Z8init_VICv
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s:34     .text._Z8init_VICv:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s:64     .text._Z11install_irqmPvm:00000000 _Z11install_irqmPvm
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s:72     .text._Z11install_irqmPvm:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s:112    .debug_frame:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cccdjPHt.s:156    .debug_loc:00000000 $d
+
+NO UNDEFINED SYMBOLS

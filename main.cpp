@@ -12,37 +12,27 @@
 //*	Preprocessor Directives
 //************************************************
 
-#include <stdio.h>                         /* standard I/O .h-file */
 #include <LPC23xx.H>                       /* LPC23xx definitions  */
+#include <stdint.h>
+#include <stdio.h>                         /* standard I/O .h-file */
 #include <math.h>
 #include <stdlib.h>
-#include <stdint.h>
+
 
 #include "fio.h"
+#include "wiring.h"
 #include "Serial.h"
 #include "sbl_iap.h"
 #include "sbl_config.h"
 #include "SFBChecksum.h"
-
-#define LED_FIOPIN  FIO2PIN
-#define LED_FIOSET  FIO2SET
-#define LED_FIOCLR  FIO2CLR
+#include "eeprom.h"
+#include "sfboard_tests.h"
 
 #define SWITCH_FIOPIN   FIO1PIN
-
-#define LED_GREEN_MASK    (1UL<<0)
-#define LED_RED_MASK      (1UL<<1)
-#define LED_BLUE_MASK     (1UL<<2)
-
-#define LED_SOUTH_MASK (1UL<<3)
-#define LED_WEST_MASK (1UL<<4)
-#define LED_NORTH_MASK  (1UL<<5)
-#define LED_EAST_MASK  (1UL<<26)
-#define SWITCH_MASK    (1UL<<22)
+#define SWITCH_MASK     (1<<29)
 
 #define kMCUId "lpc2368"
 //#define kApplicationStartAddr  USER_FLASH_START    // from sbl_config.h
-#define kSFBootConfigSize	   0x1000 				//size of the config sector
 #define kApplicationEndAddr    USER_FLASH_END      // from sbl_config.h
 #define kSPM_PAGE_SIZE         512
 #define kUSART_RX_BUFFER_SIZE  kSPM_PAGE_SIZE               
@@ -54,6 +44,7 @@
 #define kSignatureByte3        0x1E         //mega2560
 #define kSignatureByte2        0x98         //mega2560
 #define kSignatureByte1        0x01         //mega2560      
+
 
 //************************************************
 //*	Provide our own (dead) libc library functions  
@@ -67,32 +58,42 @@ extern "C" void *_calloc_r(struct _reent *, size_t, size_t) {return (void *)0; }
 
 extern "C" void *malloc(size_t) { return (void *)0; }
 extern "C" void  free(void*) {  }
-extern "C" int __aeabi_atexit(void *object,
-							void (*destructor)(void *),
-							void *dso_handle)
-							{
-							return 0;
-							}
-
+//extern "C" int __aeabi_atexit(void *object,
+//							void (*destructor)(void *),
+//							void *dso_handle)
+//							{
+//							return 0;
+//							}
 
 extern void sysInit(void);
+
+/* SFB Bootloader Config Memory in Flash */ 
+typedef struct {
+   SFBChecksum AppChecksum;
+   uint8_t     SpareConfigData[24];
+   uint8_t     AppData[kSPM_PAGE_SIZE];
+} SFB_CONFIG_MEM_T;
 
 //************************************************
 //*	Global Variables 
 //************************************************
-unsigned char *kApplicationStartAddr = (unsigned char*)0x1000;//(unsigned char *)(USER_FLASH_START + 
-													       //	 kSFBootConfigSize); // the user application
+ 
+unsigned char  kConfigMemLength = 0x100;
+unsigned char  *kApplicationStartAddr = (unsigned char*)0x2020;
+
 unsigned char *gAddress=0; // butterfly address 
 unsigned char *gAddressPgm=(unsigned char*)kApplicationStartAddr;   //address to program
-unsigned char gBuffer[kUSART_RX_BUFFER_SIZE];  //RAM buffer for incoming data 
+unsigned char gBuffer[kUSART_RX_BUFFER_SIZE];           //RAM buffer for incoming data
+SFB_CONFIG_MEM_T gConfigMem;                            // RAM structure for the config + first page of app
+
 unsigned char gDevice;
 unsigned char gDevType;
 char gRecvCommand;
 volatile unsigned int purge;
 
 static SFBChecksum gRunning;
-bool gSFBootValidChecksum = false;
-const SFBChecksum *gConfigCs = (SFBChecksum *)(0x1000);        //1 sector behind the user app
+const  SFBChecksum *gConfigCs = (SFBChecksum *)(0x2400);        //1 sector behind the user app
+bool   gSFBootValidChecksum   = false;
 void (*app_code_entry)(void);
 
 //************************************************
@@ -101,123 +102,48 @@ void (*app_code_entry)(void);
 void ButterflyService(char recvCommand);
 char BufferLoad(unsigned int size, unsigned char memType);
 void BlockRead(unsigned int size, unsigned char memType);
-void LEDspinPattern(unsigned int spinCount);
 
-//**********************************************
-//* Lights up the outside LEDs in 
-//* a rotational pattern.
-//*
-//* spinCount = the number of times to spin 
-void LEDSpinPattern(unsigned int spinCount) {
-
-   unsigned int face=0;
-   volatile unsigned int wait;
-
-   /* Set the I/O direction */
-   GPIOInit( 2, FAST_PORT, DIR_OUT, LED_RED_MASK );
-   GPIOInit( 2, FAST_PORT, DIR_OUT, LED_GREEN_MASK );
-   GPIOInit( 2, FAST_PORT, DIR_OUT, LED_BLUE_MASK );
-
-   GPIOInit( 1, FAST_PORT, DIR_OUT, LED_EAST_MASK );
-   GPIOInit( 2, FAST_PORT, DIR_OUT, LED_SOUTH_MASK );
-   GPIOInit( 2, FAST_PORT, DIR_OUT, LED_WEST_MASK );
-   GPIOInit( 2, FAST_PORT, DIR_OUT, LED_NORTH_MASK );
-
-   /*Setup the initial state */ 
-
-   /* Turn off the RGB LEDs */
-   FIO2SET |= LED_RED_MASK;
-   FIO2SET |= LED_GREEN_MASK;
-   FIO2SET |= LED_BLUE_MASK;
-
-   FIO2SET |= LED_NORTH_MASK;
-   FIO2SET |= LED_SOUTH_MASK;
-   FIO2SET |= LED_WEST_MASK;
-   FIO1SET |= LED_EAST_MASK;
-   
-   spinCount*=4;
-   
-   /* Spin! */
-   while (spinCount--) {
-
-      /* Custom tuned for minimal epilepsy
-	  	 Busy wait...  */
-      
-      /* Change the light pattern */
-      switch (face) {
-
-      case 0:
-         FIO2SET |= LED_NORTH_MASK;
-         FIO2SET |= LED_SOUTH_MASK;
-         FIO2SET |= LED_WEST_MASK;
-         FIO1CLR |= LED_EAST_MASK;
-         break;
-
-      case 1:
-         FIO2SET |= LED_NORTH_MASK;
-         FIO2CLR |= LED_SOUTH_MASK;
-         FIO2SET |= LED_WEST_MASK;
-         FIO1SET |= LED_EAST_MASK;
-         break;
-
-      case 2:
-         FIO2SET |= LED_NORTH_MASK;
-         FIO2SET |= LED_SOUTH_MASK;
-         FIO2CLR |= LED_WEST_MASK;
-         FIO1SET |= LED_EAST_MASK;
-         break;
-
-      case 3:
-         FIO2CLR |= LED_NORTH_MASK;
-         FIO2SET |= LED_SOUTH_MASK;
-         FIO2SET |= LED_WEST_MASK;
-         FIO1SET |= LED_EAST_MASK;
-         break;
-      }
-
-      for (wait=0;wait<600000; wait++) {
-         ;
-      }
-
-      /* Move to the next led */
-      face++;
-      if (face>=4) {
-         face=0;
-      }
-   }  
-}
-
- 
+uint64_t wait;
+uint8_t pin;
+uint8_t x;
+uint8_t uart;
+uint8_t index;
+bool gGotFirstPage = false;
 
 int main (void)  {
-	 
+
 	/* System Init */
 	sysInit();
-   SerialBegin(57600); 
+
+   for (int x=0; x<kPinCount; x++) {
+      pinMode(x, OUTPUT);
+   }
+
+   turnOnAllLEDs();
 
    /* Startup effects, don't be annoying here */
-   LEDSpinPattern(2);  
+   spinLEDs(2);  
 
-#if 0
+   SerialBegin(0,57600);
+
    /* Calculate the checksum on the entire user application space */
    SFBChecksumInit(gRunning);
    SFBChecksumAddBytes(gRunning,
                        (const char*)kApplicationStartAddr,
                        (kApplicationEndAddr - (int)kApplicationStartAddr));
 
-    /* Compare stored Flash checksum with RAM checksum */
+   /* Compare stored Flash checksum with RAM checksum */
 	if (SFBChecksumEqual(*gConfigCs, gRunning))
 	{
 		/* Got a valid checksum */
 		gSFBootValidChecksum = true;
 	}
-#endif
 
    while(1)
    {
       
-      /* Check for a app start request */ 
-     if ( !(SWITCH_FIOPIN & SWITCH_MASK))
+      /* Check for an app start */ 
+      if (gSFBootValidChecksum && (SWITCH_FIOPIN & SWITCH_MASK))
       {
          /* Start the app!! */
          app_code_entry =  (void (*)(void))kApplicationStartAddr;
@@ -228,7 +154,7 @@ int main (void)  {
       if (U0LSR & 0x01)
       {
          /* Get the command character */
-         gRecvCommand = SerialRead();
+         gRecvCommand = SerialBusyRead(0);
    
          /* Handle the butterfly command */
          ButterflyService(gRecvCommand);
@@ -249,25 +175,25 @@ void ButterflyService(char recvCommand)
    {
    
       case 'a':            // Autoincrement?
-         SerialWrite('Y');
+         SerialWrite(0, 'Y');
       break;
 
       case 'A':            // Write address
-         purge  = ( SerialRead() << 8);    // High byte of address
-         purge |=   SerialRead();          // low byte of address
+         purge  = ( SerialBusyRead(0) << 8);    // High byte of address
+         purge |=   SerialBusyRead(0);          // low byte of address
          
          purge <<= 2;                      // !! convert from word address to byte address
 
-         SerialWrite('\r');
+         SerialWrite(0, '\r');
       break;
 
        case 'H':           // Write address
        {
        
 
-        purge |= ( SerialRead() << 16);    // High byte of address
-        purge |= ( SerialRead() << 8);    // 2nd byte of address
-        purge |=   SerialRead();          // low byte of address
+        purge |= ( SerialBusyRead(0) << 16);    // High byte of address
+        purge |= ( SerialBusyRead(0) << 8);    // 2nd byte of address
+        purge |=   SerialBusyRead(0);          // low byte of address
         
  //       if(purge == 0)
  //       {
@@ -275,16 +201,16 @@ void ButterflyService(char recvCommand)
          gAddressPgm = (unsigned char*)kApplicationStartAddr;
   //      }
 
-         SerialWrite('\r');
+         SerialWrite(0, '\r');
          }
       break;
 
       case 'b':            // Buffer load support
-         SerialWrite('Y');                          // Report buffer load supported
-         SerialWrite((kUSART_RX_BUFFER_SIZE >>8));    // Report buffer size in bytes
-         SerialWrite(kUSART_RX_BUFFER_SIZE);          // low byte of size
+         SerialWrite(0, 'Y');                          // Report buffer load supported
+         SerialWrite(0, (kUSART_RX_BUFFER_SIZE >>8));    // Report buffer size in bytes
+         SerialWrite(0, kUSART_RX_BUFFER_SIZE);          // low byte of size
 
-         SerialWrite('\r');
+         SerialWrite(0, '\r');
       break;
 
       case 'B':            // Start Buffer load
@@ -293,13 +219,13 @@ void ButterflyService(char recvCommand)
          unsigned char memType;
          unsigned char res;
 
-         bufferSize = SerialRead() << 8;     // Load high byte of buffersize
-         bufferSize |= SerialRead();          // Load low byte of buffersize
-         memType = SerialRead();            // Load memory type ('E' or 'F')
+         bufferSize = SerialBusyRead(0) << 8;     // Load high byte of buffersize
+         bufferSize |= SerialBusyRead(0);          // Load low byte of buffersize
+         memType = SerialBusyRead(0);            // Load memory type ('E' or 'F')
 
          res = BufferLoad(bufferSize, memType);
 
-         SerialWrite(res);    //return the result
+         SerialWrite(0,res);    //return the result
                      //SerialWrite('\r');
       }
       break;
@@ -309,13 +235,13 @@ void ButterflyService(char recvCommand)
          unsigned int bufferSize;
          unsigned char memType;
 
-         bufferSize = SerialRead() << 8;            // Load high byte of buffersize
-         bufferSize |= SerialRead();                 // Load low byte of buffersize
-         memType = SerialRead();            // Load memory type ('E' or 'F')         
+         bufferSize = SerialBusyRead(0) << 8;            // Load high byte of buffersize
+         bufferSize |= SerialBusyRead(0);                 // Load low byte of buffersize
+         memType = SerialBusyRead(0);            // Load memory type ('E' or 'F')         
 
         if (bufferSize == 1)
         {         
-            SerialWrite('\r');
+            SerialWrite(0,'\r');
         }
         else
         {
@@ -328,30 +254,29 @@ void ButterflyService(char recvCommand)
          erase_user_flash();
          //erase(kApplicationStartAddr,kApplicationEndAddr);
 
-         SerialWrite('\r');
+         SerialWrite(0, '\r');
       break;
 
       case 'E':            // Exit Upgrade
       {
-   //         unsigned int x;
 
-#if 0
-            /* Write out the checksum */
-            SFBChecksumInit(gRunning);
-            SFBChecksumAddBytes(gRunning,
-                       (const char*)kApplicationStartAddr,
-                       (kApplicationEndAddr - (int)kApplicationStartAddr));
- //           unsigned char *dataPtr = ;
+         /* Calculate the checksum */
+         SFBChecksumInit(gRunning);
+         SFBChecksumAddBytes(gRunning,
+                            (const char*)kApplicationStartAddr,
+                            (kApplicationEndAddr - (int)kApplicationStartAddr));
+         
+         /* Store the Checksum to RAM */
+         gConfigMem.AppChecksum[0] = gRunning[0];
+         gConfigMem.AppChecksum[1] = gRunning[1];
 
-            /* Copy the checksum bytes */
- //           for (=0; x< sizeof(gRunning); x++)
- //              gBuffer[x] = dataPtr[x];
-            
-            write_flash((unsigned int*)(gConfigCs), (unsigned char*)&gRunning, kSPM_PAGE_SIZE);
-#endif
+         /* Store the Configuration to Flash */
+         write_flash((unsigned int*)(kApplicationStartAddr - kConfigMemLength),
+                     (unsigned char*)&gConfigMem,
+                     kConfigMemLength+kSPM_PAGE_SIZE);
 
-         SerialWrite('\r');
-         SerialWrite('\r');
+         SerialWrite(0, '\r');
+         SerialWrite(0, '\r');
           
          app_code_entry =  (void (*)(void))kApplicationStartAddr;
          app_code_entry();
@@ -361,42 +286,42 @@ void ButterflyService(char recvCommand)
       break;
 
       case 'P':            // Enter programming mode
-         SerialWrite('\r');
+         SerialWrite(0, '\r');
       break;
 
       case 'F':            // fuse
          //execute_user_code();
-         SerialWrite('\r');
+         SerialWrite(0, '\r');
       break;
 
       case 'r':            // fuse
-         SerialWrite('\r');
+         SerialWrite(0, '\r');
       break;
 
       case 'N':            // fuse
-         SerialWrite('\r');
+         SerialWrite(0, '\r');
       break;
 
       case 'Q':            // fuse
-         SerialWrite('\r');
+         SerialWrite(0, '\r');
       break;
 
       case 'L':            // Leave programming mode
-         SerialWrite('\r');
+         SerialWrite(0, '\r');
       break;
 
       case 'p':            // return programmer type
-         SerialWrite('S');
+         SerialWrite(0, 'S');
       break;
 
       case 't':           // return device type
-         SerialWrite(kDevType);
-         SerialWrite(0);
+         SerialWrite(0, kDevType);
+         SerialWrite(0, 0);
       break;
 
       case 'T':           // Set device
-         gDevice = SerialRead();
-         SerialWrite('\r');
+         gDevice = SerialBusyRead(0);
+         SerialWrite(0, '\r');
       break;
 
       case 'S':            //return software identifier
@@ -407,7 +332,7 @@ void ButterflyService(char recvCommand)
 
          erase_user_flash();
 
-          SerialStr(kSoftwareIdentifier);
+          SerialStr(0, kSoftwareIdentifier);
           
          
             //for(xx=0;xx<20000000;xx++) {;}         
@@ -421,18 +346,18 @@ void ButterflyService(char recvCommand)
       break;
 
       case 'V':            //return software version
-          SerialWrite(kSoftwareVersionHigh);
-          SerialWrite(kSoftwareVersionLow);
+          SerialWrite(0, kSoftwareVersionHigh);
+          SerialWrite(0, kSoftwareVersionLow);
       break;
 
       case 's':            // Return Signature byte
-         SerialWrite(kSignatureByte1);
-         SerialWrite(kSignatureByte2);
-         SerialWrite(kSignatureByte3);
+         SerialWrite(0, kSignatureByte1);
+         SerialWrite(0, kSignatureByte2);
+         SerialWrite(0, kSignatureByte3);
       break;
 
       default:
-         SerialStr("?");
+         SerialStr(0, "?");
       break;
    }
 
@@ -473,7 +398,7 @@ byteCntPgm=0;
             byteCntDumb++;
            }
 
-           SerialWrite(byte);
+           SerialWrite(0, byte);
         }
 //    }
 
@@ -493,29 +418,37 @@ char BufferLoad(unsigned int size, unsigned char memType)
     {
         if (cnt<size)
         {    
-            gBuffer[cnt] = SerialRead();
+            gBuffer[cnt] = SerialBusyRead(0);
         }
         else
         {     
            gBuffer[cnt]=0xFF;
         }
     }
+
+/* Since AVRdude sends us blank data, 
+   check to see if we've hit the APP start address */
+   if (gAddress >= (unsigned char*)(kApplicationStartAddr))
+   {
    
+    //  if (gGotFirstPage) {
+         /* Normally Burn the data */
+         write_flash((unsigned int*)(gAddressPgm), gBuffer, kSPM_PAGE_SIZE);
+   
+    //  } else {
+         /* Copy the data into RAM */
+     //    for(int x=0; x< kSPM_PAGE_SIZE; x++) {
+     //       gConfigMem.AppData[x] = gBuffer[x];
+      //   }
+   
+      gAddressPgm+=size;
+   
+      /* Latch this on */
+      //gGotFirstPage = true;
+   }
 
-if (gAddress == (unsigned char*)0x7A00)
-{
-gAddress = gAddress;
-}
-
-if (gAddress >= (unsigned char*)(kApplicationStartAddr))
-{
-           write_flash((unsigned int*)(gAddressPgm), gBuffer, kSPM_PAGE_SIZE);
-           gAddressPgm+=size;
-}
-
-gAddress+=size;
-//       }
-//   }
-
+   gAddress+=size;
+   
+   
    return '\r';
 }

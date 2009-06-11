@@ -119,7 +119,8 @@ __cs3_interrupt_vector_arm:
                 LDR     PC, DAbt_Addr
                 NOP                            /* Reserved Vector */
 #               LDR     PC, IRQ_Addr
-                LDR     PC, [PC, #-0x0FF0]     /* Vector from VicVectAddr */
+#                LDR     PC, [PC, #-0x0FF0]     /* Vector from VicVectAddr */
+          		LDR     PC, [PC, #-0x0120]     /* Vector from VicVectAddr */
                 LDR     PC, FIQ_Addr
 
 Reset_Addr:     .word   __cs3_reset_arm

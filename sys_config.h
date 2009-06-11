@@ -18,7 +18,7 @@
 #ifndef SYS_CONFIG_H__
 #define SYS_CONFIG_H__
 
-#include "app_types.h"
+#include "types.h"
 #include "LPC_REGS.h"
 
 // some handy DEFINES

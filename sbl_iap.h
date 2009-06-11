@@ -14,7 +14,7 @@
 #ifndef  _SBL_IAP_H
 #define  _SBL_IAP_H
 
-#include "type.h"
+#include "types.h"
 
 extern const unsigned sector_start_map[];
 extern const unsigned sector_end_map[];

@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------------------
 
 #include <LPC23xx.H>
-#include "type.h"
+#include "types.h"
 #include "sbl_iap.h"
 #include "sbl_config.h"
 

@@ -1,4 +1,11 @@
 /* System Calls Remapping */
+#include <LPC23xx.H>                       /* LPC23xx definitions  */
+#include <stdint.h>
+#include <stdio.h>                         /* standard I/O .h-file */
+#include <math.h>
+
+#include <stdlib.h>
+#include <math.h>
 
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -6,11 +13,13 @@
 #include <string.h>
 #include <errno.h>
 
-#define putchar sendchar
-#define getchar getkey
+//#define putchar sendchar
+//#define getchar getkey
 
 //extern int putchar (int ch);
 //extern int getchar (void);
+
+
 
 int _read (int fd, char * ptr, int len) {
 

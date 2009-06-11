@@ -1,0 +1,1414 @@
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 1
+
+
+   1              		.cpu arm7tdmi
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 18, 4
+  11              		.file	"eeprom.cpp"
+  12              		.section	.debug_abbrev,"",%progbits
+  13              	.Ldebug_abbrev0:
+  14              		.section	.debug_info,"",%progbits
+  15              	.Ldebug_info0:
+  16              		.section	.debug_line,"",%progbits
+  17              	.Ldebug_line0:
+  18 0000 10010000 		.text
+  18      02009D00 
+  18      00000201 
+  18      FB0E0D00 
+  18      01010101 
+  19              	.Ltext0:
+  20              		.section	.text._Z10eepromInitv,"ax",%progbits
+  21              		.align	2
+  22              		.global	_Z10eepromInitv
+  23              		.type	_Z10eepromInitv, %function
+  24              	_Z10eepromInitv:
+  25              	.LFB2:
+  26              		.file 1 "eeprom.cpp"
+   1:eeprom.cpp    **** #include <LPC23xx.H>                       /* LPC23xx definitions  */
+   2:eeprom.cpp    **** #include <stdint.h>
+   3:eeprom.cpp    **** #include <stdio.h>                         /* standard I/O .h-file */
+   4:eeprom.cpp    **** 
+   5:eeprom.cpp    **** /* EEPROM Instructions */
+   6:eeprom.cpp    **** static const uint8_t kEEREAD    = 3;
+   7:eeprom.cpp    **** static const uint8_t kEEWRITE   = 2;  
+   8:eeprom.cpp    **** static const uint8_t kEEWRDI    = 3;
+   9:eeprom.cpp    **** static const uint8_t kEEWREN    = 2; 
+  10:eeprom.cpp    **** static const uint8_t kEERDSR    = 5;
+  11:eeprom.cpp    **** static const uint8_t kEEWRSR    = 1;
+  12:eeprom.cpp    ****   
+  13:eeprom.cpp    **** 
+  14:eeprom.cpp    **** //*************************************************************
+  15:eeprom.cpp    **** // EEPROM INitialization
+  16:eeprom.cpp    **** //       Device: Microchip 25AA128 SPI EEPROM  
+  17:eeprom.cpp    **** void eepromInit(void) {
+  27              		.loc 1 17 0
+  28              		@ Function supports interworking.
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 1, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32 0000 04B02DE5 		str	fp, [sp, #-4]!
+  33              	.LCFI0:
+  34 0004 00B08DE2 		add	fp, sp, #0
+  35              	.LCFI1:
+  18:eeprom.cpp    **** 
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 2
+
+
+  19:eeprom.cpp    ****    /* Setup pin P0.6,7,8 for SPI */
+  20:eeprom.cpp    ****    PINSEL0 |= 0x000AA000;
+  36              		.loc 1 20 0
+  37 0008 0E22A0E3 		mov	r2, #-536870912
+  38 000c 0B2982E2 		add	r2, r2, #180224
+  39 0010 0E32A0E3 		mov	r3, #-536870912
+  40 0014 0B3983E2 		add	r3, r3, #180224
+  41 0018 003093E5 		ldr	r3, [r3, #0]
+  42 001c AA3A83E3 		orr	r3, r3, #696320
+  43 0020 003082E5 		str	r3, [r2, #0]
+  21:eeprom.cpp    ****    
+  22:eeprom.cpp    ****    /* CPOL = 0, CPHA = 1, 8-bits, SPI mode */
+  23:eeprom.cpp    ****    SSP1CR0 = 0x0087;
+  44              		.loc 1 23 0
+  45 0024 0E32A0E3 		mov	r3, #-536870912
+  46 0028 033883E2 		add	r3, r3, #196608
+  47 002c 8720A0E3 		mov	r2, #135
+  48 0030 002083E5 		str	r2, [r3, #0]
+  24:eeprom.cpp    ****    
+  25:eeprom.cpp    ****    /* SPI Master,       */
+  26:eeprom.cpp    ****    SSP1CR1 =  0x004;
+  49              		.loc 1 26 0
+  50 0034 4E32A0E3 		mov	r3, #-536870908
+  51 0038 033883E2 		add	r3, r3, #196608
+  52 003c 0420A0E3 		mov	r2, #4
+  53 0040 002083E5 		str	r2, [r3, #0]
+  27:eeprom.cpp    ****    
+  28:eeprom.cpp    ****    /* SPI Enable,       */
+  29:eeprom.cpp    ****    SSP1CR1 =  0x006;
+  54              		.loc 1 29 0
+  55 0044 4E32A0E3 		mov	r3, #-536870908
+  56 0048 033883E2 		add	r3, r3, #196608
+  57 004c 0620A0E3 		mov	r2, #6
+  58 0050 002083E5 		str	r2, [r3, #0]
+  30:eeprom.cpp    **** }
+  59              		.loc 1 30 0
+  60 0054 00D08BE2 		add	sp, fp, #0
+  61 0058 0008BDE8 		ldmfd	sp!, {fp}
+  62 005c 1EFF2FE1 		bx	lr
+  63              	.LFE2:
+  64              		.size	_Z10eepromInitv, .-_Z10eepromInitv
+  65              		.section	.text._Z9ssp1Writeh,"ax",%progbits
+  66              		.align	2
+  67              		.global	_Z9ssp1Writeh
+  68              		.type	_Z9ssp1Writeh, %function
+  69              	_Z9ssp1Writeh:
+  70              	.LFB3:
+  31:eeprom.cpp    **** 
+  32:eeprom.cpp    **** //*************************************************************
+  33:eeprom.cpp    **** // Write data to SSP1
+  34:eeprom.cpp    **** void ssp1Write(uint8_t data) {
+  71              		.loc 1 34 0
+  72              		@ Function supports interworking.
+  73              		@ args = 0, pretend = 0, frame = 8
+  74              		@ frame_needed = 1, uses_anonymous_args = 0
+  75              		@ link register save eliminated.
+  76 0000 04B02DE5 		str	fp, [sp, #-4]!
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 3
+
+
+  77              	.LCFI2:
+  78 0004 00B08DE2 		add	fp, sp, #0
+  79              	.LCFI3:
+  80 0008 0CD04DE2 		sub	sp, sp, #12
+  81              	.LCFI4:
+  82 000c 0030A0E1 		mov	r3, r0
+  83 0010 05304BE5 		strb	r3, [fp, #-5]
+  84              	.L4:
+  35:eeprom.cpp    **** 
+  36:eeprom.cpp    **** 
+  37:eeprom.cpp    ****       /* Check the TX FIFO status */
+  38:eeprom.cpp    ****       while( !((SSP1SR >> 1) & 1) ) {
+  85              		.loc 1 38 0
+  86 0014 CE32A0E3 		mov	r3, #-536870900
+  87 0018 033883E2 		add	r3, r3, #196608
+  88 001c 003093E5 		ldr	r3, [r3, #0]
+  89 0020 023003E2 		and	r3, r3, #2
+  90 0024 000053E3 		cmp	r3, #0
+  91 0028 0030A013 		movne	r3, #0
+  92 002c 0130A003 		moveq	r3, #1
+  93 0030 FF3003E2 		and	r3, r3, #255
+  94 0034 000053E3 		cmp	r3, #0
+  95 0038 F5FFFF1A 		bne	.L4
+  39:eeprom.cpp    ****          ; /* Wait for TX to be ready */
+  40:eeprom.cpp    ****       }     
+  41:eeprom.cpp    ****       
+  42:eeprom.cpp    ****      /* Put the data into the TX FIFO */
+  43:eeprom.cpp    ****       SSP1DR = data;
+  96              		.loc 1 43 0
+  97 003c 8E32A0E3 		mov	r3, #-536870904
+  98 0040 033883E2 		add	r3, r3, #196608
+  99 0044 05205BE5 		ldrb	r2, [fp, #-5]	@ zero_extendqisi2
+ 100 0048 002083E5 		str	r2, [r3, #0]
+  44:eeprom.cpp    **** 
+  45:eeprom.cpp    **** }
+ 101              		.loc 1 45 0
+ 102 004c 00D08BE2 		add	sp, fp, #0
+ 103 0050 0008BDE8 		ldmfd	sp!, {fp}
+ 104 0054 1EFF2FE1 		bx	lr
+ 105              	.LFE3:
+ 106              		.size	_Z9ssp1Writeh, .-_Z9ssp1Writeh
+ 107              		.section	.text._Z8ssp1Readv,"ax",%progbits
+ 108              		.align	2
+ 109              		.global	_Z8ssp1Readv
+ 110              		.type	_Z8ssp1Readv, %function
+ 111              	_Z8ssp1Readv:
+ 112              	.LFB4:
+  46:eeprom.cpp    ****   
+  47:eeprom.cpp    **** //*************************************************************
+  48:eeprom.cpp    **** // Read one byte from the SSP1
+  49:eeprom.cpp    **** uint8_t ssp1Read() {
+ 113              		.loc 1 49 0
+ 114              		@ Function supports interworking.
+ 115              		@ args = 0, pretend = 0, frame = 0
+ 116              		@ frame_needed = 1, uses_anonymous_args = 0
+ 117 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 118              	.LCFI5:
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 4
+
+
+ 119 0004 04B08DE2 		add	fp, sp, #4
+ 120              	.LCFI6:
+ 121 0008 010000EA 		b	.L7
+ 122              	.L8:
+  50:eeprom.cpp    **** 
+  51:eeprom.cpp    ****       /* Wait for a byte to be received */
+  52:eeprom.cpp    ****       while( !((SSP1SR >> 2) & 1) ) {
+  53:eeprom.cpp    ****          /* Send dummy data */
+  54:eeprom.cpp    ****          ssp1Write(0);
+ 123              		.loc 1 54 0
+ 124 000c 0000A0E3 		mov	r0, #0
+ 125 0010 FEFFFFEB 		bl	_Z9ssp1Writeh
+ 126              	.L7:
+ 127              		.loc 1 52 0
+ 128 0014 CE32A0E3 		mov	r3, #-536870900
+ 129 0018 033883E2 		add	r3, r3, #196608
+ 130 001c 003093E5 		ldr	r3, [r3, #0]
+ 131 0020 043003E2 		and	r3, r3, #4
+ 132 0024 000053E3 		cmp	r3, #0
+ 133 0028 0030A013 		movne	r3, #0
+ 134 002c 0130A003 		moveq	r3, #1
+ 135 0030 FF3003E2 		and	r3, r3, #255
+ 136 0034 000053E3 		cmp	r3, #0
+ 137 0038 F3FFFF1A 		bne	.L8
+  55:eeprom.cpp    ****       }     
+  56:eeprom.cpp    ****       
+  57:eeprom.cpp    ****       /* Return the received byte */
+  58:eeprom.cpp    ****       return (uint8_t)SSP1DR;
+ 138              		.loc 1 58 0
+ 139 003c 8E32A0E3 		mov	r3, #-536870904
+ 140 0040 033883E2 		add	r3, r3, #196608
+ 141 0044 003093E5 		ldr	r3, [r3, #0]
+ 142 0048 FF3003E2 		and	r3, r3, #255
+  59:eeprom.cpp    **** 
+  60:eeprom.cpp    **** }
+ 143              		.loc 1 60 0
+ 144 004c 0300A0E1 		mov	r0, r3
+ 145 0050 04D04BE2 		sub	sp, fp, #4
+ 146 0054 0048BDE8 		ldmfd	sp!, {fp, lr}
+ 147 0058 1EFF2FE1 		bx	lr
+ 148              	.LFE4:
+ 149              		.size	_Z8ssp1Readv, .-_Z8ssp1Readv
+ 150              		.section	.text._Z11eepromWritetPhm,"ax",%progbits
+ 151              		.align	2
+ 152              		.global	_Z11eepromWritetPhm
+ 153              		.type	_Z11eepromWritetPhm, %function
+ 154              	_Z11eepromWritetPhm:
+ 155              	.LFB5:
+  61:eeprom.cpp    **** 
+  62:eeprom.cpp    **** //*************************************************************
+  63:eeprom.cpp    **** // EEPROM write data
+  64:eeprom.cpp    **** // Returns: EEPROM Status Register  
+  65:eeprom.cpp    **** // lower cs
+  66:eeprom.cpp    **** // send wren instr
+  67:eeprom.cpp    **** // raise cs
+  68:eeprom.cpp    **** // lower cs
+  69:eeprom.cpp    **** // send write instr
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 5
+
+
+  70:eeprom.cpp    **** // send 16-bit address
+  71:eeprom.cpp    **** // send data up 64
+  72:eeprom.cpp    **** //  increment page?
+  73:eeprom.cpp    **** //  continue writing
+  74:eeprom.cpp    **** //  raise cs
+  75:eeprom.cpp    **** int eepromWrite(uint16_t dataEEDest, uint8_t * const dataSrc, uint32_t length) {
+ 156              		.loc 1 75 0
+ 157              		@ Function supports interworking.
+ 158              		@ args = 0, pretend = 0, frame = 24
+ 159              		@ frame_needed = 1, uses_anonymous_args = 0
+ 160 0000 00482DE9 		stmfd	sp!, {fp, lr}
+ 161              	.LCFI7:
+ 162 0004 04B08DE2 		add	fp, sp, #4
+ 163              	.LCFI8:
+ 164 0008 18D04DE2 		sub	sp, sp, #24
+ 165              	.LCFI9:
+ 166 000c 0030A0E1 		mov	r3, r0
+ 167 0010 14100BE5 		str	r1, [fp, #-20]
+ 168 0014 18200BE5 		str	r2, [fp, #-24]
+ 169 0018 BE304BE1 		strh	r3, [fp, #-14]	@ movhi
+ 170              	.LBB2:
+  76:eeprom.cpp    **** 
+  77:eeprom.cpp    **** uint32_t ii;
+  78:eeprom.cpp    **** 
+  79:eeprom.cpp    ****    /* Send Write Enable */      
+  80:eeprom.cpp    ****    ssp1Write(kEEWREN);
+ 171              		.loc 1 80 0
+ 172 001c 0200A0E3 		mov	r0, #2
+ 173 0020 FEFFFFEB 		bl	_Z9ssp1Writeh
+  81:eeprom.cpp    **** 
+  82:eeprom.cpp    ****    /* Send Write Enable Instruction */      
+  83:eeprom.cpp    ****    ssp1Write(kEEWREN);
+ 174              		.loc 1 83 0
+ 175 0024 0200A0E3 		mov	r0, #2
+ 176 0028 FEFFFFEB 		bl	_Z9ssp1Writeh
+  84:eeprom.cpp    **** 
+  85:eeprom.cpp    ****    /* Send Write Instruction */      
+  86:eeprom.cpp    ****    ssp1Write(kEEWRITE);
+ 177              		.loc 1 86 0
+ 178 002c 0200A0E3 		mov	r0, #2
+ 179 0030 FEFFFFEB 		bl	_Z9ssp1Writeh
+  87:eeprom.cpp    **** 
+  88:eeprom.cpp    ****    /* Send Address High Byte */      
+  89:eeprom.cpp    ****    ssp1Write((dataEEDest >> 8) & 0xFF);
+ 180              		.loc 1 89 0
+ 181 0034 BE305BE1 		ldrh	r3, [fp, #-14]
+ 182 0038 2334A0E1 		mov	r3, r3, lsr #8
+ 183 003c 0338A0E1 		mov	r3, r3, asl #16
+ 184 0040 2338A0E1 		mov	r3, r3, lsr #16
+ 185 0044 FF3003E2 		and	r3, r3, #255
+ 186 0048 0300A0E1 		mov	r0, r3
+ 187 004c FEFFFFEB 		bl	_Z9ssp1Writeh
+  90:eeprom.cpp    **** 
+  91:eeprom.cpp    ****    /* Send Address LOW Byte */      
+  92:eeprom.cpp    ****    ssp1Write(dataEEDest & 0xFF);
+ 188              		.loc 1 92 0
+ 189 0050 BE305BE1 		ldrh	r3, [fp, #-14]	@ movhi
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 6
+
+
+ 190 0054 FF3003E2 		and	r3, r3, #255
+ 191 0058 0300A0E1 		mov	r0, r3
+ 192 005c FEFFFFEB 		bl	_Z9ssp1Writeh
+  93:eeprom.cpp    **** 
+  94:eeprom.cpp    ****    for (ii=0; ii < length; ii++ ) {
+ 193              		.loc 1 94 0
+ 194 0060 0030A0E3 		mov	r3, #0
+ 195 0064 08300BE5 		str	r3, [fp, #-8]
+ 196 0068 080000EA 		b	.L11
+ 197              	.L12:
+  95:eeprom.cpp    **** 
+  96:eeprom.cpp    ****       ssp1Write(dataSrc[ii]);
+ 198              		.loc 1 96 0
+ 199 006c 14201BE5 		ldr	r2, [fp, #-20]
+ 200 0070 08301BE5 		ldr	r3, [fp, #-8]
+ 201 0074 033082E0 		add	r3, r2, r3
+ 202 0078 0030D3E5 		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 203 007c 0300A0E1 		mov	r0, r3
+ 204 0080 FEFFFFEB 		bl	_Z9ssp1Writeh
+ 205              		.loc 1 94 0
+ 206 0084 08301BE5 		ldr	r3, [fp, #-8]
+ 207 0088 013083E2 		add	r3, r3, #1
+ 208 008c 08300BE5 		str	r3, [fp, #-8]
+ 209              	.L11:
+ 210 0090 08201BE5 		ldr	r2, [fp, #-8]
+ 211 0094 18301BE5 		ldr	r3, [fp, #-24]
+ 212 0098 030052E1 		cmp	r2, r3
+ 213 009c F2FFFF3A 		bcc	.L12
+  97:eeprom.cpp    ****    }
+  98:eeprom.cpp    **** 
+  99:eeprom.cpp    ****  return 1;
+ 214              		.loc 1 99 0
+ 215 00a0 0130A0E3 		mov	r3, #1
+ 216              	.LBE2:
+ 100:eeprom.cpp    **** }
+ 217              		.loc 1 100 0
+ 218 00a4 0300A0E1 		mov	r0, r3
+ 219 00a8 04D04BE2 		sub	sp, fp, #4
+ 220 00ac 0048BDE8 		ldmfd	sp!, {fp, lr}
+ 221 00b0 1EFF2FE1 		bx	lr
+ 222              	.LFE5:
+ 223              		.size	_Z11eepromWritetPhm, .-_Z11eepromWritetPhm
+ 224              		.section	.text._Z10eepromReadPhtm,"ax",%progbits
+ 225              		.align	2
+ 226              		.global	_Z10eepromReadPhtm
+ 227              		.type	_Z10eepromReadPhtm, %function
+ 228              	_Z10eepromReadPhtm:
+ 229              	.LFB6:
+ 101:eeprom.cpp    ****  
+ 102:eeprom.cpp    **** //*************************************************************
+ 103:eeprom.cpp    **** // EEPROM read data
+ 104:eeprom.cpp    **** // Returns: EEPROM Status Register   
+ 105:eeprom.cpp    ****     // lower cs
+ 106:eeprom.cpp    ****     // send read instr
+ 107:eeprom.cpp    ****     // 16-bit address
+ 108:eeprom.cpp    ****     // clock 8*len
+ 109:eeprom.cpp    ****     // raise cs
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 7
+
+
+ 110:eeprom.cpp    ****     //      
+ 111:eeprom.cpp    **** int eepromRead(uint8_t * dataDest, uint16_t dataEESrc, uint32_t length) {
+ 230              		.loc 1 111 0
+ 231              		@ Function supports interworking.
+ 232              		@ args = 0, pretend = 0, frame = 24
+ 233              		@ frame_needed = 1, uses_anonymous_args = 0
+ 234 0000 10482DE9 		stmfd	sp!, {r4, fp, lr}
+ 235              	.LCFI10:
+ 236 0004 08B08DE2 		add	fp, sp, #8
+ 237              	.LCFI11:
+ 238 0008 1CD04DE2 		sub	sp, sp, #28
+ 239              	.LCFI12:
+ 240 000c 18000BE5 		str	r0, [fp, #-24]
+ 241 0010 0130A0E1 		mov	r3, r1
+ 242 0014 20200BE5 		str	r2, [fp, #-32]
+ 243 0018 BA314BE1 		strh	r3, [fp, #-26]	@ movhi
+ 244              	.LBB3:
+ 112:eeprom.cpp    **** 
+ 113:eeprom.cpp    **** 
+ 114:eeprom.cpp    **** uint32_t ii;
+ 115:eeprom.cpp    **** 
+ 116:eeprom.cpp    ****    /* Send Read Instruction */      
+ 117:eeprom.cpp    ****    ssp1Write(kEEREAD);
+ 245              		.loc 1 117 0
+ 246 001c 0300A0E3 		mov	r0, #3
+ 247 0020 FEFFFFEB 		bl	_Z9ssp1Writeh
+ 118:eeprom.cpp    **** 
+ 119:eeprom.cpp    ****    /* Send Address High Byte */      
+ 120:eeprom.cpp    ****    ssp1Write((dataEESrc >> 8) & 0xFF);
+ 248              		.loc 1 120 0
+ 249 0024 BA315BE1 		ldrh	r3, [fp, #-26]
+ 250 0028 2334A0E1 		mov	r3, r3, lsr #8
+ 251 002c 0338A0E1 		mov	r3, r3, asl #16
+ 252 0030 2338A0E1 		mov	r3, r3, lsr #16
+ 253 0034 FF3003E2 		and	r3, r3, #255
+ 254 0038 0300A0E1 		mov	r0, r3
+ 255 003c FEFFFFEB 		bl	_Z9ssp1Writeh
+ 121:eeprom.cpp    **** 
+ 122:eeprom.cpp    ****    /* Send Address LOW Byte */      
+ 123:eeprom.cpp    ****    ssp1Write(dataEESrc & 0xFF);
+ 256              		.loc 1 123 0
+ 257 0040 BA315BE1 		ldrh	r3, [fp, #-26]	@ movhi
+ 258 0044 FF3003E2 		and	r3, r3, #255
+ 259 0048 0300A0E1 		mov	r0, r3
+ 260 004c FEFFFFEB 		bl	_Z9ssp1Writeh
+ 124:eeprom.cpp    ****    
+ 125:eeprom.cpp    ****    /* Store the bytes from EEPROM */   
+ 126:eeprom.cpp    ****    for (ii=0; ii< length; ii++) {      
+ 261              		.loc 1 126 0
+ 262 0050 0030A0E3 		mov	r3, #0
+ 263 0054 10300BE5 		str	r3, [fp, #-16]
+ 264 0058 080000EA 		b	.L15
+ 265              	.L16:
+ 127:eeprom.cpp    ****       dataDest[ii] = ssp1Read();
+ 266              		.loc 1 127 0
+ 267 005c 18201BE5 		ldr	r2, [fp, #-24]
+ 268 0060 10301BE5 		ldr	r3, [fp, #-16]
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 8
+
+
+ 269 0064 034082E0 		add	r4, r2, r3
+ 270 0068 FEFFFFEB 		bl	_Z8ssp1Readv
+ 271 006c 0030A0E1 		mov	r3, r0
+ 272 0070 0030C4E5 		strb	r3, [r4, #0]
+ 273              		.loc 1 126 0
+ 274 0074 10301BE5 		ldr	r3, [fp, #-16]
+ 275 0078 013083E2 		add	r3, r3, #1
+ 276 007c 10300BE5 		str	r3, [fp, #-16]
+ 277              	.L15:
+ 278 0080 10201BE5 		ldr	r2, [fp, #-16]
+ 279 0084 20301BE5 		ldr	r3, [fp, #-32]
+ 280 0088 030052E1 		cmp	r2, r3
+ 281 008c F2FFFF3A 		bcc	.L16
+ 128:eeprom.cpp    ****    }
+ 129:eeprom.cpp    **** 
+ 130:eeprom.cpp    ****    return 1;
+ 282              		.loc 1 130 0
+ 283 0090 0130A0E3 		mov	r3, #1
+ 284              	.LBE3:
+ 131:eeprom.cpp    **** } ...
+ 285              		.loc 1 131 0
+ 286 0094 0300A0E1 		mov	r0, r3
+ 287 0098 08D04BE2 		sub	sp, fp, #8
+ 288 009c 1048BDE8 		ldmfd	sp!, {r4, fp, lr}
+ 289 00a0 1EFF2FE1 		bx	lr
+ 290              	.LFE6:
+ 291              		.size	_Z10eepromReadPhtm, .-_Z10eepromReadPhtm
+ 292              		.section	.debug_frame,"",%progbits
+ 293              	.Lframe0:
+ 294 0000 0C000000 		.4byte	.LECIE0-.LSCIE0
+ 295              	.LSCIE0:
+ 296 0004 FFFFFFFF 		.4byte	0xffffffff
+ 297 0008 01       		.byte	0x1
+ 298 0009 00       		.ascii	"\000"
+ 299 000a 01       		.uleb128 0x1
+ 300 000b 7C       		.sleb128 -4
+ 301 000c 0E       		.byte	0xe
+ 302 000d 0C       		.byte	0xc
+ 303 000e 0D       		.uleb128 0xd
+ 304 000f 00       		.uleb128 0x0
+ 305              		.align	2
+ 306              	.LECIE0:
+ 307              	.LSFDE0:
+ 308 0010 14000000 		.4byte	.LEFDE0-.LASFDE0
+ 309              	.LASFDE0:
+ 310 0014 00000000 		.4byte	.Lframe0
+ 311 0018 00000000 		.4byte	.LFB2
+ 312 001c 60000000 		.4byte	.LFE2-.LFB2
+ 313 0020 44       		.byte	0x4
+ 314              		.4byte	.LCFI0-.LFB2
+ 315 0021 0E       		.byte	0xe
+ 316 0022 04       		.uleb128 0x4
+ 317 0023 8B       		.byte	0x8b
+ 318 0024 01       		.uleb128 0x1
+ 319 0025 44       		.byte	0x4
+ 320              		.4byte	.LCFI1-.LCFI0
+ 321 0026 0D       		.byte	0xd
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 9
+
+
+ 322 0027 0B       		.uleb128 0xb
+ 323              		.align	2
+ 324              	.LEFDE0:
+ 325              	.LSFDE2:
+ 326 0028 14000000 		.4byte	.LEFDE2-.LASFDE2
+ 327              	.LASFDE2:
+ 328 002c 00000000 		.4byte	.Lframe0
+ 329 0030 00000000 		.4byte	.LFB3
+ 330 0034 58000000 		.4byte	.LFE3-.LFB3
+ 331 0038 44       		.byte	0x4
+ 332              		.4byte	.LCFI2-.LFB3
+ 333 0039 0E       		.byte	0xe
+ 334 003a 04       		.uleb128 0x4
+ 335 003b 8B       		.byte	0x8b
+ 336 003c 01       		.uleb128 0x1
+ 337 003d 44       		.byte	0x4
+ 338              		.4byte	.LCFI3-.LCFI2
+ 339 003e 0D       		.byte	0xd
+ 340 003f 0B       		.uleb128 0xb
+ 341              		.align	2
+ 342              	.LEFDE2:
+ 343              	.LSFDE4:
+ 344 0040 18000000 		.4byte	.LEFDE4-.LASFDE4
+ 345              	.LASFDE4:
+ 346 0044 00000000 		.4byte	.Lframe0
+ 347 0048 00000000 		.4byte	.LFB4
+ 348 004c 5C000000 		.4byte	.LFE4-.LFB4
+ 349 0050 44       		.byte	0x4
+ 350              		.4byte	.LCFI5-.LFB4
+ 351 0051 0E       		.byte	0xe
+ 352 0052 08       		.uleb128 0x8
+ 353 0053 8E       		.byte	0x8e
+ 354 0054 01       		.uleb128 0x1
+ 355 0055 8B       		.byte	0x8b
+ 356 0056 02       		.uleb128 0x2
+ 357 0057 44       		.byte	0x4
+ 358              		.4byte	.LCFI6-.LCFI5
+ 359 0058 0C       		.byte	0xc
+ 360 0059 0B       		.uleb128 0xb
+ 361 005a 04       		.uleb128 0x4
+ 362 005b 00       		.align	2
+ 363              	.LEFDE4:
+ 364              	.LSFDE6:
+ 365 005c 18000000 		.4byte	.LEFDE6-.LASFDE6
+ 366              	.LASFDE6:
+ 367 0060 00000000 		.4byte	.Lframe0
+ 368 0064 00000000 		.4byte	.LFB5
+ 369 0068 B4000000 		.4byte	.LFE5-.LFB5
+ 370 006c 44       		.byte	0x4
+ 371              		.4byte	.LCFI7-.LFB5
+ 372 006d 0E       		.byte	0xe
+ 373 006e 08       		.uleb128 0x8
+ 374 006f 8E       		.byte	0x8e
+ 375 0070 01       		.uleb128 0x1
+ 376 0071 8B       		.byte	0x8b
+ 377 0072 02       		.uleb128 0x2
+ 378 0073 44       		.byte	0x4
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 10
+
+
+ 379              		.4byte	.LCFI8-.LCFI7
+ 380 0074 0C       		.byte	0xc
+ 381 0075 0B       		.uleb128 0xb
+ 382 0076 04       		.uleb128 0x4
+ 383 0077 00       		.align	2
+ 384              	.LEFDE6:
+ 385              	.LSFDE8:
+ 386 0078 1C000000 		.4byte	.LEFDE8-.LASFDE8
+ 387              	.LASFDE8:
+ 388 007c 00000000 		.4byte	.Lframe0
+ 389 0080 00000000 		.4byte	.LFB6
+ 390 0084 A4000000 		.4byte	.LFE6-.LFB6
+ 391 0088 44       		.byte	0x4
+ 392              		.4byte	.LCFI10-.LFB6
+ 393 0089 0E       		.byte	0xe
+ 394 008a 0C       		.uleb128 0xc
+ 395 008b 8E       		.byte	0x8e
+ 396 008c 01       		.uleb128 0x1
+ 397 008d 8B       		.byte	0x8b
+ 398 008e 02       		.uleb128 0x2
+ 399 008f 84       		.byte	0x84
+ 400 0090 03       		.uleb128 0x3
+ 401 0091 44       		.byte	0x4
+ 402              		.4byte	.LCFI11-.LCFI10
+ 403 0092 0C       		.byte	0xc
+ 404 0093 0B       		.uleb128 0xb
+ 405 0094 04       		.uleb128 0x4
+ 406 0095 000000   		.align	2
+ 407              	.LEFDE8:
+ 408              		.text
+ 409              	.Letext0:
+ 410              		.section	.debug_loc,"",%progbits
+ 411              	.Ldebug_loc0:
+ 412              	.LLST0:
+ 413 0000 00000000 		.4byte	.LFB2
+ 414 0004 04000000 		.4byte	.LCFI0
+ 415 0008 0100     		.2byte	0x1
+ 416 000a 5D       		.byte	0x5d
+ 417 000b 04000000 		.4byte	.LCFI0
+ 418 000f 08000000 		.4byte	.LCFI1
+ 419 0013 0200     		.2byte	0x2
+ 420 0015 7D       		.byte	0x7d
+ 421 0016 04       		.sleb128 4
+ 422 0017 08000000 		.4byte	.LCFI1
+ 423 001b 60000000 		.4byte	.LFE2
+ 424 001f 0200     		.2byte	0x2
+ 425 0021 7B       		.byte	0x7b
+ 426 0022 04       		.sleb128 4
+ 427 0023 00000000 		.4byte	0x0
+ 428 0027 00000000 		.4byte	0x0
+ 429              	.LLST1:
+ 430 002b 00000000 		.4byte	.LFB3
+ 431 002f 04000000 		.4byte	.LCFI2
+ 432 0033 0100     		.2byte	0x1
+ 433 0035 5D       		.byte	0x5d
+ 434 0036 04000000 		.4byte	.LCFI2
+ 435 003a 08000000 		.4byte	.LCFI3
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 11
+
+
+ 436 003e 0200     		.2byte	0x2
+ 437 0040 7D       		.byte	0x7d
+ 438 0041 04       		.sleb128 4
+ 439 0042 08000000 		.4byte	.LCFI3
+ 440 0046 58000000 		.4byte	.LFE3
+ 441 004a 0200     		.2byte	0x2
+ 442 004c 7B       		.byte	0x7b
+ 443 004d 04       		.sleb128 4
+ 444 004e 00000000 		.4byte	0x0
+ 445 0052 00000000 		.4byte	0x0
+ 446              	.LLST2:
+ 447 0056 00000000 		.4byte	.LFB4
+ 448 005a 04000000 		.4byte	.LCFI5
+ 449 005e 0100     		.2byte	0x1
+ 450 0060 5D       		.byte	0x5d
+ 451 0061 04000000 		.4byte	.LCFI5
+ 452 0065 08000000 		.4byte	.LCFI6
+ 453 0069 0200     		.2byte	0x2
+ 454 006b 7D       		.byte	0x7d
+ 455 006c 08       		.sleb128 8
+ 456 006d 08000000 		.4byte	.LCFI6
+ 457 0071 5C000000 		.4byte	.LFE4
+ 458 0075 0200     		.2byte	0x2
+ 459 0077 7B       		.byte	0x7b
+ 460 0078 04       		.sleb128 4
+ 461 0079 00000000 		.4byte	0x0
+ 462 007d 00000000 		.4byte	0x0
+ 463              	.LLST3:
+ 464 0081 00000000 		.4byte	.LFB5
+ 465 0085 04000000 		.4byte	.LCFI7
+ 466 0089 0100     		.2byte	0x1
+ 467 008b 5D       		.byte	0x5d
+ 468 008c 04000000 		.4byte	.LCFI7
+ 469 0090 08000000 		.4byte	.LCFI8
+ 470 0094 0200     		.2byte	0x2
+ 471 0096 7D       		.byte	0x7d
+ 472 0097 08       		.sleb128 8
+ 473 0098 08000000 		.4byte	.LCFI8
+ 474 009c B4000000 		.4byte	.LFE5
+ 475 00a0 0200     		.2byte	0x2
+ 476 00a2 7B       		.byte	0x7b
+ 477 00a3 04       		.sleb128 4
+ 478 00a4 00000000 		.4byte	0x0
+ 479 00a8 00000000 		.4byte	0x0
+ 480              	.LLST4:
+ 481 00ac 00000000 		.4byte	.LFB6
+ 482 00b0 04000000 		.4byte	.LCFI10
+ 483 00b4 0100     		.2byte	0x1
+ 484 00b6 5D       		.byte	0x5d
+ 485 00b7 04000000 		.4byte	.LCFI10
+ 486 00bb 08000000 		.4byte	.LCFI11
+ 487 00bf 0200     		.2byte	0x2
+ 488 00c1 7D       		.byte	0x7d
+ 489 00c2 0C       		.sleb128 12
+ 490 00c3 08000000 		.4byte	.LCFI11
+ 491 00c7 A4000000 		.4byte	.LFE6
+ 492 00cb 0200     		.2byte	0x2
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 12
+
+
+ 493 00cd 7B       		.byte	0x7b
+ 494 00ce 04       		.sleb128 4
+ 495 00cf 00000000 		.4byte	0x0
+ 496 00d3 00000000 		.4byte	0x0
+ 497              		.file 2 "/cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/../../../..
+ 498              		.section	.debug_info
+ 499 0000 FE010000 		.4byte	0x1fe
+ 500 0004 0200     		.2byte	0x2
+ 501 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 502 000a 04       		.byte	0x4
+ 503 000b 01       		.uleb128 0x1
+ 504 000c 4A000000 		.4byte	.LASF29
+ 505 0010 04       		.byte	0x4
+ 506 0011 10000000 		.4byte	.LASF30
+ 507 0015 A3000000 		.4byte	.LASF31
+ 508 0019 00000000 		.4byte	0x0
+ 509 001d 00000000 		.4byte	0x0
+ 510 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 511 0025 00000000 		.4byte	.Ldebug_line0
+ 512 0029 02       		.uleb128 0x2
+ 513 002a 01       		.byte	0x1
+ 514 002b 06       		.byte	0x6
+ 515 002c B6010000 		.4byte	.LASF0
+ 516 0030 03       		.uleb128 0x3
+ 517 0031 30000000 		.4byte	.LASF3
+ 518 0035 02       		.byte	0x2
+ 519 0036 2E       		.byte	0x2e
+ 520 0037 3B000000 		.4byte	0x3b
+ 521 003b 02       		.uleb128 0x2
+ 522 003c 01       		.byte	0x1
+ 523 003d 08       		.byte	0x8
+ 524 003e 5D000000 		.4byte	.LASF1
+ 525 0042 02       		.uleb128 0x2
+ 526 0043 02       		.byte	0x2
+ 527 0044 05       		.byte	0x5
+ 528 0045 77010000 		.4byte	.LASF2
+ 529 0049 03       		.uleb128 0x3
+ 530 004a 81010000 		.4byte	.LASF4
+ 531 004e 02       		.byte	0x2
+ 532 004f 3A       		.byte	0x3a
+ 533 0050 54000000 		.4byte	0x54
+ 534 0054 02       		.uleb128 0x2
+ 535 0055 02       		.byte	0x2
+ 536 0056 07       		.byte	0x7
+ 537 0057 7D000000 		.4byte	.LASF5
+ 538 005b 02       		.uleb128 0x2
+ 539 005c 04       		.byte	0x4
+ 540 005d 05       		.byte	0x5
+ 541 005e A3010000 		.4byte	.LASF6
+ 542 0062 03       		.uleb128 0x3
+ 543 0063 9A010000 		.4byte	.LASF7
+ 544 0067 02       		.byte	0x2
+ 545 0068 54       		.byte	0x54
+ 546 0069 6D000000 		.4byte	0x6d
+ 547 006d 02       		.uleb128 0x2
+ 548 006e 04       		.byte	0x4
+ 549 006f 07       		.byte	0x7
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 13
+
+
+ 550 0070 6B000000 		.4byte	.LASF8
+ 551 0074 02       		.uleb128 0x2
+ 552 0075 08       		.byte	0x8
+ 553 0076 05       		.byte	0x5
+ 554 0077 5C010000 		.4byte	.LASF9
+ 555 007b 02       		.uleb128 0x2
+ 556 007c 08       		.byte	0x8
+ 557 007d 07       		.byte	0x7
+ 558 007e FD000000 		.4byte	.LASF10
+ 559 0082 04       		.uleb128 0x4
+ 560 0083 04       		.byte	0x4
+ 561 0084 05       		.byte	0x5
+ 562 0085 696E7400 		.ascii	"int\000"
+ 563 0089 02       		.uleb128 0x2
+ 564 008a 04       		.byte	0x4
+ 565 008b 07       		.byte	0x7
+ 566 008c E8000000 		.4byte	.LASF11
+ 567 0090 05       		.uleb128 0x5
+ 568 0091 04       		.byte	0x4
+ 569 0092 07       		.byte	0x7
+ 570 0093 02       		.uleb128 0x2
+ 571 0094 01       		.byte	0x1
+ 572 0095 08       		.byte	0x8
+ 573 0096 0B000000 		.4byte	.LASF12
+ 574 009a 06       		.uleb128 0x6
+ 575 009b 01       		.byte	0x1
+ 576 009c 00000000 		.4byte	.LASF32
+ 577 00a0 01       		.byte	0x1
+ 578 00a1 11       		.byte	0x11
+ 579 00a2 8A010000 		.4byte	.LASF33
+ 580 00a6 00000000 		.4byte	.LFB2
+ 581 00aa 60000000 		.4byte	.LFE2
+ 582 00ae 00000000 		.4byte	.LLST0
+ 583 00b2 07       		.uleb128 0x7
+ 584 00b3 01       		.byte	0x1
+ 585 00b4 AC010000 		.4byte	.LASF34
+ 586 00b8 01       		.byte	0x1
+ 587 00b9 22       		.byte	0x22
+ 588 00ba C2010000 		.4byte	.LASF35
+ 589 00be 00000000 		.4byte	.LFB3
+ 590 00c2 58000000 		.4byte	.LFE3
+ 591 00c6 2B000000 		.4byte	.LLST1
+ 592 00ca DD000000 		.4byte	0xdd
+ 593 00ce 08       		.uleb128 0x8
+ 594 00cf 58000000 		.4byte	.LASF13
+ 595 00d3 01       		.byte	0x1
+ 596 00d4 22       		.byte	0x22
+ 597 00d5 30000000 		.4byte	0x30
+ 598 00d9 02       		.byte	0x2
+ 599 00da 91       		.byte	0x91
+ 600 00db 77       		.sleb128 -9
+ 601 00dc 00       		.byte	0x0
+ 602 00dd 09       		.uleb128 0x9
+ 603 00de 01       		.byte	0x1
+ 604 00df 53010000 		.4byte	.LASF36
+ 605 00e3 01       		.byte	0x1
+ 606 00e4 31       		.byte	0x31
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 14
+
+
+ 607 00e5 6A010000 		.4byte	.LASF37
+ 608 00e9 30000000 		.4byte	0x30
+ 609 00ed 00000000 		.4byte	.LFB4
+ 610 00f1 5C000000 		.4byte	.LFE4
+ 611 00f5 56000000 		.4byte	.LLST2
+ 612 00f9 0A       		.uleb128 0xa
+ 613 00fa 01       		.byte	0x1
+ 614 00fb 1B000000 		.4byte	.LASF17
+ 615 00ff 01       		.byte	0x1
+ 616 0100 4B       		.byte	0x4b
+ 617 0101 3F010000 		.4byte	.LASF19
+ 618 0105 82000000 		.4byte	0x82
+ 619 0109 00000000 		.4byte	.LFB5
+ 620 010d B4000000 		.4byte	.LFE5
+ 621 0111 81000000 		.4byte	.LLST3
+ 622 0115 51010000 		.4byte	0x151
+ 623 0119 08       		.uleb128 0x8
+ 624 011a DD000000 		.4byte	.LASF14
+ 625 011e 01       		.byte	0x1
+ 626 011f 4B       		.byte	0x4b
+ 627 0120 49000000 		.4byte	0x49
+ 628 0124 02       		.byte	0x2
+ 629 0125 91       		.byte	0x91
+ 630 0126 6E       		.sleb128 -18
+ 631 0127 08       		.uleb128 0x8
+ 632 0128 42000000 		.4byte	.LASF15
+ 633 012c 01       		.byte	0x1
+ 634 012d 4B       		.byte	0x4b
+ 635 012e 51010000 		.4byte	0x151
+ 636 0132 02       		.byte	0x2
+ 637 0133 91       		.byte	0x91
+ 638 0134 68       		.sleb128 -24
+ 639 0135 08       		.uleb128 0x8
+ 640 0136 D0010000 		.4byte	.LASF16
+ 641 013a 01       		.byte	0x1
+ 642 013b 4B       		.byte	0x4b
+ 643 013c 62000000 		.4byte	0x62
+ 644 0140 02       		.byte	0x2
+ 645 0141 91       		.byte	0x91
+ 646 0142 64       		.sleb128 -28
+ 647 0143 0B       		.uleb128 0xb
+ 648 0144 696900   		.ascii	"ii\000"
+ 649 0147 01       		.byte	0x1
+ 650 0148 4D       		.byte	0x4d
+ 651 0149 62000000 		.4byte	0x62
+ 652 014d 02       		.byte	0x2
+ 653 014e 91       		.byte	0x91
+ 654 014f 74       		.sleb128 -12
+ 655 0150 00       		.byte	0x0
+ 656 0151 0C       		.uleb128 0xc
+ 657 0152 56010000 		.4byte	0x156
+ 658 0156 0D       		.uleb128 0xd
+ 659 0157 04       		.byte	0x4
+ 660 0158 30000000 		.4byte	0x30
+ 661 015c 0A       		.uleb128 0xa
+ 662 015d 01       		.byte	0x1
+ 663 015e 90000000 		.4byte	.LASF18
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 15
+
+
+ 664 0162 01       		.byte	0x1
+ 665 0163 6F       		.byte	0x6f
+ 666 0164 14010000 		.4byte	.LASF20
+ 667 0168 82000000 		.4byte	0x82
+ 668 016c 00000000 		.4byte	.LFB6
+ 669 0170 A4000000 		.4byte	.LFE6
+ 670 0174 AC000000 		.4byte	.LLST4
+ 671 0178 B4010000 		.4byte	0x1b4
+ 672 017c 08       		.uleb128 0x8
+ 673 017d D4000000 		.4byte	.LASF21
+ 674 0181 01       		.byte	0x1
+ 675 0182 6F       		.byte	0x6f
+ 676 0183 56010000 		.4byte	0x156
+ 677 0187 02       		.byte	0x2
+ 678 0188 91       		.byte	0x91
+ 679 0189 64       		.sleb128 -28
+ 680 018a 08       		.uleb128 0x8
+ 681 018b 38000000 		.4byte	.LASF22
+ 682 018f 01       		.byte	0x1
+ 683 0190 6F       		.byte	0x6f
+ 684 0191 49000000 		.4byte	0x49
+ 685 0195 02       		.byte	0x2
+ 686 0196 91       		.byte	0x91
+ 687 0197 62       		.sleb128 -30
+ 688 0198 08       		.uleb128 0x8
+ 689 0199 D0010000 		.4byte	.LASF16
+ 690 019d 01       		.byte	0x1
+ 691 019e 6F       		.byte	0x6f
+ 692 019f 62000000 		.4byte	0x62
+ 693 01a3 02       		.byte	0x2
+ 694 01a4 91       		.byte	0x91
+ 695 01a5 5C       		.sleb128 -36
+ 696 01a6 0B       		.uleb128 0xb
+ 697 01a7 696900   		.ascii	"ii\000"
+ 698 01aa 01       		.byte	0x1
+ 699 01ab 72       		.byte	0x72
+ 700 01ac 62000000 		.4byte	0x62
+ 701 01b0 02       		.byte	0x2
+ 702 01b1 91       		.byte	0x91
+ 703 01b2 6C       		.sleb128 -20
+ 704 01b3 00       		.byte	0x0
+ 705 01b4 0E       		.uleb128 0xe
+ 706 01b5 9B000000 		.4byte	.LASF23
+ 707 01b9 01       		.byte	0x1
+ 708 01ba 06       		.byte	0x6
+ 709 01bb C0010000 		.4byte	0x1c0
+ 710 01bf 03       		.byte	0x3
+ 711 01c0 0C       		.uleb128 0xc
+ 712 01c1 30000000 		.4byte	0x30
+ 713 01c5 0E       		.uleb128 0xe
+ 714 01c6 27000000 		.4byte	.LASF24
+ 715 01ca 01       		.byte	0x1
+ 716 01cb 07       		.byte	0x7
+ 717 01cc C0010000 		.4byte	0x1c0
+ 718 01d0 02       		.byte	0x2
+ 719 01d1 0E       		.uleb128 0xe
+ 720 01d2 37010000 		.4byte	.LASF25
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 16
+
+
+ 721 01d6 01       		.byte	0x1
+ 722 01d7 08       		.byte	0x8
+ 723 01d8 C0010000 		.4byte	0x1c0
+ 724 01dc 03       		.byte	0x3
+ 725 01dd 0E       		.uleb128 0xe
+ 726 01de F5000000 		.4byte	.LASF26
+ 727 01e2 01       		.byte	0x1
+ 728 01e3 09       		.byte	0x9
+ 729 01e4 C0010000 		.4byte	0x1c0
+ 730 01e8 02       		.byte	0x2
+ 731 01e9 0E       		.uleb128 0xe
+ 732 01ea 2F010000 		.4byte	.LASF27
+ 733 01ee 01       		.byte	0x1
+ 734 01ef 0A       		.byte	0xa
+ 735 01f0 C0010000 		.4byte	0x1c0
+ 736 01f4 05       		.byte	0x5
+ 737 01f5 0E       		.uleb128 0xe
+ 738 01f6 27010000 		.4byte	.LASF28
+ 739 01fa 01       		.byte	0x1
+ 740 01fb 0B       		.byte	0xb
+ 741 01fc C0010000 		.4byte	0x1c0
+ 742 0200 01       		.byte	0x1
+ 743 0201 00       		.byte	0x0
+ 744              		.section	.debug_abbrev
+ 745 0000 01       		.uleb128 0x1
+ 746 0001 11       		.uleb128 0x11
+ 747 0002 01       		.byte	0x1
+ 748 0003 25       		.uleb128 0x25
+ 749 0004 0E       		.uleb128 0xe
+ 750 0005 13       		.uleb128 0x13
+ 751 0006 0B       		.uleb128 0xb
+ 752 0007 03       		.uleb128 0x3
+ 753 0008 0E       		.uleb128 0xe
+ 754 0009 1B       		.uleb128 0x1b
+ 755 000a 0E       		.uleb128 0xe
+ 756 000b 11       		.uleb128 0x11
+ 757 000c 01       		.uleb128 0x1
+ 758 000d 52       		.uleb128 0x52
+ 759 000e 01       		.uleb128 0x1
+ 760 000f 55       		.uleb128 0x55
+ 761 0010 06       		.uleb128 0x6
+ 762 0011 10       		.uleb128 0x10
+ 763 0012 06       		.uleb128 0x6
+ 764 0013 00       		.byte	0x0
+ 765 0014 00       		.byte	0x0
+ 766 0015 02       		.uleb128 0x2
+ 767 0016 24       		.uleb128 0x24
+ 768 0017 00       		.byte	0x0
+ 769 0018 0B       		.uleb128 0xb
+ 770 0019 0B       		.uleb128 0xb
+ 771 001a 3E       		.uleb128 0x3e
+ 772 001b 0B       		.uleb128 0xb
+ 773 001c 03       		.uleb128 0x3
+ 774 001d 0E       		.uleb128 0xe
+ 775 001e 00       		.byte	0x0
+ 776 001f 00       		.byte	0x0
+ 777 0020 03       		.uleb128 0x3
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 17
+
+
+ 778 0021 16       		.uleb128 0x16
+ 779 0022 00       		.byte	0x0
+ 780 0023 03       		.uleb128 0x3
+ 781 0024 0E       		.uleb128 0xe
+ 782 0025 3A       		.uleb128 0x3a
+ 783 0026 0B       		.uleb128 0xb
+ 784 0027 3B       		.uleb128 0x3b
+ 785 0028 0B       		.uleb128 0xb
+ 786 0029 49       		.uleb128 0x49
+ 787 002a 13       		.uleb128 0x13
+ 788 002b 00       		.byte	0x0
+ 789 002c 00       		.byte	0x0
+ 790 002d 04       		.uleb128 0x4
+ 791 002e 24       		.uleb128 0x24
+ 792 002f 00       		.byte	0x0
+ 793 0030 0B       		.uleb128 0xb
+ 794 0031 0B       		.uleb128 0xb
+ 795 0032 3E       		.uleb128 0x3e
+ 796 0033 0B       		.uleb128 0xb
+ 797 0034 03       		.uleb128 0x3
+ 798 0035 08       		.uleb128 0x8
+ 799 0036 00       		.byte	0x0
+ 800 0037 00       		.byte	0x0
+ 801 0038 05       		.uleb128 0x5
+ 802 0039 24       		.uleb128 0x24
+ 803 003a 00       		.byte	0x0
+ 804 003b 0B       		.uleb128 0xb
+ 805 003c 0B       		.uleb128 0xb
+ 806 003d 3E       		.uleb128 0x3e
+ 807 003e 0B       		.uleb128 0xb
+ 808 003f 00       		.byte	0x0
+ 809 0040 00       		.byte	0x0
+ 810 0041 06       		.uleb128 0x6
+ 811 0042 2E       		.uleb128 0x2e
+ 812 0043 00       		.byte	0x0
+ 813 0044 3F       		.uleb128 0x3f
+ 814 0045 0C       		.uleb128 0xc
+ 815 0046 03       		.uleb128 0x3
+ 816 0047 0E       		.uleb128 0xe
+ 817 0048 3A       		.uleb128 0x3a
+ 818 0049 0B       		.uleb128 0xb
+ 819 004a 3B       		.uleb128 0x3b
+ 820 004b 0B       		.uleb128 0xb
+ 821 004c 8740     		.uleb128 0x2007
+ 822 004e 0E       		.uleb128 0xe
+ 823 004f 11       		.uleb128 0x11
+ 824 0050 01       		.uleb128 0x1
+ 825 0051 12       		.uleb128 0x12
+ 826 0052 01       		.uleb128 0x1
+ 827 0053 40       		.uleb128 0x40
+ 828 0054 06       		.uleb128 0x6
+ 829 0055 00       		.byte	0x0
+ 830 0056 00       		.byte	0x0
+ 831 0057 07       		.uleb128 0x7
+ 832 0058 2E       		.uleb128 0x2e
+ 833 0059 01       		.byte	0x1
+ 834 005a 3F       		.uleb128 0x3f
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 18
+
+
+ 835 005b 0C       		.uleb128 0xc
+ 836 005c 03       		.uleb128 0x3
+ 837 005d 0E       		.uleb128 0xe
+ 838 005e 3A       		.uleb128 0x3a
+ 839 005f 0B       		.uleb128 0xb
+ 840 0060 3B       		.uleb128 0x3b
+ 841 0061 0B       		.uleb128 0xb
+ 842 0062 8740     		.uleb128 0x2007
+ 843 0064 0E       		.uleb128 0xe
+ 844 0065 11       		.uleb128 0x11
+ 845 0066 01       		.uleb128 0x1
+ 846 0067 12       		.uleb128 0x12
+ 847 0068 01       		.uleb128 0x1
+ 848 0069 40       		.uleb128 0x40
+ 849 006a 06       		.uleb128 0x6
+ 850 006b 01       		.uleb128 0x1
+ 851 006c 13       		.uleb128 0x13
+ 852 006d 00       		.byte	0x0
+ 853 006e 00       		.byte	0x0
+ 854 006f 08       		.uleb128 0x8
+ 855 0070 05       		.uleb128 0x5
+ 856 0071 00       		.byte	0x0
+ 857 0072 03       		.uleb128 0x3
+ 858 0073 0E       		.uleb128 0xe
+ 859 0074 3A       		.uleb128 0x3a
+ 860 0075 0B       		.uleb128 0xb
+ 861 0076 3B       		.uleb128 0x3b
+ 862 0077 0B       		.uleb128 0xb
+ 863 0078 49       		.uleb128 0x49
+ 864 0079 13       		.uleb128 0x13
+ 865 007a 02       		.uleb128 0x2
+ 866 007b 0A       		.uleb128 0xa
+ 867 007c 00       		.byte	0x0
+ 868 007d 00       		.byte	0x0
+ 869 007e 09       		.uleb128 0x9
+ 870 007f 2E       		.uleb128 0x2e
+ 871 0080 00       		.byte	0x0
+ 872 0081 3F       		.uleb128 0x3f
+ 873 0082 0C       		.uleb128 0xc
+ 874 0083 03       		.uleb128 0x3
+ 875 0084 0E       		.uleb128 0xe
+ 876 0085 3A       		.uleb128 0x3a
+ 877 0086 0B       		.uleb128 0xb
+ 878 0087 3B       		.uleb128 0x3b
+ 879 0088 0B       		.uleb128 0xb
+ 880 0089 8740     		.uleb128 0x2007
+ 881 008b 0E       		.uleb128 0xe
+ 882 008c 49       		.uleb128 0x49
+ 883 008d 13       		.uleb128 0x13
+ 884 008e 11       		.uleb128 0x11
+ 885 008f 01       		.uleb128 0x1
+ 886 0090 12       		.uleb128 0x12
+ 887 0091 01       		.uleb128 0x1
+ 888 0092 40       		.uleb128 0x40
+ 889 0093 06       		.uleb128 0x6
+ 890 0094 00       		.byte	0x0
+ 891 0095 00       		.byte	0x0
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 19
+
+
+ 892 0096 0A       		.uleb128 0xa
+ 893 0097 2E       		.uleb128 0x2e
+ 894 0098 01       		.byte	0x1
+ 895 0099 3F       		.uleb128 0x3f
+ 896 009a 0C       		.uleb128 0xc
+ 897 009b 03       		.uleb128 0x3
+ 898 009c 0E       		.uleb128 0xe
+ 899 009d 3A       		.uleb128 0x3a
+ 900 009e 0B       		.uleb128 0xb
+ 901 009f 3B       		.uleb128 0x3b
+ 902 00a0 0B       		.uleb128 0xb
+ 903 00a1 8740     		.uleb128 0x2007
+ 904 00a3 0E       		.uleb128 0xe
+ 905 00a4 49       		.uleb128 0x49
+ 906 00a5 13       		.uleb128 0x13
+ 907 00a6 11       		.uleb128 0x11
+ 908 00a7 01       		.uleb128 0x1
+ 909 00a8 12       		.uleb128 0x12
+ 910 00a9 01       		.uleb128 0x1
+ 911 00aa 40       		.uleb128 0x40
+ 912 00ab 06       		.uleb128 0x6
+ 913 00ac 01       		.uleb128 0x1
+ 914 00ad 13       		.uleb128 0x13
+ 915 00ae 00       		.byte	0x0
+ 916 00af 00       		.byte	0x0
+ 917 00b0 0B       		.uleb128 0xb
+ 918 00b1 34       		.uleb128 0x34
+ 919 00b2 00       		.byte	0x0
+ 920 00b3 03       		.uleb128 0x3
+ 921 00b4 08       		.uleb128 0x8
+ 922 00b5 3A       		.uleb128 0x3a
+ 923 00b6 0B       		.uleb128 0xb
+ 924 00b7 3B       		.uleb128 0x3b
+ 925 00b8 0B       		.uleb128 0xb
+ 926 00b9 49       		.uleb128 0x49
+ 927 00ba 13       		.uleb128 0x13
+ 928 00bb 02       		.uleb128 0x2
+ 929 00bc 0A       		.uleb128 0xa
+ 930 00bd 00       		.byte	0x0
+ 931 00be 00       		.byte	0x0
+ 932 00bf 0C       		.uleb128 0xc
+ 933 00c0 26       		.uleb128 0x26
+ 934 00c1 00       		.byte	0x0
+ 935 00c2 49       		.uleb128 0x49
+ 936 00c3 13       		.uleb128 0x13
+ 937 00c4 00       		.byte	0x0
+ 938 00c5 00       		.byte	0x0
+ 939 00c6 0D       		.uleb128 0xd
+ 940 00c7 0F       		.uleb128 0xf
+ 941 00c8 00       		.byte	0x0
+ 942 00c9 0B       		.uleb128 0xb
+ 943 00ca 0B       		.uleb128 0xb
+ 944 00cb 49       		.uleb128 0x49
+ 945 00cc 13       		.uleb128 0x13
+ 946 00cd 00       		.byte	0x0
+ 947 00ce 00       		.byte	0x0
+ 948 00cf 0E       		.uleb128 0xe
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 20
+
+
+ 949 00d0 34       		.uleb128 0x34
+ 950 00d1 00       		.byte	0x0
+ 951 00d2 03       		.uleb128 0x3
+ 952 00d3 0E       		.uleb128 0xe
+ 953 00d4 3A       		.uleb128 0x3a
+ 954 00d5 0B       		.uleb128 0xb
+ 955 00d6 3B       		.uleb128 0x3b
+ 956 00d7 0B       		.uleb128 0xb
+ 957 00d8 49       		.uleb128 0x49
+ 958 00d9 13       		.uleb128 0x13
+ 959 00da 1C       		.uleb128 0x1c
+ 960 00db 0B       		.uleb128 0xb
+ 961 00dc 00       		.byte	0x0
+ 962 00dd 00       		.byte	0x0
+ 963 00de 00       		.byte	0x0
+ 964              		.section	.debug_pubnames,"",%progbits
+ 965 0000 57000000 		.4byte	0x57
+ 966 0004 0200     		.2byte	0x2
+ 967 0006 00000000 		.4byte	.Ldebug_info0
+ 968 000a 02020000 		.4byte	0x202
+ 969 000e 9A000000 		.4byte	0x9a
+ 970 0012 65657072 		.ascii	"eepromInit\000"
+ 970      6F6D496E 
+ 970      697400
+ 971 001d B2000000 		.4byte	0xb2
+ 972 0021 73737031 		.ascii	"ssp1Write\000"
+ 972      57726974 
+ 972      6500
+ 973 002b DD000000 		.4byte	0xdd
+ 974 002f 73737031 		.ascii	"ssp1Read\000"
+ 974      52656164 
+ 974      00
+ 975 0038 F9000000 		.4byte	0xf9
+ 976 003c 65657072 		.ascii	"eepromWrite\000"
+ 976      6F6D5772 
+ 976      69746500 
+ 977 0048 5C010000 		.4byte	0x15c
+ 978 004c 65657072 		.ascii	"eepromRead\000"
+ 978      6F6D5265 
+ 978      616400
+ 979 0057 00000000 		.4byte	0x0
+ 980              		.section	.debug_aranges,"",%progbits
+ 981 0000 3C000000 		.4byte	0x3c
+ 982 0004 0200     		.2byte	0x2
+ 983 0006 00000000 		.4byte	.Ldebug_info0
+ 984 000a 04       		.byte	0x4
+ 985 000b 00       		.byte	0x0
+ 986 000c 0000     		.2byte	0x0
+ 987 000e 0000     		.2byte	0x0
+ 988 0010 00000000 		.4byte	.LFB2
+ 989 0014 60000000 		.4byte	.LFE2-.LFB2
+ 990 0018 00000000 		.4byte	.LFB3
+ 991 001c 58000000 		.4byte	.LFE3-.LFB3
+ 992 0020 00000000 		.4byte	.LFB4
+ 993 0024 5C000000 		.4byte	.LFE4-.LFB4
+ 994 0028 00000000 		.4byte	.LFB5
+ 995 002c B4000000 		.4byte	.LFE5-.LFB5
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 21
+
+
+ 996 0030 00000000 		.4byte	.LFB6
+ 997 0034 A4000000 		.4byte	.LFE6-.LFB6
+ 998 0038 00000000 		.4byte	0x0
+ 999 003c 00000000 		.4byte	0x0
+ 1000              		.section	.debug_ranges,"",%progbits
+ 1001              	.Ldebug_ranges0:
+ 1002 0000 00000000 		.4byte	.Ltext0
+ 1003 0004 00000000 		.4byte	.Letext0
+ 1004 0008 00000000 		.4byte	.LFB2
+ 1005 000c 60000000 		.4byte	.LFE2
+ 1006 0010 00000000 		.4byte	.LFB3
+ 1007 0014 58000000 		.4byte	.LFE3
+ 1008 0018 00000000 		.4byte	.LFB4
+ 1009 001c 5C000000 		.4byte	.LFE4
+ 1010 0020 00000000 		.4byte	.LFB5
+ 1011 0024 B4000000 		.4byte	.LFE5
+ 1012 0028 00000000 		.4byte	.LFB6
+ 1013 002c A4000000 		.4byte	.LFE6
+ 1014 0030 00000000 		.4byte	0x0
+ 1015 0034 00000000 		.4byte	0x0
+ 1016              		.section	.debug_str,"MS",%progbits,1
+ 1017              	.LASF32:
+ 1018 0000 65657072 		.ascii	"eepromInit\000"
+ 1018      6F6D496E 
+ 1018      697400
+ 1019              	.LASF12:
+ 1020 000b 63686172 		.ascii	"char\000"
+ 1020      00
+ 1021              	.LASF30:
+ 1022 0010 65657072 		.ascii	"eeprom.cpp\000"
+ 1022      6F6D2E63 
+ 1022      707000
+ 1023              	.LASF17:
+ 1024 001b 65657072 		.ascii	"eepromWrite\000"
+ 1024      6F6D5772 
+ 1024      69746500 
+ 1025              	.LASF24:
+ 1026 0027 6B454557 		.ascii	"kEEWRITE\000"
+ 1026      52495445 
+ 1026      00
+ 1027              	.LASF3:
+ 1028 0030 75696E74 		.ascii	"uint8_t\000"
+ 1028      385F7400 
+ 1029              	.LASF22:
+ 1030 0038 64617461 		.ascii	"dataEESrc\000"
+ 1030      45455372 
+ 1030      6300
+ 1031              	.LASF15:
+ 1032 0042 64617461 		.ascii	"dataSrc\000"
+ 1032      53726300 
+ 1033              	.LASF29:
+ 1034 004a 474E5520 		.ascii	"GNU C++ 4.3.2\000"
+ 1034      432B2B20 
+ 1034      342E332E 
+ 1034      3200
+ 1035              	.LASF13:
+ 1036 0058 64617461 		.ascii	"data\000"
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 22
+
+
+ 1036      00
+ 1037              	.LASF1:
+ 1038 005d 756E7369 		.ascii	"unsigned char\000"
+ 1038      676E6564 
+ 1038      20636861 
+ 1038      7200
+ 1039              	.LASF8:
+ 1040 006b 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1040      20756E73 
+ 1040      69676E65 
+ 1040      6420696E 
+ 1040      7400
+ 1041              	.LASF5:
+ 1042 007d 73686F72 		.ascii	"short unsigned int\000"
+ 1042      7420756E 
+ 1042      7369676E 
+ 1042      65642069 
+ 1042      6E7400
+ 1043              	.LASF18:
+ 1044 0090 65657072 		.ascii	"eepromRead\000"
+ 1044      6F6D5265 
+ 1044      616400
+ 1045              	.LASF23:
+ 1046 009b 6B454552 		.ascii	"kEEREAD\000"
+ 1046      45414400 
+ 1047              	.LASF31:
+ 1048 00a3 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot2.0/sfboot\000"
+ 1048      64726976 
+ 1048      652F632F 
+ 1048      55736572 
+ 1048      732F4368 
+ 1049              	.LASF21:
+ 1050 00d4 64617461 		.ascii	"dataDest\000"
+ 1050      44657374 
+ 1050      00
+ 1051              	.LASF14:
+ 1052 00dd 64617461 		.ascii	"dataEEDest\000"
+ 1052      45454465 
+ 1052      737400
+ 1053              	.LASF11:
+ 1054 00e8 756E7369 		.ascii	"unsigned int\000"
+ 1054      676E6564 
+ 1054      20696E74 
+ 1054      00
+ 1055              	.LASF26:
+ 1056 00f5 6B454557 		.ascii	"kEEWREN\000"
+ 1056      52454E00 
+ 1057              	.LASF10:
+ 1058 00fd 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1058      206C6F6E 
+ 1058      6720756E 
+ 1058      7369676E 
+ 1058      65642069 
+ 1059              	.LASF20:
+ 1060 0114 5F5A3130 		.ascii	"_Z10eepromReadPhtm\000"
+ 1060      65657072 
+ 1060      6F6D5265 
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 23
+
+
+ 1060      61645068 
+ 1060      746D00
+ 1061              	.LASF28:
+ 1062 0127 6B454557 		.ascii	"kEEWRSR\000"
+ 1062      52535200 
+ 1063              	.LASF27:
+ 1064 012f 6B454552 		.ascii	"kEERDSR\000"
+ 1064      44535200 
+ 1065              	.LASF25:
+ 1066 0137 6B454557 		.ascii	"kEEWRDI\000"
+ 1066      52444900 
+ 1067              	.LASF19:
+ 1068 013f 5F5A3131 		.ascii	"_Z11eepromWritetPhm\000"
+ 1068      65657072 
+ 1068      6F6D5772 
+ 1068      69746574 
+ 1068      50686D00 
+ 1069              	.LASF36:
+ 1070 0153 73737031 		.ascii	"ssp1Read\000"
+ 1070      52656164 
+ 1070      00
+ 1071              	.LASF9:
+ 1072 015c 6C6F6E67 		.ascii	"long long int\000"
+ 1072      206C6F6E 
+ 1072      6720696E 
+ 1072      7400
+ 1073              	.LASF37:
+ 1074 016a 5F5A3873 		.ascii	"_Z8ssp1Readv\000"
+ 1074      73703152 
+ 1074      65616476 
+ 1074      00
+ 1075              	.LASF2:
+ 1076 0177 73686F72 		.ascii	"short int\000"
+ 1076      7420696E 
+ 1076      7400
+ 1077              	.LASF4:
+ 1078 0181 75696E74 		.ascii	"uint16_t\000"
+ 1078      31365F74 
+ 1078      00
+ 1079              	.LASF33:
+ 1080 018a 5F5A3130 		.ascii	"_Z10eepromInitv\000"
+ 1080      65657072 
+ 1080      6F6D496E 
+ 1080      69747600 
+ 1081              	.LASF7:
+ 1082 019a 75696E74 		.ascii	"uint32_t\000"
+ 1082      33325F74 
+ 1082      00
+ 1083              	.LASF6:
+ 1084 01a3 6C6F6E67 		.ascii	"long int\000"
+ 1084      20696E74 
+ 1084      00
+ 1085              	.LASF34:
+ 1086 01ac 73737031 		.ascii	"ssp1Write\000"
+ 1086      57726974 
+ 1086      6500
+ 1087              	.LASF0:
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 24
+
+
+ 1088 01b6 7369676E 		.ascii	"signed char\000"
+ 1088      65642063 
+ 1088      68617200 
+ 1089              	.LASF35:
+ 1090 01c2 5F5A3973 		.ascii	"_Z9ssp1Writeh\000"
+ 1090      73703157 
+ 1090      72697465 
+ 1090      6800
+ 1091              	.LASF16:
+ 1092 01d0 6C656E67 		.ascii	"length\000"
+ 1092      746800
+ 1093              		.ident	"GCC: (AHAX Arm-Linux 2008q3-66) 4.3.2"
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s 			page 25
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 eeprom.cpp
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s:24     .text._Z10eepromInitv:00000000 _Z10eepromInitv
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s:32     .text._Z10eepromInitv:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s:69     .text._Z9ssp1Writeh:00000000 _Z9ssp1Writeh
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s:76     .text._Z9ssp1Writeh:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s:111    .text._Z8ssp1Readv:00000000 _Z8ssp1Readv
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s:117    .text._Z8ssp1Readv:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s:154    .text._Z11eepromWritetPhm:00000000 _Z11eepromWritetPhm
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s:160    .text._Z11eepromWritetPhm:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s:228    .text._Z10eepromReadPhtm:00000000 _Z10eepromReadPhtm
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s:234    .text._Z10eepromReadPhtm:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s:294    .debug_frame:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cchFCGfb.s:413    .debug_loc:00000000 $d
+
+NO UNDEFINED SYMBOLS

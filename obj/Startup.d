@@ -1,1 +1,1 @@
-./obj/Startup.o: Startup.s
+.\obj\Startup.o: Startup.s

@@ -32,7 +32,7 @@
 // </h>
 */
 
-#define USER_START_SECTOR 1
+#define USER_START_SECTOR 2
 #define MAX_USER_SECTOR 26
 #define CRP 0x11223344
 

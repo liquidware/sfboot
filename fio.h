@@ -14,7 +14,7 @@
 #ifndef __FIO_H 
 #define __FIO_H
 
-#include "type.h"
+#include "types.h"
 
 /* bit 0 in SCS register, port 0/1 are regular ports when bit 0 
 is 0,  fast ports when bit 0 is 1. */
@@ -27,11 +27,15 @@ is 0,  fast ports when bit 0 is 1. */
 #define HS_PORT_DIR_BASE               FIO_BASE_ADDR + 0x00
 #define HS_PORT_DIR_INDEX              0x20
 
+#define HS_PORT_PIN_BASE               FIO_BASE_ADDR + 0x14
+#define HS_PORT_PIN_INDEX              0x20
+
 #define FAST_PORT          0x01
 #define REGULAR_PORT       0x02
 
+
+#define DIR_IN             0x00
 #define DIR_OUT            0x01
-#define DIR_IN             0x02
 
 #ifdef __cplusplus
 extern "C"{
