@@ -46,14 +46,14 @@ unsigned byte_ctr = 0;
 
 
 void write_data(unsigned cclk,unsigned flash_address,unsigned * flash_data_buf, unsigned count);
-void find_erase_prepare_sector(unsigned cclk, unsigned flash_address);
+void find_erase_prepare_sector(unsigned cclk, unsigned flash_address, bool eraseSectorAllowed);
 void erase_sector(unsigned start_sector,unsigned end_sector,unsigned cclk);
 void prepare_sector(unsigned start_sector,unsigned end_sector,unsigned cclk);
 void iap_entry(unsigned param_tab[],unsigned result_tab[]);
 void enable_interrupts(unsigned interrupts);
 void disable_interrupts(unsigned interrupts);
 
-unsigned write_flash(unsigned int * dst, unsigned char * src, unsigned no_of_bytes)
+unsigned write_flash(unsigned int * dst, unsigned char * src, unsigned no_of_bytes, bool eraseSectorAllowed)
 {
   unsigned i;
 
@@ -71,11 +71,12 @@ unsigned write_flash(unsigned int * dst, unsigned char * src, unsigned no_of_byt
 	if( byte_ctr == FLASH_BUF_SIZE)
 	{
 	  /* We have accumulated enough bytes to trigger a flash write */
-	  find_erase_prepare_sector(cclk, (unsigned)flash_address);
+	  find_erase_prepare_sector(cclk, (unsigned)flash_address, eraseSectorAllowed);
       if(result_table[0] != CMD_SUCCESS)
       {
         while(1); /* No way to recover. Just let Windows report a write failure */
       }
+
       write_data(cclk,(unsigned)flash_address,(unsigned *)flash_buf,FLASH_BUF_SIZE);
       if(result_table[0] != CMD_SUCCESS)
       {
@@ -88,7 +89,7 @@ unsigned write_flash(unsigned int * dst, unsigned char * src, unsigned no_of_byt
     return(CMD_SUCCESS);
 }
 
-void find_erase_prepare_sector(unsigned cclk, unsigned flash_address)
+void find_erase_prepare_sector(unsigned cclk, unsigned flash_address, bool eraseSectorAllowed)
 {
     unsigned i;
     unsigned interrupts;
@@ -104,7 +105,9 @@ void find_erase_prepare_sector(unsigned cclk, unsigned flash_address)
             if( flash_address == sector_start_map[i])
             {
                 prepare_sector(i,i,cclk);
-                erase_sector(i,i,cclk);
+                if (eraseSectorAllowed) {
+                  erase_sector(i,i,cclk);
+                }
             }
             prepare_sector(i,i,cclk);
             break;

@@ -1,4 +1,4 @@
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 1
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 1
 
 
    1              		.cpu arm7tdmi
@@ -18,7 +18,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 1
   15              	.Ldebug_info0:
   16              		.section	.debug_line,"",%progbits
   17              	.Ldebug_line0:
-  18 0000 24010000 		.text
+  18 0000 28010000 		.text
   18      0200A400 
   18      00000201 
   18      FB0E0D00 
@@ -58,7 +58,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 1
   25:sfboard_tests.cpp ****       pinMode(x, OUTPUT);
   26:sfboard_tests.cpp ****    }
   27:sfboard_tests.cpp **** 
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 2
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 2
 
 
   28:sfboard_tests.cpp ****    /* Pin Toggling */
@@ -75,7 +75,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 1
   39:sfboard_tests.cpp **** //* Toggles the Outbound power 
   40:sfboard_tests.cpp **** //* on all four faces
   41:sfboard_tests.cpp **** void toggleOutboundPower() {
-  42:sfboard_tests.cpp **** long wait;
+  42:sfboard_tests.cpp **** volatile long wait;
   43:sfboard_tests.cpp **** 
   44:sfboard_tests.cpp ****    pinMode(7, OUTPUT);
   45:sfboard_tests.cpp ****    pinMode(15, OUTPUT);
@@ -118,7 +118,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 1
   34              	.LVL1:
   35              		.loc 1 74 0
   36 0004 0040A0E1 		mov	r4, r0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 3
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 3
 
 
   37              	.LVL2:
@@ -175,47 +175,47 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 1
   69 004c 2A0000EA 		b	.L3
   70              	.L8:
   71 0050 60000000 		.word	.L4
-  72 0054 78000000 		.word	.L5
+  72 0054 84000000 		.word	.L5
   73 0058 9C000000 		.word	.L6
   74 005c CC000000 		.word	.L7
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 4
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 4
 
 
   75              	.L4:
   94:sfboard_tests.cpp **** 
   95:sfboard_tests.cpp ****       case 0:
-  96:sfboard_tests.cpp ****          digitalWrite(35, LOW);
+  96:sfboard_tests.cpp ****          digitalWrite(35, HIGH);
   76              		.loc 1 96 0
   77 0060 2300A0E3 		mov	r0, #35
-  78 0064 0010A0E3 		mov	r1, #0
+  78 0064 0110A0E3 		mov	r1, #1
   79 0068 FEFFFFEB 		bl	_Z12digitalWritehh
   97:sfboard_tests.cpp ****          digitalWrite(36, HIGH);
   80              		.loc 1 97 0
   81 006c 2400A0E3 		mov	r0, #36
   82 0070 0110A0E3 		mov	r1, #1
-  83 0074 0D0000EA 		b	.L16
-  84              	.L5:
-  98:sfboard_tests.cpp ****          digitalWrite(37, HIGH);
+  83 0074 FEFFFFEB 		bl	_Z12digitalWritehh
+  98:sfboard_tests.cpp ****          digitalWrite(37, LOW);
+  84              		.loc 1 98 0
+  85 0078 2500A0E3 		mov	r0, #37
+  86 007c 0010A0E3 		mov	r1, #0
+  87 0080 190000EA 		b	.L14
+  88              	.L5:
   99:sfboard_tests.cpp ****          digitalWrite(38, HIGH);
  100:sfboard_tests.cpp ****          break;
  101:sfboard_tests.cpp **** 
  102:sfboard_tests.cpp ****       case 1:
  103:sfboard_tests.cpp ****          digitalWrite(35, HIGH);
-  85              		.loc 1 103 0
-  86 0078 2300A0E3 		mov	r0, #35
-  87 007c 0110A0E3 		mov	r1, #1
-  88 0080 FEFFFFEB 		bl	_Z12digitalWritehh
- 104:sfboard_tests.cpp ****          digitalWrite(36, HIGH);
-  89              		.loc 1 104 0
-  90 0084 2400A0E3 		mov	r0, #36
+  89              		.loc 1 103 0
+  90 0084 2300A0E3 		mov	r0, #35
   91 0088 0110A0E3 		mov	r1, #1
   92 008c FEFFFFEB 		bl	_Z12digitalWritehh
- 105:sfboard_tests.cpp ****          digitalWrite(37, LOW);
-  93              		.loc 1 105 0
-  94 0090 2500A0E3 		mov	r0, #37
+ 104:sfboard_tests.cpp ****          digitalWrite(36, LOW);
+  93              		.loc 1 104 0
+  94 0090 2400A0E3 		mov	r0, #36
   95 0094 0010A0E3 		mov	r1, #0
-  96 0098 070000EA 		b	.L17
+  96 0098 100000EA 		b	.L17
   97              	.L6:
+ 105:sfboard_tests.cpp ****          digitalWrite(37, HIGH);
  106:sfboard_tests.cpp ****          digitalWrite(38, HIGH);
  107:sfboard_tests.cpp ****          break;
  108:sfboard_tests.cpp **** 
@@ -225,50 +225,50 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 1
   99 009c 2300A0E3 		mov	r0, #35
  100 00a0 0110A0E3 		mov	r1, #1
  101 00a4 FEFFFFEB 		bl	_Z12digitalWritehh
- 111:sfboard_tests.cpp ****          digitalWrite(36, LOW);
+ 111:sfboard_tests.cpp ****          digitalWrite(36, HIGH);
  102              		.loc 1 111 0
  103 00a8 2400A0E3 		mov	r0, #36
- 104 00ac 0010A0E3 		mov	r1, #0
- 105              	.L16:
- 106 00b0 FEFFFFEB 		bl	_Z12digitalWritehh
+ 104 00ac 0110A0E3 		mov	r1, #1
+ 105 00b0 FEFFFFEB 		bl	_Z12digitalWritehh
  112:sfboard_tests.cpp ****          digitalWrite(37, HIGH);
- 107              		.loc 1 112 0
- 108 00b4 2500A0E3 		mov	r0, #37
- 109 00b8 0110A0E3 		mov	r1, #1
- 110              	.L17:
- 111 00bc FEFFFFEB 		bl	_Z12digitalWritehh
- 113:sfboard_tests.cpp ****          digitalWrite(38, HIGH);
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 5
+ 106              		.loc 1 112 0
+ 107 00b4 2500A0E3 		mov	r0, #37
+ 108 00b8 0110A0E3 		mov	r1, #1
+ 109 00bc FEFFFFEB 		bl	_Z12digitalWritehh
+ 113:sfboard_tests.cpp ****          digitalWrite(38, LOW); 
+ 110              		.loc 1 113 0
+ 111 00c0 2600A0E3 		mov	r0, #38
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 5
 
 
- 112              		.loc 1 113 0
- 113 00c0 2600A0E3 		mov	r0, #38
- 114 00c4 0110A0E3 		mov	r1, #1
- 115 00c8 0A0000EA 		b	.L14
- 116              	.L7:
+ 112 00c4 0010A0E3 		mov	r1, #0
+ 113 00c8 0A0000EA 		b	.L15
+ 114              	.L7:
  114:sfboard_tests.cpp ****          break;
  115:sfboard_tests.cpp **** 
  116:sfboard_tests.cpp ****       case 3:
- 117:sfboard_tests.cpp ****          digitalWrite(35, HIGH);
- 117              		.loc 1 117 0
- 118 00cc 2300A0E3 		mov	r0, #35
- 119 00d0 0110A0E3 		mov	r1, #1
- 120 00d4 FEFFFFEB 		bl	_Z12digitalWritehh
+ 117:sfboard_tests.cpp ****          digitalWrite(35, LOW);
+ 115              		.loc 1 117 0
+ 116 00cc 2300A0E3 		mov	r0, #35
+ 117 00d0 0010A0E3 		mov	r1, #0
+ 118 00d4 FEFFFFEB 		bl	_Z12digitalWritehh
  118:sfboard_tests.cpp ****          digitalWrite(36, HIGH);
- 121              		.loc 1 118 0
- 122 00d8 2400A0E3 		mov	r0, #36
- 123 00dc 0110A0E3 		mov	r1, #1
- 124 00e0 FEFFFFEB 		bl	_Z12digitalWritehh
+ 119              		.loc 1 118 0
+ 120 00d8 2400A0E3 		mov	r0, #36
+ 121 00dc 0110A0E3 		mov	r1, #1
+ 122              	.L17:
+ 123 00e0 FEFFFFEB 		bl	_Z12digitalWritehh
  119:sfboard_tests.cpp ****          digitalWrite(37, HIGH);
- 125              		.loc 1 119 0
- 126 00e4 2500A0E3 		mov	r0, #37
- 127 00e8 0110A0E3 		mov	r1, #1
+ 124              		.loc 1 119 0
+ 125 00e4 2500A0E3 		mov	r0, #37
+ 126 00e8 0110A0E3 		mov	r1, #1
+ 127              	.L14:
  128 00ec FEFFFFEB 		bl	_Z12digitalWritehh
- 120:sfboard_tests.cpp ****          digitalWrite(38, LOW);
+ 120:sfboard_tests.cpp ****          digitalWrite(38, HIGH);
  129              		.loc 1 120 0
  130 00f0 2600A0E3 		mov	r0, #38
- 131 00f4 0010A0E3 		mov	r1, #0
- 132              	.L14:
+ 131 00f4 0110A0E3 		mov	r1, #1
+ 132              	.L15:
  133 00f8 FEFFFFEB 		bl	_Z12digitalWritehh
  134              	.L3:
  121:sfboard_tests.cpp ****          break;
@@ -277,12 +277,12 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 1
  124:sfboard_tests.cpp ****       for (wait=0;wait<600000; wait++) {
  135              		.loc 1 124 0
  136 00fc 0030A0E3 		mov	r3, #0
- 137 0100 010000EA 		b	.L15
+ 137 0100 010000EA 		b	.L16
  138              	.L10:
  139 0104 04309DE5 		ldr	r3, [sp, #4]
  140 0108 013083E2 		add	r3, r3, #1
  141              	.LVL7:
- 142              	.L15:
+ 142              	.L16:
  143 010c 04308DE5 		str	r3, [sp, #4]
  144 0110 04209DE5 		ldr	r2, [sp, #4]
  145 0114 24309FE5 		ldr	r3, .L18
@@ -298,7 +298,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 1
  150 0120 014084E2 		add	r4, r4, #1
  130:sfboard_tests.cpp ****       if (face>=4) {
  151              		.loc 1 130 0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 6
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 6
 
 
  152 0124 030054E3 		cmp	r4, #3
@@ -330,9 +330,9 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 1
  174              	.LFB4:
  175              		.loc 1 41 0
  176              		@ Function supports interworking.
- 177              		@ args = 0, pretend = 0, frame = 0
+ 177              		@ args = 0, pretend = 0, frame = 8
  178              		@ frame_needed = 0, uses_anonymous_args = 0
- 179 0000 10402DE9 		stmfd	sp!, {r4, lr}
+ 179 0000 07402DE9 		stmfd	sp!, {r0, r1, r2, lr}
  180              	.LCFI1:
  181              	.LBB3:
  182              		.loc 1 44 0
@@ -358,7 +358,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 1
  202              		.loc 1 50 0
  203 0040 0F00A0E3 		mov	r0, #15
  204 0044 0010A0E3 		mov	r1, #0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 7
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 7
 
 
  205 0048 FEFFFFEB 		bl	_Z12digitalWritehh
@@ -370,954 +370,1011 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 1
  211 0058 1F00A0E3 		mov	r0, #31
  212 005c 0010A0E3 		mov	r1, #0
  213 0060 FEFFFFEB 		bl	_Z12digitalWritehh
- 214              		.loc 1 58 0
- 215 0064 0700A0E3 		mov	r0, #7
- 216 0068 0110A0E3 		mov	r1, #1
- 217 006c FEFFFFEB 		bl	_Z12digitalWritehh
- 218              		.loc 1 59 0
- 219 0070 0F00A0E3 		mov	r0, #15
- 220 0074 0110A0E3 		mov	r1, #1
- 221 0078 FEFFFFEB 		bl	_Z12digitalWritehh
- 222              		.loc 1 60 0
- 223 007c 1700A0E3 		mov	r0, #23
- 224 0080 0110A0E3 		mov	r1, #1
- 225 0084 FEFFFFEB 		bl	_Z12digitalWritehh
- 226              		.loc 1 61 0
- 227 0088 1F00A0E3 		mov	r0, #31
- 228 008c 0110A0E3 		mov	r1, #1
- 229 0090 FEFFFFEB 		bl	_Z12digitalWritehh
- 230              	.LBE3:
- 231              		.loc 1 66 0
- 232 0094 1040BDE8 		ldmfd	sp!, {r4, lr}
- 233 0098 1EFF2FE1 		bx	lr
- 234              	.LFE4:
- 235              		.size	_Z19toggleOutboundPowerv, .-_Z19toggleOutboundPowerv
- 236              		.section	.text._Z13wiggleAllPinsv,"ax",%progbits
- 237              		.align	2
- 238              		.global	_Z13wiggleAllPinsv
- 239              		.type	_Z13wiggleAllPinsv, %function
- 240              	_Z13wiggleAllPinsv:
- 241              	.LFB3:
- 242              		.loc 1 20 0
- 243              		@ Function supports interworking.
- 244              		@ args = 0, pretend = 0, frame = 0
- 245              		@ frame_needed = 0, uses_anonymous_args = 0
- 246 0000 70402DE9 		stmfd	sp!, {r4, r5, r6, lr}
- 247              	.LCFI2:
- 248              		.loc 1 20 0
- 249 0004 0040A0E3 		mov	r4, #0
- 250              	.LVL9:
- 251              	.L23:
- 252              	.LBB4:
- 253              	.LBB5:
- 254              		.loc 1 25 0
- 255 0008 FF0004E2 		and	r0, r4, #255
- 256 000c 0110A0E3 		mov	r1, #1
- 257              		.loc 1 24 0
- 258 0010 014084E2 		add	r4, r4, #1
- 259              		.loc 1 25 0
- 260 0014 FEFFFFEB 		bl	_Z7pinModehh
- 261              		.loc 1 24 0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 8
+ 214              		.loc 1 54 0
+ 215 0064 0030A0E3 		mov	r3, #0
+ 216 0068 010000EA 		b	.L26
+ 217              	.LVL9:
+ 218              	.L22:
+ 219 006c 04309DE5 		ldr	r3, [sp, #4]
+ 220 0070 013083E2 		add	r3, r3, #1
+ 221              	.LVL10:
+ 222              	.L26:
+ 223 0074 04308DE5 		str	r3, [sp, #4]
+ 224 0078 04209DE5 		ldr	r2, [sp, #4]
+ 225 007c 60309FE5 		ldr	r3, .L28
+ 226              	.LVL11:
+ 227 0080 030052E1 		cmp	r2, r3
+ 228 0084 F8FFFFDA 		ble	.L22
+ 229              		.loc 1 58 0
+ 230 0088 0700A0E3 		mov	r0, #7
+ 231 008c 0110A0E3 		mov	r1, #1
+ 232 0090 FEFFFFEB 		bl	_Z12digitalWritehh
+ 233              		.loc 1 59 0
+ 234 0094 0F00A0E3 		mov	r0, #15
+ 235 0098 0110A0E3 		mov	r1, #1
+ 236 009c FEFFFFEB 		bl	_Z12digitalWritehh
+ 237              		.loc 1 60 0
+ 238 00a0 1700A0E3 		mov	r0, #23
+ 239 00a4 0110A0E3 		mov	r1, #1
+ 240 00a8 FEFFFFEB 		bl	_Z12digitalWritehh
+ 241              		.loc 1 61 0
+ 242 00ac 1F00A0E3 		mov	r0, #31
+ 243 00b0 0110A0E3 		mov	r1, #1
+ 244 00b4 FEFFFFEB 		bl	_Z12digitalWritehh
+ 245              		.loc 1 63 0
+ 246 00b8 0030A0E3 		mov	r3, #0
+ 247 00bc 010000EA 		b	.L27
+ 248              	.L24:
+ 249 00c0 04309DE5 		ldr	r3, [sp, #4]
+ 250 00c4 013083E2 		add	r3, r3, #1
+ 251              	.LVL12:
+ 252              	.L27:
+ 253 00c8 04308DE5 		str	r3, [sp, #4]
+ 254 00cc 04209DE5 		ldr	r2, [sp, #4]
+ 255 00d0 0C309FE5 		ldr	r3, .L28
+ 256              	.LVL13:
+ 257 00d4 030052E1 		cmp	r2, r3
+ 258 00d8 F8FFFFDA 		ble	.L24
+ 259              	.LBE3:
+ 260              		.loc 1 66 0
+ 261 00dc 0E40BDE8 		ldmfd	sp!, {r1, r2, r3, lr}
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 8
 
 
- 262 0018 260054E3 		cmp	r4, #38
- 263 001c F9FFFF1A 		bne	.L23
- 264 0020 0040A0E3 		mov	r4, #0
- 265              	.LVL10:
- 266 0024 0E0000EA 		b	.L24
- 267              	.LVL11:
- 268              	.L25:
- 269              	.LBE5:
- 270              	.LBB6:
- 271              		.loc 1 31 0
- 272 0028 FEFFFFEB 		bl	_Z12digitalWritehh
- 273              		.loc 1 32 0
- 274 002c 0600A0E1 		mov	r0, r6
- 275 0030 0110A0E3 		mov	r1, #1
- 276 0034 FEFFFFEB 		bl	_Z12digitalWritehh
- 277              		.loc 1 33 0
- 278 0038 0600A0E1 		mov	r0, r6
- 279 003c 0010A0E3 		mov	r1, #0
- 280 0040 FEFFFFEB 		bl	_Z12digitalWritehh
- 281              	.L27:
- 282              		.loc 1 30 0
- 283 0044 050054E1 		cmp	r4, r5
- 284              		.loc 1 31 0
- 285 0048 0010A0E3 		mov	r1, #0
- 286 004c 0600A0E1 		mov	r0, r6
- 287              		.loc 1 30 0
- 288 0050 015085E2 		add	r5, r5, #1
- 289 0054 F3FFFFAA 		bge	.L25
- 290 0058 014084E2 		add	r4, r4, #1
- 291              	.LBE6:
- 292              		.loc 1 29 0
- 293 005c 260054E3 		cmp	r4, #38
- 294 0060 0200000A 		beq	.L28
- 295              	.L24:
- 296 0064 FF6004E2 		and	r6, r4, #255
- 297 0068 0050A0E3 		mov	r5, #0
- 298 006c F4FFFFEA 		b	.L27
- 299              	.L28:
- 300              	.LBE4:
- 301              		.loc 1 36 0
- 302 0070 7040BDE8 		ldmfd	sp!, {r4, r5, r6, lr}
- 303 0074 1EFF2FE1 		bx	lr
- 304              	.LFE3:
- 305              		.size	_Z13wiggleAllPinsv, .-_Z13wiggleAllPinsv
- 306              		.section	.text._Z13turnOnAllLEDsv,"ax",%progbits
- 307              		.align	2
- 308              		.global	_Z13turnOnAllLEDsv
- 309              		.type	_Z13turnOnAllLEDsv, %function
- 310              	_Z13turnOnAllLEDsv:
- 311              	.LFB2:
- 312              		.loc 1 7 0
- 313              		@ Function supports interworking.
- 314              		@ args = 0, pretend = 0, frame = 0
- 315              		@ frame_needed = 0, uses_anonymous_args = 0
- 316 0000 10402DE9 		stmfd	sp!, {r4, lr}
- 317              	.LCFI3:
- 318              		.loc 1 7 0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 9
+ 262 00e0 1EFF2FE1 		bx	lr
+ 263              	.L29:
+ 264              		.align	2
+ 265              	.L28:
+ 266 00e4 BF270900 		.word	599999
+ 267              	.LFE4:
+ 268              		.size	_Z19toggleOutboundPowerv, .-_Z19toggleOutboundPowerv
+ 269              		.section	.text._Z13wiggleAllPinsv,"ax",%progbits
+ 270              		.align	2
+ 271              		.global	_Z13wiggleAllPinsv
+ 272              		.type	_Z13wiggleAllPinsv, %function
+ 273              	_Z13wiggleAllPinsv:
+ 274              	.LFB3:
+ 275              		.loc 1 20 0
+ 276              		@ Function supports interworking.
+ 277              		@ args = 0, pretend = 0, frame = 0
+ 278              		@ frame_needed = 0, uses_anonymous_args = 0
+ 279 0000 70402DE9 		stmfd	sp!, {r4, r5, r6, lr}
+ 280              	.LCFI2:
+ 281              		.loc 1 20 0
+ 282 0004 0040A0E3 		mov	r4, #0
+ 283              	.LVL14:
+ 284              	.L31:
+ 285              	.LBB4:
+ 286              	.LBB5:
+ 287              		.loc 1 25 0
+ 288 0008 FF0004E2 		and	r0, r4, #255
+ 289 000c 0110A0E3 		mov	r1, #1
+ 290              		.loc 1 24 0
+ 291 0010 014084E2 		add	r4, r4, #1
+ 292              		.loc 1 25 0
+ 293 0014 FEFFFFEB 		bl	_Z7pinModehh
+ 294              		.loc 1 24 0
+ 295 0018 2B0054E3 		cmp	r4, #43
+ 296 001c F9FFFF1A 		bne	.L31
+ 297 0020 0040A0E3 		mov	r4, #0
+ 298              	.LVL15:
+ 299 0024 0E0000EA 		b	.L32
+ 300              	.LVL16:
+ 301              	.L33:
+ 302              	.LBE5:
+ 303              	.LBB6:
+ 304              		.loc 1 31 0
+ 305 0028 FEFFFFEB 		bl	_Z12digitalWritehh
+ 306              		.loc 1 32 0
+ 307 002c 0600A0E1 		mov	r0, r6
+ 308 0030 0110A0E3 		mov	r1, #1
+ 309 0034 FEFFFFEB 		bl	_Z12digitalWritehh
+ 310              		.loc 1 33 0
+ 311 0038 0600A0E1 		mov	r0, r6
+ 312 003c 0010A0E3 		mov	r1, #0
+ 313 0040 FEFFFFEB 		bl	_Z12digitalWritehh
+ 314              	.L35:
+ 315              		.loc 1 30 0
+ 316 0044 050054E1 		cmp	r4, r5
+ 317              		.loc 1 31 0
+ 318 0048 0010A0E3 		mov	r1, #0
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 9
 
 
- 319 0004 2040A0E3 		mov	r4, #32
- 320              	.L30:
- 321              	.LBB7:
- 322              		.loc 1 10 0
- 323 0008 0400A0E1 		mov	r0, r4
- 324 000c 0110A0E3 		mov	r1, #1
- 325 0010 FEFFFFEB 		bl	_Z7pinModehh
- 326              		.loc 1 11 0
- 327 0014 0400A0E1 		mov	r0, r4
- 328 0018 0010A0E3 		mov	r1, #0
- 329 001c FEFFFFEB 		bl	_Z12digitalWritehh
- 330 0020 013084E2 		add	r3, r4, #1
- 331 0024 FF4003E2 		and	r4, r3, #255
- 332              		.loc 1 9 0
- 333 0028 270054E3 		cmp	r4, #39
- 334 002c F5FFFF1A 		bne	.L30
- 335              	.LBE7:
- 336              		.loc 1 14 0
- 337 0030 1040BDE8 		ldmfd	sp!, {r4, lr}
- 338 0034 1EFF2FE1 		bx	lr
- 339              	.LFE2:
- 340              		.size	_Z13turnOnAllLEDsv, .-_Z13turnOnAllLEDsv
- 341              		.section	.debug_frame,"",%progbits
- 342              	.Lframe0:
- 343 0000 0C000000 		.4byte	.LECIE0-.LSCIE0
- 344              	.LSCIE0:
- 345 0004 FFFFFFFF 		.4byte	0xffffffff
- 346 0008 01       		.byte	0x1
- 347 0009 00       		.ascii	"\000"
- 348 000a 01       		.uleb128 0x1
- 349 000b 7C       		.sleb128 -4
- 350 000c 0E       		.byte	0xe
- 351 000d 0C       		.byte	0xc
- 352 000e 0D       		.uleb128 0xd
- 353 000f 00       		.uleb128 0x0
- 354              		.align	2
- 355              	.LECIE0:
- 356              	.LSFDE0:
- 357 0010 1C000000 		.4byte	.LEFDE0-.LASFDE0
- 358              	.LASFDE0:
- 359 0014 00000000 		.4byte	.Lframe0
- 360 0018 00000000 		.4byte	.LFB5
- 361 001c 44010000 		.4byte	.LFE5-.LFB5
- 362 0020 44       		.byte	0x4
- 363              		.4byte	.LCFI0-.LFB5
- 364 0021 0E       		.byte	0xe
- 365 0022 18       		.uleb128 0x18
- 366 0023 8E       		.byte	0x8e
- 367 0024 01       		.uleb128 0x1
- 368 0025 85       		.byte	0x85
- 369 0026 02       		.uleb128 0x2
- 370 0027 84       		.byte	0x84
- 371 0028 03       		.uleb128 0x3
- 372 0029 82       		.byte	0x82
- 373 002a 04       		.uleb128 0x4
- 374 002b 81       		.byte	0x81
- 375 002c 05       		.uleb128 0x5
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 10
+ 319 004c 0600A0E1 		mov	r0, r6
+ 320              		.loc 1 30 0
+ 321 0050 015085E2 		add	r5, r5, #1
+ 322 0054 F3FFFFAA 		bge	.L33
+ 323 0058 014084E2 		add	r4, r4, #1
+ 324              	.LBE6:
+ 325              		.loc 1 29 0
+ 326 005c 2B0054E3 		cmp	r4, #43
+ 327 0060 0200000A 		beq	.L36
+ 328              	.L32:
+ 329 0064 FF6004E2 		and	r6, r4, #255
+ 330 0068 0050A0E3 		mov	r5, #0
+ 331 006c F4FFFFEA 		b	.L35
+ 332              	.L36:
+ 333              	.LBE4:
+ 334              		.loc 1 36 0
+ 335 0070 7040BDE8 		ldmfd	sp!, {r4, r5, r6, lr}
+ 336 0074 1EFF2FE1 		bx	lr
+ 337              	.LFE3:
+ 338              		.size	_Z13wiggleAllPinsv, .-_Z13wiggleAllPinsv
+ 339              		.section	.text._Z13turnOnAllLEDsv,"ax",%progbits
+ 340              		.align	2
+ 341              		.global	_Z13turnOnAllLEDsv
+ 342              		.type	_Z13turnOnAllLEDsv, %function
+ 343              	_Z13turnOnAllLEDsv:
+ 344              	.LFB2:
+ 345              		.loc 1 7 0
+ 346              		@ Function supports interworking.
+ 347              		@ args = 0, pretend = 0, frame = 0
+ 348              		@ frame_needed = 0, uses_anonymous_args = 0
+ 349 0000 10402DE9 		stmfd	sp!, {r4, lr}
+ 350              	.LCFI3:
+ 351              		.loc 1 7 0
+ 352 0004 2040A0E3 		mov	r4, #32
+ 353              	.L38:
+ 354              	.LBB7:
+ 355              		.loc 1 10 0
+ 356 0008 0400A0E1 		mov	r0, r4
+ 357 000c 0110A0E3 		mov	r1, #1
+ 358 0010 FEFFFFEB 		bl	_Z7pinModehh
+ 359              		.loc 1 11 0
+ 360 0014 0400A0E1 		mov	r0, r4
+ 361 0018 0010A0E3 		mov	r1, #0
+ 362 001c FEFFFFEB 		bl	_Z12digitalWritehh
+ 363 0020 013084E2 		add	r3, r4, #1
+ 364 0024 FF4003E2 		and	r4, r3, #255
+ 365              		.loc 1 9 0
+ 366 0028 270054E3 		cmp	r4, #39
+ 367 002c F5FFFF1A 		bne	.L38
+ 368              	.LBE7:
+ 369              		.loc 1 14 0
+ 370 0030 1040BDE8 		ldmfd	sp!, {r4, lr}
+ 371 0034 1EFF2FE1 		bx	lr
+ 372              	.LFE2:
+ 373              		.size	_Z13turnOnAllLEDsv, .-_Z13turnOnAllLEDsv
+ 374              		.section	.debug_frame,"",%progbits
+ 375              	.Lframe0:
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 10
 
 
- 376 002d 80       		.byte	0x80
- 377 002e 06       		.uleb128 0x6
- 378 002f 00       		.align	2
- 379              	.LEFDE0:
- 380              	.LSFDE2:
- 381 0030 14000000 		.4byte	.LEFDE2-.LASFDE2
- 382              	.LASFDE2:
- 383 0034 00000000 		.4byte	.Lframe0
- 384 0038 00000000 		.4byte	.LFB4
- 385 003c 9C000000 		.4byte	.LFE4-.LFB4
- 386 0040 44       		.byte	0x4
- 387              		.4byte	.LCFI1-.LFB4
- 388 0041 0E       		.byte	0xe
- 389 0042 08       		.uleb128 0x8
- 390 0043 8E       		.byte	0x8e
- 391 0044 01       		.uleb128 0x1
- 392 0045 84       		.byte	0x84
- 393 0046 02       		.uleb128 0x2
- 394 0047 00       		.align	2
- 395              	.LEFDE2:
- 396              	.LSFDE4:
- 397 0048 18000000 		.4byte	.LEFDE4-.LASFDE4
- 398              	.LASFDE4:
- 399 004c 00000000 		.4byte	.Lframe0
- 400 0050 00000000 		.4byte	.LFB3
- 401 0054 78000000 		.4byte	.LFE3-.LFB3
- 402 0058 44       		.byte	0x4
- 403              		.4byte	.LCFI2-.LFB3
- 404 0059 0E       		.byte	0xe
- 405 005a 10       		.uleb128 0x10
- 406 005b 8E       		.byte	0x8e
- 407 005c 01       		.uleb128 0x1
- 408 005d 86       		.byte	0x86
- 409 005e 02       		.uleb128 0x2
- 410 005f 85       		.byte	0x85
- 411 0060 03       		.uleb128 0x3
- 412 0061 84       		.byte	0x84
- 413 0062 04       		.uleb128 0x4
- 414 0063 00       		.align	2
- 415              	.LEFDE4:
- 416              	.LSFDE6:
- 417 0064 14000000 		.4byte	.LEFDE6-.LASFDE6
- 418              	.LASFDE6:
- 419 0068 00000000 		.4byte	.Lframe0
- 420 006c 00000000 		.4byte	.LFB2
- 421 0070 38000000 		.4byte	.LFE2-.LFB2
- 422 0074 44       		.byte	0x4
- 423              		.4byte	.LCFI3-.LFB2
- 424 0075 0E       		.byte	0xe
- 425 0076 08       		.uleb128 0x8
- 426 0077 8E       		.byte	0x8e
- 427 0078 01       		.uleb128 0x1
- 428 0079 84       		.byte	0x84
- 429 007a 02       		.uleb128 0x2
- 430 007b 00       		.align	2
- 431              	.LEFDE6:
- 432              		.text
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 11
+ 376 0000 0C000000 		.4byte	.LECIE0-.LSCIE0
+ 377              	.LSCIE0:
+ 378 0004 FFFFFFFF 		.4byte	0xffffffff
+ 379 0008 01       		.byte	0x1
+ 380 0009 00       		.ascii	"\000"
+ 381 000a 01       		.uleb128 0x1
+ 382 000b 7C       		.sleb128 -4
+ 383 000c 0E       		.byte	0xe
+ 384 000d 0C       		.byte	0xc
+ 385 000e 0D       		.uleb128 0xd
+ 386 000f 00       		.uleb128 0x0
+ 387              		.align	2
+ 388              	.LECIE0:
+ 389              	.LSFDE0:
+ 390 0010 1C000000 		.4byte	.LEFDE0-.LASFDE0
+ 391              	.LASFDE0:
+ 392 0014 00000000 		.4byte	.Lframe0
+ 393 0018 00000000 		.4byte	.LFB5
+ 394 001c 44010000 		.4byte	.LFE5-.LFB5
+ 395 0020 44       		.byte	0x4
+ 396              		.4byte	.LCFI0-.LFB5
+ 397 0021 0E       		.byte	0xe
+ 398 0022 18       		.uleb128 0x18
+ 399 0023 8E       		.byte	0x8e
+ 400 0024 01       		.uleb128 0x1
+ 401 0025 85       		.byte	0x85
+ 402 0026 02       		.uleb128 0x2
+ 403 0027 84       		.byte	0x84
+ 404 0028 03       		.uleb128 0x3
+ 405 0029 82       		.byte	0x82
+ 406 002a 04       		.uleb128 0x4
+ 407 002b 81       		.byte	0x81
+ 408 002c 05       		.uleb128 0x5
+ 409 002d 80       		.byte	0x80
+ 410 002e 06       		.uleb128 0x6
+ 411 002f 00       		.align	2
+ 412              	.LEFDE0:
+ 413              	.LSFDE2:
+ 414 0030 18000000 		.4byte	.LEFDE2-.LASFDE2
+ 415              	.LASFDE2:
+ 416 0034 00000000 		.4byte	.Lframe0
+ 417 0038 00000000 		.4byte	.LFB4
+ 418 003c E8000000 		.4byte	.LFE4-.LFB4
+ 419 0040 44       		.byte	0x4
+ 420              		.4byte	.LCFI1-.LFB4
+ 421 0041 0E       		.byte	0xe
+ 422 0042 10       		.uleb128 0x10
+ 423 0043 8E       		.byte	0x8e
+ 424 0044 01       		.uleb128 0x1
+ 425 0045 82       		.byte	0x82
+ 426 0046 02       		.uleb128 0x2
+ 427 0047 81       		.byte	0x81
+ 428 0048 03       		.uleb128 0x3
+ 429 0049 80       		.byte	0x80
+ 430 004a 04       		.uleb128 0x4
+ 431 004b 00       		.align	2
+ 432              	.LEFDE2:
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 11
 
 
- 433              	.Letext0:
- 434              		.section	.debug_loc,"",%progbits
- 435              	.Ldebug_loc0:
- 436              	.LLST0:
- 437 0000 00000000 		.4byte	.LFB5
- 438 0004 04000000 		.4byte	.LCFI0
- 439 0008 0100     		.2byte	0x1
- 440 000a 5D       		.byte	0x5d
- 441 000b 04000000 		.4byte	.LCFI0
- 442 000f 44010000 		.4byte	.LFE5
- 443 0013 0200     		.2byte	0x2
- 444 0015 7D       		.byte	0x7d
- 445 0016 18       		.sleb128 24
- 446 0017 00000000 		.4byte	0x0
- 447 001b 00000000 		.4byte	0x0
- 448              	.LLST1:
- 449 001f 00000000 		.4byte	.LVL0
- 450 0023 04000000 		.4byte	.LVL1
- 451 0027 0100     		.2byte	0x1
- 452 0029 50       		.byte	0x50
- 453 002a 08000000 		.4byte	.LVL2
- 454 002e 10000000 		.4byte	.LVL3
- 455 0032 0100     		.2byte	0x1
- 456 0034 50       		.byte	0x50
- 457 0035 10000000 		.4byte	.LVL3
- 458 0039 38000000 		.4byte	.LVL4
- 459 003d 0100     		.2byte	0x1
- 460 003f 54       		.byte	0x54
- 461 0040 38000000 		.4byte	.LVL4
- 462 0044 44010000 		.4byte	.LFE5
- 463 0048 0100     		.2byte	0x1
- 464 004a 55       		.byte	0x55
- 465 004b 00000000 		.4byte	0x0
- 466 004f 00000000 		.4byte	0x0
- 467              	.LLST2:
- 468 0053 44000000 		.4byte	.LVL6
- 469 0057 0C010000 		.4byte	.LVL7
- 470 005b 0200     		.2byte	0x2
- 471 005d 91       		.byte	0x91
- 472 005e 7C       		.sleb128 -4
- 473 005f 0C010000 		.4byte	.LVL7
- 474 0063 18010000 		.4byte	.LVL8
- 475 0067 0100     		.2byte	0x1
- 476 0069 53       		.byte	0x53
- 477 006a 18010000 		.4byte	.LVL8
- 478 006e 44010000 		.4byte	.LFE5
- 479 0072 0200     		.2byte	0x2
- 480 0074 91       		.byte	0x91
- 481 0075 7C       		.sleb128 -4
- 482 0076 00000000 		.4byte	0x0
- 483 007a 00000000 		.4byte	0x0
- 484              	.LLST3:
- 485 007e 00000000 		.4byte	.LFB4
- 486 0082 04000000 		.4byte	.LCFI1
- 487 0086 0100     		.2byte	0x1
- 488 0088 5D       		.byte	0x5d
- 489 0089 04000000 		.4byte	.LCFI1
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 12
+ 433              	.LSFDE4:
+ 434 004c 18000000 		.4byte	.LEFDE4-.LASFDE4
+ 435              	.LASFDE4:
+ 436 0050 00000000 		.4byte	.Lframe0
+ 437 0054 00000000 		.4byte	.LFB3
+ 438 0058 78000000 		.4byte	.LFE3-.LFB3
+ 439 005c 44       		.byte	0x4
+ 440              		.4byte	.LCFI2-.LFB3
+ 441 005d 0E       		.byte	0xe
+ 442 005e 10       		.uleb128 0x10
+ 443 005f 8E       		.byte	0x8e
+ 444 0060 01       		.uleb128 0x1
+ 445 0061 86       		.byte	0x86
+ 446 0062 02       		.uleb128 0x2
+ 447 0063 85       		.byte	0x85
+ 448 0064 03       		.uleb128 0x3
+ 449 0065 84       		.byte	0x84
+ 450 0066 04       		.uleb128 0x4
+ 451 0067 00       		.align	2
+ 452              	.LEFDE4:
+ 453              	.LSFDE6:
+ 454 0068 14000000 		.4byte	.LEFDE6-.LASFDE6
+ 455              	.LASFDE6:
+ 456 006c 00000000 		.4byte	.Lframe0
+ 457 0070 00000000 		.4byte	.LFB2
+ 458 0074 38000000 		.4byte	.LFE2-.LFB2
+ 459 0078 44       		.byte	0x4
+ 460              		.4byte	.LCFI3-.LFB2
+ 461 0079 0E       		.byte	0xe
+ 462 007a 08       		.uleb128 0x8
+ 463 007b 8E       		.byte	0x8e
+ 464 007c 01       		.uleb128 0x1
+ 465 007d 84       		.byte	0x84
+ 466 007e 02       		.uleb128 0x2
+ 467 007f 00       		.align	2
+ 468              	.LEFDE6:
+ 469              		.text
+ 470              	.Letext0:
+ 471              		.section	.debug_loc,"",%progbits
+ 472              	.Ldebug_loc0:
+ 473              	.LLST0:
+ 474 0000 00000000 		.4byte	.LFB5
+ 475 0004 04000000 		.4byte	.LCFI0
+ 476 0008 0100     		.2byte	0x1
+ 477 000a 5D       		.byte	0x5d
+ 478 000b 04000000 		.4byte	.LCFI0
+ 479 000f 44010000 		.4byte	.LFE5
+ 480 0013 0200     		.2byte	0x2
+ 481 0015 7D       		.byte	0x7d
+ 482 0016 18       		.sleb128 24
+ 483 0017 00000000 		.4byte	0x0
+ 484 001b 00000000 		.4byte	0x0
+ 485              	.LLST1:
+ 486 001f 00000000 		.4byte	.LVL0
+ 487 0023 04000000 		.4byte	.LVL1
+ 488 0027 0100     		.2byte	0x1
+ 489 0029 50       		.byte	0x50
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 12
 
 
- 490 008d 9C000000 		.4byte	.LFE4
- 491 0091 0200     		.2byte	0x2
- 492 0093 7D       		.byte	0x7d
- 493 0094 08       		.sleb128 8
- 494 0095 00000000 		.4byte	0x0
- 495 0099 00000000 		.4byte	0x0
- 496              	.LLST4:
- 497 009d 00000000 		.4byte	.LFB3
- 498 00a1 04000000 		.4byte	.LCFI2
- 499 00a5 0100     		.2byte	0x1
- 500 00a7 5D       		.byte	0x5d
- 501 00a8 04000000 		.4byte	.LCFI2
- 502 00ac 78000000 		.4byte	.LFE3
- 503 00b0 0200     		.2byte	0x2
- 504 00b2 7D       		.byte	0x7d
- 505 00b3 10       		.sleb128 16
- 506 00b4 00000000 		.4byte	0x0
- 507 00b8 00000000 		.4byte	0x0
- 508              	.LLST5:
- 509 00bc 08000000 		.4byte	.LVL9
- 510 00c0 24000000 		.4byte	.LVL10
- 511 00c4 0100     		.2byte	0x1
- 512 00c6 54       		.byte	0x54
- 513 00c7 00000000 		.4byte	0x0
- 514 00cb 00000000 		.4byte	0x0
- 515              	.LLST6:
- 516 00cf 00000000 		.4byte	.LFB2
- 517 00d3 04000000 		.4byte	.LCFI3
- 518 00d7 0100     		.2byte	0x1
- 519 00d9 5D       		.byte	0x5d
- 520 00da 04000000 		.4byte	.LCFI3
- 521 00de 38000000 		.4byte	.LFE2
- 522 00e2 0200     		.2byte	0x2
- 523 00e4 7D       		.byte	0x7d
- 524 00e5 08       		.sleb128 8
- 525 00e6 00000000 		.4byte	0x0
- 526 00ea 00000000 		.4byte	0x0
- 527              		.file 2 "/cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/../../../..
- 528              		.section	.debug_info
- 529 0000 68010000 		.4byte	0x168
- 530 0004 0200     		.2byte	0x2
- 531 0006 00000000 		.4byte	.Ldebug_abbrev0
- 532 000a 04       		.byte	0x4
- 533 000b 01       		.uleb128 0x1
- 534 000c 20000000 		.4byte	.LASF17
- 535 0010 04       		.byte	0x4
- 536 0011 0E000000 		.4byte	.LASF18
- 537 0015 87000000 		.4byte	.LASF19
- 538 0019 00000000 		.4byte	0x0
- 539 001d 00000000 		.4byte	0x0
- 540 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
- 541 0025 00000000 		.4byte	.Ldebug_line0
- 542 0029 02       		.uleb128 0x2
- 543 002a 01       		.byte	0x1
- 544 002b 06       		.byte	0x6
- 545 002c 3E010000 		.4byte	.LASF0
- 546 0030 03       		.uleb128 0x3
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 13
+ 490 002a 08000000 		.4byte	.LVL2
+ 491 002e 10000000 		.4byte	.LVL3
+ 492 0032 0100     		.2byte	0x1
+ 493 0034 50       		.byte	0x50
+ 494 0035 10000000 		.4byte	.LVL3
+ 495 0039 38000000 		.4byte	.LVL4
+ 496 003d 0100     		.2byte	0x1
+ 497 003f 54       		.byte	0x54
+ 498 0040 38000000 		.4byte	.LVL4
+ 499 0044 44010000 		.4byte	.LFE5
+ 500 0048 0100     		.2byte	0x1
+ 501 004a 55       		.byte	0x55
+ 502 004b 00000000 		.4byte	0x0
+ 503 004f 00000000 		.4byte	0x0
+ 504              	.LLST2:
+ 505 0053 44000000 		.4byte	.LVL6
+ 506 0057 0C010000 		.4byte	.LVL7
+ 507 005b 0200     		.2byte	0x2
+ 508 005d 91       		.byte	0x91
+ 509 005e 7C       		.sleb128 -4
+ 510 005f 0C010000 		.4byte	.LVL7
+ 511 0063 18010000 		.4byte	.LVL8
+ 512 0067 0100     		.2byte	0x1
+ 513 0069 53       		.byte	0x53
+ 514 006a 18010000 		.4byte	.LVL8
+ 515 006e 44010000 		.4byte	.LFE5
+ 516 0072 0200     		.2byte	0x2
+ 517 0074 91       		.byte	0x91
+ 518 0075 7C       		.sleb128 -4
+ 519 0076 00000000 		.4byte	0x0
+ 520 007a 00000000 		.4byte	0x0
+ 521              	.LLST3:
+ 522 007e 00000000 		.4byte	.LFB4
+ 523 0082 04000000 		.4byte	.LCFI1
+ 524 0086 0100     		.2byte	0x1
+ 525 0088 5D       		.byte	0x5d
+ 526 0089 04000000 		.4byte	.LCFI1
+ 527 008d E8000000 		.4byte	.LFE4
+ 528 0091 0200     		.2byte	0x2
+ 529 0093 7D       		.byte	0x7d
+ 530 0094 10       		.sleb128 16
+ 531 0095 00000000 		.4byte	0x0
+ 532 0099 00000000 		.4byte	0x0
+ 533              	.LLST4:
+ 534 009d 6C000000 		.4byte	.LVL9
+ 535 00a1 74000000 		.4byte	.LVL10
+ 536 00a5 0200     		.2byte	0x2
+ 537 00a7 91       		.byte	0x91
+ 538 00a8 7C       		.sleb128 -4
+ 539 00a9 74000000 		.4byte	.LVL10
+ 540 00ad 80000000 		.4byte	.LVL11
+ 541 00b1 0100     		.2byte	0x1
+ 542 00b3 53       		.byte	0x53
+ 543 00b4 80000000 		.4byte	.LVL11
+ 544 00b8 C8000000 		.4byte	.LVL12
+ 545 00bc 0200     		.2byte	0x2
+ 546 00be 91       		.byte	0x91
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 13
 
 
- 547 0031 EF000000 		.4byte	.LASF20
- 548 0035 02       		.byte	0x2
- 549 0036 2E       		.byte	0x2e
- 550 0037 3B000000 		.4byte	0x3b
- 551 003b 02       		.uleb128 0x2
- 552 003c 01       		.byte	0x1
- 553 003d 08       		.byte	0x8
- 554 003e 33000000 		.4byte	.LASF1
- 555 0042 02       		.uleb128 0x2
- 556 0043 02       		.byte	0x2
- 557 0044 05       		.byte	0x5
- 558 0045 2B010000 		.4byte	.LASF2
- 559 0049 02       		.uleb128 0x2
- 560 004a 02       		.byte	0x2
- 561 004b 07       		.byte	0x7
- 562 004c 53000000 		.4byte	.LASF3
- 563 0050 02       		.uleb128 0x2
- 564 0051 04       		.byte	0x4
- 565 0052 05       		.byte	0x5
- 566 0053 35010000 		.4byte	.LASF4
- 567 0057 02       		.uleb128 0x2
- 568 0058 04       		.byte	0x4
- 569 0059 07       		.byte	0x7
- 570 005a 41000000 		.4byte	.LASF5
- 571 005e 02       		.uleb128 0x2
- 572 005f 08       		.byte	0x8
- 573 0060 05       		.byte	0x5
- 574 0061 18010000 		.4byte	.LASF6
- 575 0065 02       		.uleb128 0x2
- 576 0066 08       		.byte	0x8
- 577 0067 07       		.byte	0x7
- 578 0068 D8000000 		.4byte	.LASF7
- 579 006c 04       		.uleb128 0x4
- 580 006d 04       		.byte	0x4
- 581 006e 05       		.byte	0x5
- 582 006f 696E7400 		.ascii	"int\000"
- 583 0073 02       		.uleb128 0x2
- 584 0074 04       		.byte	0x4
- 585 0075 07       		.byte	0x7
- 586 0076 CB000000 		.4byte	.LASF8
- 587 007a 05       		.uleb128 0x5
- 588 007b 01       		.byte	0x1
- 589 007c B8000000 		.4byte	.LASF11
- 590 0080 01       		.byte	0x1
- 591 0081 4A       		.byte	0x4a
- 592 0082 66000000 		.4byte	.LASF13
- 593 0086 00000000 		.4byte	.LFB5
- 594 008a 44010000 		.4byte	.LFE5
- 595 008e 00000000 		.4byte	.LLST0
- 596 0092 C2000000 		.4byte	0xc2
- 597 0096 06       		.uleb128 0x6
- 598 0097 C1000000 		.4byte	.LASF21
- 599 009b 01       		.byte	0x1
- 600 009c 4A       		.byte	0x4a
- 601 009d 73000000 		.4byte	0x73
- 602 00a1 1F000000 		.4byte	.LLST1
- 603 00a5 07       		.uleb128 0x7
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 14
+ 547 00bf 7C       		.sleb128 -4
+ 548 00c0 C8000000 		.4byte	.LVL12
+ 549 00c4 D4000000 		.4byte	.LVL13
+ 550 00c8 0100     		.2byte	0x1
+ 551 00ca 53       		.byte	0x53
+ 552 00cb D4000000 		.4byte	.LVL13
+ 553 00cf E8000000 		.4byte	.LFE4
+ 554 00d3 0200     		.2byte	0x2
+ 555 00d5 91       		.byte	0x91
+ 556 00d6 7C       		.sleb128 -4
+ 557 00d7 00000000 		.4byte	0x0
+ 558 00db 00000000 		.4byte	0x0
+ 559              	.LLST5:
+ 560 00df 00000000 		.4byte	.LFB3
+ 561 00e3 04000000 		.4byte	.LCFI2
+ 562 00e7 0100     		.2byte	0x1
+ 563 00e9 5D       		.byte	0x5d
+ 564 00ea 04000000 		.4byte	.LCFI2
+ 565 00ee 78000000 		.4byte	.LFE3
+ 566 00f2 0200     		.2byte	0x2
+ 567 00f4 7D       		.byte	0x7d
+ 568 00f5 10       		.sleb128 16
+ 569 00f6 00000000 		.4byte	0x0
+ 570 00fa 00000000 		.4byte	0x0
+ 571              	.LLST6:
+ 572 00fe 08000000 		.4byte	.LVL14
+ 573 0102 24000000 		.4byte	.LVL15
+ 574 0106 0100     		.2byte	0x1
+ 575 0108 54       		.byte	0x54
+ 576 0109 00000000 		.4byte	0x0
+ 577 010d 00000000 		.4byte	0x0
+ 578              	.LLST7:
+ 579 0111 00000000 		.4byte	.LFB2
+ 580 0115 04000000 		.4byte	.LCFI3
+ 581 0119 0100     		.2byte	0x1
+ 582 011b 5D       		.byte	0x5d
+ 583 011c 04000000 		.4byte	.LCFI3
+ 584 0120 38000000 		.4byte	.LFE2
+ 585 0124 0200     		.2byte	0x2
+ 586 0126 7D       		.byte	0x7d
+ 587 0127 08       		.sleb128 8
+ 588 0128 00000000 		.4byte	0x0
+ 589 012c 00000000 		.4byte	0x0
+ 590              		.file 2 "/cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/../../../..
+ 591              		.section	.debug_info
+ 592 0000 71010000 		.4byte	0x171
+ 593 0004 0200     		.2byte	0x2
+ 594 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 595 000a 04       		.byte	0x4
+ 596 000b 01       		.uleb128 0x1
+ 597 000c 20000000 		.4byte	.LASF17
+ 598 0010 04       		.byte	0x4
+ 599 0011 0E000000 		.4byte	.LASF18
+ 600 0015 87000000 		.4byte	.LASF19
+ 601 0019 00000000 		.4byte	0x0
+ 602 001d 00000000 		.4byte	0x0
+ 603 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 14
 
 
- 604 00a6 26010000 		.4byte	.LASF9
- 605 00aa 01       		.byte	0x1
- 606 00ab 4C       		.byte	0x4c
- 607 00ac 73000000 		.4byte	0x73
- 608 00b0 01       		.byte	0x1
- 609 00b1 54       		.byte	0x54
- 610 00b2 08       		.uleb128 0x8
- 611 00b3 2E000000 		.4byte	.LASF10
- 612 00b7 01       		.byte	0x1
- 613 00b8 4D       		.byte	0x4d
- 614 00b9 C2000000 		.4byte	0xc2
- 615 00bd 53000000 		.4byte	.LLST2
- 616 00c1 00       		.byte	0x0
- 617 00c2 09       		.uleb128 0x9
- 618 00c3 73000000 		.4byte	0x73
- 619 00c7 05       		.uleb128 0x5
- 620 00c8 01       		.byte	0x1
- 621 00c9 73000000 		.4byte	.LASF12
- 622 00cd 01       		.byte	0x1
- 623 00ce 29       		.byte	0x29
- 624 00cf 4A010000 		.4byte	.LASF14
- 625 00d3 00000000 		.4byte	.LFB4
- 626 00d7 9C000000 		.4byte	.LFE4
- 627 00db 7E000000 		.4byte	.LLST3
- 628 00df EF000000 		.4byte	0xef
- 629 00e3 0A       		.uleb128 0xa
- 630 00e4 2E000000 		.4byte	.LASF10
- 631 00e8 01       		.byte	0x1
- 632 00e9 2A       		.byte	0x2a
- 633 00ea 50000000 		.4byte	0x50
- 634 00ee 00       		.byte	0x0
- 635 00ef 05       		.uleb128 0x5
- 636 00f0 01       		.byte	0x1
- 637 00f1 00000000 		.4byte	.LASF15
- 638 00f5 01       		.byte	0x1
- 639 00f6 14       		.byte	0x14
- 640 00f7 63010000 		.4byte	.LASF16
- 641 00fb 00000000 		.4byte	.LFB3
- 642 00ff 78000000 		.4byte	.LFE3
- 643 0103 9D000000 		.4byte	.LLST4
- 644 0107 49010000 		.4byte	0x149
- 645 010b 0B       		.uleb128 0xb
- 646 010c 70696E00 		.ascii	"pin\000"
- 647 0110 01       		.byte	0x1
- 648 0111 15       		.byte	0x15
- 649 0112 30000000 		.4byte	0x30
- 650 0116 01       		.byte	0x1
- 651 0117 56       		.byte	0x56
- 652 0118 0C       		.uleb128 0xc
- 653 0119 08000000 		.4byte	.LBB5
- 654 011d 28000000 		.4byte	.LBE5
- 655 0121 33010000 		.4byte	0x133
- 656 0125 0D       		.uleb128 0xd
- 657 0126 7800     		.ascii	"x\000"
- 658 0128 01       		.byte	0x1
- 659 0129 18       		.byte	0x18
- 660 012a 6C000000 		.4byte	0x6c
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 15
+ 604 0025 00000000 		.4byte	.Ldebug_line0
+ 605 0029 02       		.uleb128 0x2
+ 606 002a 01       		.byte	0x1
+ 607 002b 06       		.byte	0x6
+ 608 002c 3E010000 		.4byte	.LASF0
+ 609 0030 03       		.uleb128 0x3
+ 610 0031 EF000000 		.4byte	.LASF20
+ 611 0035 02       		.byte	0x2
+ 612 0036 2E       		.byte	0x2e
+ 613 0037 3B000000 		.4byte	0x3b
+ 614 003b 02       		.uleb128 0x2
+ 615 003c 01       		.byte	0x1
+ 616 003d 08       		.byte	0x8
+ 617 003e 33000000 		.4byte	.LASF1
+ 618 0042 02       		.uleb128 0x2
+ 619 0043 02       		.byte	0x2
+ 620 0044 05       		.byte	0x5
+ 621 0045 2B010000 		.4byte	.LASF2
+ 622 0049 02       		.uleb128 0x2
+ 623 004a 02       		.byte	0x2
+ 624 004b 07       		.byte	0x7
+ 625 004c 53000000 		.4byte	.LASF3
+ 626 0050 02       		.uleb128 0x2
+ 627 0051 04       		.byte	0x4
+ 628 0052 05       		.byte	0x5
+ 629 0053 35010000 		.4byte	.LASF4
+ 630 0057 02       		.uleb128 0x2
+ 631 0058 04       		.byte	0x4
+ 632 0059 07       		.byte	0x7
+ 633 005a 41000000 		.4byte	.LASF5
+ 634 005e 02       		.uleb128 0x2
+ 635 005f 08       		.byte	0x8
+ 636 0060 05       		.byte	0x5
+ 637 0061 18010000 		.4byte	.LASF6
+ 638 0065 02       		.uleb128 0x2
+ 639 0066 08       		.byte	0x8
+ 640 0067 07       		.byte	0x7
+ 641 0068 D8000000 		.4byte	.LASF7
+ 642 006c 04       		.uleb128 0x4
+ 643 006d 04       		.byte	0x4
+ 644 006e 05       		.byte	0x5
+ 645 006f 696E7400 		.ascii	"int\000"
+ 646 0073 02       		.uleb128 0x2
+ 647 0074 04       		.byte	0x4
+ 648 0075 07       		.byte	0x7
+ 649 0076 CB000000 		.4byte	.LASF8
+ 650 007a 05       		.uleb128 0x5
+ 651 007b 01       		.byte	0x1
+ 652 007c B8000000 		.4byte	.LASF11
+ 653 0080 01       		.byte	0x1
+ 654 0081 4A       		.byte	0x4a
+ 655 0082 66000000 		.4byte	.LASF13
+ 656 0086 00000000 		.4byte	.LFB5
+ 657 008a 44010000 		.4byte	.LFE5
+ 658 008e 00000000 		.4byte	.LLST0
+ 659 0092 C2000000 		.4byte	0xc2
+ 660 0096 06       		.uleb128 0x6
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 15
 
 
- 661 012e BC000000 		.4byte	.LLST5
- 662 0132 00       		.byte	0x0
- 663 0133 0E       		.uleb128 0xe
- 664 0134 28000000 		.4byte	.LBB6
- 665 0138 5C000000 		.4byte	.LBE6
- 666 013c 0B       		.uleb128 0xb
- 667 013d 7800     		.ascii	"x\000"
- 668 013f 01       		.byte	0x1
- 669 0140 1E       		.byte	0x1e
- 670 0141 6C000000 		.4byte	0x6c
- 671 0145 01       		.byte	0x1
- 672 0146 55       		.byte	0x55
- 673 0147 00       		.byte	0x0
- 674 0148 00       		.byte	0x0
- 675 0149 0F       		.uleb128 0xf
- 676 014a 01       		.byte	0x1
- 677 014b 0A010000 		.4byte	.LASF22
- 678 014f 01       		.byte	0x1
- 679 0150 07       		.byte	0x7
- 680 0151 F7000000 		.4byte	.LASF23
- 681 0155 00000000 		.4byte	.LFB2
- 682 0159 38000000 		.4byte	.LFE2
- 683 015d CF000000 		.4byte	.LLST6
- 684 0161 10       		.uleb128 0x10
- 685 0162 6C00     		.ascii	"l\000"
- 686 0164 01       		.byte	0x1
- 687 0165 09       		.byte	0x9
- 688 0166 6C000000 		.4byte	0x6c
- 689 016a 00       		.byte	0x0
- 690 016b 00       		.byte	0x0
- 691              		.section	.debug_abbrev
- 692 0000 01       		.uleb128 0x1
- 693 0001 11       		.uleb128 0x11
- 694 0002 01       		.byte	0x1
- 695 0003 25       		.uleb128 0x25
- 696 0004 0E       		.uleb128 0xe
- 697 0005 13       		.uleb128 0x13
- 698 0006 0B       		.uleb128 0xb
- 699 0007 03       		.uleb128 0x3
- 700 0008 0E       		.uleb128 0xe
- 701 0009 1B       		.uleb128 0x1b
- 702 000a 0E       		.uleb128 0xe
- 703 000b 11       		.uleb128 0x11
- 704 000c 01       		.uleb128 0x1
- 705 000d 52       		.uleb128 0x52
- 706 000e 01       		.uleb128 0x1
- 707 000f 55       		.uleb128 0x55
- 708 0010 06       		.uleb128 0x6
- 709 0011 10       		.uleb128 0x10
- 710 0012 06       		.uleb128 0x6
- 711 0013 00       		.byte	0x0
- 712 0014 00       		.byte	0x0
- 713 0015 02       		.uleb128 0x2
- 714 0016 24       		.uleb128 0x24
- 715 0017 00       		.byte	0x0
- 716 0018 0B       		.uleb128 0xb
- 717 0019 0B       		.uleb128 0xb
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 16
+ 661 0097 C1000000 		.4byte	.LASF21
+ 662 009b 01       		.byte	0x1
+ 663 009c 4A       		.byte	0x4a
+ 664 009d 73000000 		.4byte	0x73
+ 665 00a1 1F000000 		.4byte	.LLST1
+ 666 00a5 07       		.uleb128 0x7
+ 667 00a6 26010000 		.4byte	.LASF9
+ 668 00aa 01       		.byte	0x1
+ 669 00ab 4C       		.byte	0x4c
+ 670 00ac 73000000 		.4byte	0x73
+ 671 00b0 01       		.byte	0x1
+ 672 00b1 54       		.byte	0x54
+ 673 00b2 08       		.uleb128 0x8
+ 674 00b3 2E000000 		.4byte	.LASF10
+ 675 00b7 01       		.byte	0x1
+ 676 00b8 4D       		.byte	0x4d
+ 677 00b9 C2000000 		.4byte	0xc2
+ 678 00bd 53000000 		.4byte	.LLST2
+ 679 00c1 00       		.byte	0x0
+ 680 00c2 09       		.uleb128 0x9
+ 681 00c3 73000000 		.4byte	0x73
+ 682 00c7 05       		.uleb128 0x5
+ 683 00c8 01       		.byte	0x1
+ 684 00c9 73000000 		.4byte	.LASF12
+ 685 00cd 01       		.byte	0x1
+ 686 00ce 29       		.byte	0x29
+ 687 00cf 4A010000 		.4byte	.LASF14
+ 688 00d3 00000000 		.4byte	.LFB4
+ 689 00d7 E8000000 		.4byte	.LFE4
+ 690 00db 7E000000 		.4byte	.LLST3
+ 691 00df F3000000 		.4byte	0xf3
+ 692 00e3 08       		.uleb128 0x8
+ 693 00e4 2E000000 		.4byte	.LASF10
+ 694 00e8 01       		.byte	0x1
+ 695 00e9 2A       		.byte	0x2a
+ 696 00ea F3000000 		.4byte	0xf3
+ 697 00ee 9D000000 		.4byte	.LLST4
+ 698 00f2 00       		.byte	0x0
+ 699 00f3 09       		.uleb128 0x9
+ 700 00f4 50000000 		.4byte	0x50
+ 701 00f8 05       		.uleb128 0x5
+ 702 00f9 01       		.byte	0x1
+ 703 00fa 00000000 		.4byte	.LASF15
+ 704 00fe 01       		.byte	0x1
+ 705 00ff 14       		.byte	0x14
+ 706 0100 63010000 		.4byte	.LASF16
+ 707 0104 00000000 		.4byte	.LFB3
+ 708 0108 78000000 		.4byte	.LFE3
+ 709 010c DF000000 		.4byte	.LLST5
+ 710 0110 52010000 		.4byte	0x152
+ 711 0114 0A       		.uleb128 0xa
+ 712 0115 70696E00 		.ascii	"pin\000"
+ 713 0119 01       		.byte	0x1
+ 714 011a 15       		.byte	0x15
+ 715 011b 30000000 		.4byte	0x30
+ 716 011f 01       		.byte	0x1
+ 717 0120 56       		.byte	0x56
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 16
 
 
- 718 001a 3E       		.uleb128 0x3e
- 719 001b 0B       		.uleb128 0xb
- 720 001c 03       		.uleb128 0x3
- 721 001d 0E       		.uleb128 0xe
- 722 001e 00       		.byte	0x0
- 723 001f 00       		.byte	0x0
- 724 0020 03       		.uleb128 0x3
- 725 0021 16       		.uleb128 0x16
- 726 0022 00       		.byte	0x0
- 727 0023 03       		.uleb128 0x3
- 728 0024 0E       		.uleb128 0xe
- 729 0025 3A       		.uleb128 0x3a
- 730 0026 0B       		.uleb128 0xb
- 731 0027 3B       		.uleb128 0x3b
- 732 0028 0B       		.uleb128 0xb
- 733 0029 49       		.uleb128 0x49
- 734 002a 13       		.uleb128 0x13
- 735 002b 00       		.byte	0x0
- 736 002c 00       		.byte	0x0
- 737 002d 04       		.uleb128 0x4
- 738 002e 24       		.uleb128 0x24
- 739 002f 00       		.byte	0x0
- 740 0030 0B       		.uleb128 0xb
- 741 0031 0B       		.uleb128 0xb
- 742 0032 3E       		.uleb128 0x3e
- 743 0033 0B       		.uleb128 0xb
- 744 0034 03       		.uleb128 0x3
- 745 0035 08       		.uleb128 0x8
- 746 0036 00       		.byte	0x0
- 747 0037 00       		.byte	0x0
- 748 0038 05       		.uleb128 0x5
- 749 0039 2E       		.uleb128 0x2e
- 750 003a 01       		.byte	0x1
- 751 003b 3F       		.uleb128 0x3f
- 752 003c 0C       		.uleb128 0xc
- 753 003d 03       		.uleb128 0x3
- 754 003e 0E       		.uleb128 0xe
- 755 003f 3A       		.uleb128 0x3a
- 756 0040 0B       		.uleb128 0xb
- 757 0041 3B       		.uleb128 0x3b
- 758 0042 0B       		.uleb128 0xb
- 759 0043 8740     		.uleb128 0x2007
- 760 0045 0E       		.uleb128 0xe
- 761 0046 11       		.uleb128 0x11
- 762 0047 01       		.uleb128 0x1
- 763 0048 12       		.uleb128 0x12
- 764 0049 01       		.uleb128 0x1
- 765 004a 40       		.uleb128 0x40
- 766 004b 06       		.uleb128 0x6
- 767 004c 01       		.uleb128 0x1
- 768 004d 13       		.uleb128 0x13
- 769 004e 00       		.byte	0x0
- 770 004f 00       		.byte	0x0
- 771 0050 06       		.uleb128 0x6
- 772 0051 05       		.uleb128 0x5
- 773 0052 00       		.byte	0x0
- 774 0053 03       		.uleb128 0x3
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 17
+ 718 0121 0B       		.uleb128 0xb
+ 719 0122 08000000 		.4byte	.LBB5
+ 720 0126 28000000 		.4byte	.LBE5
+ 721 012a 3C010000 		.4byte	0x13c
+ 722 012e 0C       		.uleb128 0xc
+ 723 012f 7800     		.ascii	"x\000"
+ 724 0131 01       		.byte	0x1
+ 725 0132 18       		.byte	0x18
+ 726 0133 6C000000 		.4byte	0x6c
+ 727 0137 FE000000 		.4byte	.LLST6
+ 728 013b 00       		.byte	0x0
+ 729 013c 0D       		.uleb128 0xd
+ 730 013d 28000000 		.4byte	.LBB6
+ 731 0141 5C000000 		.4byte	.LBE6
+ 732 0145 0A       		.uleb128 0xa
+ 733 0146 7800     		.ascii	"x\000"
+ 734 0148 01       		.byte	0x1
+ 735 0149 1E       		.byte	0x1e
+ 736 014a 6C000000 		.4byte	0x6c
+ 737 014e 01       		.byte	0x1
+ 738 014f 55       		.byte	0x55
+ 739 0150 00       		.byte	0x0
+ 740 0151 00       		.byte	0x0
+ 741 0152 0E       		.uleb128 0xe
+ 742 0153 01       		.byte	0x1
+ 743 0154 0A010000 		.4byte	.LASF22
+ 744 0158 01       		.byte	0x1
+ 745 0159 07       		.byte	0x7
+ 746 015a F7000000 		.4byte	.LASF23
+ 747 015e 00000000 		.4byte	.LFB2
+ 748 0162 38000000 		.4byte	.LFE2
+ 749 0166 11010000 		.4byte	.LLST7
+ 750 016a 0F       		.uleb128 0xf
+ 751 016b 6C00     		.ascii	"l\000"
+ 752 016d 01       		.byte	0x1
+ 753 016e 09       		.byte	0x9
+ 754 016f 6C000000 		.4byte	0x6c
+ 755 0173 00       		.byte	0x0
+ 756 0174 00       		.byte	0x0
+ 757              		.section	.debug_abbrev
+ 758 0000 01       		.uleb128 0x1
+ 759 0001 11       		.uleb128 0x11
+ 760 0002 01       		.byte	0x1
+ 761 0003 25       		.uleb128 0x25
+ 762 0004 0E       		.uleb128 0xe
+ 763 0005 13       		.uleb128 0x13
+ 764 0006 0B       		.uleb128 0xb
+ 765 0007 03       		.uleb128 0x3
+ 766 0008 0E       		.uleb128 0xe
+ 767 0009 1B       		.uleb128 0x1b
+ 768 000a 0E       		.uleb128 0xe
+ 769 000b 11       		.uleb128 0x11
+ 770 000c 01       		.uleb128 0x1
+ 771 000d 52       		.uleb128 0x52
+ 772 000e 01       		.uleb128 0x1
+ 773 000f 55       		.uleb128 0x55
+ 774 0010 06       		.uleb128 0x6
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 17
 
 
- 775 0054 0E       		.uleb128 0xe
- 776 0055 3A       		.uleb128 0x3a
- 777 0056 0B       		.uleb128 0xb
- 778 0057 3B       		.uleb128 0x3b
- 779 0058 0B       		.uleb128 0xb
- 780 0059 49       		.uleb128 0x49
- 781 005a 13       		.uleb128 0x13
- 782 005b 02       		.uleb128 0x2
- 783 005c 06       		.uleb128 0x6
- 784 005d 00       		.byte	0x0
- 785 005e 00       		.byte	0x0
- 786 005f 07       		.uleb128 0x7
- 787 0060 34       		.uleb128 0x34
- 788 0061 00       		.byte	0x0
- 789 0062 03       		.uleb128 0x3
- 790 0063 0E       		.uleb128 0xe
- 791 0064 3A       		.uleb128 0x3a
- 792 0065 0B       		.uleb128 0xb
- 793 0066 3B       		.uleb128 0x3b
- 794 0067 0B       		.uleb128 0xb
- 795 0068 49       		.uleb128 0x49
- 796 0069 13       		.uleb128 0x13
- 797 006a 02       		.uleb128 0x2
- 798 006b 0A       		.uleb128 0xa
- 799 006c 00       		.byte	0x0
- 800 006d 00       		.byte	0x0
- 801 006e 08       		.uleb128 0x8
- 802 006f 34       		.uleb128 0x34
- 803 0070 00       		.byte	0x0
- 804 0071 03       		.uleb128 0x3
- 805 0072 0E       		.uleb128 0xe
- 806 0073 3A       		.uleb128 0x3a
- 807 0074 0B       		.uleb128 0xb
- 808 0075 3B       		.uleb128 0x3b
- 809 0076 0B       		.uleb128 0xb
- 810 0077 49       		.uleb128 0x49
- 811 0078 13       		.uleb128 0x13
- 812 0079 02       		.uleb128 0x2
- 813 007a 06       		.uleb128 0x6
- 814 007b 00       		.byte	0x0
- 815 007c 00       		.byte	0x0
- 816 007d 09       		.uleb128 0x9
- 817 007e 35       		.uleb128 0x35
- 818 007f 00       		.byte	0x0
- 819 0080 49       		.uleb128 0x49
- 820 0081 13       		.uleb128 0x13
- 821 0082 00       		.byte	0x0
- 822 0083 00       		.byte	0x0
- 823 0084 0A       		.uleb128 0xa
- 824 0085 34       		.uleb128 0x34
- 825 0086 00       		.byte	0x0
- 826 0087 03       		.uleb128 0x3
- 827 0088 0E       		.uleb128 0xe
- 828 0089 3A       		.uleb128 0x3a
- 829 008a 0B       		.uleb128 0xb
- 830 008b 3B       		.uleb128 0x3b
- 831 008c 0B       		.uleb128 0xb
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 18
+ 775 0011 10       		.uleb128 0x10
+ 776 0012 06       		.uleb128 0x6
+ 777 0013 00       		.byte	0x0
+ 778 0014 00       		.byte	0x0
+ 779 0015 02       		.uleb128 0x2
+ 780 0016 24       		.uleb128 0x24
+ 781 0017 00       		.byte	0x0
+ 782 0018 0B       		.uleb128 0xb
+ 783 0019 0B       		.uleb128 0xb
+ 784 001a 3E       		.uleb128 0x3e
+ 785 001b 0B       		.uleb128 0xb
+ 786 001c 03       		.uleb128 0x3
+ 787 001d 0E       		.uleb128 0xe
+ 788 001e 00       		.byte	0x0
+ 789 001f 00       		.byte	0x0
+ 790 0020 03       		.uleb128 0x3
+ 791 0021 16       		.uleb128 0x16
+ 792 0022 00       		.byte	0x0
+ 793 0023 03       		.uleb128 0x3
+ 794 0024 0E       		.uleb128 0xe
+ 795 0025 3A       		.uleb128 0x3a
+ 796 0026 0B       		.uleb128 0xb
+ 797 0027 3B       		.uleb128 0x3b
+ 798 0028 0B       		.uleb128 0xb
+ 799 0029 49       		.uleb128 0x49
+ 800 002a 13       		.uleb128 0x13
+ 801 002b 00       		.byte	0x0
+ 802 002c 00       		.byte	0x0
+ 803 002d 04       		.uleb128 0x4
+ 804 002e 24       		.uleb128 0x24
+ 805 002f 00       		.byte	0x0
+ 806 0030 0B       		.uleb128 0xb
+ 807 0031 0B       		.uleb128 0xb
+ 808 0032 3E       		.uleb128 0x3e
+ 809 0033 0B       		.uleb128 0xb
+ 810 0034 03       		.uleb128 0x3
+ 811 0035 08       		.uleb128 0x8
+ 812 0036 00       		.byte	0x0
+ 813 0037 00       		.byte	0x0
+ 814 0038 05       		.uleb128 0x5
+ 815 0039 2E       		.uleb128 0x2e
+ 816 003a 01       		.byte	0x1
+ 817 003b 3F       		.uleb128 0x3f
+ 818 003c 0C       		.uleb128 0xc
+ 819 003d 03       		.uleb128 0x3
+ 820 003e 0E       		.uleb128 0xe
+ 821 003f 3A       		.uleb128 0x3a
+ 822 0040 0B       		.uleb128 0xb
+ 823 0041 3B       		.uleb128 0x3b
+ 824 0042 0B       		.uleb128 0xb
+ 825 0043 8740     		.uleb128 0x2007
+ 826 0045 0E       		.uleb128 0xe
+ 827 0046 11       		.uleb128 0x11
+ 828 0047 01       		.uleb128 0x1
+ 829 0048 12       		.uleb128 0x12
+ 830 0049 01       		.uleb128 0x1
+ 831 004a 40       		.uleb128 0x40
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 18
 
 
- 832 008d 49       		.uleb128 0x49
- 833 008e 13       		.uleb128 0x13
- 834 008f 00       		.byte	0x0
- 835 0090 00       		.byte	0x0
- 836 0091 0B       		.uleb128 0xb
- 837 0092 34       		.uleb128 0x34
- 838 0093 00       		.byte	0x0
- 839 0094 03       		.uleb128 0x3
- 840 0095 08       		.uleb128 0x8
- 841 0096 3A       		.uleb128 0x3a
- 842 0097 0B       		.uleb128 0xb
- 843 0098 3B       		.uleb128 0x3b
- 844 0099 0B       		.uleb128 0xb
- 845 009a 49       		.uleb128 0x49
- 846 009b 13       		.uleb128 0x13
- 847 009c 02       		.uleb128 0x2
- 848 009d 0A       		.uleb128 0xa
- 849 009e 00       		.byte	0x0
- 850 009f 00       		.byte	0x0
- 851 00a0 0C       		.uleb128 0xc
- 852 00a1 0B       		.uleb128 0xb
- 853 00a2 01       		.byte	0x1
- 854 00a3 11       		.uleb128 0x11
- 855 00a4 01       		.uleb128 0x1
- 856 00a5 12       		.uleb128 0x12
- 857 00a6 01       		.uleb128 0x1
- 858 00a7 01       		.uleb128 0x1
- 859 00a8 13       		.uleb128 0x13
- 860 00a9 00       		.byte	0x0
- 861 00aa 00       		.byte	0x0
- 862 00ab 0D       		.uleb128 0xd
- 863 00ac 34       		.uleb128 0x34
- 864 00ad 00       		.byte	0x0
- 865 00ae 03       		.uleb128 0x3
- 866 00af 08       		.uleb128 0x8
- 867 00b0 3A       		.uleb128 0x3a
- 868 00b1 0B       		.uleb128 0xb
- 869 00b2 3B       		.uleb128 0x3b
- 870 00b3 0B       		.uleb128 0xb
- 871 00b4 49       		.uleb128 0x49
- 872 00b5 13       		.uleb128 0x13
- 873 00b6 02       		.uleb128 0x2
- 874 00b7 06       		.uleb128 0x6
- 875 00b8 00       		.byte	0x0
- 876 00b9 00       		.byte	0x0
- 877 00ba 0E       		.uleb128 0xe
- 878 00bb 0B       		.uleb128 0xb
- 879 00bc 01       		.byte	0x1
- 880 00bd 11       		.uleb128 0x11
- 881 00be 01       		.uleb128 0x1
- 882 00bf 12       		.uleb128 0x12
- 883 00c0 01       		.uleb128 0x1
- 884 00c1 00       		.byte	0x0
- 885 00c2 00       		.byte	0x0
- 886 00c3 0F       		.uleb128 0xf
- 887 00c4 2E       		.uleb128 0x2e
- 888 00c5 01       		.byte	0x1
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 19
+ 832 004b 06       		.uleb128 0x6
+ 833 004c 01       		.uleb128 0x1
+ 834 004d 13       		.uleb128 0x13
+ 835 004e 00       		.byte	0x0
+ 836 004f 00       		.byte	0x0
+ 837 0050 06       		.uleb128 0x6
+ 838 0051 05       		.uleb128 0x5
+ 839 0052 00       		.byte	0x0
+ 840 0053 03       		.uleb128 0x3
+ 841 0054 0E       		.uleb128 0xe
+ 842 0055 3A       		.uleb128 0x3a
+ 843 0056 0B       		.uleb128 0xb
+ 844 0057 3B       		.uleb128 0x3b
+ 845 0058 0B       		.uleb128 0xb
+ 846 0059 49       		.uleb128 0x49
+ 847 005a 13       		.uleb128 0x13
+ 848 005b 02       		.uleb128 0x2
+ 849 005c 06       		.uleb128 0x6
+ 850 005d 00       		.byte	0x0
+ 851 005e 00       		.byte	0x0
+ 852 005f 07       		.uleb128 0x7
+ 853 0060 34       		.uleb128 0x34
+ 854 0061 00       		.byte	0x0
+ 855 0062 03       		.uleb128 0x3
+ 856 0063 0E       		.uleb128 0xe
+ 857 0064 3A       		.uleb128 0x3a
+ 858 0065 0B       		.uleb128 0xb
+ 859 0066 3B       		.uleb128 0x3b
+ 860 0067 0B       		.uleb128 0xb
+ 861 0068 49       		.uleb128 0x49
+ 862 0069 13       		.uleb128 0x13
+ 863 006a 02       		.uleb128 0x2
+ 864 006b 0A       		.uleb128 0xa
+ 865 006c 00       		.byte	0x0
+ 866 006d 00       		.byte	0x0
+ 867 006e 08       		.uleb128 0x8
+ 868 006f 34       		.uleb128 0x34
+ 869 0070 00       		.byte	0x0
+ 870 0071 03       		.uleb128 0x3
+ 871 0072 0E       		.uleb128 0xe
+ 872 0073 3A       		.uleb128 0x3a
+ 873 0074 0B       		.uleb128 0xb
+ 874 0075 3B       		.uleb128 0x3b
+ 875 0076 0B       		.uleb128 0xb
+ 876 0077 49       		.uleb128 0x49
+ 877 0078 13       		.uleb128 0x13
+ 878 0079 02       		.uleb128 0x2
+ 879 007a 06       		.uleb128 0x6
+ 880 007b 00       		.byte	0x0
+ 881 007c 00       		.byte	0x0
+ 882 007d 09       		.uleb128 0x9
+ 883 007e 35       		.uleb128 0x35
+ 884 007f 00       		.byte	0x0
+ 885 0080 49       		.uleb128 0x49
+ 886 0081 13       		.uleb128 0x13
+ 887 0082 00       		.byte	0x0
+ 888 0083 00       		.byte	0x0
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 19
 
 
- 889 00c6 3F       		.uleb128 0x3f
- 890 00c7 0C       		.uleb128 0xc
- 891 00c8 03       		.uleb128 0x3
- 892 00c9 0E       		.uleb128 0xe
- 893 00ca 3A       		.uleb128 0x3a
- 894 00cb 0B       		.uleb128 0xb
- 895 00cc 3B       		.uleb128 0x3b
- 896 00cd 0B       		.uleb128 0xb
- 897 00ce 8740     		.uleb128 0x2007
- 898 00d0 0E       		.uleb128 0xe
- 899 00d1 11       		.uleb128 0x11
- 900 00d2 01       		.uleb128 0x1
- 901 00d3 12       		.uleb128 0x12
- 902 00d4 01       		.uleb128 0x1
- 903 00d5 40       		.uleb128 0x40
- 904 00d6 06       		.uleb128 0x6
- 905 00d7 00       		.byte	0x0
- 906 00d8 00       		.byte	0x0
- 907 00d9 10       		.uleb128 0x10
- 908 00da 34       		.uleb128 0x34
- 909 00db 00       		.byte	0x0
- 910 00dc 03       		.uleb128 0x3
- 911 00dd 08       		.uleb128 0x8
- 912 00de 3A       		.uleb128 0x3a
- 913 00df 0B       		.uleb128 0xb
- 914 00e0 3B       		.uleb128 0x3b
- 915 00e1 0B       		.uleb128 0xb
- 916 00e2 49       		.uleb128 0x49
- 917 00e3 13       		.uleb128 0x13
- 918 00e4 00       		.byte	0x0
- 919 00e5 00       		.byte	0x0
- 920 00e6 00       		.byte	0x0
- 921              		.section	.debug_pubnames,"",%progbits
- 922 0000 57000000 		.4byte	0x57
- 923 0004 0200     		.2byte	0x2
- 924 0006 00000000 		.4byte	.Ldebug_info0
- 925 000a 6C010000 		.4byte	0x16c
- 926 000e 7A000000 		.4byte	0x7a
- 927 0012 7370696E 		.ascii	"spinLEDs\000"
- 927      4C454473 
- 927      00
- 928 001b C7000000 		.4byte	0xc7
- 929 001f 746F6767 		.ascii	"toggleOutboundPower\000"
- 929      6C654F75 
- 929      74626F75 
- 929      6E64506F 
- 929      77657200 
- 930 0033 EF000000 		.4byte	0xef
- 931 0037 77696767 		.ascii	"wiggleAllPins\000"
- 931      6C65416C 
- 931      6C50696E 
- 931      7300
- 932 0045 49010000 		.4byte	0x149
- 933 0049 7475726E 		.ascii	"turnOnAllLEDs\000"
- 933      4F6E416C 
- 933      6C4C4544 
- 933      7300
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 20
+ 889 0084 0A       		.uleb128 0xa
+ 890 0085 34       		.uleb128 0x34
+ 891 0086 00       		.byte	0x0
+ 892 0087 03       		.uleb128 0x3
+ 893 0088 08       		.uleb128 0x8
+ 894 0089 3A       		.uleb128 0x3a
+ 895 008a 0B       		.uleb128 0xb
+ 896 008b 3B       		.uleb128 0x3b
+ 897 008c 0B       		.uleb128 0xb
+ 898 008d 49       		.uleb128 0x49
+ 899 008e 13       		.uleb128 0x13
+ 900 008f 02       		.uleb128 0x2
+ 901 0090 0A       		.uleb128 0xa
+ 902 0091 00       		.byte	0x0
+ 903 0092 00       		.byte	0x0
+ 904 0093 0B       		.uleb128 0xb
+ 905 0094 0B       		.uleb128 0xb
+ 906 0095 01       		.byte	0x1
+ 907 0096 11       		.uleb128 0x11
+ 908 0097 01       		.uleb128 0x1
+ 909 0098 12       		.uleb128 0x12
+ 910 0099 01       		.uleb128 0x1
+ 911 009a 01       		.uleb128 0x1
+ 912 009b 13       		.uleb128 0x13
+ 913 009c 00       		.byte	0x0
+ 914 009d 00       		.byte	0x0
+ 915 009e 0C       		.uleb128 0xc
+ 916 009f 34       		.uleb128 0x34
+ 917 00a0 00       		.byte	0x0
+ 918 00a1 03       		.uleb128 0x3
+ 919 00a2 08       		.uleb128 0x8
+ 920 00a3 3A       		.uleb128 0x3a
+ 921 00a4 0B       		.uleb128 0xb
+ 922 00a5 3B       		.uleb128 0x3b
+ 923 00a6 0B       		.uleb128 0xb
+ 924 00a7 49       		.uleb128 0x49
+ 925 00a8 13       		.uleb128 0x13
+ 926 00a9 02       		.uleb128 0x2
+ 927 00aa 06       		.uleb128 0x6
+ 928 00ab 00       		.byte	0x0
+ 929 00ac 00       		.byte	0x0
+ 930 00ad 0D       		.uleb128 0xd
+ 931 00ae 0B       		.uleb128 0xb
+ 932 00af 01       		.byte	0x1
+ 933 00b0 11       		.uleb128 0x11
+ 934 00b1 01       		.uleb128 0x1
+ 935 00b2 12       		.uleb128 0x12
+ 936 00b3 01       		.uleb128 0x1
+ 937 00b4 00       		.byte	0x0
+ 938 00b5 00       		.byte	0x0
+ 939 00b6 0E       		.uleb128 0xe
+ 940 00b7 2E       		.uleb128 0x2e
+ 941 00b8 01       		.byte	0x1
+ 942 00b9 3F       		.uleb128 0x3f
+ 943 00ba 0C       		.uleb128 0xc
+ 944 00bb 03       		.uleb128 0x3
+ 945 00bc 0E       		.uleb128 0xe
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 20
 
 
- 934 0057 00000000 		.4byte	0x0
- 935              		.section	.debug_aranges,"",%progbits
- 936 0000 34000000 		.4byte	0x34
- 937 0004 0200     		.2byte	0x2
- 938 0006 00000000 		.4byte	.Ldebug_info0
- 939 000a 04       		.byte	0x4
- 940 000b 00       		.byte	0x0
- 941 000c 0000     		.2byte	0x0
- 942 000e 0000     		.2byte	0x0
- 943 0010 00000000 		.4byte	.LFB5
- 944 0014 44010000 		.4byte	.LFE5-.LFB5
- 945 0018 00000000 		.4byte	.LFB4
- 946 001c 9C000000 		.4byte	.LFE4-.LFB4
- 947 0020 00000000 		.4byte	.LFB3
- 948 0024 78000000 		.4byte	.LFE3-.LFB3
- 949 0028 00000000 		.4byte	.LFB2
- 950 002c 38000000 		.4byte	.LFE2-.LFB2
- 951 0030 00000000 		.4byte	0x0
- 952 0034 00000000 		.4byte	0x0
- 953              		.section	.debug_ranges,"",%progbits
- 954              	.Ldebug_ranges0:
- 955 0000 00000000 		.4byte	.Ltext0
- 956 0004 00000000 		.4byte	.Letext0
- 957 0008 00000000 		.4byte	.LFB5
- 958 000c 44010000 		.4byte	.LFE5
- 959 0010 00000000 		.4byte	.LFB4
- 960 0014 9C000000 		.4byte	.LFE4
- 961 0018 00000000 		.4byte	.LFB3
- 962 001c 78000000 		.4byte	.LFE3
- 963 0020 00000000 		.4byte	.LFB2
- 964 0024 38000000 		.4byte	.LFE2
- 965 0028 00000000 		.4byte	0x0
- 966 002c 00000000 		.4byte	0x0
- 967              		.section	.debug_str,"MS",%progbits,1
- 968              	.LASF15:
- 969 0000 77696767 		.ascii	"wiggleAllPins\000"
- 969      6C65416C 
- 969      6C50696E 
- 969      7300
- 970              	.LASF18:
- 971 000e 7366626F 		.ascii	"sfboard_tests.cpp\000"
- 971      6172645F 
- 971      74657374 
- 971      732E6370 
- 971      7000
- 972              	.LASF17:
- 973 0020 474E5520 		.ascii	"GNU C++ 4.3.2\000"
- 973      432B2B20 
- 973      342E332E 
- 973      3200
- 974              	.LASF10:
- 975 002e 77616974 		.ascii	"wait\000"
- 975      00
- 976              	.LASF1:
- 977 0033 756E7369 		.ascii	"unsigned char\000"
- 977      676E6564 
- 977      20636861 
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 21
+ 946 00bd 3A       		.uleb128 0x3a
+ 947 00be 0B       		.uleb128 0xb
+ 948 00bf 3B       		.uleb128 0x3b
+ 949 00c0 0B       		.uleb128 0xb
+ 950 00c1 8740     		.uleb128 0x2007
+ 951 00c3 0E       		.uleb128 0xe
+ 952 00c4 11       		.uleb128 0x11
+ 953 00c5 01       		.uleb128 0x1
+ 954 00c6 12       		.uleb128 0x12
+ 955 00c7 01       		.uleb128 0x1
+ 956 00c8 40       		.uleb128 0x40
+ 957 00c9 06       		.uleb128 0x6
+ 958 00ca 00       		.byte	0x0
+ 959 00cb 00       		.byte	0x0
+ 960 00cc 0F       		.uleb128 0xf
+ 961 00cd 34       		.uleb128 0x34
+ 962 00ce 00       		.byte	0x0
+ 963 00cf 03       		.uleb128 0x3
+ 964 00d0 08       		.uleb128 0x8
+ 965 00d1 3A       		.uleb128 0x3a
+ 966 00d2 0B       		.uleb128 0xb
+ 967 00d3 3B       		.uleb128 0x3b
+ 968 00d4 0B       		.uleb128 0xb
+ 969 00d5 49       		.uleb128 0x49
+ 970 00d6 13       		.uleb128 0x13
+ 971 00d7 00       		.byte	0x0
+ 972 00d8 00       		.byte	0x0
+ 973 00d9 00       		.byte	0x0
+ 974              		.section	.debug_pubnames,"",%progbits
+ 975 0000 57000000 		.4byte	0x57
+ 976 0004 0200     		.2byte	0x2
+ 977 0006 00000000 		.4byte	.Ldebug_info0
+ 978 000a 75010000 		.4byte	0x175
+ 979 000e 7A000000 		.4byte	0x7a
+ 980 0012 7370696E 		.ascii	"spinLEDs\000"
+ 980      4C454473 
+ 980      00
+ 981 001b C7000000 		.4byte	0xc7
+ 982 001f 746F6767 		.ascii	"toggleOutboundPower\000"
+ 982      6C654F75 
+ 982      74626F75 
+ 982      6E64506F 
+ 982      77657200 
+ 983 0033 F8000000 		.4byte	0xf8
+ 984 0037 77696767 		.ascii	"wiggleAllPins\000"
+ 984      6C65416C 
+ 984      6C50696E 
+ 984      7300
+ 985 0045 52010000 		.4byte	0x152
+ 986 0049 7475726E 		.ascii	"turnOnAllLEDs\000"
+ 986      4F6E416C 
+ 986      6C4C4544 
+ 986      7300
+ 987 0057 00000000 		.4byte	0x0
+ 988              		.section	.debug_aranges,"",%progbits
+ 989 0000 34000000 		.4byte	0x34
+ 990 0004 0200     		.2byte	0x2
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 21
 
 
- 977      7200
- 978              	.LASF5:
- 979 0041 6C6F6E67 		.ascii	"long unsigned int\000"
- 979      20756E73 
- 979      69676E65 
- 979      6420696E 
- 979      7400
- 980              	.LASF3:
- 981 0053 73686F72 		.ascii	"short unsigned int\000"
- 981      7420756E 
- 981      7369676E 
- 981      65642069 
- 981      6E7400
- 982              	.LASF13:
- 983 0066 5F5A3873 		.ascii	"_Z8spinLEDsj\000"
- 983      70696E4C 
- 983      4544736A 
- 983      00
- 984              	.LASF12:
- 985 0073 746F6767 		.ascii	"toggleOutboundPower\000"
- 985      6C654F75 
- 985      74626F75 
- 985      6E64506F 
- 985      77657200 
- 986              	.LASF19:
- 987 0087 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot2.0/sfboot\000"
- 987      64726976 
- 987      652F632F 
- 987      55736572 
- 987      732F4368 
- 988              	.LASF11:
- 989 00b8 7370696E 		.ascii	"spinLEDs\000"
- 989      4C454473 
- 989      00
- 990              	.LASF21:
- 991 00c1 7370696E 		.ascii	"spinCount\000"
- 991      436F756E 
- 991      7400
- 992              	.LASF8:
- 993 00cb 756E7369 		.ascii	"unsigned int\000"
- 993      676E6564 
- 993      20696E74 
- 993      00
- 994              	.LASF7:
- 995 00d8 6C6F6E67 		.ascii	"long long unsigned int\000"
- 995      206C6F6E 
- 995      6720756E 
- 995      7369676E 
- 995      65642069 
- 996              	.LASF20:
- 997 00ef 75696E74 		.ascii	"uint8_t\000"
- 997      385F7400 
- 998              	.LASF23:
- 999 00f7 5F5A3133 		.ascii	"_Z13turnOnAllLEDsv\000"
- 999      7475726E 
- 999      4F6E416C 
- 999      6C4C4544 
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 22
+ 991 0006 00000000 		.4byte	.Ldebug_info0
+ 992 000a 04       		.byte	0x4
+ 993 000b 00       		.byte	0x0
+ 994 000c 0000     		.2byte	0x0
+ 995 000e 0000     		.2byte	0x0
+ 996 0010 00000000 		.4byte	.LFB5
+ 997 0014 44010000 		.4byte	.LFE5-.LFB5
+ 998 0018 00000000 		.4byte	.LFB4
+ 999 001c E8000000 		.4byte	.LFE4-.LFB4
+ 1000 0020 00000000 		.4byte	.LFB3
+ 1001 0024 78000000 		.4byte	.LFE3-.LFB3
+ 1002 0028 00000000 		.4byte	.LFB2
+ 1003 002c 38000000 		.4byte	.LFE2-.LFB2
+ 1004 0030 00000000 		.4byte	0x0
+ 1005 0034 00000000 		.4byte	0x0
+ 1006              		.section	.debug_ranges,"",%progbits
+ 1007              	.Ldebug_ranges0:
+ 1008 0000 00000000 		.4byte	.Ltext0
+ 1009 0004 00000000 		.4byte	.Letext0
+ 1010 0008 00000000 		.4byte	.LFB5
+ 1011 000c 44010000 		.4byte	.LFE5
+ 1012 0010 00000000 		.4byte	.LFB4
+ 1013 0014 E8000000 		.4byte	.LFE4
+ 1014 0018 00000000 		.4byte	.LFB3
+ 1015 001c 78000000 		.4byte	.LFE3
+ 1016 0020 00000000 		.4byte	.LFB2
+ 1017 0024 38000000 		.4byte	.LFE2
+ 1018 0028 00000000 		.4byte	0x0
+ 1019 002c 00000000 		.4byte	0x0
+ 1020              		.section	.debug_str,"MS",%progbits,1
+ 1021              	.LASF15:
+ 1022 0000 77696767 		.ascii	"wiggleAllPins\000"
+ 1022      6C65416C 
+ 1022      6C50696E 
+ 1022      7300
+ 1023              	.LASF18:
+ 1024 000e 7366626F 		.ascii	"sfboard_tests.cpp\000"
+ 1024      6172645F 
+ 1024      74657374 
+ 1024      732E6370 
+ 1024      7000
+ 1025              	.LASF17:
+ 1026 0020 474E5520 		.ascii	"GNU C++ 4.3.2\000"
+ 1026      432B2B20 
+ 1026      342E332E 
+ 1026      3200
+ 1027              	.LASF10:
+ 1028 002e 77616974 		.ascii	"wait\000"
+ 1028      00
+ 1029              	.LASF1:
+ 1030 0033 756E7369 		.ascii	"unsigned char\000"
+ 1030      676E6564 
+ 1030      20636861 
+ 1030      7200
+ 1031              	.LASF5:
+ 1032 0041 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1032      20756E73 
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 22
 
 
- 999      737600
- 1000              	.LASF22:
- 1001 010a 7475726E 		.ascii	"turnOnAllLEDs\000"
- 1001      4F6E416C 
- 1001      6C4C4544 
- 1001      7300
- 1002              	.LASF6:
- 1003 0118 6C6F6E67 		.ascii	"long long int\000"
- 1003      206C6F6E 
- 1003      6720696E 
- 1003      7400
- 1004              	.LASF9:
- 1005 0126 66616365 		.ascii	"face\000"
- 1005      00
- 1006              	.LASF2:
- 1007 012b 73686F72 		.ascii	"short int\000"
- 1007      7420696E 
- 1007      7400
- 1008              	.LASF4:
- 1009 0135 6C6F6E67 		.ascii	"long int\000"
- 1009      20696E74 
- 1009      00
- 1010              	.LASF0:
- 1011 013e 7369676E 		.ascii	"signed char\000"
- 1011      65642063 
- 1011      68617200 
- 1012              	.LASF14:
- 1013 014a 5F5A3139 		.ascii	"_Z19toggleOutboundPowerv\000"
- 1013      746F6767 
- 1013      6C654F75 
- 1013      74626F75 
- 1013      6E64506F 
- 1014              	.LASF16:
- 1015 0163 5F5A3133 		.ascii	"_Z13wiggleAllPinsv\000"
- 1015      77696767 
- 1015      6C65416C 
- 1015      6C50696E 
- 1015      737600
- 1016              		.ident	"GCC: (AHAX Arm-Linux 2008q3-66) 4.3.2"
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s 			page 23
+ 1032      69676E65 
+ 1032      6420696E 
+ 1032      7400
+ 1033              	.LASF3:
+ 1034 0053 73686F72 		.ascii	"short unsigned int\000"
+ 1034      7420756E 
+ 1034      7369676E 
+ 1034      65642069 
+ 1034      6E7400
+ 1035              	.LASF13:
+ 1036 0066 5F5A3873 		.ascii	"_Z8spinLEDsj\000"
+ 1036      70696E4C 
+ 1036      4544736A 
+ 1036      00
+ 1037              	.LASF12:
+ 1038 0073 746F6767 		.ascii	"toggleOutboundPower\000"
+ 1038      6C654F75 
+ 1038      74626F75 
+ 1038      6E64506F 
+ 1038      77657200 
+ 1039              	.LASF19:
+ 1040 0087 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot2.0/sfboot\000"
+ 1040      64726976 
+ 1040      652F632F 
+ 1040      55736572 
+ 1040      732F4368 
+ 1041              	.LASF11:
+ 1042 00b8 7370696E 		.ascii	"spinLEDs\000"
+ 1042      4C454473 
+ 1042      00
+ 1043              	.LASF21:
+ 1044 00c1 7370696E 		.ascii	"spinCount\000"
+ 1044      436F756E 
+ 1044      7400
+ 1045              	.LASF8:
+ 1046 00cb 756E7369 		.ascii	"unsigned int\000"
+ 1046      676E6564 
+ 1046      20696E74 
+ 1046      00
+ 1047              	.LASF7:
+ 1048 00d8 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1048      206C6F6E 
+ 1048      6720756E 
+ 1048      7369676E 
+ 1048      65642069 
+ 1049              	.LASF20:
+ 1050 00ef 75696E74 		.ascii	"uint8_t\000"
+ 1050      385F7400 
+ 1051              	.LASF23:
+ 1052 00f7 5F5A3133 		.ascii	"_Z13turnOnAllLEDsv\000"
+ 1052      7475726E 
+ 1052      4F6E416C 
+ 1052      6C4C4544 
+ 1052      737600
+ 1053              	.LASF22:
+ 1054 010a 7475726E 		.ascii	"turnOnAllLEDs\000"
+ 1054      4F6E416C 
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 23
+
+
+ 1054      6C4C4544 
+ 1054      7300
+ 1055              	.LASF6:
+ 1056 0118 6C6F6E67 		.ascii	"long long int\000"
+ 1056      206C6F6E 
+ 1056      6720696E 
+ 1056      7400
+ 1057              	.LASF9:
+ 1058 0126 66616365 		.ascii	"face\000"
+ 1058      00
+ 1059              	.LASF2:
+ 1060 012b 73686F72 		.ascii	"short int\000"
+ 1060      7420696E 
+ 1060      7400
+ 1061              	.LASF4:
+ 1062 0135 6C6F6E67 		.ascii	"long int\000"
+ 1062      20696E74 
+ 1062      00
+ 1063              	.LASF0:
+ 1064 013e 7369676E 		.ascii	"signed char\000"
+ 1064      65642063 
+ 1064      68617200 
+ 1065              	.LASF14:
+ 1066 014a 5F5A3139 		.ascii	"_Z19toggleOutboundPowerv\000"
+ 1066      746F6767 
+ 1066      6C654F75 
+ 1066      74626F75 
+ 1066      6E64506F 
+ 1067              	.LASF16:
+ 1068 0163 5F5A3133 		.ascii	"_Z13wiggleAllPinsv\000"
+ 1068      77696767 
+ 1068      6C65416C 
+ 1068      6C50696E 
+ 1068      737600
+ 1069              		.ident	"GCC: (AHAX Arm-Linux 2008q3-66) 4.3.2"
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s 			page 24
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 sfboard_tests.cpp
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:24     .text._Z8spinLEDsj:00000000 _Z8spinLEDsj
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:32     .text._Z8spinLEDsj:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:71     .text._Z8spinLEDsj:00000050 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:77     .text._Z8spinLEDsj:00000060 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:166    .text._Z8spinLEDsj:00000140 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:173    .text._Z19toggleOutboundPowerv:00000000 _Z19toggleOutboundPowerv
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:179    .text._Z19toggleOutboundPowerv:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:240    .text._Z13wiggleAllPinsv:00000000 _Z13wiggleAllPinsv
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:246    .text._Z13wiggleAllPinsv:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:310    .text._Z13turnOnAllLEDsv:00000000 _Z13turnOnAllLEDsv
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:316    .text._Z13turnOnAllLEDsv:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:343    .debug_frame:00000000 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccDKm1Sk.s:437    .debug_loc:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s:24     .text._Z8spinLEDsj:00000000 _Z8spinLEDsj
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s:32     .text._Z8spinLEDsj:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s:71     .text._Z8spinLEDsj:00000050 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s:77     .text._Z8spinLEDsj:00000060 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s:166    .text._Z8spinLEDsj:00000140 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s:173    .text._Z19toggleOutboundPowerv:00000000 _Z19toggleOutboundPowerv
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s:179    .text._Z19toggleOutboundPowerv:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s:266    .text._Z19toggleOutboundPowerv:000000e4 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s:273    .text._Z13wiggleAllPinsv:00000000 _Z13wiggleAllPinsv
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s:279    .text._Z13wiggleAllPinsv:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s:343    .text._Z13turnOnAllLEDsv:00000000 _Z13turnOnAllLEDsv
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s:349    .text._Z13turnOnAllLEDsv:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s:376    .debug_frame:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccsgbwko.s:474    .debug_loc:00000000 $d
 
 UNDEFINED SYMBOLS
 _Z12digitalWritehh

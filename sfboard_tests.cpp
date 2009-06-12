@@ -39,7 +39,7 @@ uint8_t pin;
 //* Toggles the Outbound power 
 //* on all four faces
 void toggleOutboundPower() {
-long wait;
+volatile long wait;
 
    pinMode(7, OUTPUT);
    pinMode(15, OUTPUT);
@@ -93,31 +93,31 @@ void spinLEDs(unsigned int spinCount) {
       switch (face) {
 
       case 0:
-         digitalWrite(35, LOW);
-         digitalWrite(36, HIGH);
-         digitalWrite(37, HIGH);
-         digitalWrite(38, HIGH);
-         break;
-
-      case 1:
          digitalWrite(35, HIGH);
          digitalWrite(36, HIGH);
          digitalWrite(37, LOW);
          digitalWrite(38, HIGH);
          break;
 
-      case 2:
+      case 1:
          digitalWrite(35, HIGH);
          digitalWrite(36, LOW);
          digitalWrite(37, HIGH);
          digitalWrite(38, HIGH);
          break;
 
-      case 3:
+      case 2:
          digitalWrite(35, HIGH);
          digitalWrite(36, HIGH);
          digitalWrite(37, HIGH);
-         digitalWrite(38, LOW);
+         digitalWrite(38, LOW); 
+         break;
+
+      case 3:
+         digitalWrite(35, LOW);
+         digitalWrite(36, HIGH);
+         digitalWrite(37, HIGH);
+         digitalWrite(38, HIGH);
          break;
       }
 

@@ -1,7 +1,7 @@
 #ifndef WIRING_PINS_H
 #define WIRING_PINS_H
 
-#define kPinCount 38 /* The total number of pins in the PinTable */
+#define kPinCount 43 /* The total number of pins in the PinTable */
 
 typedef enum {
    eRXTX,
@@ -26,4 +26,6 @@ typedef struct {
 } PIN_DESC_T;
 
 extern PIN_DESC_T PinTable[];
+
+
 #endif

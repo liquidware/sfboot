@@ -1,4 +1,4 @@
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 1
 
 
    1              		.cpu arm7tdmi
@@ -58,7 +58,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
   44              	.LFB5:
    8:nothrow.cpp   **** 
    9:nothrow.cpp   **** extern "C" int __aeabi_atexit(void *object,
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 2
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 2
 
 
   10:nothrow.cpp   ****                               void (*destructor)(void *),
@@ -118,7 +118,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
   94 000c 1EFF2FE1 		bx	lr
   95              	.LFE2:
   96              		.size	_Znwj, .-_Znwj
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 3
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 3
 
 
   97              		.section	.debug_frame,"",%progbits
@@ -178,7 +178,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
  151              		.4byte	.LCFI1-.LFB2
  152 0059 0E       		.byte	0xe
  153 005a 08       		.uleb128 0x8
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 4
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 4
 
 
  154 005b 8E       		.byte	0x8e
@@ -238,7 +238,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
  208 0073 00000000 		.4byte	0x0
  209              	.LLST7:
  210 0077 00000000 		.4byte	.LVL6
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 5
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 5
 
 
  211 007b 08000000 		.4byte	.LVL7
@@ -298,7 +298,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
  265 0066 08       		.byte	0x8
  266 0067 07       		.byte	0x7
  267 0068 85000000 		.4byte	.LASF6
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 6
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 6
 
 
  268 006c 03       		.uleb128 0x3
@@ -358,7 +358,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
  322 00de F9000000 		.4byte	.LASF11
  323 00e2 01       		.byte	0x1
  324 00e3 0B       		.byte	0xb
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 7
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 7
 
 
  325 00e4 03010000 		.4byte	0x103
@@ -418,7 +418,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
  379              		.section	.debug_abbrev
  380 0000 01       		.uleb128 0x1
  381 0001 11       		.uleb128 0x11
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 8
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 8
 
 
  382 0002 01       		.byte	0x1
@@ -478,7 +478,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
  436 0038 05       		.uleb128 0x5
  437 0039 24       		.uleb128 0x24
  438 003a 00       		.byte	0x0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 9
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 9
 
 
  439 003b 0B       		.uleb128 0xb
@@ -538,7 +538,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
  493 0072 2E       		.uleb128 0x2e
  494 0073 01       		.byte	0x1
  495 0074 3F       		.uleb128 0x3f
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 10
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 10
 
 
  496 0075 0C       		.uleb128 0xc
@@ -598,7 +598,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
  550 00ab 00       		.byte	0x0
  551 00ac 00       		.byte	0x0
  552 00ad 0D       		.uleb128 0xd
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 11
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 11
 
 
  553 00ae 05       		.uleb128 0x5
@@ -658,7 +658,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
  607 00e6 01       		.uleb128 0x1
  608 00e7 12       		.uleb128 0x12
  609 00e8 01       		.uleb128 0x1
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 12
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 12
 
 
  610 00e9 40       		.uleb128 0x40
@@ -718,7 +718,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
  654 0014 08000000 		.4byte	.LFE5
  655 0018 00000000 		.4byte	.LFB3
  656 001c 10000000 		.4byte	.LFE3
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 13
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 13
 
 
  657 0020 00000000 		.4byte	.LFB2
@@ -778,7 +778,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
  683      2064656C 
  683      65746500 
  684              	.LASF2:
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 14
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 14
 
 
  685 00b7 756E7369 		.ascii	"unsigned char\000"
@@ -838,24 +838,24 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 1
  711      65642063 
  711      68617200 
  712              		.ident	"GCC: (AHAX Arm-Linux 2008q3-66) 4.3.2"
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 15
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 15
 
 
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s 			page 16
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s 			page 16
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 nothrow.cpp
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s:24     .text._Z5raisei:00000000 _Z5raisei
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s:34     .text._Z5raisei:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s:43     .text.__aeabi_atexit:00000000 __aeabi_atexit
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s:52     .text.__aeabi_atexit:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s:61     .text._ZdlPv:00000000 _ZdlPv
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s:68     .text._ZdlPv:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s:81     .text._Znwj:00000000 _Znwj
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s:88     .text._Znwj:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s:99     .debug_frame:00000000 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccWv4862.s:165    .debug_loc:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s:24     .text._Z5raisei:00000000 _Z5raisei
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s:34     .text._Z5raisei:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s:43     .text.__aeabi_atexit:00000000 __aeabi_atexit
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s:52     .text.__aeabi_atexit:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s:61     .text._ZdlPv:00000000 _ZdlPv
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s:68     .text._ZdlPv:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s:81     .text._Znwj:00000000 _Znwj
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s:88     .text._Znwj:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s:99     .debug_frame:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccYLs35m.s:165    .debug_loc:00000000 $d
 
 UNDEFINED SYMBOLS
 free

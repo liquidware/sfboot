@@ -20,7 +20,8 @@ extern const unsigned sector_start_map[];
 extern const unsigned sector_end_map[];
 extern const unsigned crp;
 
-unsigned write_flash(unsigned int * dst, unsigned char * src, unsigned no_of_bytes);
+//unsigned write_flash(unsigned int * dst, unsigned char * src, unsigned no_of_bytes);
+unsigned write_flash(unsigned int * dst, unsigned char * src, unsigned no_of_bytes, bool eraseSectorAllowed);
 void execute_user_code(void);
 BOOL user_code_present(void);
 void erase_user_flash(void);

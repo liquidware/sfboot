@@ -42,13 +42,28 @@ PIN_DESC_T PinTable[] = {
                {29,     eP1,       21,      eDIGITAL },  /* WestGP4 */
                {30,     eP1,       4,       eDIGITAL },  /* WestVinEnb  */
                {31,     eP1,       8,       eDIGITAL },  /* WestVoutEnb */
-/* AUX */
+/* LED */
                {32,     eP2,       0,       eDIGITAL },  /* RGB */
                {33,     eP2,       1,       eDIGITAL },  /* RGB */
                {34,     eP2,       2,       eDIGITAL },  /* RGB */
 
-               {35,     eP2,       3,       eDIGITAL },  /* RGB */
-               {36,     eP2,       4,       eDIGITAL },  /* RGB */
-               {37,     eP2,       5,       eDIGITAL },  /* RGB */
-               {38,     eP2,       12,       eDIGITAL },  /* RGB */
+               {35,     eP2,       3,       eDIGITAL },  /* LED */
+               {36,     eP2,       4,       eDIGITAL },  /* LED */
+               {37,     eP2,       5,       eDIGITAL },  /* LED */
+               {38,     eP2,       12,       eDIGITAL }, /* LED */
+/* MUX */
+               {39,     eP3,       26,       eDIGITAL }, /* MUXA */
+               {40,     eP3,       25,       eDIGITAL }, /* MUXB */
+               {41,     eP0,       21,       eDIGITAL }, /* MUXC */
+/* Switch */
+               {42,     eP1,       29,       eDIGITAL }, /* Switch1 */
+
+/* ADC */
+               {43,     eP0,       23,       eDIGITAL }, /* ADC0 */
+               {44,     eP0,       24,       eDIGITAL }, /* ADC1 */
+               {45,     eP0,       25,       eDIGITAL }, /* ADC2 */
+               {46,     eP0,       26,       eDIGITAL }, /* ADC3 */
+               {47,     eP1,       30,       eDIGITAL }, /* ADC4 */
+               {48,     eP1,       31,       eDIGITAL }, /* ADC5 */
+
 };

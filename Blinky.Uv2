@@ -22,12 +22,12 @@ File 2,5,<.\LPC_REGS.h><LPC_REGS.h>
 File 2,5,<.\LPC_UTIL_DEFS.h><LPC_UTIL_DEFS.h>
 File 2,8,<.\main.cpp><main.cpp>
 File 2,8,<.\nothrow.cpp><nothrow.cpp>
+File 2,5,<.\sbl_config.h><sbl_config.h>
 File 2,8,<.\sbl_iap.cpp><sbl_iap.cpp>
+File 2,5,<.\sbl_iap.h><sbl_iap.h>
 File 2,8,<.\Serial.cpp><Serial.cpp>
 File 2,5,<.\Serial.h><Serial.h>
 File 2,5,<.\SFBChecksum.h><SFBChecksum.h>
-File 2,5,<.\sbl_iap.h><sbl_iap.h>
-File 2,5,<.\sbl_config.h><sbl_config.h>
 File 2,8,<.\SFBChecksum.cpp><SFBChecksum.cpp>
 File 2,8,<.\sfboard_tests.cpp><sfboard_tests.cpp>
 File 2,5,<.\sfboard_tests.h><sfboard_tests.h>
