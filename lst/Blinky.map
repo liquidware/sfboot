@@ -35,7 +35,7 @@ LOAD /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3
 LOAD /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/../../../../arm-none-eabi/lib/libc.a
 END GROUP
 
-.text           0x00000000     0x1a9c
+.text           0x00000000     0x1c70
  *(.RESET)
  .RESET         0x00000000      0x144 .\obj\crt0.o
  *(.text .text.*)
@@ -120,341 +120,344 @@ END GROUP
                 0x00000584       0x84 .\obj\main.o
                 0x00000584                _Z9BlockReadjh
  .text._Z16ButterflyServicec
-                0x00000608      0x384 .\obj\main.o
+                0x00000608      0x38c .\obj\main.o
                 0x00000608                _Z16ButterflyServicec
- .text.main     0x0000098c       0xfc .\obj\main.o
-                0x0000098c                main
- .text          0x00000a88        0x0 .\obj\nothrow.o
+ .text.main     0x00000994      0x114 .\obj\main.o
+                0x00000994                main
+ .text          0x00000aa8        0x0 .\obj\nothrow.o
  .text._Z5raisei
-                0x00000a88        0x8 .\obj\nothrow.o
-                0x00000a88                _Z5raisei
+                0x00000aa8        0x8 .\obj\nothrow.o
+                0x00000aa8                _Z5raisei
  .text.__aeabi_atexit
-                0x00000a90        0x8 .\obj\nothrow.o
-                0x00000a90                __aeabi_atexit
- .text._ZdlPv   0x00000a98       0x10 .\obj\nothrow.o
-                0x00000a98                _ZdlPv
- .text._Znwj    0x00000aa8       0x10 .\obj\nothrow.o
-                0x00000aa8                _Znwj
- .text          0x00000ab8        0x0 .\obj\sbl_iap.o
+                0x00000ab0        0x8 .\obj\nothrow.o
+                0x00000ab0                __aeabi_atexit
+ .text._ZdlPv   0x00000ab8       0x10 .\obj\nothrow.o
+                0x00000ab8                _ZdlPv
+ .text._Znwj    0x00000ac8       0x10 .\obj\nothrow.o
+                0x00000ac8                _Znwj
+ .text          0x00000ad8        0x0 .\obj\sbl_iap.o
  .text._Z9iap_entryPjS_
-                0x00000ab8       0x18 .\obj\sbl_iap.o
-                0x00000ab8                _Z9iap_entryPjS_
+                0x00000ad8       0x18 .\obj\sbl_iap.o
+                0x00000ad8                _Z9iap_entryPjS_
  .text._Z14prepare_sectorjjj
-                0x00000ad0       0x2c .\obj\sbl_iap.o
-                0x00000ad0                _Z14prepare_sectorjjj
+                0x00000af0       0x2c .\obj\sbl_iap.o
+                0x00000af0                _Z14prepare_sectorjjj
  .text._Z12erase_sectorjjj
-                0x00000afc       0x2c .\obj\sbl_iap.o
-                0x00000afc                _Z12erase_sectorjjj
+                0x00000b1c       0x2c .\obj\sbl_iap.o
+                0x00000b1c                _Z12erase_sectorjjj
  .text._Z17enable_interruptsj
-                0x00000b28        0xc .\obj\sbl_iap.o
-                0x00000b28                _Z17enable_interruptsj
+                0x00000b48        0xc .\obj\sbl_iap.o
+                0x00000b48                _Z17enable_interruptsj
  .text._Z18disable_interruptsj
-                0x00000b34        0xc .\obj\sbl_iap.o
-                0x00000b34                _Z18disable_interruptsj
+                0x00000b54        0xc .\obj\sbl_iap.o
+                0x00000b54                _Z18disable_interruptsj
  .text._Z10write_datajjPjj
-                0x00000b40       0x54 .\obj\sbl_iap.o
-                0x00000b40                _Z10write_datajjPjj
+                0x00000b60       0x54 .\obj\sbl_iap.o
+                0x00000b60                _Z10write_datajjPjj
  .text._Z25find_erase_prepare_sectorjjb
-                0x00000b94       0x9c .\obj\sbl_iap.o
-                0x00000b94                _Z25find_erase_prepare_sectorjjb
+                0x00000bb4       0x9c .\obj\sbl_iap.o
+                0x00000bb4                _Z25find_erase_prepare_sectorjjb
  .text._Z11write_flashPjPhjb
-                0x00000c30       0xd8 .\obj\sbl_iap.o
-                0x00000c30                _Z11write_flashPjPhjb
+                0x00000c50       0xd8 .\obj\sbl_iap.o
+                0x00000c50                _Z11write_flashPjPhjb
  .text._Z17execute_user_codev
-                0x00000d08       0x24 .\obj\sbl_iap.o
-                0x00000d08                _Z17execute_user_codev
+                0x00000d28       0x24 .\obj\sbl_iap.o
+                0x00000d28                _Z17execute_user_codev
  .text._Z17user_code_presentv
-                0x00000d2c       0x48 .\obj\sbl_iap.o
-                0x00000d2c                _Z17user_code_presentv
+                0x00000d4c       0x48 .\obj\sbl_iap.o
+                0x00000d4c                _Z17user_code_presentv
  .text._Z19check_isp_entry_pinv
-                0x00000d74       0x18 .\obj\sbl_iap.o
-                0x00000d74                _Z19check_isp_entry_pinv
+                0x00000d94       0x18 .\obj\sbl_iap.o
+                0x00000d94                _Z19check_isp_entry_pinv
  .text._Z16erase_user_flashv
-                0x00000d8c       0x4c .\obj\sbl_iap.o
-                0x00000d8c                _Z16erase_user_flashv
- .text          0x00000dd8        0x0 .\obj\serial.o
+                0x00000dac       0x4c .\obj\sbl_iap.o
+                0x00000dac                _Z16erase_user_flashv
+ .text          0x00000df8        0x0 .\obj\serial.o
  .text._Z9SerialISRh
-                0x00000dd8       0xd8 .\obj\serial.o
-                0x00000dd8                _Z9SerialISRh
+                0x00000df8       0xd8 .\obj\serial.o
+                0x00000df8                _Z9SerialISRh
  .text._Z10Serial0ISRv
-                0x00000eb0       0x30 .\obj\serial.o
-                0x00000eb0                _Z10Serial0ISRv
+                0x00000ed0       0x30 .\obj\serial.o
+                0x00000ed0                _Z10Serial0ISRv
  .text._Z10Serial1ISRv
-                0x00000ee0       0x30 .\obj\serial.o
-                0x00000ee0                _Z10Serial1ISRv
+                0x00000f00       0x30 .\obj\serial.o
+                0x00000f00                _Z10Serial1ISRv
  .text._Z10Serial2ISRv
-                0x00000f10       0x30 .\obj\serial.o
-                0x00000f10                _Z10Serial2ISRv
+                0x00000f30       0x30 .\obj\serial.o
+                0x00000f30                _Z10Serial2ISRv
  .text._Z10Serial3ISRv
-                0x00000f40       0x30 .\obj\serial.o
-                0x00000f40                _Z10Serial3ISRv
+                0x00000f60       0x30 .\obj\serial.o
+                0x00000f60                _Z10Serial3ISRv
+ .text._Z22findDivisorAndPrescalemmbRmS_
+                0x00000f90      0x160 .\obj\serial.o
+                0x00000f90                _Z22findDivisorAndPrescalemmbRmS_
  .text._Z15SerialAvailableh
-                0x00000f70       0x24 .\obj\serial.o
-                0x00000f70                _Z15SerialAvailableh
+                0x000010f0       0x24 .\obj\serial.o
+                0x000010f0                _Z15SerialAvailableh
  .text._Z11SerialWritehi
-                0x00000f94       0x28 .\obj\serial.o
-                0x00000f94                _Z11SerialWritehi
+                0x00001114       0x28 .\obj\serial.o
+                0x00001114                _Z11SerialWritehi
  .text._Z9SerialStrhPc
-                0x00000fbc       0x34 .\obj\serial.o
-                0x00000fbc                _Z9SerialStrhPc
+                0x0000113c       0x34 .\obj\serial.o
+                0x0000113c                _Z9SerialStrhPc
  .text._Z10SerialReadh
-                0x00000ff0       0x48 .\obj\serial.o
-                0x00000ff0                _Z10SerialReadh
+                0x00001170       0x48 .\obj\serial.o
+                0x00001170                _Z10SerialReadh
  .text._Z11SerialFlushh
-                0x00001038       0x1c .\obj\serial.o
-                0x00001038                _Z11SerialFlushh
+                0x000011b8       0x1c .\obj\serial.o
+                0x000011b8                _Z11SerialFlushh
  .text._Z14SerialBusyReadh
-                0x00001054       0x20 .\obj\serial.o
-                0x00001054                _Z14SerialBusyReadh
+                0x000011d4       0x20 .\obj\serial.o
+                0x000011d4                _Z14SerialBusyReadh
  .text._Z11SerialBeginhm
-                0x00001074      0x110 .\obj\serial.o
-                0x00001074                _Z11SerialBeginhm
- .text          0x00001184        0x0 .\obj\sfbchecksum.o
+                0x000011f4      0x164 .\obj\serial.o
+                0x000011f4                _Z11SerialBeginhm
+ .text          0x00001358        0x0 .\obj\sfbchecksum.o
  .text._Z15SFBChecksumInitPm
-                0x00001184       0x1c .\obj\sfbchecksum.o
-                0x00001184                _Z15SFBChecksumInitPm
+                0x00001358       0x1c .\obj\sfbchecksum.o
+                0x00001358                _Z15SFBChecksumInitPm
  .text._Z18SFBChecksumAddBytePmc
-                0x000011a0       0x2c .\obj\sfbchecksum.o
-                0x000011a0                _Z18SFBChecksumAddBytePmc
+                0x00001374       0x2c .\obj\sfbchecksum.o
+                0x00001374                _Z18SFBChecksumAddBytePmc
  .text._Z19SFBChecksumAddBytesPmPKci
-                0x000011cc       0x38 .\obj\sfbchecksum.o
-                0x000011cc                _Z19SFBChecksumAddBytesPmPKci
+                0x000013a0       0x38 .\obj\sfbchecksum.o
+                0x000013a0                _Z19SFBChecksumAddBytesPmPKci
  .text._Z16SFBChecksumEqualPKmS0_
-                0x00001204       0x2c .\obj\sfbchecksum.o
-                0x00001204                _Z16SFBChecksumEqualPKmS0_
+                0x000013d8       0x2c .\obj\sfbchecksum.o
+                0x000013d8                _Z16SFBChecksumEqualPKmS0_
  .text._Z19SFBChecksumToStringPm
-                0x00001230       0x6c .\obj\sfbchecksum.o
-                0x00001230                _Z19SFBChecksumToStringPm
+                0x00001404       0x6c .\obj\sfbchecksum.o
+                0x00001404                _Z19SFBChecksumToStringPm
  .text._Z21SFBChecksumFromStringPmPKc
-                0x0000129c       0x98 .\obj\sfbchecksum.o
-                0x0000129c                _Z21SFBChecksumFromStringPmPKc
- .text          0x00001334        0x0 .\obj\sfboard_tests.o
+                0x00001470       0x98 .\obj\sfbchecksum.o
+                0x00001470                _Z21SFBChecksumFromStringPmPKc
+ .text          0x00001508        0x0 .\obj\sfboard_tests.o
  .text._Z8spinLEDsj
-                0x00001334      0x144 .\obj\sfboard_tests.o
-                0x00001334                _Z8spinLEDsj
+                0x00001508      0x144 .\obj\sfboard_tests.o
+                0x00001508                _Z8spinLEDsj
  .text._Z19toggleOutboundPowerv
-                0x00001478       0xe8 .\obj\sfboard_tests.o
-                0x00001478                _Z19toggleOutboundPowerv
+                0x0000164c       0xe8 .\obj\sfboard_tests.o
+                0x0000164c                _Z19toggleOutboundPowerv
  .text._Z13wiggleAllPinsv
-                0x00001560       0x78 .\obj\sfboard_tests.o
-                0x00001560                _Z13wiggleAllPinsv
+                0x00001734       0x78 .\obj\sfboard_tests.o
+                0x00001734                _Z13wiggleAllPinsv
  .text._Z13turnOnAllLEDsv
-                0x000015d8       0x38 .\obj\sfboard_tests.o
-                0x000015d8                _Z13turnOnAllLEDsv
- .text          0x00001610        0x0 .\obj\sys_init.o
+                0x000017ac       0x38 .\obj\sfboard_tests.o
+                0x000017ac                _Z13turnOnAllLEDsv
+ .text          0x000017e4        0x0 .\obj\sys_init.o
  .text._Z7sysInitv
-                0x00001610      0x124 .\obj\sys_init.o
-                0x00001610                _Z7sysInitv
- .text          0x00001734        0x0 .\obj\syscalls.o
- .text._read    0x00001734        0x8 .\obj\syscalls.o
-                0x00001734                _read
- .text._lseek   0x0000173c        0x8 .\obj\syscalls.o
-                0x0000173c                _lseek
- .text._write   0x00001744        0x8 .\obj\syscalls.o
-                0x00001744                _write
- .text._open    0x0000174c       0x10 .\obj\syscalls.o
-                0x0000174c                _open
- .text._close   0x0000175c        0x8 .\obj\syscalls.o
-                0x0000175c                _close
- .text._kill    0x00001764        0x8 .\obj\syscalls.o
-                0x00001764                _kill
- .text._getpid  0x0000176c        0x8 .\obj\syscalls.o
-                0x0000176c                _getpid
- .text._sbrk    0x00001774        0x8 .\obj\syscalls.o
-                0x00001774                _sbrk
- .text._fstat   0x0000177c        0x8 .\obj\syscalls.o
-                0x0000177c                _fstat
- .text._link    0x00001784        0x8 .\obj\syscalls.o
-                0x00001784                _link
- .text._unlink  0x0000178c        0x8 .\obj\syscalls.o
-                0x0000178c                _unlink
- .text.isatty   0x00001794        0x8 .\obj\syscalls.o
-                0x00001794                isatty
+                0x000017e4      0x124 .\obj\sys_init.o
+                0x000017e4                _Z7sysInitv
+ .text          0x00001908        0x0 .\obj\syscalls.o
+ .text._read    0x00001908        0x8 .\obj\syscalls.o
+                0x00001908                _read
+ .text._lseek   0x00001910        0x8 .\obj\syscalls.o
+                0x00001910                _lseek
+ .text._write   0x00001918        0x8 .\obj\syscalls.o
+                0x00001918                _write
+ .text._open    0x00001920       0x10 .\obj\syscalls.o
+                0x00001920                _open
+ .text._close   0x00001930        0x8 .\obj\syscalls.o
+                0x00001930                _close
+ .text._kill    0x00001938        0x8 .\obj\syscalls.o
+                0x00001938                _kill
+ .text._getpid  0x00001940        0x8 .\obj\syscalls.o
+                0x00001940                _getpid
+ .text._sbrk    0x00001948        0x8 .\obj\syscalls.o
+                0x00001948                _sbrk
+ .text._fstat   0x00001950        0x8 .\obj\syscalls.o
+                0x00001950                _fstat
+ .text._link    0x00001958        0x8 .\obj\syscalls.o
+                0x00001958                _link
+ .text._unlink  0x00001960        0x8 .\obj\syscalls.o
+                0x00001960                _unlink
+ .text.isatty   0x00001968        0x8 .\obj\syscalls.o
+                0x00001968                isatty
  .text.__exidx_start
-                0x0000179c        0x4 .\obj\syscalls.o
-                0x0000179c                __exidx_start
+                0x00001970        0x4 .\obj\syscalls.o
+                0x00001970                __exidx_start
  .text.__exidx_end
-                0x000017a0        0x4 .\obj\syscalls.o
-                0x000017a0                __exidx_end
- .text.abort    0x000017a4        0x4 .\obj\syscalls.o
-                0x000017a4                abort
- .text._init    0x000017a8        0x4 .\obj\syscalls.o
-                0x000017a8                _init
- .text          0x000017ac        0x0 .\obj\wiring.o
+                0x00001974        0x4 .\obj\syscalls.o
+                0x00001974                __exidx_end
+ .text.abort    0x00001978        0x4 .\obj\syscalls.o
+                0x00001978                abort
+ .text._init    0x0000197c        0x4 .\obj\syscalls.o
+                0x0000197c                _init
+ .text          0x00001980        0x0 .\obj\wiring.o
  .text._Z12digitalWritehh
-                0x000017ac       0x5c .\obj\wiring.o
-                0x000017ac                _Z12digitalWritehh
+                0x00001980       0x5c .\obj\wiring.o
+                0x00001980                _Z12digitalWritehh
  .text._Z11digitalReadh
-                0x00001808       0x2c .\obj\wiring.o
-                0x00001808                _Z11digitalReadh
+                0x000019dc       0x2c .\obj\wiring.o
+                0x000019dc                _Z11digitalReadh
  .text._Z7pinModehh
-                0x00001834       0x30 .\obj\wiring.o
-                0x00001834                _Z7pinModehh
- .text          0x00001864        0x0 .\obj\wiring_pins.o
- .text          0x00001864      0x114 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_udivsi3.o)
-                0x00001864                __udivsi3
-                0x00001864                __aeabi_uidiv
-                0x00001958                __aeabi_uidivmod
- .text          0x00001978        0x4 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_dvmd_tls.o)
-                0x00001978                __aeabi_ldiv0
-                0x00001978                __aeabi_idiv0
+                0x00001a08       0x30 .\obj\wiring.o
+                0x00001a08                _Z7pinModehh
+ .text          0x00001a38        0x0 .\obj\wiring_pins.o
+ .text          0x00001a38      0x114 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_udivsi3.o)
+                0x00001a38                __udivsi3
+                0x00001a38                __aeabi_uidiv
+                0x00001b2c                __aeabi_uidivmod
+ .text          0x00001b4c        0x4 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_dvmd_tls.o)
+                0x00001b4c                __aeabi_ldiv0
+                0x00001b4c                __aeabi_idiv0
  *(.gnu.linkonce.t.*)
  *(.glue_7)
- .glue_7        0x0000197c        0x0 .\obj\crt0.o
- .glue_7        0x0000197c        0x0 .\obj\armvic.o
- .glue_7        0x0000197c        0x0 .\obj\eeprom.o
- .glue_7        0x0000197c        0x0 .\obj\fio.o
- .glue_7        0x0000197c        0x0 .\obj\irq.o
- .glue_7        0x0000197c        0x0 .\obj\main.o
- .glue_7        0x0000197c        0x0 .\obj\nothrow.o
- .glue_7        0x0000197c        0x0 .\obj\sbl_iap.o
- .glue_7        0x0000197c        0x0 .\obj\serial.o
- .glue_7        0x0000197c        0x0 .\obj\sfbchecksum.o
- .glue_7        0x0000197c        0x0 .\obj\sfboard_tests.o
- .glue_7        0x0000197c        0x0 .\obj\sys_init.o
- .glue_7        0x0000197c        0x0 .\obj\syscalls.o
- .glue_7        0x0000197c        0x0 .\obj\wiring.o
- .glue_7        0x0000197c        0x0 .\obj\wiring_pins.o
- .glue_7        0x0000197c        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_udivsi3.o)
- .glue_7        0x0000197c        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_dvmd_tls.o)
+ .glue_7        0x00001b50        0x0 .\obj\crt0.o
+ .glue_7        0x00001b50        0x0 .\obj\armvic.o
+ .glue_7        0x00001b50        0x0 .\obj\eeprom.o
+ .glue_7        0x00001b50        0x0 .\obj\fio.o
+ .glue_7        0x00001b50        0x0 .\obj\irq.o
+ .glue_7        0x00001b50        0x0 .\obj\main.o
+ .glue_7        0x00001b50        0x0 .\obj\nothrow.o
+ .glue_7        0x00001b50        0x0 .\obj\sbl_iap.o
+ .glue_7        0x00001b50        0x0 .\obj\serial.o
+ .glue_7        0x00001b50        0x0 .\obj\sfbchecksum.o
+ .glue_7        0x00001b50        0x0 .\obj\sfboard_tests.o
+ .glue_7        0x00001b50        0x0 .\obj\sys_init.o
+ .glue_7        0x00001b50        0x0 .\obj\syscalls.o
+ .glue_7        0x00001b50        0x0 .\obj\wiring.o
+ .glue_7        0x00001b50        0x0 .\obj\wiring_pins.o
+ .glue_7        0x00001b50        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_udivsi3.o)
+ .glue_7        0x00001b50        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_dvmd_tls.o)
  *(.glue_7t)
- .glue_7t       0x0000197c        0x0 .\obj\crt0.o
- .glue_7t       0x0000197c        0x0 .\obj\armvic.o
- .glue_7t       0x0000197c        0x0 .\obj\eeprom.o
- .glue_7t       0x0000197c        0x0 .\obj\fio.o
- .glue_7t       0x0000197c        0x0 .\obj\irq.o
- .glue_7t       0x0000197c        0x0 .\obj\main.o
- .glue_7t       0x0000197c        0x0 .\obj\nothrow.o
- .glue_7t       0x0000197c        0x0 .\obj\sbl_iap.o
- .glue_7t       0x0000197c        0x0 .\obj\serial.o
- .glue_7t       0x0000197c        0x0 .\obj\sfbchecksum.o
- .glue_7t       0x0000197c        0x0 .\obj\sfboard_tests.o
- .glue_7t       0x0000197c        0x0 .\obj\sys_init.o
- .glue_7t       0x0000197c        0x0 .\obj\syscalls.o
- .glue_7t       0x0000197c        0x0 .\obj\wiring.o
- .glue_7t       0x0000197c        0x0 .\obj\wiring_pins.o
- .glue_7t       0x0000197c        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_udivsi3.o)
- .glue_7t       0x0000197c        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_dvmd_tls.o)
+ .glue_7t       0x00001b50        0x0 .\obj\crt0.o
+ .glue_7t       0x00001b50        0x0 .\obj\armvic.o
+ .glue_7t       0x00001b50        0x0 .\obj\eeprom.o
+ .glue_7t       0x00001b50        0x0 .\obj\fio.o
+ .glue_7t       0x00001b50        0x0 .\obj\irq.o
+ .glue_7t       0x00001b50        0x0 .\obj\main.o
+ .glue_7t       0x00001b50        0x0 .\obj\nothrow.o
+ .glue_7t       0x00001b50        0x0 .\obj\sbl_iap.o
+ .glue_7t       0x00001b50        0x0 .\obj\serial.o
+ .glue_7t       0x00001b50        0x0 .\obj\sfbchecksum.o
+ .glue_7t       0x00001b50        0x0 .\obj\sfboard_tests.o
+ .glue_7t       0x00001b50        0x0 .\obj\sys_init.o
+ .glue_7t       0x00001b50        0x0 .\obj\syscalls.o
+ .glue_7t       0x00001b50        0x0 .\obj\wiring.o
+ .glue_7t       0x00001b50        0x0 .\obj\wiring_pins.o
+ .glue_7t       0x00001b50        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_udivsi3.o)
+ .glue_7t       0x00001b50        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_dvmd_tls.o)
  *(.gcc_except_table)
  *(.rodata)
  *(.rodata*)
  .rodata.str1.1
-                0x0000197c        0xa .\obj\main.o
- *fill*         0x00001986        0x2 00
+                0x00001b50        0xa .\obj\main.o
+ *fill*         0x00001b5a        0x2 00
  .rodata.sector_end_map
-                0x00001988       0x80 .\obj\sbl_iap.o
-                0x00001988                sector_end_map
+                0x00001b5c       0x80 .\obj\sbl_iap.o
+                0x00001b5c                sector_end_map
  .rodata.sector_start_map
-                0x00001a08       0x80 .\obj\sbl_iap.o
-                0x00001a08                sector_start_map
+                0x00001bdc       0x80 .\obj\sbl_iap.o
+                0x00001bdc                sector_start_map
  .rodata.str1.1
-                0x00001a88       0x11 .\obj\sfbchecksum.o
+                0x00001c5c       0x11 .\obj\sfbchecksum.o
  *(.gnu.linkonce.r.*)
-                0x00001a9c                . = ALIGN (0x4)
- *fill*         0x00001a99        0x3 00
+                0x00001c70                . = ALIGN (0x4)
+ *fill*         0x00001c6d        0x3 00
 
 .ARM.__at_0x1FC
-                0x00001a9c        0x4
+                0x00001c70        0x4
  .ARM.__at_0x1FC
-                0x00001a9c        0x4 .\obj\sbl_iap.o
-                0x00001a9c                crp
+                0x00001c70        0x4 .\obj\sbl_iap.o
+                0x00001c70                crp
 
-.vfp11_veneer   0x00001aa0        0x0
- .vfp11_veneer  0x00001aa0        0x0 .\obj\crt0.o
- .vfp11_veneer  0x00001aa0        0x0 .\obj\armvic.o
- .vfp11_veneer  0x00001aa0        0x0 .\obj\eeprom.o
- .vfp11_veneer  0x00001aa0        0x0 .\obj\fio.o
- .vfp11_veneer  0x00001aa0        0x0 .\obj\irq.o
- .vfp11_veneer  0x00001aa0        0x0 .\obj\main.o
- .vfp11_veneer  0x00001aa0        0x0 .\obj\nothrow.o
- .vfp11_veneer  0x00001aa0        0x0 .\obj\sbl_iap.o
- .vfp11_veneer  0x00001aa0        0x0 .\obj\serial.o
- .vfp11_veneer  0x00001aa0        0x0 .\obj\sfbchecksum.o
- .vfp11_veneer  0x00001aa0        0x0 .\obj\sfboard_tests.o
- .vfp11_veneer  0x00001aa0        0x0 .\obj\sys_init.o
- .vfp11_veneer  0x00001aa0        0x0 .\obj\syscalls.o
- .vfp11_veneer  0x00001aa0        0x0 .\obj\wiring.o
- .vfp11_veneer  0x00001aa0        0x0 .\obj\wiring_pins.o
- .vfp11_veneer  0x00001aa0        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_udivsi3.o)
- .vfp11_veneer  0x00001aa0        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_dvmd_tls.o)
+.vfp11_veneer   0x00001c74        0x0
+ .vfp11_veneer  0x00001c74        0x0 .\obj\crt0.o
+ .vfp11_veneer  0x00001c74        0x0 .\obj\armvic.o
+ .vfp11_veneer  0x00001c74        0x0 .\obj\eeprom.o
+ .vfp11_veneer  0x00001c74        0x0 .\obj\fio.o
+ .vfp11_veneer  0x00001c74        0x0 .\obj\irq.o
+ .vfp11_veneer  0x00001c74        0x0 .\obj\main.o
+ .vfp11_veneer  0x00001c74        0x0 .\obj\nothrow.o
+ .vfp11_veneer  0x00001c74        0x0 .\obj\sbl_iap.o
+ .vfp11_veneer  0x00001c74        0x0 .\obj\serial.o
+ .vfp11_veneer  0x00001c74        0x0 .\obj\sfbchecksum.o
+ .vfp11_veneer  0x00001c74        0x0 .\obj\sfboard_tests.o
+ .vfp11_veneer  0x00001c74        0x0 .\obj\sys_init.o
+ .vfp11_veneer  0x00001c74        0x0 .\obj\syscalls.o
+ .vfp11_veneer  0x00001c74        0x0 .\obj\wiring.o
+ .vfp11_veneer  0x00001c74        0x0 .\obj\wiring_pins.o
+ .vfp11_veneer  0x00001c74        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_udivsi3.o)
+ .vfp11_veneer  0x00001c74        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_dvmd_tls.o)
 
 .janus_2cc_veneer
-                0x00001aa0        0x0
+                0x00001c74        0x0
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\crt0.o
+                0x00001c74        0x0 .\obj\crt0.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\armvic.o
+                0x00001c74        0x0 .\obj\armvic.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\eeprom.o
+                0x00001c74        0x0 .\obj\eeprom.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\fio.o
+                0x00001c74        0x0 .\obj\fio.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\irq.o
+                0x00001c74        0x0 .\obj\irq.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\main.o
+                0x00001c74        0x0 .\obj\main.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\nothrow.o
+                0x00001c74        0x0 .\obj\nothrow.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\sbl_iap.o
+                0x00001c74        0x0 .\obj\sbl_iap.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\serial.o
+                0x00001c74        0x0 .\obj\serial.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\sfbchecksum.o
+                0x00001c74        0x0 .\obj\sfbchecksum.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\sfboard_tests.o
+                0x00001c74        0x0 .\obj\sfboard_tests.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\sys_init.o
+                0x00001c74        0x0 .\obj\sys_init.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\syscalls.o
+                0x00001c74        0x0 .\obj\syscalls.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\wiring.o
+                0x00001c74        0x0 .\obj\wiring.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 .\obj\wiring_pins.o
+                0x00001c74        0x0 .\obj\wiring_pins.o
  .janus_2cc_veneer
-                0x00001aa0        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_udivsi3.o)
+                0x00001c74        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_udivsi3.o)
  .janus_2cc_veneer
-                0x00001aa0        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_dvmd_tls.o)
+                0x00001c74        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_dvmd_tls.o)
 
-.v4_bx          0x00001aa0        0x0
- .v4_bx         0x00001aa0        0x0 .\obj\crt0.o
- .v4_bx         0x00001aa0        0x0 .\obj\armvic.o
- .v4_bx         0x00001aa0        0x0 .\obj\eeprom.o
- .v4_bx         0x00001aa0        0x0 .\obj\fio.o
- .v4_bx         0x00001aa0        0x0 .\obj\irq.o
- .v4_bx         0x00001aa0        0x0 .\obj\main.o
- .v4_bx         0x00001aa0        0x0 .\obj\nothrow.o
- .v4_bx         0x00001aa0        0x0 .\obj\sbl_iap.o
- .v4_bx         0x00001aa0        0x0 .\obj\serial.o
- .v4_bx         0x00001aa0        0x0 .\obj\sfbchecksum.o
- .v4_bx         0x00001aa0        0x0 .\obj\sfboard_tests.o
- .v4_bx         0x00001aa0        0x0 .\obj\sys_init.o
- .v4_bx         0x00001aa0        0x0 .\obj\syscalls.o
- .v4_bx         0x00001aa0        0x0 .\obj\wiring.o
- .v4_bx         0x00001aa0        0x0 .\obj\wiring_pins.o
- .v4_bx         0x00001aa0        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_udivsi3.o)
- .v4_bx         0x00001aa0        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_dvmd_tls.o)
-                0x00001aa0                . = ALIGN (0x4)
+.v4_bx          0x00001c74        0x0
+ .v4_bx         0x00001c74        0x0 .\obj\crt0.o
+ .v4_bx         0x00001c74        0x0 .\obj\armvic.o
+ .v4_bx         0x00001c74        0x0 .\obj\eeprom.o
+ .v4_bx         0x00001c74        0x0 .\obj\fio.o
+ .v4_bx         0x00001c74        0x0 .\obj\irq.o
+ .v4_bx         0x00001c74        0x0 .\obj\main.o
+ .v4_bx         0x00001c74        0x0 .\obj\nothrow.o
+ .v4_bx         0x00001c74        0x0 .\obj\sbl_iap.o
+ .v4_bx         0x00001c74        0x0 .\obj\serial.o
+ .v4_bx         0x00001c74        0x0 .\obj\sfbchecksum.o
+ .v4_bx         0x00001c74        0x0 .\obj\sfboard_tests.o
+ .v4_bx         0x00001c74        0x0 .\obj\sys_init.o
+ .v4_bx         0x00001c74        0x0 .\obj\syscalls.o
+ .v4_bx         0x00001c74        0x0 .\obj\wiring.o
+ .v4_bx         0x00001c74        0x0 .\obj\wiring_pins.o
+ .v4_bx         0x00001c74        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_udivsi3.o)
+ .v4_bx         0x00001c74        0x0 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_dvmd_tls.o)
+                0x00001c74                . = ALIGN (0x4)
 
-.ctors          0x00001aa0        0x0
-                0x00001aa0                PROVIDE (__ctors_start__, .)
+.ctors          0x00001c74        0x0
+                0x00001c74                PROVIDE (__ctors_start__, .)
  *(SORT(.ctors.*))
  *(.ctors)
-                0x00001aa0                . = ALIGN (0x4)
-                0x00001aa0                PROVIDE (__ctors_end__, .)
-                0x00001aa0                . = ALIGN (0x4)
+                0x00001c74                . = ALIGN (0x4)
+                0x00001c74                PROVIDE (__ctors_end__, .)
+                0x00001c74                . = ALIGN (0x4)
 
-.dtors          0x00001aa0        0x0
-                0x00001aa0                PROVIDE (__dtors_start__, .)
+.dtors          0x00001c74        0x0
+                0x00001c74                PROVIDE (__dtors_start__, .)
  *(SORT(.dtors.*))
  *(.dtors)
-                0x00001aa0                . = ALIGN (0x4)
-                0x00001aa0                PROVIDE (__dtors_end__, .)
-                0x00001aa0                . = ALIGN (0x4)
-                0x00001aa0                . = ALIGN (0x4)
-                0x00001aa0                _etext = .
-                0x00001aa0                PROVIDE (etext, .)
+                0x00001c74                . = ALIGN (0x4)
+                0x00001c74                PROVIDE (__dtors_end__, .)
+                0x00001c74                . = ALIGN (0x4)
+                0x00001c74                . = ALIGN (0x4)
+                0x00001c74                _etext = .
+                0x00001c74                PROVIDE (etext, .)
 
-.data           0x40000000      0x160 load address 0x00001aa0
+.data           0x40000000      0x160 load address 0x00001c74
                 0x40000000                _data = .
  *(.vectmapped)
                 0x40000000                . = ALIGN (0x4)
@@ -502,13 +505,13 @@ END GROUP
  *(.gnu.linkonce.d*)
                 0x40000160                . = ALIGN (0x4)
 
-.init_array     0x40000160        0x4 load address 0x00001c00
+.init_array     0x40000160        0x4 load address 0x00001dd4
  .init_array    0x40000160        0x4 .\obj\main.o
                 0x40000164                . = ALIGN (0x4)
                 0x40000164                _edata = .
                 0x40000164                PROVIDE (edata, .)
 
-.bss            0x40000168      0x5d0 load address 0x00001c08
+.bss            0x40000168      0x5d8 load address 0x00001ddc
                 0x40000168                __bss_start = .
                 0x40000168                __bss_start__ = .
  *(.bss)
@@ -546,59 +549,59 @@ END GROUP
  .bss.gAddress  0x4000037c        0x4 .\obj\main.o
                 0x4000037c                gAddress
  .bss.gConfigMem
-                0x40000380       0x10 .\obj\main.o
+                0x40000380       0x18 .\obj\main.o
                 0x40000380                gConfigMem
  .bss.gSFBootValidChecksum
-                0x40000390        0x1 .\obj\main.o
-                0x40000390                gSFBootValidChecksum
- *fill*         0x40000391        0x3 00
- .bss.purge     0x40000394        0x4 .\obj\main.o
-                0x40000394                purge
- .bss.x         0x40000398        0x1 .\obj\main.o
-                0x40000398                x
- .bss.gDevice   0x40000399        0x1 .\obj\main.o
-                0x40000399                gDevice
- *fill*         0x4000039a        0x2 00
+                0x40000398        0x1 .\obj\main.o
+                0x40000398                gSFBootValidChecksum
+ *fill*         0x40000399        0x3 00
+ .bss.purge     0x4000039c        0x4 .\obj\main.o
+                0x4000039c                purge
+ .bss.x         0x400003a0        0x1 .\obj\main.o
+                0x400003a0                x
+ .bss.gDevice   0x400003a1        0x1 .\obj\main.o
+                0x400003a1                gDevice
+ *fill*         0x400003a2        0x2 00
  .bss._ZL8gRunning
-                0x4000039c        0x8 .\obj\main.o
- .bss.pin       0x400003a4        0x1 .\obj\main.o
-                0x400003a4                pin
- .bss.index     0x400003a5        0x1 .\obj\main.o
-                0x400003a5                index
- *fill*         0x400003a6        0x2 00
+                0x400003a4        0x8 .\obj\main.o
+ .bss.pin       0x400003ac        0x1 .\obj\main.o
+                0x400003ac                pin
+ .bss.index     0x400003ad        0x1 .\obj\main.o
+                0x400003ad                index
+ *fill*         0x400003ae        0x2 00
  .bss.gAddressPgm
-                0x400003a8        0x4 .\obj\main.o
-                0x400003a8                gAddressPgm
+                0x400003b0        0x4 .\obj\main.o
+                0x400003b0                gAddressPgm
  .bss.app_code_entry
-                0x400003ac        0x4 .\obj\main.o
-                0x400003ac                app_code_entry
+                0x400003b4        0x4 .\obj\main.o
+                0x400003b4                app_code_entry
  .bss.user_code_entry
-                0x400003b0        0x4 .\obj\sbl_iap.o
-                0x400003b0                user_code_entry
+                0x400003b8        0x4 .\obj\sbl_iap.o
+                0x400003b8                user_code_entry
  .bss.flash_address
-                0x400003b4        0x4 .\obj\sbl_iap.o
-                0x400003b4                flash_address
+                0x400003bc        0x4 .\obj\sbl_iap.o
+                0x400003bc                flash_address
  .bss.result_table
-                0x400003b8       0x14 .\obj\sbl_iap.o
-                0x400003b8                result_table
+                0x400003c0       0x14 .\obj\sbl_iap.o
+                0x400003c0                result_table
  .bss.param_table
-                0x400003cc       0x14 .\obj\sbl_iap.o
-                0x400003cc                param_table
+                0x400003d4       0x14 .\obj\sbl_iap.o
+                0x400003d4                param_table
  .bss.flash_buf
-                0x400003e0      0x200 .\obj\sbl_iap.o
-                0x400003e0                flash_buf
- .bss.byte_ctr  0x400005e0        0x4 .\obj\sbl_iap.o
-                0x400005e0                byte_ctr
- .bss.uartData  0x400005e4      0x140 .\obj\serial.o
-                0x400005e4                uartData
- .bss._ZL3buf   0x40000724       0x11 .\obj\sfbchecksum.o
+                0x400003e8      0x200 .\obj\sbl_iap.o
+                0x400003e8                flash_buf
+ .bss.byte_ctr  0x400005e8        0x4 .\obj\sbl_iap.o
+                0x400005e8                byte_ctr
+ .bss.uartData  0x400005ec      0x140 .\obj\serial.o
+                0x400005ec                uartData
+ .bss._ZL3buf   0x4000072c       0x11 .\obj\sfbchecksum.o
  *(.gnu.linkonce.b*)
  *(COMMON)
-                0x40000738                . = ALIGN (0x4)
- *fill*         0x40000735        0x3 00
-                0x40000738                . = ALIGN (0x4)
-                0x40000738                __bss_end__ = .
-                0x40000738                PROVIDE (__bss_end, .)
+                0x40000740                . = ALIGN (0x4)
+ *fill*         0x4000073d        0x3 00
+                0x40000740                . = ALIGN (0x4)
+                0x40000740                __bss_end__ = .
+                0x40000740                PROVIDE (__bss_end, .)
 
 .stack          0x40000800      0x300
  *(.stack)
@@ -661,7 +664,7 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x410
+.debug_aranges  0x00000000      0x418
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x20 .\obj\crt0.o
@@ -680,20 +683,20 @@ END GROUP
  .debug_aranges
                 0x000001b8       0x78 .\obj\sbl_iap.o
  .debug_aranges
-                0x00000230       0x78 .\obj\serial.o
+                0x00000230       0x80 .\obj\serial.o
  .debug_aranges
-                0x000002a8       0x48 .\obj\sfbchecksum.o
+                0x000002b0       0x48 .\obj\sfbchecksum.o
  .debug_aranges
-                0x000002f0       0x38 .\obj\sfboard_tests.o
+                0x000002f8       0x38 .\obj\sfboard_tests.o
  .debug_aranges
-                0x00000328       0x20 .\obj\sys_init.o
+                0x00000330       0x20 .\obj\sys_init.o
  .debug_aranges
-                0x00000348       0x98 .\obj\syscalls.o
+                0x00000350       0x98 .\obj\syscalls.o
  .debug_aranges
-                0x000003e0       0x30 .\obj\wiring.o
+                0x000003e8       0x30 .\obj\wiring.o
 
 .debug_pubnames
-                0x00000000      0x7ea
+                0x00000000      0x805
  *(.debug_pubnames)
  .debug_pubnames
                 0x00000000       0x6a .\obj\armvic.o
@@ -710,75 +713,75 @@ END GROUP
  .debug_pubnames
                 0x00000309      0x1a2 .\obj\sbl_iap.o
  .debug_pubnames
-                0x000004ab      0x103 .\obj\serial.o
+                0x000004ab      0x11e .\obj\serial.o
  .debug_pubnames
-                0x000005ae       0x9c .\obj\sfbchecksum.o
+                0x000005c9       0x9c .\obj\sfbchecksum.o
  .debug_pubnames
-                0x0000064a       0x5b .\obj\sfboard_tests.o
+                0x00000665       0x5b .\obj\sfboard_tests.o
  .debug_pubnames
-                0x000006a5       0x1e .\obj\sys_init.o
+                0x000006c0       0x1e .\obj\sys_init.o
  .debug_pubnames
-                0x000006c3       0xc9 .\obj\syscalls.o
+                0x000006de       0xc9 .\obj\syscalls.o
  .debug_pubnames
-                0x0000078c       0x3f .\obj\wiring.o
+                0x000007a7       0x3f .\obj\wiring.o
  .debug_pubnames
-                0x000007cb       0x1f .\obj\wiring_pins.o
+                0x000007e6       0x1f .\obj\wiring_pins.o
 
-.debug_info     0x00000000     0x2ddd
+.debug_info     0x00000000     0x2f66
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000       0x61 .\obj\crt0.o
- .debug_info    0x00000061      0x1da .\obj\armvic.o
- .debug_info    0x0000023b      0x201 .\obj\eeprom.o
- .debug_info    0x0000043c       0xc3 .\obj\fio.o
- .debug_info    0x000004ff      0x118 .\obj\irq.o
- .debug_info    0x00000617      0xe55 .\obj\main.o
- .debug_info    0x0000146c      0x160 .\obj\nothrow.o
- .debug_info    0x000015cc      0x49b .\obj\sbl_iap.o
- .debug_info    0x00001a67      0x68b .\obj\serial.o
- .debug_info    0x000020f2      0x29d .\obj\sfbchecksum.o
- .debug_info    0x0000238f      0x175 .\obj\sfboard_tests.o
- .debug_info    0x00002504       0xd3 .\obj\sys_init.o
- .debug_info    0x000025d7      0x4e8 .\obj\syscalls.o
- .debug_info    0x00002abf      0x1ed .\obj\wiring.o
- .debug_info    0x00002cac      0x131 .\obj\wiring_pins.o
+ .debug_info    0x00000000       0x63 .\obj\crt0.o
+ .debug_info    0x00000063      0x1da .\obj\armvic.o
+ .debug_info    0x0000023d      0x201 .\obj\eeprom.o
+ .debug_info    0x0000043e       0xc3 .\obj\fio.o
+ .debug_info    0x00000501      0x118 .\obj\irq.o
+ .debug_info    0x00000619      0xe4b .\obj\main.o
+ .debug_info    0x00001464      0x160 .\obj\nothrow.o
+ .debug_info    0x000015c4      0x49b .\obj\sbl_iap.o
+ .debug_info    0x00001a5f      0x81c .\obj\serial.o
+ .debug_info    0x0000227b      0x29d .\obj\sfbchecksum.o
+ .debug_info    0x00002518      0x175 .\obj\sfboard_tests.o
+ .debug_info    0x0000268d       0xd3 .\obj\sys_init.o
+ .debug_info    0x00002760      0x4e8 .\obj\syscalls.o
+ .debug_info    0x00002c48      0x1ed .\obj\wiring.o
+ .debug_info    0x00002e35      0x131 .\obj\wiring_pins.o
 
-.debug_abbrev   0x00000000     0x1043
+.debug_abbrev   0x00000000     0x1085
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0x14 .\obj\crt0.o
  .debug_abbrev  0x00000014       0xc4 .\obj\armvic.o
  .debug_abbrev  0x000000d8       0xee .\obj\eeprom.o
  .debug_abbrev  0x000001c6       0x6a .\obj\fio.o
  .debug_abbrev  0x00000230       0xb3 .\obj\irq.o
- .debug_abbrev  0x000002e3      0x30e .\obj\main.o
- .debug_abbrev  0x000005f1       0xee .\obj\nothrow.o
- .debug_abbrev  0x000006df      0x1a0 .\obj\sbl_iap.o
- .debug_abbrev  0x0000087f      0x234 .\obj\serial.o
- .debug_abbrev  0x00000ab3      0x13d .\obj\sfbchecksum.o
- .debug_abbrev  0x00000bf0       0xda .\obj\sfboard_tests.o
- .debug_abbrev  0x00000cca       0x9b .\obj\sys_init.o
- .debug_abbrev  0x00000d65      0x121 .\obj\syscalls.o
- .debug_abbrev  0x00000e86      0x11b .\obj\wiring.o
- .debug_abbrev  0x00000fa1       0xa2 .\obj\wiring_pins.o
+ .debug_abbrev  0x000002e3      0x2f8 .\obj\main.o
+ .debug_abbrev  0x000005db       0xee .\obj\nothrow.o
+ .debug_abbrev  0x000006c9      0x1a0 .\obj\sbl_iap.o
+ .debug_abbrev  0x00000869      0x28c .\obj\serial.o
+ .debug_abbrev  0x00000af5      0x13d .\obj\sfbchecksum.o
+ .debug_abbrev  0x00000c32       0xda .\obj\sfboard_tests.o
+ .debug_abbrev  0x00000d0c       0x9b .\obj\sys_init.o
+ .debug_abbrev  0x00000da7      0x121 .\obj\syscalls.o
+ .debug_abbrev  0x00000ec8      0x11b .\obj\wiring.o
+ .debug_abbrev  0x00000fe3       0xa2 .\obj\wiring_pins.o
 
-.debug_line     0x00000000     0x114f
+.debug_line     0x00000000     0x119b
  *(.debug_line)
  .debug_line    0x00000000       0x82 .\obj\crt0.o
  .debug_line    0x00000082       0xbf .\obj\armvic.o
  .debug_line    0x00000141      0x11c .\obj\eeprom.o
  .debug_line    0x0000025d       0x5c .\obj\fio.o
  .debug_line    0x000002b9       0x73 .\obj\irq.o
- .debug_line    0x0000032c      0x335 .\obj\main.o
- .debug_line    0x00000661       0xc8 .\obj\nothrow.o
- .debug_line    0x00000729      0x184 .\obj\sbl_iap.o
- .debug_line    0x000008ad      0x1db .\obj\serial.o
- .debug_line    0x00000a88      0x137 .\obj\sfbchecksum.o
- .debug_line    0x00000bbf      0x12c .\obj\sfboard_tests.o
- .debug_line    0x00000ceb       0xf2 .\obj\sys_init.o
- .debug_line    0x00000ddd      0x1c6 .\obj\syscalls.o
- .debug_line    0x00000fa3       0xef .\obj\wiring.o
- .debug_line    0x00001092       0xbd .\obj\wiring_pins.o
+ .debug_line    0x0000032c      0x331 .\obj\main.o
+ .debug_line    0x0000065d       0xc8 .\obj\nothrow.o
+ .debug_line    0x00000725      0x184 .\obj\sbl_iap.o
+ .debug_line    0x000008a9      0x22b .\obj\serial.o
+ .debug_line    0x00000ad4      0x137 .\obj\sfbchecksum.o
+ .debug_line    0x00000c0b      0x12c .\obj\sfboard_tests.o
+ .debug_line    0x00000d37       0xf2 .\obj\sys_init.o
+ .debug_line    0x00000e29      0x1c6 .\obj\syscalls.o
+ .debug_line    0x00000fef       0xef .\obj\wiring.o
+ .debug_line    0x000010de       0xbd .\obj\wiring_pins.o
 
-.debug_frame    0x00000000      0x7fc
+.debug_frame    0x00000000      0x828
  *(.debug_frame)
  .debug_frame   0x00000000       0xc8 .\obj\armvic.o
  .debug_frame   0x000000c8       0x80 .\obj\eeprom.o
@@ -787,46 +790,46 @@ END GROUP
  .debug_frame   0x000001ac      0x114 .\obj\main.o
  .debug_frame   0x000002c0       0x60 .\obj\nothrow.o
  .debug_frame   0x00000320      0x124 .\obj\sbl_iap.o
- .debug_frame   0x00000444       0xfc .\obj\serial.o
- .debug_frame   0x00000540       0x98 .\obj\sfbchecksum.o
- .debug_frame   0x000005d8       0x80 .\obj\sfboard_tests.o
- .debug_frame   0x00000658       0x20 .\obj\sys_init.o
- .debug_frame   0x00000678      0x11c .\obj\syscalls.o
- .debug_frame   0x00000794       0x48 .\obj\wiring.o
- .debug_frame   0x000007dc       0x20 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_udivsi3.o)
+ .debug_frame   0x00000444      0x128 .\obj\serial.o
+ .debug_frame   0x0000056c       0x98 .\obj\sfbchecksum.o
+ .debug_frame   0x00000604       0x80 .\obj\sfboard_tests.o
+ .debug_frame   0x00000684       0x20 .\obj\sys_init.o
+ .debug_frame   0x000006a4      0x11c .\obj\syscalls.o
+ .debug_frame   0x000007c0       0x48 .\obj\wiring.o
+ .debug_frame   0x00000808       0x20 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_udivsi3.o)
 
-.debug_str      0x00000000     0x128d
+.debug_str      0x00000000     0x137a
  *(.debug_str)
- .debug_str     0x00000000       0xfb .\obj\armvic.o
-                                0x135 (size before relaxing)
- .debug_str     0x000000fb      0x106 .\obj\eeprom.o
-                                0x1d7 (size before relaxing)
- .debug_str     0x00000201       0x30 .\obj\fio.o
-                                 0xef (size before relaxing)
- .debug_str     0x00000231       0x71 .\obj\irq.o
-                                0x131 (size before relaxing)
- .debug_str     0x000002a2      0x5dd .\obj\main.o
-                                0x706 (size before relaxing)
- .debug_str     0x0000087f       0x67 .\obj\nothrow.o
-                                0x146 (size before relaxing)
- .debug_str     0x000008e6      0x320 .\obj\sbl_iap.o
-                                0x413 (size before relaxing)
- .debug_str     0x00000c06      0x26a .\obj\serial.o
-                                0x397 (size before relaxing)
- .debug_str     0x00000e70      0x137 .\obj\sfbchecksum.o
-                                0x214 (size before relaxing)
- .debug_str     0x00000fa7       0xa6 .\obj\sfboard_tests.o
-                                0x176 (size before relaxing)
- .debug_str     0x0000104d       0x3c .\obj\sys_init.o
-                                0x108 (size before relaxing)
- .debug_str     0x00001089      0x150 .\obj\syscalls.o
-                                0x266 (size before relaxing)
- .debug_str     0x000011d9       0xa4 .\obj\wiring.o
-                                0x1a9 (size before relaxing)
- .debug_str     0x0000127d       0x10 .\obj\wiring_pins.o
-                                0x149 (size before relaxing)
+ .debug_str     0x00000000       0xfd .\obj\armvic.o
+                                0x137 (size before relaxing)
+ .debug_str     0x000000fd      0x106 .\obj\eeprom.o
+                                0x1d9 (size before relaxing)
+ .debug_str     0x00000203       0x30 .\obj\fio.o
+                                 0xf1 (size before relaxing)
+ .debug_str     0x00000233       0x71 .\obj\irq.o
+                                0x133 (size before relaxing)
+ .debug_str     0x000002a4      0x5d8 .\obj\main.o
+                                0x703 (size before relaxing)
+ .debug_str     0x0000087c       0x67 .\obj\nothrow.o
+                                0x148 (size before relaxing)
+ .debug_str     0x000008e3      0x32f .\obj\sbl_iap.o
+                                0x415 (size before relaxing)
+ .debug_str     0x00000c12      0x34b .\obj\serial.o
+                                0x47f (size before relaxing)
+ .debug_str     0x00000f5d      0x137 .\obj\sfbchecksum.o
+                                0x216 (size before relaxing)
+ .debug_str     0x00001094       0xa6 .\obj\sfboard_tests.o
+                                0x178 (size before relaxing)
+ .debug_str     0x0000113a       0x3c .\obj\sys_init.o
+                                0x10a (size before relaxing)
+ .debug_str     0x00001176      0x150 .\obj\syscalls.o
+                                0x268 (size before relaxing)
+ .debug_str     0x000012c6       0xa4 .\obj\wiring.o
+                                0x1ab (size before relaxing)
+ .debug_str     0x0000136a       0x10 .\obj\wiring_pins.o
+                                0x14b (size before relaxing)
 
-.debug_loc      0x00000000      0xdfa
+.debug_loc      0x00000000      0xff6
  *(.debug_loc)
  .debug_loc     0x00000000      0x109 .\obj\armvic.o
  .debug_loc     0x00000109      0x111 .\obj\eeprom.o
@@ -835,11 +838,11 @@ END GROUP
  .debug_loc     0x000002e3      0x195 .\obj\main.o
  .debug_loc     0x00000478       0x8a .\obj\nothrow.o
  .debug_loc     0x00000502      0x2ec .\obj\sbl_iap.o
- .debug_loc     0x000007ee      0x1da .\obj\serial.o
- .debug_loc     0x000009c8      0x189 .\obj\sfbchecksum.o
- .debug_loc     0x00000b51      0x130 .\obj\sfboard_tests.o
- .debug_loc     0x00000c81       0xf0 .\obj\syscalls.o
- .debug_loc     0x00000d71       0x89 .\obj\wiring.o
+ .debug_loc     0x000007ee      0x3d6 .\obj\serial.o
+ .debug_loc     0x00000bc4      0x189 .\obj\sfbchecksum.o
+ .debug_loc     0x00000d4d      0x130 .\obj\sfboard_tests.o
+ .debug_loc     0x00000e7d       0xf0 .\obj\syscalls.o
+ .debug_loc     0x00000f6d       0x89 .\obj\wiring.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -894,7 +897,7 @@ OUTPUT(.\obj\Blinky.elf elf32-littlearm)
  .ARM.attributes
                 0x000002b4       0x14 /cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/libgcc.a(_dvmd_tls.o)
 
-.debug_ranges   0x00000000      0x3d0
+.debug_ranges   0x00000000      0x430
  .debug_ranges  0x00000000       0x50 .\obj\armvic.o
  .debug_ranges  0x00000050       0x38 .\obj\eeprom.o
  .debug_ranges  0x00000088       0x18 .\obj\fio.o
@@ -902,9 +905,9 @@ OUTPUT(.\obj\Blinky.elf elf32-littlearm)
  .debug_ranges  0x000000c0       0x90 .\obj\main.o
  .debug_ranges  0x00000150       0x30 .\obj\nothrow.o
  .debug_ranges  0x00000180       0x70 .\obj\sbl_iap.o
- .debug_ranges  0x000001f0       0x70 .\obj\serial.o
- .debug_ranges  0x00000260       0x58 .\obj\sfbchecksum.o
- .debug_ranges  0x000002b8       0x30 .\obj\sfboard_tests.o
- .debug_ranges  0x000002e8       0x30 .\obj\sys_init.o
- .debug_ranges  0x00000318       0x90 .\obj\syscalls.o
- .debug_ranges  0x000003a8       0x28 .\obj\wiring.o
+ .debug_ranges  0x000001f0       0xd0 .\obj\serial.o
+ .debug_ranges  0x000002c0       0x58 .\obj\sfbchecksum.o
+ .debug_ranges  0x00000318       0x30 .\obj\sfboard_tests.o
+ .debug_ranges  0x00000348       0x30 .\obj\sys_init.o
+ .debug_ranges  0x00000378       0x90 .\obj\syscalls.o
+ .debug_ranges  0x00000408       0x28 .\obj\wiring.o

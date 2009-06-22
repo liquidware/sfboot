@@ -1,4 +1,4 @@
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s 			page 1
 
 
    1              		.cpu arm7tdmi
@@ -58,7 +58,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
   51 001a 10       		.byte	16
   52 001b 01       		.byte	1
   53 001c 07       		.byte	7
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 2
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s 			page 2
 
 
   54 001d 01       		.byte	1
@@ -118,7 +118,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  108 0053 01       		.byte	1
  109 0054 15       		.byte	21
  110 0055 01       		.byte	1
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 3
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s 			page 3
 
 
  111 0056 1A       		.byte	26
@@ -178,7 +178,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  165 008c 23       		.byte	35
  166 008d 02       		.byte	2
  167 008e 03       		.byte	3
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 4
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s 			page 4
 
 
  168 008f 01       		.byte	1
@@ -238,7 +238,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  222              	.Letext0:
  223              		.file 1 "wiring_pins.h"
  224              		.file 2 "/cygdrive/f/ARM2008q3-66-GPL/build/install/Bin/../lib/gcc/arm-none-eabi/4.3.2/../../../..
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 5
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s 			page 5
 
 
  225              		.file 3 "wiring_pins.cpp"
@@ -250,17 +250,17 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  231 000b 01       		.uleb128 0x1
  232 000c 0E000000 		.4byte	.LASF18
  233 0010 04       		.byte	0x4
- 234 0011 DF000000 		.4byte	.LASF19
- 235 0015 82000000 		.4byte	.LASF20
+ 234 0011 AE000000 		.4byte	.LASF19
+ 235 0015 DE000000 		.4byte	.LASF20
  236 0019 00000000 		.4byte	.Ltext0
  237 001d 00000000 		.4byte	.Letext0
  238 0021 00000000 		.4byte	.Ldebug_line0
  239 0025 02       		.uleb128 0x2
  240 0026 01       		.byte	0x1
  241 0027 06       		.byte	0x6
- 242 0028 29010000 		.4byte	.LASF0
+ 242 0028 2B010000 		.4byte	.LASF0
  243 002c 03       		.uleb128 0x3
- 244 002d D7000000 		.4byte	.LASF21
+ 244 002d A6000000 		.4byte	.LASF21
  245 0031 02       		.byte	0x2
  246 0032 2E       		.byte	0x2e
  247 0033 37000000 		.4byte	0x37
@@ -271,7 +271,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  252 003e 02       		.uleb128 0x2
  253 003f 02       		.byte	0x2
  254 0040 05       		.byte	0x5
- 255 0041 05010000 		.4byte	.LASF2
+ 255 0041 D4000000 		.4byte	.LASF2
  256 0045 02       		.uleb128 0x2
  257 0046 02       		.byte	0x2
  258 0047 07       		.byte	0x7
@@ -279,7 +279,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  260 004c 02       		.uleb128 0x2
  261 004d 04       		.byte	0x4
  262 004e 05       		.byte	0x5
- 263 004f 0F010000 		.4byte	.LASF4
+ 263 004f 11010000 		.4byte	.LASF4
  264 0053 02       		.uleb128 0x2
  265 0054 04       		.byte	0x4
  266 0055 07       		.byte	0x7
@@ -287,24 +287,24 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  268 005a 02       		.uleb128 0x2
  269 005b 08       		.byte	0x8
  270 005c 05       		.byte	0x5
- 271 005d EF000000 		.4byte	.LASF6
+ 271 005d BE000000 		.4byte	.LASF6
  272 0061 02       		.uleb128 0x2
  273 0062 08       		.byte	0x8
  274 0063 07       		.byte	0x7
- 275 0064 C0000000 		.4byte	.LASF7
+ 275 0064 8F000000 		.4byte	.LASF7
  276 0068 04       		.uleb128 0x4
  277 0069 04       		.byte	0x4
  278 006a 05       		.byte	0x5
  279 006b 696E7400 		.ascii	"int\000"
  280 006f 02       		.uleb128 0x2
  281 0070 04       		.byte	0x4
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 6
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s 			page 6
 
 
  282 0071 07       		.byte	0x7
- 283 0072 B3000000 		.4byte	.LASF8
+ 283 0072 82000000 		.4byte	.LASF8
  284 0076 05       		.uleb128 0x5
- 285 0077 18010000 		.4byte	.LASF13
+ 285 0077 1A010000 		.4byte	.LASF13
  286 007b 01       		.byte	0x1
  287 007c 01       		.byte	0x1
  288 007d 06       		.byte	0x6
@@ -319,11 +319,11 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  297 008f 00000000 		.4byte	.LASF11
  298 0093 02       		.sleb128 2
  299 0094 06       		.uleb128 0x6
- 300 0095 3C010000 		.4byte	.LASF12
+ 300 0095 3E010000 		.4byte	.LASF12
  301 0099 03       		.sleb128 3
  302 009a 00       		.byte	0x0
  303 009b 05       		.uleb128 0x5
- 304 009c 18010000 		.4byte	.LASF13
+ 304 009c 1A010000 		.4byte	.LASF13
  305 00a0 01       		.byte	0x1
  306 00a1 01       		.byte	0x1
  307 00a2 0D       		.byte	0xd
@@ -358,7 +358,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  336 00dd 02       		.byte	0x2
  337 00de 23       		.byte	0x23
  338 00df 00       		.uleb128 0x0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 7
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s 			page 7
 
 
  339 00e0 09       		.uleb128 0x9
@@ -370,7 +370,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  345 00ec 23       		.byte	0x23
  346 00ed 01       		.uleb128 0x1
  347 00ee 09       		.uleb128 0x9
- 348 00ef FD000000 		.4byte	.LASF16
+ 348 00ef CC000000 		.4byte	.LASF16
  349 00f3 01       		.byte	0x1
  350 00f4 18       		.byte	0x18
  351 00f5 2C000000 		.4byte	0x2c
@@ -378,7 +378,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  353 00fa 23       		.byte	0x23
  354 00fb 02       		.uleb128 0x2
  355 00fc 09       		.uleb128 0x9
- 356 00fd 35010000 		.4byte	.LASF17
+ 356 00fd 37010000 		.4byte	.LASF17
  357 0101 01       		.byte	0x1
  358 0102 19       		.byte	0x19
  359 0103 76000000 		.4byte	0x76
@@ -418,7 +418,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  393 0008 0E       		.uleb128 0xe
  394 0009 1B       		.uleb128 0x1b
  395 000a 0E       		.uleb128 0xe
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 8
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s 			page 8
 
 
  396 000b 11       		.uleb128 0x11
@@ -478,7 +478,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  450 0041 01       		.uleb128 0x1
  451 0042 13       		.uleb128 0x13
  452 0043 00       		.byte	0x0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 9
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s 			page 9
 
 
  453 0044 00       		.byte	0x0
@@ -538,7 +538,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  507 007a 01       		.uleb128 0x1
  508 007b 13       		.uleb128 0x13
  509 007c 00       		.byte	0x0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 10
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s 			page 10
 
 
  510 007d 00       		.byte	0x0
@@ -598,7 +598,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  560              	.LASF18:
  561 000e 474E5520 		.ascii	"GNU C++ 4.3.2\000"
  561      432B2B20 
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 11
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s 			page 11
 
 
  561      342E332E 
@@ -640,76 +640,76 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 1
  576              	.LASF9:
  577 007c 65525854 		.ascii	"eRXTX\000"
  577      5800
- 578              	.LASF20:
- 579 0082 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot2.0/sfboot\000"
- 579      64726976 
- 579      652F632F 
- 579      55736572 
- 579      732F4368 
- 580              	.LASF8:
- 581 00b3 756E7369 		.ascii	"unsigned int\000"
- 581      676E6564 
- 581      20696E74 
- 581      00
- 582              	.LASF7:
- 583 00c0 6C6F6E67 		.ascii	"long long unsigned int\000"
- 583      206C6F6E 
- 583      6720756E 
- 583      7369676E 
- 583      65642069 
- 584              	.LASF21:
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 12
+ 578              	.LASF8:
+ 579 0082 756E7369 		.ascii	"unsigned int\000"
+ 579      676E6564 
+ 579      20696E74 
+ 579      00
+ 580              	.LASF7:
+ 581 008f 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 581      206C6F6E 
+ 581      6720756E 
+ 581      7369676E 
+ 581      65642069 
+ 582              	.LASF21:
+ 583 00a6 75696E74 		.ascii	"uint8_t\000"
+ 583      385F7400 
+ 584              	.LASF19:
+ 585 00ae 77697269 		.ascii	"wiring_pins.cpp\000"
+ 585      6E675F70 
+ 585      696E732E 
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s 			page 12
 
 
- 585 00d7 75696E74 		.ascii	"uint8_t\000"
- 585      385F7400 
- 586              	.LASF19:
- 587 00df 77697269 		.ascii	"wiring_pins.cpp\000"
- 587      6E675F70 
- 587      696E732E 
- 587      63707000 
- 588              	.LASF6:
- 589 00ef 6C6F6E67 		.ascii	"long long int\000"
- 589      206C6F6E 
- 589      6720696E 
- 589      7400
- 590              	.LASF16:
- 591 00fd 506F7274 		.ascii	"PortPin\000"
- 591      50696E00 
- 592              	.LASF2:
- 593 0105 73686F72 		.ascii	"short int\000"
- 593      7420696E 
- 593      7400
+ 585      63707000 
+ 586              	.LASF6:
+ 587 00be 6C6F6E67 		.ascii	"long long int\000"
+ 587      206C6F6E 
+ 587      6720696E 
+ 587      7400
+ 588              	.LASF16:
+ 589 00cc 506F7274 		.ascii	"PortPin\000"
+ 589      50696E00 
+ 590              	.LASF2:
+ 591 00d4 73686F72 		.ascii	"short int\000"
+ 591      7420696E 
+ 591      7400
+ 592              	.LASF20:
+ 593 00de 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot-test/sfboot\000"
+ 593      64726976 
+ 593      652F632F 
+ 593      55736572 
+ 593      732F4368 
  594              	.LASF4:
- 595 010f 6C6F6E67 		.ascii	"long int\000"
+ 595 0111 6C6F6E67 		.ascii	"long int\000"
  595      20696E74 
  595      00
  596              	.LASF13:
- 597 0118 3C616E6F 		.ascii	"<anonymous enum>\000"
+ 597 011a 3C616E6F 		.ascii	"<anonymous enum>\000"
  597      6E796D6F 
  597      75732065 
  597      6E756D3E 
  597      00
  598              	.LASF0:
- 599 0129 7369676E 		.ascii	"signed char\000"
+ 599 012b 7369676E 		.ascii	"signed char\000"
  599      65642063 
  599      68617200 
  600              	.LASF17:
- 601 0135 50696E49 		.ascii	"PinIsA\000"
+ 601 0137 50696E49 		.ascii	"PinIsA\000"
  601      734100
  602              	.LASF12:
- 603 013c 654E756D 		.ascii	"eNumPinTypes\000"
+ 603 013e 654E756D 		.ascii	"eNumPinTypes\000"
  603      50696E54 
  603      79706573 
  603      00
  604              		.ident	"GCC: (AHAX Arm-Linux 2008q3-66) 4.3.2"
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s 			page 13
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s 			page 13
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 wiring_pins.cpp
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s:24     .data.PinTable:00000000 PinTable
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s:25     .data.PinTable:00000000 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cctqwy7j.s:227    .debug_info:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s:24     .data.PinTable:00000000 PinTable
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s:25     .data.PinTable:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cckBlAWQ.s:227    .debug_info:00000000 $d
 
 NO UNDEFINED SYMBOLS

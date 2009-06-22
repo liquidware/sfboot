@@ -1,4 +1,4 @@
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 1
 
 
    1              		.cpu arm7tdmi
@@ -58,7 +58,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
   20:eeprom.cpp    ****    PINSEL0 |= 0x000AA000;
   32              		.loc 1 20 0
   33 0000 28109FE5 		ldr	r1, .L3
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 2
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 2
 
 
   34 0004 003091E5 		ldr	r3, [r1, #0]
@@ -118,7 +118,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
   38:eeprom.cpp    ****       while( !((SSP1SR >> 1) & 1) ) {
   71              		.loc 1 38 0
   72 0000 10209FE5 		ldr	r2, .L8
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 3
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 3
 
 
   73 0004 0C3092E5 		ldr	r3, [r2, #12]
@@ -178,7 +178,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
   58:eeprom.cpp    ****       return (uint8_t)SSP1DR;
  108              		.loc 1 58 0
  109 001c 080093E5 		ldr	r0, [r3, #8]
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 4
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 4
 
 
  110 0020 FF0000E2 		and	r0, r0, #255
@@ -238,7 +238,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  142 0010 0250A0E1 		mov	r5, r2
  143              	.LBB3:
  144              		.loc 1 80 0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 5
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 5
 
 
  145 0014 FEFFFFEB 		bl	_Z9ssp1Writeh
@@ -298,7 +298,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  179 0060 1EFF2FE1 		bx	lr
  180              	.LFE5:
  181              		.size	_Z11eepromWritetPhm, .-_Z11eepromWritetPhm
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 6
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 6
 
 
  182              		.section	.text._Z10eepromReadPhtm,"ax",%progbits
@@ -358,7 +358,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  213              	.LVL9:
  214              		.loc 1 120 0
  215 0020 FEFFFFEB 		bl	_Z9ssp1Writeh
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 7
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 7
 
 
  216              		.loc 1 123 0
@@ -418,7 +418,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  262 0020 0C000000 		.4byte	.LEFDE2-.LASFDE2
  263              	.LASFDE2:
  264 0024 00000000 		.4byte	.Lframe0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 8
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 8
 
 
  265 0028 00000000 		.4byte	.LFB3
@@ -478,7 +478,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  319 007b 85       		.byte	0x85
  320 007c 03       		.uleb128 0x3
  321 007d 84       		.byte	0x84
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 9
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 9
 
 
  322 007e 04       		.uleb128 0x4
@@ -538,7 +538,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  376 007a 00000000 		.4byte	.LVL1
  377 007e 18000000 		.4byte	.LVL3
  378 0082 0100     		.2byte	0x1
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 10
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 10
 
 
  379 0084 52       		.byte	0x52
@@ -598,7 +598,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  433 0000 FD010000 		.4byte	0x1fd
  434 0004 0200     		.2byte	0x2
  435 0006 00000000 		.4byte	.Ldebug_abbrev0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 11
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 11
 
 
  436 000a 04       		.byte	0x4
@@ -606,7 +606,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  438 000c 4A000000 		.4byte	.LASF29
  439 0010 04       		.byte	0x4
  440 0011 10000000 		.4byte	.LASF30
- 441 0015 A3000000 		.4byte	.LASF31
+ 441 0015 62010000 		.4byte	.LASF31
  442 0019 00000000 		.4byte	0x0
  443 001d 00000000 		.4byte	0x0
  444 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
@@ -614,7 +614,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  446 0029 02       		.uleb128 0x2
  447 002a 01       		.byte	0x1
  448 002b 06       		.byte	0x6
- 449 002c B6010000 		.4byte	.LASF0
+ 449 002c B8010000 		.4byte	.LASF0
  450 0030 03       		.uleb128 0x3
  451 0031 30000000 		.4byte	.LASF3
  452 0035 02       		.byte	0x2
@@ -627,9 +627,9 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  459 0042 02       		.uleb128 0x2
  460 0043 02       		.byte	0x2
  461 0044 05       		.byte	0x5
- 462 0045 77010000 		.4byte	.LASF2
+ 462 0045 4F010000 		.4byte	.LASF2
  463 0049 03       		.uleb128 0x3
- 464 004a 81010000 		.4byte	.LASF4
+ 464 004a 59010000 		.4byte	.LASF4
  465 004e 02       		.byte	0x2
  466 004f 3A       		.byte	0x3a
  467 0050 54000000 		.4byte	0x54
@@ -640,9 +640,9 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  472 005b 02       		.uleb128 0x2
  473 005c 04       		.byte	0x4
  474 005d 05       		.byte	0x5
- 475 005e A3010000 		.4byte	.LASF6
+ 475 005e A5010000 		.4byte	.LASF6
  476 0062 03       		.uleb128 0x3
- 477 0063 9A010000 		.4byte	.LASF7
+ 477 0063 90000000 		.4byte	.LASF7
  478 0067 02       		.byte	0x2
  479 0068 54       		.byte	0x54
  480 0069 6D000000 		.4byte	0x6d
@@ -653,12 +653,12 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  485 0074 02       		.uleb128 0x2
  486 0075 08       		.byte	0x8
  487 0076 05       		.byte	0x5
- 488 0077 5C010000 		.4byte	.LASF9
+ 488 0077 34010000 		.4byte	.LASF9
  489 007b 02       		.uleb128 0x2
  490 007c 08       		.byte	0x8
  491 007d 07       		.byte	0x7
- 492 007e FD000000 		.4byte	.LASF10
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 12
+ 492 007e D5000000 		.4byte	.LASF10
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 12
 
 
  493 0082 04       		.uleb128 0x4
@@ -668,7 +668,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  497 0089 02       		.uleb128 0x2
  498 008a 04       		.byte	0x4
  499 008b 07       		.byte	0x7
- 500 008c E8000000 		.4byte	.LASF11
+ 500 008c C0000000 		.4byte	.LASF11
  501 0090 05       		.uleb128 0x5
  502 0091 04       		.byte	0x4
  503 0092 07       		.byte	0x7
@@ -681,17 +681,17 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  510 009c 00000000 		.4byte	.LASF32
  511 00a0 01       		.byte	0x1
  512 00a1 11       		.byte	0x11
- 513 00a2 8A010000 		.4byte	.LASF33
+ 513 00a2 95010000 		.4byte	.LASF33
  514 00a6 00000000 		.4byte	.LFB2
  515 00aa 38000000 		.4byte	.LFE2
  516 00ae 01       		.byte	0x1
  517 00af 5D       		.byte	0x5d
  518 00b0 07       		.uleb128 0x7
  519 00b1 01       		.byte	0x1
- 520 00b2 AC010000 		.4byte	.LASF34
+ 520 00b2 AE010000 		.4byte	.LASF34
  521 00b6 01       		.byte	0x1
  522 00b7 22       		.byte	0x22
- 523 00b8 C2010000 		.4byte	.LASF35
+ 523 00b8 C4010000 		.4byte	.LASF35
  524 00bc 00000000 		.4byte	.LFB3
  525 00c0 1C000000 		.4byte	.LFE3
  526 00c4 01       		.byte	0x1
@@ -707,10 +707,10 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  536 00d7 00       		.byte	0x0
  537 00d8 09       		.uleb128 0x9
  538 00d9 01       		.byte	0x1
- 539 00da 53010000 		.4byte	.LASF36
+ 539 00da 2B010000 		.4byte	.LASF36
  540 00de 01       		.byte	0x1
  541 00df 31       		.byte	0x31
- 542 00e0 6A010000 		.4byte	.LASF37
+ 542 00e0 42010000 		.4byte	.LASF37
  543 00e4 30000000 		.4byte	0x30
  544 00e8 00000000 		.4byte	.LFB4
  545 00ec 30000000 		.4byte	.LFE4
@@ -718,19 +718,19 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  547 00f4 0A       		.uleb128 0xa
  548 00f5 01       		.byte	0x1
  549 00f6 1B000000 		.4byte	.LASF17
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 13
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 13
 
 
  550 00fa 01       		.byte	0x1
  551 00fb 4B       		.byte	0x4b
- 552 00fc 3F010000 		.4byte	.LASF19
+ 552 00fc 17010000 		.4byte	.LASF19
  553 0100 82000000 		.4byte	0x82
  554 0104 00000000 		.4byte	.LFB5
  555 0108 64000000 		.4byte	.LFE5
  556 010c 1F000000 		.4byte	.LLST3
  557 0110 4E010000 		.4byte	0x14e
  558 0114 0B       		.uleb128 0xb
- 559 0115 DD000000 		.4byte	.LASF14
+ 559 0115 B5000000 		.4byte	.LASF14
  560 0119 01       		.byte	0x1
  561 011a 4B       		.byte	0x4b
  562 011b 49000000 		.4byte	0x49
@@ -742,7 +742,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  568 012a 4E010000 		.4byte	0x14e
  569 012e 5C000000 		.4byte	.LLST5
  570 0132 0B       		.uleb128 0xb
- 571 0133 D0010000 		.4byte	.LASF16
+ 571 0133 D2010000 		.4byte	.LASF16
  572 0137 01       		.byte	0x1
  573 0138 4B       		.byte	0x4b
  574 0139 62000000 		.4byte	0x62
@@ -762,23 +762,23 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  588 0155 30000000 		.4byte	0x30
  589 0159 0A       		.uleb128 0xa
  590 015a 01       		.byte	0x1
- 591 015b 90000000 		.4byte	.LASF18
+ 591 015b 99000000 		.4byte	.LASF18
  592 015f 01       		.byte	0x1
  593 0160 6F       		.byte	0x6f
- 594 0161 14010000 		.4byte	.LASF20
+ 594 0161 EC000000 		.4byte	.LASF20
  595 0165 82000000 		.4byte	0x82
  596 0169 00000000 		.4byte	.LFB6
  597 016d 54000000 		.4byte	.LFE6
  598 0171 98000000 		.4byte	.LLST7
  599 0175 B3010000 		.4byte	0x1b3
  600 0179 0B       		.uleb128 0xb
- 601 017a D4000000 		.4byte	.LASF21
+ 601 017a AC000000 		.4byte	.LASF21
  602 017e 01       		.byte	0x1
  603 017f 6F       		.byte	0x6f
  604 0180 53010000 		.4byte	0x153
  605 0184 B7000000 		.4byte	.LLST8
  606 0188 0B       		.uleb128 0xb
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 14
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 14
 
 
  607 0189 38000000 		.4byte	.LASF22
@@ -787,7 +787,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  610 018f 49000000 		.4byte	0x49
  611 0193 D5000000 		.4byte	.LLST9
  612 0197 0B       		.uleb128 0xb
- 613 0198 D0010000 		.4byte	.LASF16
+ 613 0198 D2010000 		.4byte	.LASF16
  614 019c 01       		.byte	0x1
  615 019d 6F       		.byte	0x6f
  616 019e 62000000 		.4byte	0x62
@@ -801,7 +801,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  624 01b1 54       		.byte	0x54
  625 01b2 00       		.byte	0x0
  626 01b3 0F       		.uleb128 0xf
- 627 01b4 9B000000 		.4byte	.LASF23
+ 627 01b4 A4000000 		.4byte	.LASF23
  628 01b8 01       		.byte	0x1
  629 01b9 06       		.byte	0x6
  630 01ba BF010000 		.4byte	0x1bf
@@ -815,30 +815,30 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  638 01cb BF010000 		.4byte	0x1bf
  639 01cf 02       		.byte	0x2
  640 01d0 0F       		.uleb128 0xf
- 641 01d1 37010000 		.4byte	.LASF25
+ 641 01d1 0F010000 		.4byte	.LASF25
  642 01d5 01       		.byte	0x1
  643 01d6 08       		.byte	0x8
  644 01d7 BF010000 		.4byte	0x1bf
  645 01db 03       		.byte	0x3
  646 01dc 0F       		.uleb128 0xf
- 647 01dd F5000000 		.4byte	.LASF26
+ 647 01dd CD000000 		.4byte	.LASF26
  648 01e1 01       		.byte	0x1
  649 01e2 09       		.byte	0x9
  650 01e3 BF010000 		.4byte	0x1bf
  651 01e7 02       		.byte	0x2
  652 01e8 0F       		.uleb128 0xf
- 653 01e9 2F010000 		.4byte	.LASF27
+ 653 01e9 07010000 		.4byte	.LASF27
  654 01ed 01       		.byte	0x1
  655 01ee 0A       		.byte	0xa
  656 01ef BF010000 		.4byte	0x1bf
  657 01f3 05       		.byte	0x5
  658 01f4 0F       		.uleb128 0xf
- 659 01f5 27010000 		.4byte	.LASF28
+ 659 01f5 FF000000 		.4byte	.LASF28
  660 01f9 01       		.byte	0x1
  661 01fa 0B       		.byte	0xb
  662 01fb BF010000 		.4byte	0x1bf
  663 01ff 01       		.byte	0x1
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 15
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 15
 
 
  664 0200 00       		.byte	0x0
@@ -898,7 +898,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  718 0034 03       		.uleb128 0x3
  719 0035 08       		.uleb128 0x8
  720 0036 00       		.byte	0x0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 16
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 16
 
 
  721 0037 00       		.byte	0x0
@@ -958,7 +958,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  775 006f 08       		.uleb128 0x8
  776 0070 05       		.uleb128 0x5
  777 0071 00       		.byte	0x0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 17
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 17
 
 
  778 0072 03       		.uleb128 0x3
@@ -1018,7 +1018,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  832 00aa 40       		.uleb128 0x40
  833 00ab 06       		.uleb128 0x6
  834 00ac 01       		.uleb128 0x1
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 18
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 18
 
 
  835 00ad 13       		.uleb128 0x13
@@ -1078,7 +1078,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  889 00e3 3A       		.uleb128 0x3a
  890 00e4 0B       		.uleb128 0xb
  891 00e5 3B       		.uleb128 0x3b
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 19
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 19
 
 
  892 00e6 0B       		.uleb128 0xb
@@ -1138,7 +1138,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  936              		.section	.debug_ranges,"",%progbits
  937              	.Ldebug_ranges0:
  938 0000 00000000 		.4byte	.Ltext0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 20
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 20
 
 
  939 0004 00000000 		.4byte	.Letext0
@@ -1198,7 +1198,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  974      20636861 
  974      7200
  975              	.LASF8:
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 21
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 21
 
 
  976 006b 6C6F6E67 		.ascii	"long unsigned int\000"
@@ -1212,139 +1212,139 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 1
  978      7369676E 
  978      65642069 
  978      6E7400
- 979              	.LASF18:
- 980 0090 65657072 		.ascii	"eepromRead\000"
- 980      6F6D5265 
- 980      616400
- 981              	.LASF23:
- 982 009b 6B454552 		.ascii	"kEEREAD\000"
- 982      45414400 
- 983              	.LASF31:
- 984 00a3 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot2.0/sfboot\000"
- 984      64726976 
- 984      652F632F 
- 984      55736572 
- 984      732F4368 
+ 979              	.LASF7:
+ 980 0090 75696E74 		.ascii	"uint32_t\000"
+ 980      33325F74 
+ 980      00
+ 981              	.LASF18:
+ 982 0099 65657072 		.ascii	"eepromRead\000"
+ 982      6F6D5265 
+ 982      616400
+ 983              	.LASF23:
+ 984 00a4 6B454552 		.ascii	"kEEREAD\000"
+ 984      45414400 
  985              	.LASF21:
- 986 00d4 64617461 		.ascii	"dataDest\000"
+ 986 00ac 64617461 		.ascii	"dataDest\000"
  986      44657374 
  986      00
  987              	.LASF14:
- 988 00dd 64617461 		.ascii	"dataEEDest\000"
+ 988 00b5 64617461 		.ascii	"dataEEDest\000"
  988      45454465 
  988      737400
  989              	.LASF11:
- 990 00e8 756E7369 		.ascii	"unsigned int\000"
+ 990 00c0 756E7369 		.ascii	"unsigned int\000"
  990      676E6564 
  990      20696E74 
  990      00
  991              	.LASF26:
- 992 00f5 6B454557 		.ascii	"kEEWREN\000"
+ 992 00cd 6B454557 		.ascii	"kEEWREN\000"
  992      52454E00 
  993              	.LASF10:
- 994 00fd 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 994 00d5 6C6F6E67 		.ascii	"long long unsigned int\000"
  994      206C6F6E 
  994      6720756E 
  994      7369676E 
  994      65642069 
  995              	.LASF20:
- 996 0114 5F5A3130 		.ascii	"_Z10eepromReadPhtm\000"
+ 996 00ec 5F5A3130 		.ascii	"_Z10eepromReadPhtm\000"
  996      65657072 
  996      6F6D5265 
  996      61645068 
  996      746D00
  997              	.LASF28:
- 998 0127 6B454557 		.ascii	"kEEWRSR\000"
+ 998 00ff 6B454557 		.ascii	"kEEWRSR\000"
  998      52535200 
  999              	.LASF27:
- 1000 012f 6B454552 		.ascii	"kEERDSR\000"
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 22
-
-
+ 1000 0107 6B454552 		.ascii	"kEERDSR\000"
  1000      44535200 
  1001              	.LASF25:
- 1002 0137 6B454557 		.ascii	"kEEWRDI\000"
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 22
+
+
+ 1002 010f 6B454557 		.ascii	"kEEWRDI\000"
  1002      52444900 
  1003              	.LASF19:
- 1004 013f 5F5A3131 		.ascii	"_Z11eepromWritetPhm\000"
+ 1004 0117 5F5A3131 		.ascii	"_Z11eepromWritetPhm\000"
  1004      65657072 
  1004      6F6D5772 
  1004      69746574 
  1004      50686D00 
  1005              	.LASF36:
- 1006 0153 73737031 		.ascii	"ssp1Read\000"
+ 1006 012b 73737031 		.ascii	"ssp1Read\000"
  1006      52656164 
  1006      00
  1007              	.LASF9:
- 1008 015c 6C6F6E67 		.ascii	"long long int\000"
+ 1008 0134 6C6F6E67 		.ascii	"long long int\000"
  1008      206C6F6E 
  1008      6720696E 
  1008      7400
  1009              	.LASF37:
- 1010 016a 5F5A3873 		.ascii	"_Z8ssp1Readv\000"
+ 1010 0142 5F5A3873 		.ascii	"_Z8ssp1Readv\000"
  1010      73703152 
  1010      65616476 
  1010      00
  1011              	.LASF2:
- 1012 0177 73686F72 		.ascii	"short int\000"
+ 1012 014f 73686F72 		.ascii	"short int\000"
  1012      7420696E 
  1012      7400
  1013              	.LASF4:
- 1014 0181 75696E74 		.ascii	"uint16_t\000"
+ 1014 0159 75696E74 		.ascii	"uint16_t\000"
  1014      31365F74 
  1014      00
- 1015              	.LASF33:
- 1016 018a 5F5A3130 		.ascii	"_Z10eepromInitv\000"
- 1016      65657072 
- 1016      6F6D496E 
- 1016      69747600 
- 1017              	.LASF7:
- 1018 019a 75696E74 		.ascii	"uint32_t\000"
- 1018      33325F74 
- 1018      00
+ 1015              	.LASF31:
+ 1016 0162 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot-test/sfboot\000"
+ 1016      64726976 
+ 1016      652F632F 
+ 1016      55736572 
+ 1016      732F4368 
+ 1017              	.LASF33:
+ 1018 0195 5F5A3130 		.ascii	"_Z10eepromInitv\000"
+ 1018      65657072 
+ 1018      6F6D496E 
+ 1018      69747600 
  1019              	.LASF6:
- 1020 01a3 6C6F6E67 		.ascii	"long int\000"
+ 1020 01a5 6C6F6E67 		.ascii	"long int\000"
  1020      20696E74 
  1020      00
  1021              	.LASF34:
- 1022 01ac 73737031 		.ascii	"ssp1Write\000"
+ 1022 01ae 73737031 		.ascii	"ssp1Write\000"
  1022      57726974 
  1022      6500
  1023              	.LASF0:
- 1024 01b6 7369676E 		.ascii	"signed char\000"
+ 1024 01b8 7369676E 		.ascii	"signed char\000"
  1024      65642063 
  1024      68617200 
  1025              	.LASF35:
- 1026 01c2 5F5A3973 		.ascii	"_Z9ssp1Writeh\000"
+ 1026 01c4 5F5A3973 		.ascii	"_Z9ssp1Writeh\000"
  1026      73703157 
  1026      72697465 
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 23
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 23
 
 
  1026      6800
  1027              	.LASF16:
- 1028 01d0 6C656E67 		.ascii	"length\000"
+ 1028 01d2 6C656E67 		.ascii	"length\000"
  1028      746800
  1029              		.ident	"GCC: (AHAX Arm-Linux 2008q3-66) 4.3.2"
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s 			page 24
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s 			page 24
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 eeprom.cpp
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:24     .text._Z10eepromInitv:00000000 _Z10eepromInitv
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:33     .text._Z10eepromInitv:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:54     .text._Z10eepromInitv:00000030 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:62     .text._Z9ssp1Writeh:00000000 _Z9ssp1Writeh
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:72     .text._Z9ssp1Writeh:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:83     .text._Z9ssp1Writeh:00000018 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:90     .text._Z8ssp1Readv:00000000 _Z8ssp1Readv
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:96     .text._Z8ssp1Readv:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:117    .text._Z8ssp1Readv:0000002c $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:124    .text._Z11eepromWritetPhm:00000000 _Z11eepromWritetPhm
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:131    .text._Z11eepromWritetPhm:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:186    .text._Z10eepromReadPhtm:00000000 _Z10eepromReadPhtm
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:193    .text._Z10eepromReadPhtm:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:240    .debug_frame:00000000 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cckQMHLq.s:330    .debug_loc:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:24     .text._Z10eepromInitv:00000000 _Z10eepromInitv
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:33     .text._Z10eepromInitv:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:54     .text._Z10eepromInitv:00000030 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:62     .text._Z9ssp1Writeh:00000000 _Z9ssp1Writeh
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:72     .text._Z9ssp1Writeh:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:83     .text._Z9ssp1Writeh:00000018 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:90     .text._Z8ssp1Readv:00000000 _Z8ssp1Readv
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:96     .text._Z8ssp1Readv:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:117    .text._Z8ssp1Readv:0000002c $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:124    .text._Z11eepromWritetPhm:00000000 _Z11eepromWritetPhm
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:131    .text._Z11eepromWritetPhm:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:186    .text._Z10eepromReadPhtm:00000000 _Z10eepromReadPhtm
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:193    .text._Z10eepromReadPhtm:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:240    .debug_frame:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccTNzzaT.s:330    .debug_loc:00000000 $d
 
 NO UNDEFINED SYMBOLS

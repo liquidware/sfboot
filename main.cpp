@@ -34,7 +34,7 @@
 
 #define kMCUId "lpc2368"
 //#define kApplicationStartAddr  USER_FLASH_START    // from sbl_config.h
-#define kApplicationEndAddr    USER_FLASH_END      // from sbl_config.h
+//#define kApplicationEndAddr    USER_FLASH_END      // from sbl_config.h
 #define kSPM_PAGE_SIZE         512
 #define kUSART_RX_BUFFER_SIZE  kSPM_PAGE_SIZE               
 #define kSoftwareIdentifier     "AVRBOOT"
@@ -76,6 +76,7 @@ extern void sysInit(void);
 typedef struct {
    SFBChecksum AppChecksum;
    uint64_t    AppBurnCount;
+   uint32_t    AppLength;
 } SFB_CONFIG_MEM_T;
 
 //************************************************
@@ -120,21 +121,23 @@ int main (void)  {
 	/* System Init */
 	sysInit();
 
-   turnOnAllLEDs();
- 
-   /* Startup effects */
-   spinLEDs(2);  
-
-   SerialBegin(0,57600);
+   /* Make the switch pin an input */
+   pinMode(42, INPUT);
+       
+   /* Read the flash burn counter */
+   gConfigMem.AppChecksum[0]  = gConfigMemPtr->AppChecksum[0];
+   gConfigMem.AppChecksum[1]  = gConfigMemPtr->AppChecksum[1];
+   gConfigMem.AppBurnCount = gConfigMemPtr->AppBurnCount;
+   gConfigMem.AppLength =   gConfigMemPtr->AppLength; 
 
    /* Calculate the checksum on the entire user application space */
    SFBChecksumInit(gRunning);
    SFBChecksumAddBytes(gRunning,
                        (const char*)kApplicationStartAddr,
-                       (kApplicationEndAddr - (int)kApplicationStartAddr));
+                       gConfigMem.AppLength);
 
-   /* Compare stored Flash checksum with RAM checksum */
-	gSFBootValidChecksum = SFBChecksumEqual(gConfigMemPtr->AppChecksum, gRunning);
+   /* Read the stored Flash checksum with RAM checksum */
+	gSFBootValidChecksum = SFBChecksumEqual(gConfigMem.AppChecksum, gRunning);
 
    /* Should we start the App? */ 
    if (gSFBootValidChecksum && digitalRead(42) )
@@ -144,10 +147,12 @@ int main (void)  {
       app_code_entry();
    }
 
-   /* Start the bootloader */   
-
-   /* Read the flash burn counter */
-   gConfigMem.AppBurnCount = gConfigMemPtr->AppBurnCount;
+   /* Start the bootloader */ 
+   SerialBegin(0,115200);
+   turnOnAllLEDs();
+ 
+   /* Startup effects */
+   spinLEDs(2);  
 
    /* Wait in the Bootloader */
    while(1)
@@ -259,15 +264,15 @@ void ButterflyService(char recvCommand)
       case 'E':            // Exit Upgrade
       {
 
+         /* Increment the Burn Counter */
+         gConfigMem.AppBurnCount++;
+         gConfigMem.AppLength =  gAddressPgm - kApplicationStartAddr;
 
          /* Calculate the checksum */
          SFBChecksumInit(gConfigMem.AppChecksum);
          SFBChecksumAddBytes(gConfigMem.AppChecksum,
-                            (const char*)kApplicationStartAddr,
-                            (kApplicationEndAddr - (int)kApplicationStartAddr));
-
-         /* Increment the Burn Counter */
-         gConfigMem.AppBurnCount++;
+                             (const char*)kApplicationStartAddr,
+                             gConfigMem.AppLength);
 
          /* Store the Configuration to Flash */
          write_flash((unsigned int*)&gConfigMemPtr->AppChecksum,

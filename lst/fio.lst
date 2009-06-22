@@ -1,4 +1,4 @@
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 1
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s 			page 1
 
 
    1              		.cpu arm7tdmi
@@ -58,7 +58,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 1
   25:fio.cpp       **** *****************************************************************************/
   26:fio.cpp       **** void GPIOInit( DWORD PortNum, DWORD PortType, DWORD PortDir, DWORD Mask )
   27              		.loc 1 26 0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 2
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s 			page 2
 
 
   28              		@ Function supports interworking.
@@ -118,7 +118,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 1
   69              	.L2:
   40:fio.cpp       **** 		}
   41:fio.cpp       **** 	}
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 3
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s 			page 3
 
 
   42:fio.cpp       **** 	else if ( PortType == FAST_PORT )
@@ -178,7 +178,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 1
  105              	.L12:
  106              		.align	2
  107              	.L11:
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 4
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s 			page 4
 
 
  108 00a8 00C01FE0 		.word	-534790144
@@ -238,7 +238,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 1
  162 0027 0100     		.2byte	0x1
  163 0029 50       		.byte	0x50
  164 002a 54000000 		.4byte	.LVL3
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 5
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s 			page 5
 
 
  165 002e B0000000 		.4byte	.LFE2
@@ -275,10 +275,10 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 1
  196 0006 00000000 		.4byte	.Ldebug_abbrev0
  197 000a 04       		.byte	0x4
  198 000b 01       		.uleb128 0x1
- 199 000c C9000000 		.4byte	.LASF12
+ 199 000c CB000000 		.4byte	.LASF12
  200 0010 04       		.byte	0x4
- 201 0011 6C000000 		.4byte	.LASF13
- 202 0015 29000000 		.4byte	.LASF14
+ 201 0011 3B000000 		.4byte	.LASF13
+ 202 0015 70000000 		.4byte	.LASF14
  203 0019 00000000 		.4byte	0x0
  204 001d 00000000 		.4byte	0x0
  205 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
@@ -286,23 +286,23 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 1
  207 0029 02       		.uleb128 0x2
  208 002a 01       		.byte	0x1
  209 002b 08       		.byte	0x8
- 210 002c 93000000 		.4byte	.LASF0
+ 210 002c 62000000 		.4byte	.LASF0
  211 0030 02       		.uleb128 0x2
  212 0031 02       		.byte	0x2
  213 0032 07       		.byte	0x7
- 214 0033 A1000000 		.4byte	.LASF1
+ 214 0033 A3000000 		.4byte	.LASF1
  215 0037 03       		.uleb128 0x3
- 216 0038 E9000000 		.4byte	.LASF15
+ 216 0038 EB000000 		.4byte	.LASF15
  217 003c 02       		.byte	0x2
  218 003d 13       		.byte	0x13
  219 003e 42000000 		.4byte	0x42
  220 0042 02       		.uleb128 0x2
  221 0043 04       		.byte	0x4
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 6
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s 			page 6
 
 
  222 0044 07       		.byte	0x7
- 223 0045 5A000000 		.4byte	.LASF2
+ 223 0045 29000000 		.4byte	.LASF2
  224 0049 02       		.uleb128 0x2
  225 004a 04       		.byte	0x4
  226 004b 07       		.byte	0x7
@@ -310,11 +310,11 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 1
  228 0050 02       		.uleb128 0x2
  229 0051 01       		.byte	0x1
  230 0052 06       		.byte	0x6
- 231 0053 B4000000 		.4byte	.LASF4
+ 231 0053 B6000000 		.4byte	.LASF4
  232 0057 02       		.uleb128 0x2
  233 0058 02       		.byte	0x2
  234 0059 05       		.byte	0x5
- 235 005a DF000000 		.4byte	.LASF5
+ 235 005a E1000000 		.4byte	.LASF5
  236 005e 04       		.uleb128 0x4
  237 005f 04       		.byte	0x4
  238 0060 05       		.byte	0x5
@@ -326,17 +326,17 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 1
  244 006c 02       		.uleb128 0x2
  245 006d 08       		.byte	0x8
  246 006e 07       		.byte	0x7
- 247 006f 7C000000 		.4byte	.LASF7
+ 247 006f 4B000000 		.4byte	.LASF7
  248 0073 05       		.uleb128 0x5
  249 0074 01       		.byte	0x1
- 250 0075 C0000000 		.4byte	.LASF16
+ 250 0075 C2000000 		.4byte	.LASF16
  251 0079 01       		.byte	0x1
  252 007a 1A       		.byte	0x1a
  253 007b 00000000 		.4byte	.LFB2
  254 007f B0000000 		.4byte	.LFE2
  255 0083 00000000 		.4byte	.LLST0
  256 0087 06       		.uleb128 0x6
- 257 0088 D7000000 		.4byte	.LASF8
+ 257 0088 D9000000 		.4byte	.LASF8
  258 008c 01       		.byte	0x1
  259 008d 1A       		.byte	0x1a
  260 008e 37000000 		.4byte	0x37
@@ -349,7 +349,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 1
  267 00a1 01       		.byte	0x1
  268 00a2 51       		.byte	0x51
  269 00a3 06       		.uleb128 0x6
- 270 00a4 74000000 		.4byte	.LASF10
+ 270 00a4 43000000 		.4byte	.LASF10
  271 00a8 01       		.byte	0x1
  272 00a9 1A       		.byte	0x1a
  273 00aa 37000000 		.4byte	0x37
@@ -358,7 +358,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 1
  276 00b3 1B000000 		.4byte	.LASF11
  277 00b7 01       		.byte	0x1
  278 00b8 1A       		.byte	0x1a
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 7
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s 			page 7
 
 
  279 00b9 37000000 		.4byte	0x37
@@ -418,7 +418,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 1
  333 0031 0B       		.uleb128 0xb
  334 0032 3E       		.uleb128 0x3e
  335 0033 0B       		.uleb128 0xb
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 8
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s 			page 8
 
 
  336 0034 03       		.uleb128 0x3
@@ -478,7 +478,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 1
  390              		.section	.debug_pubnames,"",%progbits
  391 0000 1B000000 		.4byte	0x1b
  392 0004 0200     		.2byte	0x2
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 9
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s 			page 9
 
 
  393 0006 00000000 		.4byte	.Ldebug_info0
@@ -526,76 +526,76 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 1
  426 0020 506F7274 		.ascii	"PortType\000"
  426      54797065 
  426      00
- 427              	.LASF14:
- 428 0029 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot2.0/sfboot\000"
- 428      64726976 
- 428      652F632F 
- 428      55736572 
- 428      732F4368 
- 429              	.LASF2:
- 430 005a 6C6F6E67 		.ascii	"long unsigned int\000"
- 430      20756E73 
- 430      69676E65 
- 430      6420696E 
- 430      7400
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 10
+ 427              	.LASF2:
+ 428 0029 6C6F6E67 		.ascii	"long unsigned int\000"
+ 428      20756E73 
+ 428      69676E65 
+ 428      6420696E 
+ 428      7400
+ 429              	.LASF13:
+ 430 003b 66696F2E 		.ascii	"fio.cpp\000"
+ 430      63707000 
+ 431              	.LASF10:
+ 432 0043 506F7274 		.ascii	"PortDir\000"
+ 432      44697200 
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s 			page 10
 
 
- 431              	.LASF13:
- 432 006c 66696F2E 		.ascii	"fio.cpp\000"
- 432      63707000 
- 433              	.LASF10:
- 434 0074 506F7274 		.ascii	"PortDir\000"
- 434      44697200 
- 435              	.LASF7:
- 436 007c 6C6F6E67 		.ascii	"long long unsigned int\000"
- 436      206C6F6E 
- 436      6720756E 
- 436      7369676E 
- 436      65642069 
- 437              	.LASF0:
- 438 0093 756E7369 		.ascii	"unsigned char\000"
- 438      676E6564 
- 438      20636861 
- 438      7200
+ 433              	.LASF7:
+ 434 004b 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 434      206C6F6E 
+ 434      6720756E 
+ 434      7369676E 
+ 434      65642069 
+ 435              	.LASF0:
+ 436 0062 756E7369 		.ascii	"unsigned char\000"
+ 436      676E6564 
+ 436      20636861 
+ 436      7200
+ 437              	.LASF14:
+ 438 0070 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot-test/sfboot\000"
+ 438      64726976 
+ 438      652F632F 
+ 438      55736572 
+ 438      732F4368 
  439              	.LASF1:
- 440 00a1 73686F72 		.ascii	"short unsigned int\000"
+ 440 00a3 73686F72 		.ascii	"short unsigned int\000"
  440      7420756E 
  440      7369676E 
  440      65642069 
  440      6E7400
  441              	.LASF4:
- 442 00b4 7369676E 		.ascii	"signed char\000"
+ 442 00b6 7369676E 		.ascii	"signed char\000"
  442      65642063 
  442      68617200 
  443              	.LASF16:
- 444 00c0 4750494F 		.ascii	"GPIOInit\000"
+ 444 00c2 4750494F 		.ascii	"GPIOInit\000"
  444      496E6974 
  444      00
  445              	.LASF12:
- 446 00c9 474E5520 		.ascii	"GNU C++ 4.3.2\000"
+ 446 00cb 474E5520 		.ascii	"GNU C++ 4.3.2\000"
  446      432B2B20 
  446      342E332E 
  446      3200
  447              	.LASF8:
- 448 00d7 506F7274 		.ascii	"PortNum\000"
+ 448 00d9 506F7274 		.ascii	"PortNum\000"
  448      4E756D00 
  449              	.LASF5:
- 450 00df 73686F72 		.ascii	"short int\000"
+ 450 00e1 73686F72 		.ascii	"short int\000"
  450      7420696E 
  450      7400
  451              	.LASF15:
- 452 00e9 44574F52 		.ascii	"DWORD\000"
+ 452 00eb 44574F52 		.ascii	"DWORD\000"
  452      4400
  453              		.ident	"GCC: (AHAX Arm-Linux 2008q3-66) 4.3.2"
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s 			page 11
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s 			page 11
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 fio.cpp
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s:24     .text.GPIOInit:00000000 GPIOInit
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s:33     .text.GPIOInit:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s:108    .text.GPIOInit:000000a8 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/cca5kVn1.s:148    .debug_loc:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s:24     .text.GPIOInit:00000000 GPIOInit
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s:33     .text.GPIOInit:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s:108    .text.GPIOInit:000000a8 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/cc2MYgk5.s:148    .debug_loc:00000000 $d
 
 NO UNDEFINED SYMBOLS

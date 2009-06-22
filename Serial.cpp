@@ -304,19 +304,97 @@ void Serial3ISR(void) {
 //* GLOBAL FUNCTIONS
 //**************************************
 
+/* NOTE: This findDivisorAndPrescale is code by
+ *
+ *  "Jan Vanek" <j3vanek@googlemail.com>
+ *
+ * who generously posted it to the LPC2000 mailing list on Thu, 12 Mar 2009.
+ */
+
+uint32_t findDivisorAndPrescale(uint32_t frequency, uint32_t baudRate, bool allowSmallerBaudRate, uint32_t& mulVal, uint32_t& divAddVal) {
+  // The FDR is set to prescale the UART_CLK with factor M/(M+D),
+  // where both M and D are in <0, 15>. This is to achieve smaller
+  // error when calculating the divisor (the UnDL).
+  //                UART_CLK      M
+  // UARTbaudrate = --------- x -----
+  //                16 x UnDL   (M+D)
+
+  uint32_t divisor = frequency / (16 * baudRate);
+  uint32_t baudRateError = (frequency / (16 * divisor)) - baudRate;
+
+  if (allowSmallerBaudRate) {
+    uint32_t otherDivisor = divisor + 1;
+    uint32_t otherBaudRateError = baudRate - (frequency / (16 * otherDivisor));
+    if (baudRateError > otherBaudRateError) {
+      divisor = otherDivisor;
+      baudRateError = otherBaudRateError;
+    }
+  }
+  mulVal = 1;
+  divAddVal = 0;
+  for (uint32_t mv = 0; ++mv < 16;) {
+    for (uint32_t dav = 0; ++dav < 16;)  {  // ACKLEY: SHOULDN'T THIS BE: '++dav < mv' (according to manual 2.12 pg 426???
+      uint32_t prescaledClock = (frequency * mv) / (16 * (mv + dav));
+      uint32_t newDivisor = prescaledClock / baudRate;
+      if (newDivisor != 0) {
+        uint32_t newBaudRateError = (prescaledClock / newDivisor) - baudRate;
+        if (baudRateError > newBaudRateError) {
+          divisor = newDivisor;
+          mulVal = mv;
+          divAddVal = dav;
+          baudRateError = newBaudRateError;
+        }
+      }
+      if (allowSmallerBaudRate) {
+        ++newDivisor;
+        uint32_t newBaudRateError = baudRate - (prescaledClock / newDivisor);
+        if (baudRateError > newBaudRateError) {
+          divisor = newDivisor;
+          mulVal = mv;
+          divAddVal = dav;
+          baudRateError = newBaudRateError;
+        }
+      }
+    }
+  }
+  // uint32_t calculatedBaudRate = (frequency * mulVal) / ((16 * divisor) * (mulVal + divAddVal));
+  return divisor;
+}
+
+
 //*****************************************
 //* Initialize Serial Interface
 void SerialBegin(uint8_t portNum, uint32_t baud) {
-   vuint32_t Fdiv;
 
    PCONP = 0xFFFFFFFF; //everything powered on            
 
+  ////
+  // Determine slowest sufficient PCLK for this baud rate
+
+  uint32_t pclk;
+  uint8_t pclkCode;
+  if (CCLK/4/16/4 >= baud) {
+    pclk = CCLK/4;
+    pclkCode = 0;
+  } else if (CCLK/2/16/4 >= baud) {
+    pclk = CCLK/2;
+    pclkCode = 2;
+  } else {
+    pclk = CCLK;    // Yah.  Right.  This'll work.
+    pclkCode = 1;
+  }
+
+  uint32_t mulVal;
+  uint32_t divAddVal;
+  uint32_t Fdiv;
+
+  Fdiv = findDivisorAndPrescale(pclk, baud, true, mulVal, divAddVal);
+
    /* Setup the baud rate */
    uartReg[portNum]->LCR = 0x83;           /* 8 bits, no Parity, 1 Stop bit, enable access */
-
-   Fdiv = (PCLK / (16 * baud));	            /* The baud rate, not using fractional br */
-   uartReg[portNum]->R2.DLM = Fdiv / 256;
-   uartReg[portNum]->R1.DLL = Fdiv % 256; 
+   uartReg[portNum]->FDR = (divAddVal<<0)|(mulVal <<4); /* Set the fractional divisor */
+   uartReg[portNum]->R2.DLM = Fdiv >> 8;
+   uartReg[portNum]->R1.DLL = Fdiv & 0xFF;
    uartReg[portNum]->LCR = 0x03;           /* Disable access */
    uartReg[portNum]->R3.FCR = 0x07;        /* Enable and reset TX and RX FIFO. */
 

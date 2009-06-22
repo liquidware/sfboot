@@ -1,4 +1,4 @@
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s 			page 1
 
 
    1              		.cpu arm7tdmi
@@ -58,7 +58,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
   25:sys_init.cpp  ****  *
   26:sys_init.cpp  ****  * Function Name: configPLL()
   27:sys_init.cpp  ****  *
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 2
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s 			page 2
 
 
   28:sys_init.cpp  ****  * Description:
@@ -118,7 +118,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
   82:sys_init.cpp  **** 	{
   83:sys_init.cpp  **** 		; // stall - invalid readback
   84:sys_init.cpp  **** 	}
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 3
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s 			page 3
 
 
   85:sys_init.cpp  **** 	
@@ -178,7 +178,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  139:sys_init.cpp  ****  * Returns:
  140:sys_init.cpp  ****  *    void
  141:sys_init.cpp  ****  *
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 4
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s 			page 4
 
 
  142:sys_init.cpp  ****  *****************************************************************************/
@@ -238,7 +238,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
   79 006c AA10A0E3 		mov	r1, #170
   80              		.loc 1 62 0
   81 0070 84308CE5 		str	r3, [ip, #132]
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 5
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s 			page 5
 
 
   82              		.loc 1 64 0
@@ -298,7 +298,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  136 00ec 0210A0E3 		mov	r1, #2
  137              		.loc 1 105 0
  138 00f0 043080E5 		str	r3, [r0, #4]
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 6
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s 			page 6
 
 
  139              	.LBE8:
@@ -358,7 +358,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  175 0004 FFFFFFFF 		.4byte	0xffffffff
  176 0008 01       		.byte	0x1
  177 0009 00       		.ascii	"\000"
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 7
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s 			page 7
 
 
  178 000a 01       		.uleb128 0x1
@@ -389,7 +389,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  203 000c 0D000000 		.4byte	.LASF9
  204 0010 04       		.byte	0x4
  205 0011 00000000 		.4byte	.LASF10
- 206 0015 57000000 		.4byte	.LASF11
+ 206 0015 AF000000 		.4byte	.LASF11
  207 0019 00000000 		.4byte	0x0
  208 001d 00000000 		.4byte	0x0
  209 0021 18000000 		.4byte	.Ldebug_ranges0+0x18
@@ -397,7 +397,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  211 0029 02       		.uleb128 0x2
  212 002a 01       		.byte	0x1
  213 002b 06       		.byte	0x6
- 214 002c F2000000 		.4byte	.LASF0
+ 214 002c F4000000 		.4byte	.LASF0
  215 0030 02       		.uleb128 0x2
  216 0031 01       		.byte	0x1
  217 0032 08       		.byte	0x8
@@ -405,7 +405,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  219 0037 02       		.uleb128 0x2
  220 0038 02       		.byte	0x2
  221 0039 05       		.byte	0x5
- 222 003a CA000000 		.4byte	.LASF2
+ 222 003a 99000000 		.4byte	.LASF2
  223 003e 02       		.uleb128 0x2
  224 003f 02       		.byte	0x2
  225 0040 07       		.byte	0x7
@@ -413,12 +413,12 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  227 0045 02       		.uleb128 0x2
  228 0046 04       		.byte	0x4
  229 0047 05       		.byte	0x5
- 230 0048 E9000000 		.4byte	.LASF4
+ 230 0048 EB000000 		.4byte	.LASF4
  231 004c 03       		.uleb128 0x3
- 232 004d E0000000 		.4byte	.LASF12
+ 232 004d E2000000 		.4byte	.LASF12
  233 0051 02       		.byte	0x2
  234 0052 54       		.byte	0x54
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 8
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s 			page 8
 
 
  235 0053 57000000 		.4byte	0x57
@@ -429,11 +429,11 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  240 005e 02       		.uleb128 0x2
  241 005f 08       		.byte	0x8
  242 0060 05       		.byte	0x5
- 243 0061 BC000000 		.4byte	.LASF6
+ 243 0061 8B000000 		.4byte	.LASF6
  244 0065 02       		.uleb128 0x2
  245 0066 08       		.byte	0x8
  246 0067 07       		.byte	0x7
- 247 0068 9D000000 		.4byte	.LASF7
+ 247 0068 6C000000 		.4byte	.LASF7
  248 006c 04       		.uleb128 0x4
  249 006d 04       		.byte	0x4
  250 006e 05       		.byte	0x5
@@ -441,14 +441,14 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  252 0073 02       		.uleb128 0x2
  253 0074 04       		.byte	0x4
  254 0075 07       		.byte	0x7
- 255 0076 90000000 		.4byte	.LASF8
+ 255 0076 5F000000 		.4byte	.LASF8
  256 007a 05       		.uleb128 0x5
- 257 007b B4000000 		.4byte	.LASF13
+ 257 007b 83000000 		.4byte	.LASF13
  258 007f 01       		.byte	0x1
  259 0080 5E       		.byte	0x5e
  260 0081 01       		.byte	0x1
  261 0082 06       		.uleb128 0x6
- 262 0083 FE000000 		.4byte	.LASF14
+ 262 0083 00010000 		.4byte	.LASF14
  263 0087 01       		.byte	0x1
  264 0088 28       		.byte	0x28
  265 0089 01       		.byte	0x1
@@ -461,10 +461,10 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  272 0099 00       		.byte	0x0
  273 009a 08       		.uleb128 0x8
  274 009b 01       		.byte	0x1
- 275 009c 88000000 		.4byte	.LASF16
+ 275 009c 57000000 		.4byte	.LASF16
  276 00a0 01       		.byte	0x1
  277 00a1 8F       		.byte	0x8f
- 278 00a2 D4000000 		.4byte	.LASF17
+ 278 00a2 A3000000 		.4byte	.LASF17
  279 00a6 00000000 		.4byte	.LFB4
  280 00aa 24010000 		.4byte	.LFE4
  281 00ae 01       		.byte	0x1
@@ -478,7 +478,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  289 00bc 82000000 		.4byte	0x82
  290 00c0 00000000 		.4byte	.LBB9
  291 00c4 E0000000 		.4byte	.LBE9
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 9
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s 			page 9
 
 
  292 00c8 01       		.byte	0x1
@@ -538,7 +538,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  346 002d 04       		.uleb128 0x4
  347 002e 24       		.uleb128 0x24
  348 002f 00       		.byte	0x0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 10
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s 			page 10
 
 
  349 0030 0B       		.uleb128 0xb
@@ -598,7 +598,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  403 0066 03       		.uleb128 0x3
  404 0067 0E       		.uleb128 0xe
  405 0068 3A       		.uleb128 0x3a
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 11
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s 			page 11
 
 
  406 0069 0B       		.uleb128 0xb
@@ -658,7 +658,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  460 000e 9A000000 		.4byte	0x9a
  461 0012 73797349 		.ascii	"sysInit\000"
  461      6E697400 
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 12
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s 			page 12
 
 
  462 001a 00000000 		.4byte	0x0
@@ -718,72 +718,72 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 1
  499      6E7400
  500              	.LASF15:
  501 004e 72656164 		.ascii	"readback\000"
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 13
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s 			page 13
 
 
  501      6261636B 
  501      00
- 502              	.LASF11:
- 503 0057 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot2.0/sfboot\000"
- 503      64726976 
- 503      652F632F 
- 503      55736572 
- 503      732F4368 
- 504              	.LASF16:
- 505 0088 73797349 		.ascii	"sysInit\000"
- 505      6E697400 
- 506              	.LASF8:
- 507 0090 756E7369 		.ascii	"unsigned int\000"
- 507      676E6564 
- 507      20696E74 
- 507      00
- 508              	.LASF7:
- 509 009d 6C6F6E67 		.ascii	"long long unsigned int\000"
- 509      206C6F6E 
- 509      6720756E 
- 509      7369676E 
- 509      65642069 
- 510              	.LASF13:
- 511 00b4 6C6F7749 		.ascii	"lowInit\000"
- 511      6E697400 
- 512              	.LASF6:
- 513 00bc 6C6F6E67 		.ascii	"long long int\000"
- 513      206C6F6E 
- 513      6720696E 
+ 502              	.LASF16:
+ 503 0057 73797349 		.ascii	"sysInit\000"
+ 503      6E697400 
+ 504              	.LASF8:
+ 505 005f 756E7369 		.ascii	"unsigned int\000"
+ 505      676E6564 
+ 505      20696E74 
+ 505      00
+ 506              	.LASF7:
+ 507 006c 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 507      206C6F6E 
+ 507      6720756E 
+ 507      7369676E 
+ 507      65642069 
+ 508              	.LASF13:
+ 509 0083 6C6F7749 		.ascii	"lowInit\000"
+ 509      6E697400 
+ 510              	.LASF6:
+ 511 008b 6C6F6E67 		.ascii	"long long int\000"
+ 511      206C6F6E 
+ 511      6720696E 
+ 511      7400
+ 512              	.LASF2:
+ 513 0099 73686F72 		.ascii	"short int\000"
+ 513      7420696E 
  513      7400
- 514              	.LASF2:
- 515 00ca 73686F72 		.ascii	"short int\000"
- 515      7420696E 
- 515      7400
- 516              	.LASF17:
- 517 00d4 5F5A3773 		.ascii	"_Z7sysInitv\000"
- 517      7973496E 
- 517      69747600 
+ 514              	.LASF17:
+ 515 00a3 5F5A3773 		.ascii	"_Z7sysInitv\000"
+ 515      7973496E 
+ 515      69747600 
+ 516              	.LASF11:
+ 517 00af 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot-test/sfboot\000"
+ 517      64726976 
+ 517      652F632F 
+ 517      55736572 
+ 517      732F4368 
  518              	.LASF12:
- 519 00e0 75696E74 		.ascii	"uint32_t\000"
+ 519 00e2 75696E74 		.ascii	"uint32_t\000"
  519      33325F74 
  519      00
  520              	.LASF4:
- 521 00e9 6C6F6E67 		.ascii	"long int\000"
+ 521 00eb 6C6F6E67 		.ascii	"long int\000"
  521      20696E74 
  521      00
  522              	.LASF0:
- 523 00f2 7369676E 		.ascii	"signed char\000"
+ 523 00f4 7369676E 		.ascii	"signed char\000"
  523      65642063 
  523      68617200 
  524              	.LASF14:
- 525 00fe 636F6E66 		.ascii	"configPLL\000"
+ 525 0100 636F6E66 		.ascii	"configPLL\000"
  525      6967504C 
  525      4C00
  526              		.ident	"GCC: (AHAX Arm-Linux 2008q3-66) 4.3.2"
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s 			page 14
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s 			page 14
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 sys_init.cpp
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s:24     .text._Z7sysInitv:00000000 _Z7sysInitv
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s:38     .text._Z7sysInitv:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s:168    .text._Z7sysInitv:00000120 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccmLoJ9N.s:198    .debug_info:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s:24     .text._Z7sysInitv:00000000 _Z7sysInitv
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s:38     .text._Z7sysInitv:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s:168    .text._Z7sysInitv:00000120 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccLR1sMt.s:198    .debug_info:00000000 $d
 
 NO UNDEFINED SYMBOLS

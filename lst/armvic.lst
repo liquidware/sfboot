@@ -1,4 +1,4 @@
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 1
 
 
    1              		.cpu arm7tdmi
@@ -58,7 +58,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
   28              		@ args = 0, pretend = 0, frame = 0
   29              		@ frame_needed = 0, uses_anonymous_args = 0
   30              		@ link register save eliminated.
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 2
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 2
 
 
   24:armVIC.c      ****   unsigned long retval;
@@ -118,7 +118,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
   37:armVIC.c      **** 
   38:armVIC.c      ****   _cpsr = __get_cpsr();
   72              		.loc 1 38 0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 3
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 3
 
 
   73 0004 FEFFFFEB 		bl	__get_cpsr
@@ -178,7 +178,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  115 0024 7040BDE8 		ldmfd	sp!, {r4, r5, r6, lr}
  116 0028 1EFF2FE1 		bx	lr
  117              	.LFE5:
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 4
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 4
 
 
  118              		.size	restoreIRQ, .-restoreIRQ
@@ -238,7 +238,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  157 0004 FEFFFFEB 		bl	__get_cpsr
  158 0008 0040A0E1 		mov	r4, r0
  159              	.LVL9:
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 5
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 5
 
 
   66:armVIC.c      ****   __set_cpsr(_cpsr | FIQ_MASK);
@@ -298,7 +298,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  202              		.size	restoreFIQ, .-restoreFIQ
  203              		.section	.text.enableFIQ,"ax",%progbits
  204              		.align	2
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 6
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 6
 
 
  205              		.global	enableFIQ
@@ -358,7 +358,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  250              	.LEFDE0:
  251              	.LSFDE2:
  252 0020 0C000000 		.4byte	.LEFDE2-.LASFDE2
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 7
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 7
 
 
  253              	.LASFDE2:
@@ -418,7 +418,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  307 0079 84       		.byte	0x84
  308 007a 02       		.uleb128 0x2
  309 007b 00       		.align	2
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 8
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 8
 
 
  310              	.LEFDE8:
@@ -478,7 +478,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  364              	.Letext0:
  365              		.section	.debug_loc,"",%progbits
  366              	.Ldebug_loc0:
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 9
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 9
 
 
  367              	.LLST1:
@@ -538,7 +538,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  421              	.LLST7:
  422 008e 00000000 		.4byte	.LFB7
  423 0092 04000000 		.4byte	.LCFI3
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 10
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 10
 
 
  424 0096 0100     		.2byte	0x1
@@ -594,18 +594,18 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  474 000c 5B000000 		.4byte	.LASF17
  475 0010 01       		.byte	0x1
  476 0011 67000000 		.4byte	.LASF18
- 477 0015 76000000 		.4byte	.LASF19
+ 477 0015 E5000000 		.4byte	.LASF19
  478 0019 00000000 		.4byte	0x0
  479 001d 00000000 		.4byte	0x0
  480 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 11
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 11
 
 
  481 0025 00000000 		.4byte	.Ldebug_line0
  482 0029 02       		.uleb128 0x2
  483 002a 01       		.byte	0x1
  484 002b 06       		.byte	0x6
- 485 002c 1F010000 		.4byte	.LASF0
+ 485 002c 21010000 		.4byte	.LASF0
  486 0030 02       		.uleb128 0x2
  487 0031 01       		.byte	0x1
  488 0032 08       		.byte	0x8
@@ -613,7 +613,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  490 0037 02       		.uleb128 0x2
  491 0038 02       		.byte	0x2
  492 0039 05       		.byte	0x5
- 493 003a 04010000 		.4byte	.LASF2
+ 493 003a D3000000 		.4byte	.LASF2
  494 003e 02       		.uleb128 0x2
  495 003f 02       		.byte	0x2
  496 0040 07       		.byte	0x7
@@ -621,7 +621,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  498 0045 02       		.uleb128 0x2
  499 0046 04       		.byte	0x4
  500 0047 05       		.byte	0x5
- 501 0048 16010000 		.4byte	.LASF4
+ 501 0048 18010000 		.4byte	.LASF4
  502 004c 02       		.uleb128 0x2
  503 004d 04       		.byte	0x4
  504 004e 07       		.byte	0x7
@@ -629,11 +629,11 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  506 0053 02       		.uleb128 0x2
  507 0054 08       		.byte	0x8
  508 0055 05       		.byte	0x5
- 509 0056 EB000000 		.4byte	.LASF6
+ 509 0056 BA000000 		.4byte	.LASF6
  510 005a 02       		.uleb128 0x2
  511 005b 08       		.byte	0x8
  512 005c 07       		.byte	0x7
- 513 005d BF000000 		.4byte	.LASF7
+ 513 005d 8E000000 		.4byte	.LASF7
  514 0061 03       		.uleb128 0x3
  515 0062 04       		.byte	0x4
  516 0063 05       		.byte	0x5
@@ -641,9 +641,9 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  518 0068 02       		.uleb128 0x2
  519 0069 04       		.byte	0x4
  520 006a 07       		.byte	0x7
- 521 006b B2000000 		.4byte	.LASF8
+ 521 006b 81000000 		.4byte	.LASF8
  522 006f 04       		.uleb128 0x4
- 523 0070 F9000000 		.4byte	.LASF20
+ 523 0070 C8000000 		.4byte	.LASF20
  524 0074 01       		.byte	0x1
  525 0075 17       		.byte	0x17
  526 0076 01       		.byte	0x1
@@ -658,13 +658,13 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  535 008e 01       		.byte	0x1
  536 008f 18       		.byte	0x18
  537 0090 4C000000 		.4byte	0x4c
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 12
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 12
 
 
  538 0094 00000000 		.4byte	.LLST1
  539 0098 00       		.byte	0x0
  540 0099 06       		.uleb128 0x6
- 541 009a A7000000 		.4byte	.LASF21
+ 541 009a 76000000 		.4byte	.LASF21
  542 009e 01       		.byte	0x1
  543 009f 1E       		.byte	0x1e
  544 00a0 01       		.byte	0x1
@@ -702,7 +702,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  576 00e7 00       		.byte	0x0
  577 00e8 08       		.uleb128 0x8
  578 00e9 01       		.byte	0x1
- 579 00ea D6000000 		.4byte	.LASF12
+ 579 00ea A5000000 		.4byte	.LASF12
  580 00ee 01       		.byte	0x1
  581 00ef 2C       		.byte	0x2c
  582 00f0 01       		.byte	0x1
@@ -712,13 +712,13 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  586 00fd 32000000 		.4byte	.LLST4
  587 0101 22010000 		.4byte	0x122
  588 0105 0A       		.uleb128 0xa
- 589 0106 0E010000 		.4byte	.LASF13
+ 589 0106 DD000000 		.4byte	.LASF13
  590 010a 01       		.byte	0x1
  591 010b 2B       		.byte	0x2b
  592 010c 68000000 		.4byte	0x68
  593 0110 51000000 		.4byte	.LLST5
  594 0114 09       		.uleb128 0x9
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 13
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 13
 
 
  595 0115 70000000 		.4byte	.LASF10
@@ -730,7 +730,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  601 0121 00       		.byte	0x0
  602 0122 08       		.uleb128 0x8
  603 0123 01       		.byte	0x1
- 604 0124 E1000000 		.4byte	.LASF14
+ 604 0124 B0000000 		.4byte	.LASF14
  605 0128 01       		.byte	0x1
  606 0129 35       		.byte	0x35
  607 012a 01       		.byte	0x1
@@ -778,10 +778,10 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  649 018d AD000000 		.4byte	.LLST8
  650 0191 B2010000 		.4byte	0x1b2
  651 0195 0A       		.uleb128 0xa
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 14
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 14
 
 
- 652 0196 0E010000 		.4byte	.LASF13
+ 652 0196 DD000000 		.4byte	.LASF13
  653 019a 01       		.byte	0x1
  654 019b 46       		.byte	0x46
  655 019c 68000000 		.4byte	0x68
@@ -796,7 +796,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  664 01b1 00       		.byte	0x0
  665 01b2 0B       		.uleb128 0xb
  666 01b3 01       		.byte	0x1
- 667 01b4 2B010000 		.4byte	.LASF22
+ 667 01b4 2D010000 		.4byte	.LASF22
  668 01b8 01       		.byte	0x1
  669 01b9 50       		.byte	0x50
  670 01ba 01       		.byte	0x1
@@ -838,7 +838,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  706 0015 02       		.uleb128 0x2
  707 0016 24       		.uleb128 0x24
  708 0017 00       		.byte	0x0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 15
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 15
 
 
  709 0018 0B       		.uleb128 0xb
@@ -898,7 +898,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  763 004e 06       		.uleb128 0x6
  764 004f 00       		.byte	0x0
  765 0050 00       		.byte	0x0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 16
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 16
 
 
  766 0051 06       		.uleb128 0x6
@@ -958,7 +958,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  820 0087 01       		.uleb128 0x1
  821 0088 40       		.uleb128 0x40
  822 0089 06       		.uleb128 0x6
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 17
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 17
 
 
  823 008a 01       		.uleb128 0x1
@@ -1018,7 +1018,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  877 00c0 06       		.uleb128 0x6
  878 00c1 00       		.byte	0x0
  879 00c2 00       		.byte	0x0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 18
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 18
 
 
  880 00c3 00       		.byte	0x0
@@ -1078,7 +1078,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  922 004c 20000000 		.4byte	.LFE9-.LFB9
  923 0050 00000000 		.4byte	0x0
  924 0054 00000000 		.4byte	0x0
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 19
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 19
 
 
  925              		.section	.debug_ranges,"",%progbits
@@ -1138,7 +1138,7 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  961      6E7400
  962              	.LASF17:
  963 005b 474E5520 		.ascii	"GNU C 4.3.2\000"
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 20
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 20
 
 
  963      4320342E 
@@ -1150,89 +1150,89 @@ ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 1
  966              	.LASF10:
  967 0070 5F637073 		.ascii	"_cpsr\000"
  967      7200
- 968              	.LASF19:
- 969 0076 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot2.0/sfboot\000"
- 969      64726976 
- 969      652F632F 
- 969      55736572 
- 969      732F4368 
- 970              	.LASF21:
- 971 00a7 5F5F7365 		.ascii	"__set_cpsr\000"
- 971      745F6370 
- 971      737200
- 972              	.LASF8:
- 973 00b2 756E7369 		.ascii	"unsigned int\000"
- 973      676E6564 
- 973      20696E74 
- 973      00
- 974              	.LASF7:
- 975 00bf 6C6F6E67 		.ascii	"long long unsigned int\000"
- 975      206C6F6E 
- 975      6720756E 
- 975      7369676E 
- 975      65642069 
- 976              	.LASF12:
- 977 00d6 72657374 		.ascii	"restoreIRQ\000"
- 977      6F726549 
- 977      525100
- 978              	.LASF14:
- 979 00e1 656E6162 		.ascii	"enableIRQ\000"
- 979      6C654952 
- 979      5100
- 980              	.LASF6:
- 981 00eb 6C6F6E67 		.ascii	"long long int\000"
- 981      206C6F6E 
- 981      6720696E 
- 981      7400
- 982              	.LASF20:
- 983 00f9 5F5F6765 		.ascii	"__get_cpsr\000"
- 983      745F6370 
- 983      737200
- 984              	.LASF2:
- 985 0104 73686F72 		.ascii	"short int\000"
- 985      7420696E 
- 985      7400
- 986              	.LASF13:
- 987 010e 6F6C6443 		.ascii	"oldCPSR\000"
- 987      50535200 
+ 968              	.LASF21:
+ 969 0076 5F5F7365 		.ascii	"__set_cpsr\000"
+ 969      745F6370 
+ 969      737200
+ 970              	.LASF8:
+ 971 0081 756E7369 		.ascii	"unsigned int\000"
+ 971      676E6564 
+ 971      20696E74 
+ 971      00
+ 972              	.LASF7:
+ 973 008e 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 973      206C6F6E 
+ 973      6720756E 
+ 973      7369676E 
+ 973      65642069 
+ 974              	.LASF12:
+ 975 00a5 72657374 		.ascii	"restoreIRQ\000"
+ 975      6F726549 
+ 975      525100
+ 976              	.LASF14:
+ 977 00b0 656E6162 		.ascii	"enableIRQ\000"
+ 977      6C654952 
+ 977      5100
+ 978              	.LASF6:
+ 979 00ba 6C6F6E67 		.ascii	"long long int\000"
+ 979      206C6F6E 
+ 979      6720696E 
+ 979      7400
+ 980              	.LASF20:
+ 981 00c8 5F5F6765 		.ascii	"__get_cpsr\000"
+ 981      745F6370 
+ 981      737200
+ 982              	.LASF2:
+ 983 00d3 73686F72 		.ascii	"short int\000"
+ 983      7420696E 
+ 983      7400
+ 984              	.LASF13:
+ 985 00dd 6F6C6443 		.ascii	"oldCPSR\000"
+ 985      50535200 
+ 986              	.LASF19:
+ 987 00e5 2F637967 		.ascii	"/cygdrive/c/Users/Chris/Desktop/sfboot-test/sfboot\000"
+ 987      64726976 
+ 987      652F632F 
+ 987      55736572 
+ 987      732F4368 
  988              	.LASF4:
- 989 0116 6C6F6E67 		.ascii	"long int\000"
+ 989 0118 6C6F6E67 		.ascii	"long int\000"
  989      20696E74 
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 21
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 21
 
 
  989      00
  990              	.LASF0:
- 991 011f 7369676E 		.ascii	"signed char\000"
+ 991 0121 7369676E 		.ascii	"signed char\000"
  991      65642063 
  991      68617200 
  992              	.LASF22:
- 993 012b 656E6162 		.ascii	"enableFIQ\000"
+ 993 012d 656E6162 		.ascii	"enableFIQ\000"
  993      6C654649 
  993      5100
  994              		.ident	"GCC: (AHAX Arm-Linux 2008q3-66) 4.3.2"
-ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s 			page 22
+ARM GAS  /cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s 			page 22
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 armVIC.c
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:23     .text.__get_cpsr:00000000 __get_cpsr
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:33     .text.__get_cpsr:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:44     .text.__set_cpsr:00000000 __set_cpsr
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:54     .text.__set_cpsr:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:64     .text.disableIRQ:00000000 disableIRQ
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:70     .text.disableIRQ:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:89     .text.restoreIRQ:00000000 restoreIRQ
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:96     .text.restoreIRQ:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:123    .text.enableIRQ:00000000 enableIRQ
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:129    .text.enableIRQ:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:148    .text.disableFIQ:00000000 disableFIQ
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:154    .text.disableFIQ:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:173    .text.restoreFIQ:00000000 restoreFIQ
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:180    .text.restoreFIQ:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:207    .text.enableFIQ:00000000 enableFIQ
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:213    .text.enableFIQ:00000000 $a
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:230    .debug_frame:00000000 $d
-/cygdrive/c/Users/Chris/AppData/Local/Temp/ccFdDAbd.s:368    .debug_loc:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:23     .text.__get_cpsr:00000000 __get_cpsr
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:33     .text.__get_cpsr:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:44     .text.__set_cpsr:00000000 __set_cpsr
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:54     .text.__set_cpsr:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:64     .text.disableIRQ:00000000 disableIRQ
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:70     .text.disableIRQ:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:89     .text.restoreIRQ:00000000 restoreIRQ
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:96     .text.restoreIRQ:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:123    .text.enableIRQ:00000000 enableIRQ
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:129    .text.enableIRQ:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:148    .text.disableFIQ:00000000 disableFIQ
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:154    .text.disableFIQ:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:173    .text.restoreFIQ:00000000 restoreFIQ
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:180    .text.restoreFIQ:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:207    .text.enableFIQ:00000000 enableFIQ
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:213    .text.enableFIQ:00000000 $a
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:230    .debug_frame:00000000 $d
+/cygdrive/c/Users/Chris/AppData/Local/Temp/ccdmRcGc.s:368    .debug_loc:00000000 $d
 
 NO UNDEFINED SYMBOLS
