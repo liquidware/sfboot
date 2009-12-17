@@ -32,14 +32,6 @@
 #include <string.h>
 #include <errno.h>
 
-//#define putchar sendchar
-//#define getchar getkey
-
-//extern int putchar (int ch);
-//extern int getchar (void);
-
-
-
 int _read (int fd, char * ptr, int len) {
 
   return 0;
@@ -95,8 +87,6 @@ int isatty (int fd) {
   return (1);
 }
 
-//void __exidx_start(void){ return 0; }
-
 extern void __exidx_start(void){  }
 
 extern void __exidx_end(void){  }
@@ -108,13 +98,6 @@ while(1);
 extern void _init(void) {
 
 }
-//extern void memcpy(void) {
-// }
-
-//extern void restore_core_regs(void) {
-// }
-
-
 
 #ifdef _USE_TIME
 

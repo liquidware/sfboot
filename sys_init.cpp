@@ -16,7 +16,8 @@
    along with this library; if not, write to the Free Software
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
    USA
- ******************************************************************************/#include <stdint.h>
+ ******************************************************************************/
+#include <stdint.h>
 
 #include "LPC_REGS.h"
 #include "sys_config.h"
@@ -26,7 +27,7 @@
 #define sysTICSperSEC   (PCLK / T0_PCLK_DIV)
 
 #define USECS_128	    (uint32_t)((128e-6 * sysTICSperSEC) + .5)
-#define ONE_MS          (uint32_t)((  1e-3 * sysTICSperSEC) + .5)
+#define ONE_MS        (uint32_t)((  1e-3 * sysTICSperSEC) + .5)
 #define SYSTIME_INT_DT          (USECS_128)
 
 #define ISR_ENTRY() asm volatile(" sub   lr, lr,#4\n" \
@@ -86,10 +87,6 @@ static void configPLL(void)
 	PLLFEED = 0x55;
 	
 	CCLKCFG = CCLKCFG_CCLKSEL_VAL;     /* Set clock divider, Manual p.45 */
-
-//#if USE_USB
-//	USBCLKCFG = USBCLKDivValue; /* usbclk = 288 MHz/6 = 48 MHz */
-//#endif
 	
 	while ( ( PLLSTAT & PLLSTAT_PLOCK ) == 0 )  {
 		; /* Check lock bit status */
@@ -164,16 +161,6 @@ void sysInit(void)
 	lowInit();                            // setup clocks and processor port pins
 
 	PCONP = 0xFFFFFFFF; //everything powered on    
-	// set the interrupt controller defaults
-//   MEMMAP = 0;
-//#if defined(RAM_RUN)
 	MEMMAP = MEMMAP_SRAM;                 // map interrupt vectors space into SRAM
-//#elif defined(ROM_RUN)
-//	MEMMAP = MEMMAP_FLASH;                // map interrupt vectors space into FLASH
-//#else
-//#error RUN_MODE not defined!
-//#endif
-
-
 	SCS |= (1UL<<0); // set GPIOM in SCS for fast IO
 }

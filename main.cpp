@@ -41,8 +41,6 @@
 #define SWITCH_MASK     (1<<29)
 
 #define kMCUId "lpc2368"
-//#define kApplicationStartAddr  USER_FLASH_START    // from sbl_config.h
-//#define kApplicationEndAddr    USER_FLASH_END      // from sbl_config.h
 #define kSPM_PAGE_SIZE         512
 #define kUSART_RX_BUFFER_SIZE  kSPM_PAGE_SIZE
 #define kSoftwareIdentifier     "AVRBOOT"
@@ -67,12 +65,6 @@ extern "C" void *_calloc_r(struct _reent *, size_t, size_t) {return (void *)0; }
 
 extern "C" void *malloc(size_t) { return (void *)0; }
 extern "C" void  free(void*) {  }
-//extern "C" int __aeabi_atexit(void *object,
-//							void (*destructor)(void *),
-//							void *dso_handle)
-//							{
-//							return 0;
-//							}
 
 extern void sysInit(void);
 
@@ -325,7 +317,6 @@ void ButterflyService(char recvCommand)
       break;
 
       case 'F':            // fuse
-         //execute_user_code();
          SerialWrite(0, '\r');
       break;
 
